@@ -1,6 +1,10 @@
+"use client";
+
+import type { MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BagIcon } from "@/components/icons/BagIcon";
+import { useCart } from "@/features/cart/CartProvider";
 import type { FeaturedProduct } from "@/features/home/data/featured";
 
 type FeaturedProductCardProps = {
@@ -12,7 +16,22 @@ export function FeaturedProductCard({
   product,
   className = "",
 }: FeaturedProductCardProps) {
+  const { addItem } = useCart();
   const formattedPrice = `${product.currency} ${product.price.toFixed(2)}`;
+
+  function handleAdd(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    addItem({
+      productId: product.id,
+      slug: product.id,
+      name: product.name,
+      price: product.price,
+      currency: product.currency,
+      imageSrc: product.image.src,
+      imageAlt: product.imageAlt,
+    });
+  }
 
   return (
     <article
@@ -31,9 +50,9 @@ export function FeaturedProductCard({
         />
       </Link>
 
-      <div className="flex flex-1 flex-col bg-[#F6EDE6] px-4 pb-4 pt-3 sm:px-5 sm:pb-5 sm:pt-4">
+      <div className="flex flex-1 flex-col bg-[#F6EDE6] px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5">
         <Link href={product.href} className="block">
-          <h3 className="text-[15px] font-semibold leading-snug text-[#1a120c] sm:text-base">
+          <h3 className="text-[15px] leading-snug font-semibold text-[#1a120c] sm:text-base">
             {product.name}
           </h3>
           <p className="mt-1 text-sm text-[#8a7a6c]">{product.subtitle}</p>
@@ -45,6 +64,7 @@ export function FeaturedProductCard({
           </p>
           <button
             type="button"
+            onClick={handleAdd}
             className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-10"
             aria-label={`Add ${product.name} to cart`}
           >

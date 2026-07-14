@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
 import { BagIcon } from "@/components/icons/BagIcon";
 import { ROUTES } from "@/constants/routes";
+import { useCart } from "@/features/cart/CartProvider";
 import {
   formatPrice,
   productPath,
@@ -18,6 +19,7 @@ type ProductDetailViewProps = {
 };
 
 export function ProductDetailView({ product, related }: ProductDetailViewProps) {
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const hasSale =
@@ -35,6 +37,17 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
   }
 
   function handleAdd() {
+    if (!product.inStock) return;
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      name: product.name,
+      price: product.price,
+      currency: product.currency,
+      imageSrc: product.image.src,
+      imageAlt: product.imageAlt,
+      quantity,
+    });
     setAdded(true);
   }
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { AppProviders } from "@/components/providers/AppProviders";
 import { config } from "@/constants/config";
 import "./globals.css";
 
@@ -36,9 +37,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-[#17100a] text-white">
-        <Navbar />
-        {children}
-        <Footer />
+        <AppProviders>
+          <Navbar />
+          {children}
+          <Footer />
+        </AppProviders>
       </body>
     </html>
   );

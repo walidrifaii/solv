@@ -29,8 +29,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <main className="flex flex-1 flex-col">
-      <ShopHeader activeCategory={activeCategory} productCount={products.length} />
-      <ShopFilters activeCategory={activeCategory} />
+      <ShopHeader />
+      <ShopFilters
+        activeCategory={activeCategory}
+        productCount={products.length}
+      />
       <ShopGrid products={products} />
     </main>
   );

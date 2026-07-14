@@ -34,6 +34,139 @@ body {
   }
 }
 
+/* —— App preloader: SOLV letter draw animation —— */
+.preloader-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.08em;
+  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
+  font-size: clamp(3.5rem, 12vw, 6.5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: #c4a574;
+}
+
+.preloader-letter {
+  position: relative;
+  display: inline-block;
+  width: 1.05em;
+  text-align: center;
+}
+
+.preloader-letter-draw,
+.preloader-letter-fill {
+  display: block;
+}
+
+.preloader-letter-draw {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(196, 165, 116, 0.85);
+  text-stroke: 1.5px rgba(196, 165, 116, 0.85);
+  clip-path: inset(0 100% 0 0);
+  animation: preloaderLetterDraw 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.05s + var(--i) * 0.1s);
+}
+
+.preloader-letter-fill {
+  position: absolute;
+  inset: 0;
+  color: #c4a574;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: preloaderLetterFill 0.28s ease-out forwards;
+  animation-delay: calc(0.28s + var(--i) * 0.1s);
+}
+
+.preloader-rule {
+  width: 0;
+  height: 1px;
+  margin-top: 1.75rem;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(196, 165, 116, 0.85),
+    transparent
+  );
+  animation: preloaderRuleGrow 0.45s ease-out 0.7s forwards;
+}
+
+.preloader-tagline {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: preloaderTaglineIn 0.35s ease-out 0.85s forwards;
+}
+
+@keyframes preloaderLetterDraw {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.35;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes preloaderLetterFill {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes preloaderRuleGrow {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: min(11rem, 42vw);
+    opacity: 1;
+  }
+}
+
+@keyframes preloaderTaglineIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader-letter-draw,
+  .preloader-letter-fill,
+  .preloader-rule,
+  .preloader-tagline {
+    animation: none !important;
+  }
+
+  .preloader-letter-draw {
+    clip-path: none;
+    color: #c4a574;
+    -webkit-text-stroke: 0;
+  }
+
+  .preloader-letter-fill {
+    opacity: 1;
+    transform: none;
+  }
+
+  .preloader-rule {
+    width: min(11rem, 42vw);
+    opacity: 1;
+  }
+
+  .preloader-tagline {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

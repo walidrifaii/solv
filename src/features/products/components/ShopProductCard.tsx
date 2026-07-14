@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import type { MouseEvent } from "react";
 import { BagIcon } from "@/components/icons/BagIcon";
+import { useCart } from "@/features/cart/CartProvider";
 import {
   formatPrice,
   productPath,
@@ -16,10 +20,25 @@ export function ShopProductCard({
   product,
   className = "",
 }: ShopProductCardProps) {
+  const { addItem } = useCart();
   const href = productPath(product.slug);
   const hasSale =
     typeof product.originalPrice === "number" &&
     product.originalPrice > product.price;
+
+  function handleAdd(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      name: product.name,
+      price: product.price,
+      currency: product.currency,
+      imageSrc: product.image.src,
+      imageAlt: product.imageAlt,
+    });
+  }
 
   return (
     <article
@@ -65,13 +84,14 @@ export function ShopProductCard({
               {formatPrice(product)}
             </p>
           </div>
-          <Link
-            href={href}
+          <button
+            type="button"
+            onClick={handleAdd}
             className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-10"
-            aria-label={`View ${product.name}`}
+            aria-label={`Add ${product.name} to cart`}
           >
             <BagIcon className="size-4 sm:size-[1.125rem]" />
-          </Link>
+          </button>
         </div>
       </div>
     </article>

@@ -4,14 +4,19 @@ import { shopProductCategories } from "@/features/products/data/catalog";
 
 type ShopFiltersProps = {
   activeCategory: string;
+  productCount: number;
 };
 
-export function ShopFilters({ activeCategory }: ShopFiltersProps) {
+export function ShopFilters({ activeCategory, productCount }: ShopFiltersProps) {
+  const activeLabel =
+    shopProductCategories.find((item) => item.id === activeCategory)?.label ??
+    "All";
+
   return (
     <div className="bg-[#FEF9F6] px-4 pb-8 sm:px-6 md:px-8 lg:px-10">
-      <div className="mx-auto w-full max-w-[1400px]">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div
-          className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+          className="no-scrollbar -mx-4 flex min-w-0 flex-1 gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
           role="list"
           aria-label="Product categories"
         >
@@ -38,6 +43,18 @@ export function ShopFilters({ activeCategory }: ShopFiltersProps) {
             );
           })}
         </div>
+
+        <p className="shrink-0 text-sm whitespace-nowrap text-[#8a7a6c] sm:text-right">
+          Showing{" "}
+          <span className="font-medium text-[#2a1f16]">{productCount}</span>{" "}
+          {productCount === 1 ? "product" : "products"}
+          {activeCategory !== "all" ? (
+            <>
+              {" "}
+              in <span className="font-medium text-[#2a1f16]">{activeLabel}</span>
+            </>
+          ) : null}
+        </p>
       </div>
     </div>
   );

@@ -4,9 +4,12 @@ export const ROUTES = {
   shop: "/products",
   services: "/services",
   contact: "/contact",
-  order: "/contact",
+  order: "/checkout",
   account: "/account",
+  login: "/login",
+  register: "/register",
   cart: "/cart",
+  checkout: "/checkout",
   discover: "/about",
 } as const;
 

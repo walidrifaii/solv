@@ -1,0 +1,113 @@
+[
+  {
+    "id": "arabica-beans",
+    "slug": "arabica-beans",
+    "name": "Premium Arabica Beans",
+    "subtitle": "100% Arabica · Whole Bean",
+    "description": "Smooth, aromatic Arabica beans selected for clean sweetness and everyday balance.",
+    "price": 69,
+    "currency": "QAR",
+    "categoryId": "coffee-beans",
+    "categoryLabel": "Coffee Beans",
+    "keywords": ["arabica", "beans", "coffee", "whole bean", "medium roast"]
+  },
+  {
+    "id": "house-blend",
+    "slug": "house-blend",
+    "name": "House Blend Beans",
+    "subtitle": "Dark Roast · Whole Bean",
+    "description": "A bold house blend with deep body and comforting roasted notes.",
+    "price": 62,
+    "currency": "QAR",
+    "categoryId": "coffee-beans",
+    "categoryLabel": "Coffee Beans",
+    "keywords": ["house", "blend", "dark", "espresso", "beans", "coffee"]
+  },
+  {
+    "id": "espresso-blend",
+    "slug": "espresso-blend",
+    "name": "Espresso Blend Coffee",
+    "subtitle": "1kg Bag · Whole Bean",
+    "description": "A café-style espresso blend designed for rich crema and consistent shots.",
+    "price": 60,
+    "originalPrice": 75,
+    "currency": "QAR",
+    "categoryId": "coffee-beans",
+    "categoryLabel": "Coffee Beans",
+    "keywords": ["espresso", "blend", "coffee", "crema", "cafe", "1kg"]
+  },
+  {
+    "id": "classic-roast",
+    "slug": "classic-roast",
+    "name": "Classic Roast Ground Coffee",
+    "subtitle": "Medium Roast · Ready to Brew",
+    "description": "Convenient ground coffee with a classic medium roast profile.",
+    "price": 55,
+    "currency": "QAR",
+    "categoryId": "ground-coffee",
+    "categoryLabel": "Ground Coffee",
+    "keywords": ["ground", "classic", "roast", "drip", "coffee"]
+  },
+  {
+    "id": "green-tea",
+    "slug": "green-tea",
+    "name": "Green Tea Sencha",
+    "subtitle": "Japanese Sencha · Loose Leaf",
+    "description": "Delicate sencha with fresh vegetal notes and a clean finish.",
+    "price": 49,
+    "currency": "QAR",
+    "categoryId": "tea",
+    "categoryLabel": "Tea",
+    "keywords": ["green", "tea", "sencha", "japanese", "loose leaf"]
+  },
+  {
+    "id": "english-breakfast",
+    "slug": "english-breakfast",
+    "name": "English Breakfast Tea",
+    "subtitle": "Loose Leaf · 500g",
+    "description": "A robust breakfast blend with malty depth and satisfying body.",
+    "price": 46.75,
+    "originalPrice": 55,
+    "currency": "QAR",
+    "categoryId": "tea",
+    "categoryLabel": "Tea",
+    "keywords": ["english", "breakfast", "black", "tea", "loose leaf"]
+  },
+  {
+    "id": "evening-tea",
+    "slug": "evening-tea",
+    "name": "Evening Tea Bags",
+    "subtitle": "Herbal Blend · Caffeine-light",
+    "description": "A calming herbal blend for late-day rituals and quieter evenings.",
+    "price": 39,
+    "currency": "QAR",
+    "categoryId": "tea-bags",
+    "categoryLabel": "Tea Bags",
+    "keywords": ["evening", "herbal", "tea bags", "relax"]
+  },
+  {
+    "id": "elegant-teapot",
+    "slug": "elegant-teapot",
+    "name": "Elegant Tea Pot",
+    "subtitle": "Glass & Stainless Steel",
+    "description": "A clear glass teapot with stainless infuser for beautiful table brewing.",
+    "price": 120,
+    "currency": "QAR",
+    "categoryId": "accessories",
+    "categoryLabel": "Accessories",
+    "keywords": ["teapot", "glass", "infuser", "accessory", "brew"]
+  },
+  {
+    "id": "coffee-gift-set",
+    "slug": "coffee-gift-set",
+    "name": "Coffee Gift Set",
+    "subtitle": "Premium Set · Perfect for Gifting",
+    "description": "A ready-to-give coffee assortment packaged for clients, hosts, and celebrations.",
+    "price": 90,
+    "originalPrice": 120,
+    "currency": "QAR",
+    "categoryId": "gift-sets",
+    "categoryLabel": "Gift Sets",
+    "keywords": ["gift", "set", "coffee", "corporate", "present"]
+  }
+]

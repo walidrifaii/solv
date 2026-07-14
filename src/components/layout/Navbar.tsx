@@ -12,6 +12,8 @@ import { UserIcon } from "@/components/icons/UserIcon";
 import { images } from "@/constants/images";
 import { ROUTES } from "@/constants/routes";
 import { navigation } from "@/data/navigation";
+import { useCart } from "@/features/cart/CartProvider";
+import { useSearch } from "@/features/search/SearchProvider";
 
 type NavItem = (typeof navigation)[number];
 
@@ -25,7 +27,9 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [mobileShopOpen, setMobileShopOpen] = useState(false);
-  const cartCount = 0;
+  const { itemCount, openCart } = useCart();
+  const { openSearch } = useSearch();
+  const cartCount = itemCount;
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -115,28 +119,30 @@ export function Navbar() {
         <div className="flex items-center gap-1.5 sm:gap-3 md:gap-4">
           <button
             type="button"
-            className="hidden p-1.5 transition-colors hover:text-white md:inline-flex"
+            onClick={openSearch}
+            className="inline-flex p-1.5 transition-colors hover:text-white"
             aria-label="Search"
           >
             <SearchIcon className="size-5 lg:size-6" />
           </button>
           <Link
-            href={ROUTES.account}
+            href={ROUTES.login}
             className="hidden p-1.5 transition-colors hover:text-white md:inline-flex"
             aria-label="Account"
           >
             <UserIcon className="size-5 lg:size-6" />
           </Link>
-          <Link
-            href={ROUTES.cart}
+          <button
+            type="button"
+            onClick={openCart}
             className="relative hidden p-1.5 transition-colors hover:text-white sm:inline-flex"
             aria-label={`Cart, ${cartCount} items`}
           >
             <BagIcon className="size-5 lg:size-6" />
-            <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-[#c4a574] text-[10px] font-semibold leading-none text-white lg:size-5 lg:text-[11px]">
+            <span className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-[#c4a574] text-[10px] leading-none font-semibold text-white lg:size-5 lg:text-[11px]">
               {cartCount}
             </span>
-          </Link>
+          </button>
 
           <Link
             href={ROUTES.order}
@@ -205,22 +211,23 @@ export function Navbar() {
           </nav>
 
           <div className="mt-5 flex items-center gap-5 md:hidden">
-            <button type="button" className="p-1" aria-label="Search">
-              <SearchIcon className="size-5" />
-            </button>
-            <Link href={ROUTES.account} className="p-1" aria-label="Account">
+            <Link href={ROUTES.login} className="p-1" aria-label="Account">
               <UserIcon className="size-5" />
             </Link>
-            <Link
-              href={ROUTES.cart}
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen(false);
+                openCart();
+              }}
               className="relative p-1 sm:hidden"
               aria-label={`Cart, ${cartCount} items`}
             >
               <BagIcon className="size-5" />
-              <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-[#c4a574] text-[10px] font-semibold leading-none text-white">
+              <span className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-[#c4a574] text-[10px] leading-none font-semibold text-white">
                 {cartCount}
               </span>
-            </Link>
+            </button>
           </div>
         </div>
       ) : null}

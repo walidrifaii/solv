@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import type { MouseEvent } from "react";
 import { BagIcon } from "@/components/icons/BagIcon";
+import { useCart } from "@/features/cart/CartProvider";
 import type { DealProduct } from "@/features/home/data/deals";
 
 type DealCardProps = {
@@ -9,6 +13,22 @@ type DealCardProps = {
 };
 
 export function DealCard({ product, className = "" }: DealCardProps) {
+  const { addItem } = useCart();
+
+  function handleAdd(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    addItem({
+      productId: product.id,
+      slug: product.id,
+      name: product.name,
+      price: product.salePrice,
+      currency: product.currency,
+      imageSrc: product.image.src,
+      imageAlt: product.imageAlt,
+    });
+  }
+
   return (
     <article
       className={`relative aspect-[4/3] w-full overflow-hidden rounded-2xl ${className}`}
@@ -30,7 +50,7 @@ export function DealCard({ product, className = "" }: DealCardProps) {
 
       <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-3 sm:p-4">
         <div className="min-w-0">
-          <h3 className="truncate text-[15px] font-semibold leading-snug text-white sm:text-base">
+          <h3 className="truncate text-[15px] leading-snug font-semibold text-white sm:text-base">
             {product.name}
           </h3>
           <p className="mt-0.5 text-sm text-white/75">{product.subtitle}</p>
@@ -46,6 +66,7 @@ export function DealCard({ product, className = "" }: DealCardProps) {
 
         <button
           type="button"
+          onClick={handleAdd}
           className="relative z-20 inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[#c4a574] text-white transition-colors hover:bg-[#d4b584] sm:size-10"
           aria-label={`Add ${product.name} to cart`}
         >

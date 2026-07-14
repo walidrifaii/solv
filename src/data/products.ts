@@ -1,10 +1,10 @@
 import type { Product } from "@/types/product";
-import { featuredProducts } from "@/features/home/data/featured";
+import productsJson from "@/data/products.json";
 
-export const products: Product[] = featuredProducts.map((item) => ({
+export const products: Product[] = productsJson.map((item) => ({
   id: item.id,
   name: item.name,
-  description: item.subtitle,
+  description: item.description,
   price: item.price,
-  categoryId: item.id.includes("tea") ? "tea" : "coffee-beans",
+  categoryId: item.categoryId,
 }));
