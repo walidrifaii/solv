@@ -1,4 +1,5 @@
 import type { DiscountType, Prisma } from "@/generated/prisma";
+import { Prisma as PrismaRuntime } from "@/generated/prisma";
 import { prisma } from "@/lib/db";
 import { toNumber } from "@/server/utils/crypto";
 import { ApiError } from "@/server/utils/http";
@@ -29,125 +30,164 @@ function makeOrderNumber() {
   return `SOLV-${stamp}-${rand}`;
 }
 
+function rethrowOrderError(error: unknown): never {
+  if (error instanceof ApiError) throw error;
+
+  if (
+    error instanceof PrismaRuntime.PrismaClientKnownRequestError &&
+    (error.code === "P2022" ||
+      String(error.message).includes("image_path") ||
+      String(error.message).includes("Unknown column"))
+  ) {
+    throw new ApiError(
+      "Database schema is out of date (missing order item image column). Run `npx prisma db push` on the server.",
+      503,
+    );
+  }
+
+  throw error;
+}
+
 export async function createOrder(
   input: CreateOrderInput,
   clientId: string | null,
 ) {
-  const productIds = input.items.map((item) => item.productId);
-  const products = await prisma.product.findMany({
-    where: {
-      id: { in: productIds },
-      isActive: true,
-    },
-  });
-
-  if (products.length !== new Set(productIds).size) {
-    throw new ApiError("One or more products are unavailable", 400);
-  }
-
-  const byId = new Map(products.map((p) => [p.id, p]));
-  const lineItems: Prisma.OrderItemCreateWithoutOrderInput[] = [];
-  let subtotal = 0;
-
-  for (const item of input.items) {
-    const product = byId.get(item.productId);
-    if (!product) {
-      throw new ApiError(`Product not found: ${item.productId}`, 400);
-    }
-    if (!product.inStock || product.quantity < item.quantity) {
-      throw new ApiError(`Insufficient stock for ${product.name}`, 400);
+  try {
+    const requestedQty = new Map<string, number>();
+    for (const item of input.items) {
+      requestedQty.set(
+        item.productId,
+        (requestedQty.get(item.productId) ?? 0) + item.quantity,
+      );
     }
 
-    const unitPrice = toNumber(product.price) ?? 0;
-    const discount = toNumber(product.discount);
-    const unit = unitFinalPrice(unitPrice, product.discountType, discount);
-    const lineTotal = Number((unit * item.quantity).toFixed(2));
-    subtotal += lineTotal;
-
-    lineItems.push({
-      product: { connect: { id: product.id } },
-      productSlug: product.slug,
-      productName: product.name,
-      imagePath: product.imagePath,
-      unitPrice,
-      discountType: product.discountType,
-      discount: discount,
-      quantity: item.quantity,
-      total: lineTotal,
+    const uniqueIds = [...requestedQty.keys()];
+    const products = await prisma.product.findMany({
+      where: {
+        id: { in: uniqueIds },
+        isActive: true,
+      },
     });
-  }
 
-  subtotal = Number(subtotal.toFixed(2));
-  const deliveryFee = Number(input.deliveryFee.toFixed(2));
-  const total = Number((subtotal + deliveryFee).toFixed(2));
+    if (products.length !== uniqueIds.length) {
+      const found = new Set(products.map((p) => p.id));
+      const missing = uniqueIds.filter((id) => !found.has(id));
+      throw new ApiError(
+        `One or more products are unavailable (${missing.join(", ")})`,
+        400,
+      );
+    }
 
-  const order = await prisma.$transaction(async (tx) => {
+    const byId = new Map(products.map((p) => [p.id, p]));
+
+    for (const [productId, qty] of requestedQty) {
+      const product = byId.get(productId)!;
+      if (!product.inStock || product.quantity < qty) {
+        throw new ApiError(
+          `Insufficient stock for ${product.name} (need ${qty}, have ${product.quantity})`,
+          400,
+        );
+      }
+    }
+
+    const lineItems: Prisma.OrderItemCreateWithoutOrderInput[] = [];
+    let subtotal = 0;
+
     for (const item of input.items) {
       const product = byId.get(item.productId)!;
-      const updated = await tx.product.updateMany({
-        where: {
-          id: product.id,
-          quantity: { gte: item.quantity },
-        },
-        data: {
-          quantity: { decrement: item.quantity },
-        },
-      });
-      if (updated.count === 0) {
-        throw new ApiError(`Insufficient stock for ${product.name}`, 400);
-      }
-      await tx.product.updateMany({
-        where: { id: product.id, quantity: { lte: 0 } },
-        data: { inStock: false, quantity: 0 },
+      const unitPrice = toNumber(product.price) ?? 0;
+      const discount = toNumber(product.discount);
+      const unit = unitFinalPrice(unitPrice, product.discountType, discount);
+      const lineTotal = Number((unit * item.quantity).toFixed(2));
+      subtotal += lineTotal;
+
+      lineItems.push({
+        product: { connect: { id: product.id } },
+        productSlug: product.slug,
+        productName: product.name,
+        imagePath: product.imagePath || "",
+        unitPrice,
+        discountType: product.discountType,
+        discount: discount,
+        quantity: item.quantity,
+        total: lineTotal,
       });
     }
 
-    return tx.order.create({
-      data: {
-        orderNumber: makeOrderNumber(),
-        clientId,
-        subtotal,
-        deliveryFee,
-        total,
-        guestName: input.guestName,
-        guestEmail: input.guestEmail.toLowerCase(),
-        guestPhone: input.guestPhone,
-        deliveryCity: input.deliveryCity,
-        deliveryAddress: input.deliveryAddress,
-        notes: input.notes || null,
-        items: { create: lineItems },
-      },
-      include: { items: true },
-    });
-  });
+    subtotal = Number(subtotal.toFixed(2));
+    const deliveryFee = Number(input.deliveryFee.toFixed(2));
+    const total = Number((subtotal + deliveryFee).toFixed(2));
 
-  return {
-    id: order.id,
-    orderNumber: order.orderNumber,
-    status: order.status,
-    subtotal: toNumber(order.subtotal),
-    deliveryFee: toNumber(order.deliveryFee),
-    total: toNumber(order.total),
-    guestName: order.guestName,
-    guestEmail: order.guestEmail,
-    guestPhone: order.guestPhone,
-    deliveryCity: order.deliveryCity,
-    deliveryAddress: order.deliveryAddress,
-    notes: order.notes,
-    createdAt: order.createdAt.toISOString(),
-    items: order.items.map((item) => ({
-      id: item.id,
-      productId: item.productId,
-      productSlug: item.productSlug,
-      productName: item.productName,
-      imagePath: item.imagePath || null,
-      unitPrice: toNumber(item.unitPrice),
-      discountType: item.discountType,
-      discount: toNumber(item.discount),
-      quantity: item.quantity,
-      total: toNumber(item.total),
-    })),
-  };
+    const order = await prisma.$transaction(async (tx) => {
+      for (const [productId, qty] of requestedQty) {
+        const product = byId.get(productId)!;
+        const updated = await tx.product.updateMany({
+          where: {
+            id: product.id,
+            quantity: { gte: qty },
+          },
+          data: {
+            quantity: { decrement: qty },
+          },
+        });
+        if (updated.count === 0) {
+          throw new ApiError(`Insufficient stock for ${product.name}`, 400);
+        }
+        await tx.product.updateMany({
+          where: { id: product.id, quantity: { lte: 0 } },
+          data: { inStock: false, quantity: 0 },
+        });
+      }
+
+      return tx.order.create({
+        data: {
+          orderNumber: makeOrderNumber(),
+          clientId,
+          subtotal,
+          deliveryFee,
+          total,
+          guestName: input.guestName,
+          guestEmail: input.guestEmail.toLowerCase(),
+          guestPhone: input.guestPhone,
+          deliveryCity: input.deliveryCity,
+          deliveryAddress: input.deliveryAddress,
+          notes: input.notes || null,
+          items: { create: lineItems },
+        },
+        include: { items: true },
+      });
+    });
+
+    return {
+      id: order.id,
+      orderNumber: order.orderNumber,
+      status: order.status,
+      subtotal: toNumber(order.subtotal),
+      deliveryFee: toNumber(order.deliveryFee),
+      total: toNumber(order.total),
+      guestName: order.guestName,
+      guestEmail: order.guestEmail,
+      guestPhone: order.guestPhone,
+      deliveryCity: order.deliveryCity,
+      deliveryAddress: order.deliveryAddress,
+      notes: order.notes,
+      createdAt: order.createdAt.toISOString(),
+      items: order.items.map((item) => ({
+        id: item.id,
+        productId: item.productId,
+        productSlug: item.productSlug,
+        productName: item.productName,
+        imagePath: item.imagePath || null,
+        unitPrice: toNumber(item.unitPrice),
+        discountType: item.discountType,
+        discount: toNumber(item.discount),
+        quantity: item.quantity,
+        total: toNumber(item.total),
+      })),
+    };
+  } catch (error) {
+    rethrowOrderError(error);
+  }
 }
 
 export async function listClientOrders(

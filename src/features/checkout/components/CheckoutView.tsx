@@ -10,8 +10,6 @@ import {
   checkoutContent,
   FREE_SHIPPING_FROM,
   getDeliveryFee,
-  paymentMethods,
-  type PaymentMethodId,
 } from "@/features/checkout/data";
 import { productPath } from "@/features/products/utils";
 import { getApiErrorMessage } from "@/store/api/errors";
@@ -35,7 +33,6 @@ export function CheckoutView() {
   const [city, setCity] = useState("Doha");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
-  const [payment, setPayment] = useState<PaymentMethodId>("cod");
   const [error, setError] = useState("");
   const [placed, setPlaced] = useState(false);
   const [orderRef, setOrderRef] = useState("");
@@ -297,41 +294,16 @@ export function CheckoutView() {
                 Payment
               </h2>
               <p className="mt-2 text-sm text-[#7a6b5d]">
-                Choose how you'd like to pay. Online card checkout can be added later.
+                All orders are cash on delivery.
               </p>
-              <fieldset className="mt-5 space-y-3">
-                <legend className="sr-only">Payment method</legend>
-                {paymentMethods.map((method) => {
-                  const selected = payment === method.id;
-                  return (
-                    <label
-                      key={method.id}
-                      className={`flex cursor-pointer items-start gap-3 rounded-md border px-4 py-3.5 transition-colors ${
-                        selected
-                          ? "border-[#c4a574] bg-white"
-                          : "border-[#e8ddd2] bg-transparent hover:border-[#ddd0c4]"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="payment"
-                        value={method.id}
-                        checked={selected}
-                        onChange={() => setPayment(method.id)}
-                        className="mt-1 size-4 accent-[#c4a574]"
-                      />
-                      <span>
-                        <span className="block text-sm font-medium text-[#2a1f16]">
-                          {method.label}
-                        </span>
-                        <span className="mt-0.5 block text-sm text-[#7a6b5d]">
-                          {method.description}
-                        </span>
-                      </span>
-                    </label>
-                  );
-                })}
-              </fieldset>
+              <div className="mt-5 rounded-md border border-[#c4a574] bg-white px-4 py-3.5">
+                <p className="text-sm font-medium text-[#2a1f16]">
+                  Cash on delivery
+                </p>
+                <p className="mt-0.5 text-sm text-[#7a6b5d]">
+                  Pay in cash when your order arrives.
+                </p>
+              </div>
             </section>
 
             {error ? (

@@ -2,29 +2,19 @@ export const checkoutContent = {
   eyebrow: "Secure Checkout",
   title: "Complete your order",
   description:
-    "Confirm your details and delivery preference. We'll follow up to finalize payment and timing.",
+    "Confirm your details and delivery preference. Payment is cash on delivery.",
   emptyTitle: "Your cart is empty",
   emptyDescription: "Add products from the shop before checking out.",
   successTitle: "Order received",
   successDescription:
-    "Thank you. Our team will contact you shortly to confirm delivery and payment.",
+    "Thank you. Pay cash on delivery when your order arrives. Our team will contact you to confirm timing.",
 } as const;
 
 export const paymentMethods = [
   {
     id: "cod",
     label: "Cash on delivery",
-    description: "Pay when your order arrives.",
-  },
-  {
-    id: "card-delivery",
-    label: "Card on delivery",
-    description: "Pay by card with our courier.",
-  },
-  {
-    id: "transfer",
-    label: "Bank transfer",
-    description: "We’ll send transfer details after confirmation.",
+    description: "Pay in cash when your order arrives.",
   },
 ] as const;
 
