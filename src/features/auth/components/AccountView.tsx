@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
 import { ROUTES } from "@/constants/routes";
+import { ProfileHero } from "@/features/auth/components/ProfileHero";
 import { statusLabel, statusTone } from "@/features/dashboard/data";
 import { getApiErrorMessage } from "@/store/api/errors";
 import {
@@ -164,51 +165,27 @@ export function AccountView() {
     }
   }
 
-  const crumbCurrent = tab === "orders" ? "Order history" : "Settings";
-
   return (
     <main className="flex flex-1 flex-col bg-[#FEF9F6] text-[#2a1f16]">
+      <ProfileHero />
+
       <section className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14 md:px-8">
-        <nav className="mb-6 text-sm text-[#8a7a6c]" aria-label="Breadcrumb">
-          <ol className="flex flex-wrap items-center gap-2">
-            <li>
-              <Link
-                href={ROUTES.home}
-                className="transition-colors hover:text-[#2a1f16]"
-              >
-                Home
-              </Link>
-            </li>
-            <li aria-hidden>/</li>
-            <li>
-              <Link
-                href={ROUTES.account}
-                className="transition-colors hover:text-[#2a1f16]"
-              >
-                Profile
-              </Link>
-            </li>
-            <li aria-hidden>/</li>
-            <li className="text-[#2a1f16]">{crumbCurrent}</li>
-          </ol>
-        </nav>
-
-        <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase">
-          Account
-        </p>
-        <h1 className="font-serif text-3xl font-medium sm:text-4xl">
-          Hello, {client.name}
-        </h1>
-        <p className="mt-2 text-sm text-[#7a6b5d]">{client.email}</p>
-
-        <button
-          type="button"
-          onClick={handleLogout}
-          disabled={loggingOut}
-          className="mt-6 rounded-md border border-[#ddd0c4] px-4 py-2 text-sm text-[#2a1f16] transition-colors hover:border-[#c4a574] disabled:opacity-60"
-        >
-          {loggingOut ? "Signing out…" : "Sign out"}
-        </button>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="font-serif text-2xl font-medium sm:text-3xl">
+              Hello, {client.name}
+            </h2>
+            <p className="mt-1 text-sm text-[#7a6b5d]">{client.email}</p>
+          </div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="rounded-md border border-[#ddd0c4] px-4 py-2 text-sm text-[#2a1f16] transition-colors hover:border-[#c4a574] disabled:opacity-60"
+          >
+            {loggingOut ? "Signing out…" : "Sign out"}
+          </button>
+        </div>
 
         <div
           className="mt-10 flex gap-1 border-b border-[#efe4da]"
