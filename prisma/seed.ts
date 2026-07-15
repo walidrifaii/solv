@@ -1,4 +1,4 @@
-import { DiscountType, PrismaClient } from "@prisma/client";
+import { DiscountType, PrismaClient } from "../src/generated/prisma";
 import productsJson from "../src/data/products.json";
 
 const prisma = new PrismaClient();
