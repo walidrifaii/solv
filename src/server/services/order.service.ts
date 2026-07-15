@@ -190,7 +190,7 @@ export async function createOrder(
       })),
     };
 
-    void notifyAdminNewOrder(
+    notifyAdminNewOrder(
       toOrderEmailPayload({
         ...response,
         items: response.items.map((item) => ({
@@ -199,9 +199,7 @@ export async function createOrder(
           total: item.total,
         })),
       }),
-    ).catch((error) => {
-      console.error("[mail] New order notify failed:", error);
-    });
+    );
 
     return response;
   } catch (error) {

@@ -1,6 +1,6 @@
 import {
   getOrderNotifyAdminEmail,
-  sendMail,
+  queueMail,
 } from "@/server/mail/mailer";
 
 type OrderItemEmail = {
@@ -157,17 +157,17 @@ export function toOrderEmailPayload(order: {
   };
 }
 
-export async function notifyAdminNewOrder(order: OrderEmailPayload) {
+export function notifyAdminNewOrder(order: OrderEmailPayload) {
   const to = getOrderNotifyAdminEmail();
   if (!to) {
     console.warn("[mail] No admin notify address configured for new order");
     return;
   }
   const { subject, html } = buildAdminNewOrderEmail(order);
-  await sendMail({ to, subject, html });
+  queueMail({ to, subject, html });
 }
 
-export async function notifyCustomerOrderStatus(
+export function notifyCustomerOrderStatus(
   order: OrderEmailPayload,
   previousStatus: string,
 ) {
@@ -180,5 +180,5 @@ export async function notifyCustomerOrderStatus(
     return;
   }
   const { subject, html } = buildCustomerStatusEmail(order, previousStatus);
-  await sendMail({ to, subject, html });
+  queueMail({ to, subject, html });
 }

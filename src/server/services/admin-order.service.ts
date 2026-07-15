@@ -223,7 +223,7 @@ export async function adminUpdateOrderStatus(
   const detail = mapAdminOrderDetail(order);
 
   if (previousStatus !== nextStatus) {
-    void notifyCustomerOrderStatus(
+    notifyCustomerOrderStatus(
       toOrderEmailPayload({
         orderNumber: detail.orderNumber,
         status: detail.status,
@@ -243,9 +243,7 @@ export async function adminUpdateOrderStatus(
         })),
       }),
       previousStatus,
-    ).catch((error) => {
-      console.error("[mail] Order status notify failed:", error);
-    });
+    );
   }
 
   return ok(detail);

@@ -112,9 +112,7 @@ export async function registerClient(input: RegisterInput) {
     clientId: client.id,
   });
 
-  void sendRegisterOtpEmail(email, code, client.name).catch((error) => {
-    console.error("[mail] Register OTP failed:", error);
-  });
+  sendRegisterOtpEmail(email, code, client.name);
 
   return ok(
     {
@@ -170,9 +168,7 @@ export async function resendRegisterOtp(input: ResendOtpInput) {
     clientId: client.id,
   });
 
-  void sendRegisterOtpEmail(email, code, client.name).catch((error) => {
-    console.error("[mail] Resend OTP failed:", error);
-  });
+  sendRegisterOtpEmail(email, code, client.name);
 
   return ok({
     email,
@@ -348,9 +344,7 @@ export async function requestClientEmailChange(
     payload: newEmail,
   });
 
-  void sendEmailChangeOtpEmail(newEmail, code, client.name).catch((error) => {
-    console.error("[mail] Email change OTP failed:", error);
-  });
+  sendEmailChangeOtpEmail(newEmail, code, client.name);
 
   return {
     pendingEmail: newEmail,

@@ -1,5 +1,13 @@
 import nodemailer from "nodemailer";
+import { after } from "next/server";
 import { getEnv } from "@/server/config/env";
+
+export type MailPayload = {
+  to: string;
+  subject: string;
+  html: string;
+  text?: string;
+};
 
 let transporter: nodemailer.Transporter | null = null;
 let transporterKey: string | null = null;
@@ -26,21 +34,31 @@ function getTransporter() {
   const port = env.MAIL_PORT;
 
   // Port 465 = implicit SSL. Port 587 = STARTTLS (even if hosting labels it "ssl").
-  const useImplicitSsl = port === 465 || (encryption === "ssl" && port === 465);
+  const useImplicitSsl = port === 465;
   const useStartTls =
-    encryption !== "none" && !useImplicitSsl && (port === 587 || encryption === "tls" || encryption === "ssl");
+    encryption !== "none" &&
+    !useImplicitSsl &&
+    (port === 587 || encryption === "tls" || encryption === "ssl");
 
   transporter = nodemailer.createTransport({
     host: env.MAIL_HOST,
     port,
     secure: useImplicitSsl,
     requireTLS: useStartTls,
+    // Reuse SMTP connections across requests in the same process
+    pool: true,
+    maxConnections: 3,
+    maxMessages: 50,
+    rateDelta: 1000,
+    rateLimit: 5,
+    connectionTimeout: 8_000,
+    greetingTimeout: 8_000,
+    socketTimeout: 15_000,
     auth: {
       user: env.MAIL_USERNAME!,
       pass: env.MAIL_PASSWORD ?? "",
     },
     tls: {
-      // Shared-host SMTP certs often fail strict hostname checks
       rejectUnauthorized: false,
       minVersion: "TLSv1.2",
     },
@@ -50,12 +68,8 @@ function getTransporter() {
   return transporter;
 }
 
-export async function sendMail(options: {
-  to: string;
-  subject: string;
-  html: string;
-  text?: string;
-}) {
+/** Delivers immediately (SMTP). Prefer `queueMail` from API handlers. */
+export async function sendMailNow(options: MailPayload) {
   const env = getEnv();
   const transport = getTransporter();
   if (!transport) {
@@ -81,12 +95,44 @@ export async function sendMail(options: {
   }
 }
 
+/**
+ * Schedules mail after the HTTP response is sent so APIs stay fast.
+ * Falls back to a deferred send if outside a request context.
+ */
+export function queueMail(options: MailPayload) {
+  const run = () => {
+    void sendMailNow(options).catch((error) => {
+      console.error("[mail] Background send failed:", options.subject, error);
+    });
+  };
+
+  try {
+    after(run);
+  } catch {
+    // Outside Next.js request scope (scripts/tests)
+    setImmediate(run);
+  }
+}
+
+/** @deprecated Use queueMail — kept as alias for fire-and-forget sends */
+export async function sendMail(options: MailPayload) {
+  queueMail(options);
+  return { skipped: false as const, queued: true as const };
+}
+
 export function getOrderNotifyAdminEmail() {
   const env = getEnv();
   return env.MAIL_ORDER_NOTIFY_TO || env.ADMIN_EMAIL || env.MAIL_USERNAME;
 }
 
 export function resetMailTransporter() {
+  if (transporter) {
+    try {
+      transporter.close();
+    } catch {
+      // ignore close errors on hot reload
+    }
+  }
   transporter = null;
   transporterKey = null;
 }

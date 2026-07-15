@@ -1,5 +1,5 @@
-import { sendMail } from "@/server/mail/mailer";
 import { getEnv } from "@/server/config/env";
+import { queueMail } from "@/server/mail/mailer";
 
 function escapeHtml(value: string) {
   return value
@@ -25,7 +25,7 @@ function layout(title: string, body: string) {
 </html>`;
 }
 
-export async function sendRegisterOtpEmail(to: string, code: string, name: string) {
+export function sendRegisterOtpEmail(to: string, code: string, name: string) {
   const subject = "Your verification code";
   const html = layout(
     "Verify your email",
@@ -41,10 +41,10 @@ export async function sendRegisterOtpEmail(to: string, code: string, name: strin
       </p>
     `,
   );
-  await sendMail({ to, subject, html, text: `Your code is ${code}` });
+  queueMail({ to, subject, html, text: `Your code is ${code}` });
 }
 
-export async function sendEmailChangeOtpEmail(
+export function sendEmailChangeOtpEmail(
   to: string,
   code: string,
   name: string,
@@ -64,5 +64,5 @@ export async function sendEmailChangeOtpEmail(
       </p>
     `,
   );
-  await sendMail({ to, subject, html, text: `Your code is ${code}` });
+  queueMail({ to, subject, html, text: `Your code is ${code}` });
 }
