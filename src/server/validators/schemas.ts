@@ -12,6 +12,44 @@ export const loginSchema = z.object({
   password: z.string().min(1).max(72),
 });
 
+export const verifyOtpSchema = z.object({
+  email: z.string().trim().email().max(160),
+  code: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, "Enter the 6-digit code"),
+});
+
+export const resendOtpSchema = z.object({
+  email: z.string().trim().email().max(160),
+});
+
+export const updateProfileSchema = z
+  .object({
+    name: z.string().trim().min(2).max(120).optional(),
+    phone: z.string().trim().max(40).optional().nullable(),
+  })
+  .refine((data) => data.name !== undefined || data.phone !== undefined, {
+    message: "At least one field is required",
+  });
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1).max(72),
+  newPassword: z.string().min(8).max(72),
+});
+
+export const requestEmailChangeSchema = z.object({
+  email: z.string().trim().email().max(160),
+});
+
+export const confirmEmailChangeSchema = z.object({
+  email: z.string().trim().email().max(160),
+  code: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, "Enter the 6-digit code"),
+});
+
 export const subscribeSchema = z.object({
   email: z.string().trim().email().max(160),
 });

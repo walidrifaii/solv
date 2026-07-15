@@ -26,6 +26,8 @@ function shouldSkipReauth(url: string) {
     url.includes("/admin/auth/refresh") ||
     url.includes("/auth/login") ||
     url.includes("/auth/register") ||
+    url.includes("/auth/verify-otp") ||
+    url.includes("/auth/resend-otp") ||
     url.includes("/admin/auth/login") ||
     url.includes("/admin/auth/logout") ||
     url.includes("/auth/logout")

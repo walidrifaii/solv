@@ -45,12 +45,15 @@ export function RegisterForm() {
     }
 
     try {
-      await register({
+      const result = await register({
         name: name.trim(),
         email: email.trim(),
         password,
       }).unwrap();
-      router.push(ROUTES.account);
+      const verifyEmail = result.email || email.trim();
+      router.push(
+        `${ROUTES.verify}?email=${encodeURIComponent(verifyEmail)}`,
+      );
       router.refresh();
     } catch (err) {
       setError(getApiErrorMessage(err, "Could not create account."));

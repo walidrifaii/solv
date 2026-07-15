@@ -22,19 +22,47 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum OtpPurpose {
+  REGISTER
+  EMAIL_CHANGE
+}
+
 model ShopClient {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String   @map("password_hash") @db.VarChar(255)
-  name         String   @db.VarChar(120)
-  phone        String?  @db.VarChar(40)
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String    @map("password_hash") @db.VarChar(255)
+  name            String    @db.VarChar(120)
+  phone           String?   @db.VarChar(40)
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
   orders        Order[]
   refreshTokens RefreshToken[]
+  otps          EmailOtp[]
 
   @@map("clients")
+}
+
+model EmailOtp {
+  id         String     @id @default(cuid())
+  email      String     @db.VarChar(160)
+  codeHash   String     @map("code_hash") @db.VarChar(128)
+  purpose    OtpPurpose
+  clientId   String?    @map("client_id")
+  /// Pending value for EMAIL_CHANGE (new email)
+  payload    String?    @db.VarChar(160)
+  attempts   Int        @default(0)
+  expiresAt  DateTime   @map("expires_at")
+  consumedAt DateTime?  @map("consumed_at")
+  createdAt  DateTime   @default(now()) @map("created_at")
+
+  client ShopClient? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([email, purpose])
+  @@index([clientId])
+  @@index([expiresAt])
+  @@map("email_otps")
 }
 
 model RefreshToken {

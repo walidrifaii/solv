@@ -237,8 +237,17 @@ export async function listClientOrders(
       subtotal: toNumber(order.subtotal),
       deliveryFee: toNumber(order.deliveryFee),
       total: toNumber(order.total),
+      deliveryCity: order.deliveryCity,
+      deliveryAddress: order.deliveryAddress,
       createdAt: order.createdAt.toISOString(),
       itemCount: order.items.length,
+      items: order.items.map((item) => ({
+        id: item.id,
+        productName: item.productName,
+        quantity: item.quantity,
+        total: toNumber(item.total),
+        imagePath: item.imagePath || null,
+      })),
     })),
     meta: {
       page: query.page,

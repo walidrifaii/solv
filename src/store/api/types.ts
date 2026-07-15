@@ -21,6 +21,7 @@ export type ApiClient = {
   email: string;
   name: string;
   phone: string | null;
+  emailVerified?: boolean;
   createdAt: string;
 };
 

@@ -1,6 +1,14 @@
 import { baseApi } from "@/store/api/baseApi";
 import type { PaginationParams } from "@/store/api/types";
 
+export type ApiOrderItemSummary = {
+  id: string;
+  productName: string;
+  quantity: number;
+  total: number | null;
+  imagePath: string | null;
+};
+
 export type ApiOrderSummary = {
   id: string;
   orderNumber: string;
@@ -8,8 +16,11 @@ export type ApiOrderSummary = {
   subtotal: number | null;
   deliveryFee: number | null;
   total: number | null;
+  deliveryCity?: string;
+  deliveryAddress?: string;
   createdAt: string;
   itemCount: number;
+  items?: ApiOrderItemSummary[];
 };
 
 export type CreateOrderBody = {

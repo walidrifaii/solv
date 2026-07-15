@@ -12,10 +12,17 @@ export const authCopy = {
     eyebrow: "Join Solv",
     title: "Create your account",
     description:
-      "Register with your email to shop faster and stay updated on offerings.",
+      "Register with your email. We’ll send a code to verify and open your account.",
     submit: "Create Account",
     switchPrompt: "Already have an account?",
     switchLabel: "Sign in",
     switchHref: "/login",
+  },
+  verify: {
+    eyebrow: "Verify email",
+    title: "Enter your code",
+    description:
+      "We sent a 6-digit code to your email. Enter it below to open your account.",
+    submit: "Verify and continue",
   },
 } as const;

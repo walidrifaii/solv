@@ -17,6 +17,12 @@ export {
   useLazyGetMeQuery,
   useLoginMutation,
   useRegisterMutation,
+  useVerifyOtpMutation,
+  useResendOtpMutation,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
+  useRequestEmailChangeMutation,
+  useConfirmEmailChangeMutation,
   useLogoutMutation,
   useRefreshMutation,
 } from "@/store/slices/auth/authApi";

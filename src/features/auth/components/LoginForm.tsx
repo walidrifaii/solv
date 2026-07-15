@@ -6,7 +6,11 @@ import { useState, type FormEvent } from "react";
 import { authCopy } from "@/features/auth/data";
 import { ROUTES } from "@/constants/routes";
 import { useLoginMutation } from "@/store/slices";
-import { getApiErrorMessage } from "@/store/api/errors";
+import {
+  getApiErrorDetails,
+  getApiErrorMessage,
+  getApiErrorStatus,
+} from "@/store/api/errors";
 
 const inputClass =
   "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base";
@@ -45,6 +49,18 @@ export function LoginForm() {
       router.push(safeNextPath(searchParams.get("next")));
       router.refresh();
     } catch (err) {
+      const details = getApiErrorDetails(err);
+      if (
+        getApiErrorStatus(err) === 403 &&
+        details?.code === "EMAIL_NOT_VERIFIED"
+      ) {
+        const verifyEmail =
+          typeof details.email === "string" ? details.email : email.trim();
+        router.push(
+          `${ROUTES.verify}?email=${encodeURIComponent(verifyEmail)}`,
+        );
+        return;
+      }
       setError(getApiErrorMessage(err, "Invalid email or password."));
     }
   }
