@@ -1,31 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { authCopy } from "@/features/auth/data";
 import { ROUTES } from "@/constants/routes";
-import { useLoginMutation } from "@/store/slices";
 import { getApiErrorMessage } from "@/store/api/errors";
+import { useAdminLoginMutation } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base";
+  "w-full rounded-xl border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574]";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
-function safeNextPath(raw: string | null) {
-  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) {
-    return ROUTES.account;
-  }
-  return raw;
-}
-
-export function LoginForm() {
-  const copy = authCopy.login;
+export function AdminLoginForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useAdminLoginMutation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -42,34 +32,35 @@ export function LoginForm() {
 
     try {
       await login({ email: email.trim(), password }).unwrap();
-      router.push(safeNextPath(searchParams.get("next")));
+      router.replace(ROUTES.dashboard);
       router.refresh();
     } catch (err) {
-      setError(getApiErrorMessage(err, "Invalid email or password."));
+      setError(getApiErrorMessage(err, "Invalid admin credentials."));
     }
   }
 
   return (
-    <div className="mx-auto w-full max-w-md">
-      <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-        {copy.eyebrow}
+    <div className="mx-auto w-full max-w-md rounded-2xl border border-[#e8ddd2] bg-white px-6 py-8 shadow-[0_18px_50px_rgba(23,16,10,0.08)] sm:px-8">
+      <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase">
+        Admin access
       </p>
-      <h1 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
-        {copy.title}
+      <h1 className="font-serif text-3xl font-medium text-[#2a1f16]">
+        Sign in to dashboard
       </h1>
-      <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-        {copy.description}
+      <p className="mt-2 text-sm text-[#7a6b5d]">
+        Separate from customer login. Tokens are stored in httpOnly admin
+        cookies.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
         <div>
-          <label htmlFor="login-email" className={labelClass}>
+          <label htmlFor="admin-email" className={labelClass}>
             Email
           </label>
           <input
-            id="login-email"
+            id="admin-email"
             type="email"
-            autoComplete="email"
+            autoComplete="username"
             required
             value={email}
             onChange={(event) => {
@@ -77,25 +68,25 @@ export function LoginForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="you@email.com"
+            placeholder="admin@solv.qa"
           />
         </div>
 
         <div>
-          <div className="mb-1.5 flex items-center justify-between gap-3">
-            <label htmlFor="login-password" className={labelClass + " mb-0"}>
+          <div className="mb-1.5 flex items-center justify-between">
+            <label htmlFor="admin-password" className={labelClass + " mb-0"}>
               Password
             </label>
             <button
               type="button"
               onClick={() => setShowPassword((open) => !open)}
-              className="text-xs text-[#8a7a6c] transition-colors hover:text-[#2a1f16]"
+              className="text-xs text-[#8a7a6c] hover:text-[#2a1f16]"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
           <input
-            id="login-password"
+            id="admin-password"
             type={showPassword ? "text" : "password"}
             autoComplete="current-password"
             required
@@ -118,19 +109,15 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
+          className="inline-flex w-full items-center justify-center rounded-xl bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60"
         >
-          {isLoading ? "Signing in…" : copy.submit}
+          {isLoading ? "Signing in…" : "Sign in"}
         </button>
       </form>
 
-      <p className="mt-8 text-sm text-[#7a6b5d]">
-        {copy.switchPrompt}{" "}
-        <Link
-          href={copy.switchHref}
-          className="font-medium text-[#2a1f16] underline-offset-2 transition-colors hover:text-[#c4a574] hover:underline"
-        >
-          {copy.switchLabel}
+      <p className="mt-6 text-center text-sm text-[#7a6b5d]">
+        <Link href={ROUTES.home} className="text-[#2a1f16] hover:text-[#c4a574]">
+          Back to store
         </Link>
       </p>
     </div>

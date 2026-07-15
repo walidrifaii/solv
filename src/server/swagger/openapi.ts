@@ -31,6 +31,7 @@ export function getOpenApiDocument(baseUrl?: string) {
     servers: [{ url: appUrl, description: "Current host" }],
     tags: [
       { name: "Auth" },
+      { name: "Admin Auth" },
       { name: "Products" },
       { name: "Categories" },
       { name: "Orders" },
@@ -165,6 +166,62 @@ export function getOpenApiDocument(baseUrl?: string) {
           security: [{ cookieAuth: [] }],
           responses: {
             "200": { description: "Profile" },
+            "401": { description: "Unauthorized" },
+          },
+        },
+      },
+      "/api/admin/auth/login": {
+        post: {
+          tags: ["Admin Auth"],
+          summary: "Admin login",
+          description:
+            "Sets `solv_admin_access` + `solv_admin_refresh` httpOnly cookies (separate from client cookies).",
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["email", "password"],
+                  properties: {
+                    email: { type: "string", format: "email" },
+                    password: { type: "string" },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            "200": { description: "Admin logged in (cookies set)" },
+            "401": { description: "Invalid credentials" },
+          },
+        },
+      },
+      "/api/admin/auth/refresh": {
+        post: {
+          tags: ["Admin Auth"],
+          summary: "Refresh admin access token",
+          responses: {
+            "200": { description: "Admin cookies refreshed" },
+            "401": { description: "Missing/invalid refresh cookie" },
+          },
+        },
+      },
+      "/api/admin/auth/logout": {
+        post: {
+          tags: ["Admin Auth"],
+          summary: "Admin logout",
+          responses: {
+            "200": { description: "Logged out" },
+          },
+        },
+      },
+      "/api/admin/auth/me": {
+        get: {
+          tags: ["Admin Auth"],
+          summary: "Current admin profile",
+          responses: {
+            "200": { description: "Admin profile" },
             "401": { description: "Unauthorized" },
           },
         },

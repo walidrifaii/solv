@@ -13,15 +13,19 @@ function mapApiCategory(category: ApiCategory): CategoryCard {
     id: category.id,
     name: category.name,
     href: `${ROUTES.shop}?category=${category.id}`,
-    image: category.imagePath,
+    // Use imagePath from API response
+    imagePath: category.imagePath || `/assets/category-${category.id}.png`,
     imageAlt: category.name,
   };
 }
 
 export function ShopByCategory() {
-  const { data, isLoading } = useGetCategoriesQuery({ limit: 20 });
-  const categories =
-    data && data.length > 0 ? data.map(mapApiCategory) : shopCategories;
+  const { data, isLoading, isError } = useGetCategoriesQuery({ limit: 20 });
+
+  const categories: CategoryCard[] =
+    !isError && data && data.length > 0
+      ? data.map(mapApiCategory)
+      : shopCategories;
 
   return (
     <section className="bg-[#FEF9F6] px-4 py-14 text-[#2a1f16] sm:px-6 sm:py-16 md:px-8 md:py-20 lg:px-10 lg:py-24">

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { config } from "@/constants/config";
 import "./globals.css";
@@ -45,9 +44,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-[#17100a] text-white">
         <AppProviders>
-          <Navbar />
-          {children}
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </AppProviders>
       </body>
     </html>

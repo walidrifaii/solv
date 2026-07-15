@@ -1,5 +1,6 @@
 /** Import every API slice so endpoints are injected into baseApi. */
 import "@/store/slices/auth/authApi";
+import "@/store/slices/admin/adminAuthApi";
 import "@/store/slices/products/productsApi";
 import "@/store/slices/categories/categoriesApi";
 import "@/store/slices/orders/ordersApi";
@@ -15,6 +16,14 @@ export {
   useLogoutMutation,
   useRefreshMutation,
 } from "@/store/slices/auth/authApi";
+
+export {
+  useGetAdminMeQuery,
+  useLazyGetAdminMeQuery,
+  useAdminLoginMutation,
+  useAdminLogoutMutation,
+  useAdminRefreshMutation,
+} from "@/store/slices/admin/adminAuthApi";
 
 export {
   useGetProductsQuery,

@@ -1,5 +1,6 @@
 import { DiscountType, PrismaClient } from "../src/generated/prisma";
 import productsJson from "../src/data/products.json";
+import { hashPassword } from "../src/server/auth/password";
 
 const prisma = new PrismaClient();
 
@@ -140,6 +141,30 @@ async function main() {
   console.log(
     `Seeded ${categories.length} categories and ${productsJson.length} products.`,
   );
+
+  const adminEmail = (
+    process.env.ADMIN_EMAIL ?? "admin@solv.qa"
+  ).toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "Admin123!";
+  const adminName = process.env.ADMIN_NAME ?? "Solv Admin";
+
+  const existingAdmin = await prisma.admin.findUnique({
+    where: { email: adminEmail },
+  });
+
+  if (!existingAdmin) {
+    await prisma.admin.create({
+      data: {
+        email: adminEmail,
+        name: adminName,
+        passwordHash: await hashPassword(adminPassword),
+        isActive: true,
+      },
+    });
+    console.log(`Seeded admin ${adminEmail} (default password from env/seed).`);
+  } else {
+    console.log(`Admin already exists: ${adminEmail}`);
+  }
 }
 
 main()

@@ -8,7 +8,10 @@ type CategoryCardItemProps = {
   className?: string;
 };
 
-export function CategoryCardItem({ category, className = "" }: CategoryCardItemProps) {
+export function CategoryCardItem({
+  category,
+  className = "",
+}: CategoryCardItemProps) {
   return (
     <Link
       href={category.href}
@@ -16,7 +19,7 @@ export function CategoryCardItem({ category, className = "" }: CategoryCardItemP
     >
       <div className="relative mb-4 flex aspect-square w-full max-w-[140px] flex-1 items-center justify-center sm:max-w-[150px] md:max-w-[160px]">
         <Image
-          src={category.image}
+          src={category.imagePath}
           alt={category.imageAlt}
           fill
           sizes="(max-width: 1024px) 45vw, 160px"
