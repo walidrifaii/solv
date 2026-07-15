@@ -51,3 +51,119 @@ export const categoryListQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });
+
+const boolQuery = z
+  .enum(["true", "false"])
+  .optional()
+  .transform((v) => (v === undefined ? undefined : v === "true"));
+
+const slugField = z
+  .string()
+  .trim()
+  .min(2)
+  .max(80)
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers, and hyphens");
+
+export const adminCategoryListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  search: z.string().trim().max(100).optional(),
+  isActive: boolQuery,
+});
+
+export const createCategorySchema = z.object({
+  id: slugField.optional(),
+  slug: slugField.optional(),
+  name: z.string().trim().min(2).max(80),
+  description: z.string().trim().max(2000).optional().nullable(),
+  imagePath: z
+    .string()
+    .trim()
+    .min(1)
+    .max(500),
+  sortOrder: z.coerce.number().int().min(0).max(9999).default(0),
+  isActive: z.boolean().default(true),
+});
+
+export const updateCategorySchema = createCategorySchema
+  .omit({ id: true })
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  });
+
+export const adminProductListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  search: z.string().trim().max(100).optional(),
+  categoryId: z.string().optional(),
+  isActive: boolQuery,
+  featured: boolQuery,
+  inStock: boolQuery,
+});
+
+const discountFields = {
+  discountType: z.enum(["FIXED", "PERCENTAGE"]).optional().nullable(),
+  discount: z.coerce.number().min(0).max(999999).optional().nullable(),
+};
+
+function refineDiscount(
+  data: { discountType?: string | null; discount?: number | null },
+  ctx: z.RefinementCtx,
+) {
+  const hasType = data.discountType != null;
+  const hasValue = data.discount != null;
+  if (hasType !== hasValue) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "discountType and discount must both be set or both empty",
+      path: ["discount"],
+    });
+  }
+  if (data.discountType === "PERCENTAGE" && data.discount != null && data.discount > 100) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Percentage discount cannot exceed 100",
+      path: ["discount"],
+    });
+  }
+}
+
+export const createProductSchema = z
+  .object({
+    id: slugField.optional(),
+    slug: slugField.optional(),
+    categoryId: z.string().trim().min(1),
+    name: z.string().trim().min(2).max(160),
+    description: z.string().trim().min(1).max(5000),
+    price: z.coerce.number().min(0).max(999999),
+    ...discountFields,
+    imagePath: z.string().trim().min(1).max(500),
+    quantity: z.coerce.number().int().min(0).max(999999).default(0),
+    inStock: z.boolean().default(true),
+    isFeatured: z.boolean().default(false),
+    isActive: z.boolean().default(true),
+    sortOrder: z.coerce.number().int().min(0).max(9999).default(0),
+  })
+  .superRefine(refineDiscount);
+
+export const updateProductSchema = z
+  .object({
+    slug: slugField.optional(),
+    categoryId: z.string().trim().min(1).optional(),
+    name: z.string().trim().min(2).max(160).optional(),
+    description: z.string().trim().min(1).max(5000).optional(),
+    price: z.coerce.number().min(0).max(999999).optional(),
+    discountType: z.enum(["FIXED", "PERCENTAGE"]).optional().nullable(),
+    discount: z.coerce.number().min(0).max(999999).optional().nullable(),
+    imagePath: z.string().trim().min(1).max(500).optional(),
+    quantity: z.coerce.number().int().min(0).max(999999).optional(),
+    inStock: z.boolean().optional(),
+    isFeatured: z.boolean().optional(),
+    isActive: z.boolean().optional(),
+    sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
+  })
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  })
+  .superRefine(refineDiscount);

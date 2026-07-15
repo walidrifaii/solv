@@ -6,6 +6,15 @@ const envSchema = z.object({
   JWT_ACCESS_EXPIRES: z.string().default("15m"),
   JWT_REFRESH_EXPIRES_DAYS: z.coerce.number().int().positive().default(30),
   APP_URL: z.string().url().default("http://localhost:3000"),
+  UPLOAD_API_URL: z
+    .string()
+    .url()
+    .default("https://st79068.ispot.cc/solv/upload.php"),
+  UPLOAD_API_TOKEN: z.string().min(1),
+  UPLOAD_PUBLIC_BASE_URL: z
+    .string()
+    .url()
+    .default("https://st79068.ispot.cc/solv"),
   NODE_ENV: z.enum(["development", "test", "production"]).optional(),
 });
 

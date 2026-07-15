@@ -1,6 +1,9 @@
 /** Import every API slice so endpoints are injected into baseApi. */
 import "@/store/slices/auth/authApi";
 import "@/store/slices/admin/adminAuthApi";
+import "@/store/slices/admin/adminCategoriesApi";
+import "@/store/slices/admin/adminProductsApi";
+import "@/store/slices/admin/adminUploadApi";
 import "@/store/slices/products/productsApi";
 import "@/store/slices/categories/categoriesApi";
 import "@/store/slices/orders/ordersApi";
@@ -24,6 +27,24 @@ export {
   useAdminLogoutMutation,
   useAdminRefreshMutation,
 } from "@/store/slices/admin/adminAuthApi";
+
+export {
+  useAdminListCategoriesQuery,
+  useAdminGetCategoryQuery,
+  useAdminCreateCategoryMutation,
+  useAdminUpdateCategoryMutation,
+  useAdminDeleteCategoryMutation,
+} from "@/store/slices/admin/adminCategoriesApi";
+
+export {
+  useAdminListProductsQuery,
+  useAdminGetProductQuery,
+  useAdminCreateProductMutation,
+  useAdminUpdateProductMutation,
+  useAdminDeleteProductMutation,
+} from "@/store/slices/admin/adminProductsApi";
+
+export { useAdminUploadImageMutation } from "@/store/slices/admin/adminUploadApi";
 
 export {
   useGetProductsQuery,

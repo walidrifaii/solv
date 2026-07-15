@@ -26,12 +26,13 @@ export function getOpenApiDocument(baseUrl?: string) {
       title: "Solv API",
       version: "1.0.0",
       description:
-        "Solv coffee & tea shop API. Auth uses httpOnly JWT cookies (access + refresh) — tokens are never returned in the response body. Products and categories are read-only.",
+        "Solv coffee & tea shop API. Client auth uses `solv_access` / `solv_refresh`. Admin auth uses `solv_admin_access` / `solv_admin_refresh`. Public catalog is read-only; admin CRUD lives under `/api/admin`.",
     },
     servers: [{ url: appUrl, description: "Current host" }],
     tags: [
       { name: "Auth" },
       { name: "Admin Auth" },
+      { name: "Admin Catalog" },
       { name: "Products" },
       { name: "Categories" },
       { name: "Orders" },
@@ -44,6 +45,12 @@ export function getOpenApiDocument(baseUrl?: string) {
           in: "cookie",
           name: "solv_access",
           description: "Access JWT set as httpOnly cookie after login/register/refresh",
+        },
+        adminCookieAuth: {
+          type: "apiKey",
+          in: "cookie",
+          name: "solv_admin_access",
+          description: "Admin access JWT set as httpOnly cookie after admin login/refresh",
         },
       },
       schemas: {
@@ -224,6 +231,121 @@ export function getOpenApiDocument(baseUrl?: string) {
             "200": { description: "Admin profile" },
             "401": { description: "Unauthorized" },
           },
+        },
+      },
+      "/api/admin/upload": {
+        post: {
+          tags: ["Admin Catalog"],
+          summary: "Upload image to remote storage",
+          description:
+            "Proxies multipart `file` to the configured upload API. Returns a public `url` for use as `imagePath`.",
+          security: [{ adminCookieAuth: [] }],
+          responses: {
+            "200": { description: "{ path, url, category }" },
+            "400": { description: "Invalid file" },
+            "401": { description: "Unauthorized" },
+          },
+        },
+      },
+      "/api/admin/categories": {
+        get: {
+          tags: ["Admin Catalog"],
+          summary: "List categories (admin, includes inactive)",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "page", in: "query", schema: { type: "integer", default: 1 } },
+            { name: "limit", in: "query", schema: { type: "integer", default: 10 } },
+            { name: "search", in: "query", schema: { type: "string" } },
+            { name: "isActive", in: "query", schema: { type: "string", enum: ["true", "false"] } },
+          ],
+          responses: { "200": { description: "{ items, meta }" } },
+        },
+        post: {
+          tags: ["Admin Catalog"],
+          summary: "Create category",
+          security: [{ adminCookieAuth: [] }],
+          responses: { "201": { description: "Created category" } },
+        },
+      },
+      "/api/admin/categories/{id}": {
+        get: {
+          tags: ["Admin Catalog"],
+          summary: "Get category by id",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Category" }, "404": { description: "Not found" } },
+        },
+        put: {
+          tags: ["Admin Catalog"],
+          summary: "Update category",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Updated category" } },
+        },
+        delete: {
+          tags: ["Admin Catalog"],
+          summary: "Delete category (blocked if products exist)",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Deleted" }, "409": { description: "Has products" } },
+        },
+      },
+      "/api/admin/products": {
+        get: {
+          tags: ["Admin Catalog"],
+          summary: "List products (admin, filterable)",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "page", in: "query", schema: { type: "integer", default: 1 } },
+            { name: "limit", in: "query", schema: { type: "integer", default: 10 } },
+            { name: "search", in: "query", schema: { type: "string" } },
+            { name: "categoryId", in: "query", schema: { type: "string" } },
+            { name: "isActive", in: "query", schema: { type: "string", enum: ["true", "false"] } },
+            { name: "featured", in: "query", schema: { type: "string", enum: ["true", "false"] } },
+            { name: "inStock", in: "query", schema: { type: "string", enum: ["true", "false"] } },
+          ],
+          responses: { "200": { description: "{ items, meta }" } },
+        },
+        post: {
+          tags: ["Admin Catalog"],
+          summary: "Create product",
+          security: [{ adminCookieAuth: [] }],
+          responses: { "201": { description: "Created product" } },
+        },
+      },
+      "/api/admin/products/{id}": {
+        get: {
+          tags: ["Admin Catalog"],
+          summary: "Get product by id",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Product" }, "404": { description: "Not found" } },
+        },
+        put: {
+          tags: ["Admin Catalog"],
+          summary: "Update product",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Updated product" } },
+        },
+        delete: {
+          tags: ["Admin Catalog"],
+          summary: "Delete product",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Deleted" } },
         },
       },
       "/api/products": {

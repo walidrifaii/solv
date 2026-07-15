@@ -86,7 +86,7 @@ model Category {
   slug        String   @unique
   name        String   @db.VarChar(80)
   description String?  @db.Text
-  imagePath   String   @default("/assets/category-coffee-beans.png") @map("image_path") @db.VarChar(255)
+  imagePath   String   @default("/assets/category-coffee-beans.png") @map("image_path") @db.VarChar(512)
   sortOrder   Int      @default(0) @map("sort_order")
   isActive    Boolean  @default(true) @map("is_active")
   createdAt   DateTime @default(now()) @map("created_at")
@@ -109,7 +109,7 @@ model Product {
   discountType DiscountType? @map("discount_type")
   /// FIXED = amount off price; PERCENTAGE = % off price (e.g. 20 = 20%)
   discount     Decimal?      @db.Decimal(10, 2)
-  imagePath    String        @map("image_path") @db.VarChar(255)
+  imagePath    String        @map("image_path") @db.VarChar(512)
   quantity     Int           @default(0)
   inStock      Boolean       @default(true) @map("in_stock")
   isFeatured   Boolean       @default(false) @map("is_featured")
