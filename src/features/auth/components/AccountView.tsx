@@ -32,7 +32,9 @@ function parseTab(raw: string | null): AccountTab {
 export function AccountView() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const tab = parseTab(searchParams.get("tab"));
+  const [tab, setTabState] = useState<AccountTab>(() =>
+    parseTab(searchParams.get("tab")),
+  );
 
   const { data: client, isLoading, isError } = useGetMeQuery();
   const { data: orders = [], isLoading: ordersLoading } = useGetMyOrdersQuery(
@@ -69,14 +71,19 @@ export function AccountView() {
     if (client?.name) setName(client.name);
   }, [client?.name]);
 
-  function setTab(next: AccountTab) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (next === "settings") params.delete("tab");
-    else params.set("tab", next);
-    const query = params.toString();
-    router.replace(query ? `${ROUTES.account}?${query}` : ROUTES.account, {
-      scroll: false,
-    });
+  useEffect(() => {
+    if (isError || (!isLoading && !client)) {
+      router.replace(ROUTES.login);
+    }
+  }, [isError, isLoading, client, router]);
+
+  function selectTab(next: AccountTab) {
+    setTabState(next);
+    const href =
+      next === "orders"
+        ? `${ROUTES.account}?tab=orders`
+        : ROUTES.account;
+    window.history.replaceState(null, "", href);
   }
 
   if (isLoading) {
@@ -88,7 +95,6 @@ export function AccountView() {
   }
 
   if (isError || !client) {
-    router.replace(ROUTES.login);
     return (
       <div className="flex flex-1 items-center justify-center bg-[#FEF9F6] px-4 py-24 text-[#7a6b5d]">
         Redirecting to login…
@@ -196,7 +202,7 @@ export function AccountView() {
             type="button"
             role="tab"
             aria-selected={tab === "settings"}
-            onClick={() => setTab("settings")}
+            onClick={() => selectTab("settings")}
             className={`-mb-px border-b-2 px-4 py-3 text-sm transition-colors ${
               tab === "settings"
                 ? "border-[#c4a574] text-[#2a1f16]"
@@ -209,7 +215,7 @@ export function AccountView() {
             type="button"
             role="tab"
             aria-selected={tab === "orders"}
-            onClick={() => setTab("orders")}
+            onClick={() => selectTab("orders")}
             className={`-mb-px border-b-2 px-4 py-3 text-sm transition-colors ${
               tab === "orders"
                 ? "border-[#c4a574] text-[#2a1f16]"
