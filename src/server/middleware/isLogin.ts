@@ -1,9 +1,11 @@
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import {
   getAccessTokenFromRequest,
   getRefreshTokenFromRequest,
 } from "@/server/auth/cookies";
 import { verifyAccessToken } from "@/server/auth/jwt";
+import { preflight, withCors } from "@/server/middleware/cors";
 import { fail, handleRouteError } from "@/server/utils/http";
 
 export type AuthClient = {
@@ -32,6 +34,15 @@ export type PublicHandler = (
   ctx: RouteContext,
 ) => Promise<Response> | Response;
 
+function asNextResponse(response: Response) {
+  if (response instanceof NextResponse) return response;
+  return new NextResponse(response.body, response);
+}
+
+async function finalize(req: NextRequest, response: Response) {
+  return withCors(req, asNextResponse(response));
+}
+
 export async function getClientFromRequest(req: NextRequest) {
   const token = getAccessTokenFromRequest(req);
   if (!token) return null;
@@ -41,14 +52,15 @@ export async function getClientFromRequest(req: NextRequest) {
 /** Requires a valid access JWT cookie (`solv_access`). */
 export function isLogin(handler: AuthenticatedHandler) {
   return async (req: NextRequest, ctx: RouteContext = {}) => {
+    if (req.method === "OPTIONS") return preflight(req);
     try {
       const client = await getClientFromRequest(req);
       if (!client) {
-        return fail("Unauthorized — please log in", 401);
+        return finalize(req, fail("Unauthorized — please log in", 401));
       }
-      return await handler(req, ctx, client);
+      return finalize(req, await handler(req, ctx, client));
     } catch (error) {
-      return handleRouteError(error);
+      return finalize(req, handleRouteError(error));
     }
   };
 }
@@ -56,11 +68,12 @@ export function isLogin(handler: AuthenticatedHandler) {
 /** Attaches client when access cookie is valid; otherwise continues as guest. */
 export function optionalAuth(handler: OptionalAuthHandler) {
   return async (req: NextRequest, ctx: RouteContext = {}) => {
+    if (req.method === "OPTIONS") return preflight(req);
     try {
       const client = await getClientFromRequest(req);
-      return await handler(req, ctx, client);
+      return finalize(req, await handler(req, ctx, client));
     } catch (error) {
-      return handleRouteError(error);
+      return finalize(req, handleRouteError(error));
     }
   };
 }
@@ -68,10 +81,11 @@ export function optionalAuth(handler: OptionalAuthHandler) {
 /** Public route wrapper with shared error handling. */
 export function publicRoute(handler: PublicHandler) {
   return async (req: NextRequest, ctx: RouteContext = {}) => {
+    if (req.method === "OPTIONS") return preflight(req);
     try {
-      return await handler(req, ctx);
+      return finalize(req, await handler(req, ctx));
     } catch (error) {
-      return handleRouteError(error);
+      return finalize(req, handleRouteError(error));
     }
   };
 }

@@ -1,6 +1,12 @@
-export function getOpenApiDocument() {
-  const appUrl = process.env.APP_URL ?? "http://localhost:3000";
+/** Build OpenAPI doc. `baseUrl` should be the public https origin (from the request). */
+export function getOpenApiDocument(baseUrl?: string) {
+  const fallback = process.env.APP_URL ?? "http://localhost:3000";
+  const candidate = (baseUrl || fallback).trim().replace(/\/$/, "");
 
+  // Swagger "Try it out" only works with http/https — never mysql:// or blank
+  const appUrl = /^https?:\/\//i.test(candidate)
+    ? candidate
+    : "http://localhost:3000";
 
   return {
     openapi: "3.0.3",
@@ -10,7 +16,7 @@ export function getOpenApiDocument() {
       description:
         "Solv coffee & tea shop API. Auth uses httpOnly JWT cookies (access + refresh) — tokens are never returned in the response body. Products and categories are read-only.",
     },
-    servers: [{ url: appUrl }],
+    servers: [{ url: appUrl, description: "Current host" }],
     tags: [
       { name: "Auth" },
       { name: "Products" },
