@@ -14,6 +14,7 @@ import { ROUTES } from "@/constants/routes";
 import { navigation } from "@/data/navigation";
 import { useCart } from "@/features/cart/CartProvider";
 import { useSearch } from "@/features/search/SearchProvider";
+import { useGetMeQuery } from "@/store/slices";
 
 type NavItem = (typeof navigation)[number];
 
@@ -29,7 +30,10 @@ export function Navbar() {
   const [mobileShopOpen, setMobileShopOpen] = useState(false);
   const { itemCount, openCart } = useCart();
   const { openSearch } = useSearch();
+  const { data: client } = useGetMeQuery();
   const cartCount = itemCount;
+  const accountHref = client ? ROUTES.account : ROUTES.login;
+  const accountLabel = client ? "Profile" : "Sign in";
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -126,9 +130,10 @@ export function Navbar() {
             <SearchIcon className="size-5 lg:size-6" />
           </button>
           <Link
-            href={ROUTES.login}
+            href={accountHref}
             className="hidden p-1.5 transition-colors hover:text-white md:inline-flex"
-            aria-label="Account"
+            aria-label={accountLabel}
+            title={accountLabel}
           >
             <UserIcon className="size-5 lg:size-6" />
           </Link>
@@ -211,7 +216,12 @@ export function Navbar() {
           </nav>
 
           <div className="mt-5 flex items-center gap-5 md:hidden">
-            <Link href={ROUTES.login} className="p-1" aria-label="Account">
+            <Link
+              href={accountHref}
+              className="p-1"
+              aria-label={accountLabel}
+              onClick={() => setMobileOpen(false)}
+            >
               <UserIcon className="size-5" />
             </Link>
             <button
