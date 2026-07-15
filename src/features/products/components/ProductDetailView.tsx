@@ -126,10 +126,6 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
               </span>
             </div>
 
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#7a6b5d] sm:mt-6 sm:text-base">
-              {product.description}
-            </p>
-
             <p
               className={`mt-4 text-sm font-medium ${
                 product.inStock ? "text-[#6f8f5a]" : "text-[#a35d5d]"
@@ -178,49 +174,61 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
               </p>
             ) : null}
 
-            <ul className="mt-8 space-y-2.5 border-t border-[#e8ddd2] pt-6">
-              {product.highlights.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-2.5 text-sm text-[#5c4f43] sm:text-[15px]"
-                >
-                  <span
-                    className="mt-2 size-1.5 shrink-0 rounded-full bg-[#c4a574]"
-                    aria-hidden
-                  />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+            <div className="mt-8 space-y-8 border-t border-[#e8ddd2] pt-6">
+              <div>
+                <h2 className="font-serif text-xl font-medium text-[#2a1f16] sm:text-2xl">
+                  About this product
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
+                  {product.longDescription || product.description}
+                </p>
+              </div>
 
-        <div className="mt-14 grid gap-10 border-t border-[#e8ddd2] pt-12 lg:grid-cols-2 lg:gap-14">
-          <div>
-            <h2 className="font-serif text-2xl font-medium text-[#2a1f16] sm:text-3xl">
-              About this product
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-              {product.longDescription}
-            </p>
-          </div>
-          <div>
-            <h2 className="font-serif text-2xl font-medium text-[#2a1f16] sm:text-3xl">
-              Details
-            </h2>
-            <dl className="mt-4 divide-y divide-[#e8ddd2] border-y border-[#e8ddd2]">
-              {product.details.map((detail) => (
-                <div
-                  key={detail.label}
-                  className="flex items-baseline justify-between gap-4 py-3.5"
-                >
-                  <dt className="text-sm text-[#8a7a6c]">{detail.label}</dt>
-                  <dd className="text-right text-sm font-medium text-[#2a1f16]">
-                    {detail.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+              <div>
+                <h2 className="font-serif text-xl font-medium text-[#2a1f16] sm:text-2xl">
+                  Details
+                </h2>
+                <dl className="mt-3 divide-y divide-[#e8ddd2] border-y border-[#e8ddd2]">
+                  {(product.details.length > 0
+                    ? product.details
+                    : [
+                        { label: "Category", value: product.categoryLabel },
+                        {
+                          label: "Availability",
+                          value: product.inStock ? "In stock" : "Out of stock",
+                        },
+                      ]
+                  ).map((detail) => (
+                    <div
+                      key={detail.label}
+                      className="flex items-baseline justify-between gap-4 py-3.5"
+                    >
+                      <dt className="text-sm text-[#8a7a6c]">{detail.label}</dt>
+                      <dd className="text-right text-sm font-medium text-[#2a1f16]">
+                        {detail.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              {product.highlights.length > 0 ? (
+                <ul className="space-y-2.5">
+                  {product.highlights.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2.5 text-sm text-[#5c4f43] sm:text-[15px]"
+                    >
+                      <span
+                        className="mt-2 size-1.5 shrink-0 rounded-full bg-[#c4a574]"
+                        aria-hidden
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           </div>
         </div>
 
