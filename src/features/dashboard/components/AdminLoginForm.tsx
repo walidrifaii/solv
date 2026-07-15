@@ -48,8 +48,7 @@ export function AdminLoginForm() {
         Sign in to dashboard
       </h1>
       <p className="mt-2 text-sm text-[#7a6b5d]">
-        Separate from customer login. Tokens are stored in httpOnly admin
-        cookies.
+        Sign in with your admin email and password to manage the store.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>

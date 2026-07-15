@@ -216,9 +216,6 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3">
-              <span className="hidden rounded-full bg-[#e8f0e4] px-3 py-1 text-[11px] font-medium text-[#4f6b45] sm:inline">
-                Secure session
-              </span>
               <Link
                 href={ROUTES.shop}
                 className="hidden rounded-xl border border-[#e8ddd2] bg-white px-3 py-2 text-xs font-medium text-[#5c4f43] transition-colors hover:border-[#c4a574] sm:inline-flex"
@@ -231,8 +228,8 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
         <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
           <div className="mb-5 rounded-xl border border-[#e8ddd2] bg-[#F6EDE6] px-4 py-3 text-sm text-[#7a6b5d]">
-            Signed in as {admin.name}. Catalog and orders are live via admin
-            APIs.
+            Signed in as {admin.name}. Manage products, orders, and store
+            content here.
           </div>
           {children}
         </div>
