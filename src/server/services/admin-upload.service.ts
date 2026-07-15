@@ -9,8 +9,21 @@ type UploadApiResponse = {
 };
 
 function toPublicUrl(relativePath: string) {
+  // Already a full URL — normalize singular /image/ → /images/
+  if (/^https?:\/\//i.test(relativePath)) {
+    return relativePath.replace(/\/solv\/image\//i, "/solv/images/");
+  }
+
   const base = getEnv().UPLOAD_PUBLIC_BASE_URL.replace(/\/$/, "");
-  const path = relativePath.replace(/^\//, "");
+  let path = relativePath.replace(/^\//, "").replace(/\\/g, "/");
+
+  // Upload API may return "image/…" but files are served under /solv/images/
+  if (path.startsWith("image/")) {
+    path = `images/${path.slice("image/".length)}`;
+  } else if (!path.startsWith("images/")) {
+    path = `images/${path}`;
+  }
+
   return `${base}/${path}`;
 }
 
