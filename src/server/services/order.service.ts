@@ -1,6 +1,10 @@
 import type { DiscountType, Prisma } from "@/generated/prisma";
 import { Prisma as PrismaRuntime } from "@/generated/prisma";
 import { prisma } from "@/lib/db";
+import {
+  notifyAdminNewOrder,
+  toOrderEmailPayload,
+} from "@/server/mail/order-emails";
 import { toNumber } from "@/server/utils/crypto";
 import { ApiError } from "@/server/utils/http";
 import type { createOrderSchema } from "@/server/validators/schemas";
@@ -158,7 +162,7 @@ export async function createOrder(
       });
     });
 
-    return {
+    const response = {
       id: order.id,
       orderNumber: order.orderNumber,
       status: order.status,
@@ -185,6 +189,21 @@ export async function createOrder(
         total: toNumber(item.total),
       })),
     };
+
+    void notifyAdminNewOrder(
+      toOrderEmailPayload({
+        ...response,
+        items: response.items.map((item) => ({
+          productName: item.productName,
+          quantity: item.quantity,
+          total: item.total,
+        })),
+      }),
+    ).catch((error) => {
+      console.error("[mail] New order notify failed:", error);
+    });
+
+    return response;
   } catch (error) {
     rethrowOrderError(error);
   }

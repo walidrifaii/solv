@@ -1,5 +1,9 @@
 import type { OrderStatus, Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/db";
+import {
+  notifyCustomerOrderStatus,
+  toOrderEmailPayload,
+} from "@/server/mail/order-emails";
 import { toNumber } from "@/server/utils/crypto";
 import { ApiError, ok } from "@/server/utils/http";
 import {
@@ -190,6 +194,8 @@ export async function adminUpdateOrderStatus(
 
   const nextStatus = input.status as OrderStatus;
 
+  const previousStatus = existing.status;
+
   const order = await prisma.$transaction(async (tx) => {
     if (
       nextStatus === "CANCELLED" &&
@@ -214,5 +220,33 @@ export async function adminUpdateOrderStatus(
     });
   });
 
-  return ok(mapAdminOrderDetail(order));
+  const detail = mapAdminOrderDetail(order);
+
+  if (previousStatus !== nextStatus) {
+    void notifyCustomerOrderStatus(
+      toOrderEmailPayload({
+        orderNumber: detail.orderNumber,
+        status: detail.status,
+        guestName: detail.guestName,
+        guestEmail: detail.guestEmail,
+        guestPhone: detail.guestPhone,
+        deliveryCity: detail.deliveryCity,
+        deliveryAddress: detail.deliveryAddress,
+        notes: detail.notes,
+        subtotal: detail.subtotal,
+        deliveryFee: detail.deliveryFee,
+        total: detail.total,
+        items: detail.items.map((item) => ({
+          productName: item.productName,
+          quantity: item.quantity,
+          total: item.total,
+        })),
+      }),
+      previousStatus,
+    ).catch((error) => {
+      console.error("[mail] Order status notify failed:", error);
+    });
+  }
+
+  return ok(detail);
 }
