@@ -39,7 +39,7 @@ export const ordersApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Orders", "Products"],
+      invalidatesTags: ["Orders", "Products", "AdminOrders"],
     }),
   }),
 });

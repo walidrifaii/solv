@@ -231,8 +231,8 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
         <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
           <div className="mb-5 rounded-xl border border-[#e8ddd2] bg-[#F6EDE6] px-4 py-3 text-sm text-[#7a6b5d]">
-            Signed in as {admin.name}. Products and categories are editable via
-            admin APIs; orders overview is still mock until those APIs land.
+            Signed in as {admin.name}. Catalog and orders are live via admin
+            APIs.
           </div>
           {children}
         </div>

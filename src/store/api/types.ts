@@ -128,3 +128,52 @@ export type CreateProductInput = {
 };
 
 export type UpdateProductInput = Partial<Omit<CreateProductInput, "id">>;
+
+export type OrderStatus =
+  | "PENDING"
+  | "CONFIRMED"
+  | "PREPARING"
+  | "OUT_FOR_DELIVERY"
+  | "DELIVERED"
+  | "CANCELLED";
+
+export type ApiAdminOrderItem = {
+  id: string;
+  productId: string | null;
+  productSlug: string;
+  productName: string;
+  imagePath: string | null;
+  unitPrice: number | null;
+  discountType: "FIXED" | "PERCENTAGE" | null;
+  discount: number | null;
+  quantity: number;
+  total: number | null;
+};
+
+export type ApiAdminOrderSummary = {
+  id: string;
+  orderNumber: string;
+  status: OrderStatus;
+  subtotal: number | null;
+  deliveryFee: number | null;
+  total: number | null;
+  guestName: string;
+  guestEmail: string;
+  guestPhone: string;
+  deliveryCity: string;
+  deliveryAddress: string;
+  notes: string | null;
+  itemCount: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ApiAdminOrder = ApiAdminOrderSummary & {
+  clientId: string | null;
+  items: ApiAdminOrderItem[];
+};
+
+export type AdminOrderListParams = PaginationParams & {
+  search?: string;
+  status?: OrderStatus;
+};

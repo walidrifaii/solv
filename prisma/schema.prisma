@@ -160,6 +160,7 @@ model OrderItem {
   /// Snapshot fields — keep history even if product price/discount changes
   productSlug  String        @map("product_slug") @db.VarChar(120)
   productName  String        @map("product_name") @db.VarChar(160)
+  imagePath    String        @default("") @map("image_path") @db.VarChar(512)
   unitPrice    Decimal       @map("unit_price") @db.Decimal(10, 2)
   discountType DiscountType? @map("discount_type")
   discount     Decimal?      @db.Decimal(10, 2)

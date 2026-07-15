@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
 import { ActiveBadge } from "@/features/dashboard/components/AdminModal";
 import { AdminConfirmDrawer } from "@/features/dashboard/components/AdminConfirmDrawer";
 import { AdminPagination } from "@/features/dashboard/components/AdminPagination";
-import { ProductFormModal } from "@/features/dashboard/components/ProductFormModal";
+import { ROUTES } from "@/constants/routes";
 import { getApiErrorMessage } from "@/store/api/errors";
-import type { ApiAdminProduct, CreateProductInput } from "@/store/api/types";
+import type { ApiAdminProduct } from "@/store/api/types";
 import {
-  useAdminCreateProductMutation,
   useAdminDeleteProductMutation,
   useAdminListCategoriesQuery,
   useAdminListProductsQuery,
@@ -26,8 +26,6 @@ export function DashboardProductsPage() {
   const [categoryId, setCategoryId] = useState("");
   const [stockOnly, setStockOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editing, setEditing] = useState<ApiAdminProduct | null>(null);
   const [deletingItem, setDeletingItem] = useState<ApiAdminProduct | null>(
     null,
   );
@@ -65,8 +63,6 @@ export function DashboardProductsPage() {
 
   const { data, isLoading, isFetching, isError, error, refetch } =
     useAdminListProductsQuery(queryArgs);
-  const [createProduct, { isLoading: creating }] =
-    useAdminCreateProductMutation();
   const [updateProduct, { isLoading: updating }] =
     useAdminUpdateProductMutation();
   const [deleteProduct, { isLoading: deleting }] =
@@ -74,26 +70,6 @@ export function DashboardProductsPage() {
 
   const items = data?.items ?? [];
   const meta = data?.meta;
-
-  function openCreate() {
-    setEditing(null);
-    setModalOpen(true);
-    setActionError("");
-  }
-
-  function openEdit(product: ApiAdminProduct) {
-    setEditing(product);
-    setModalOpen(true);
-    setActionError("");
-  }
-
-  async function handleSubmit(body: CreateProductInput) {
-    if (editing) {
-      await updateProduct({ id: editing.id, body }).unwrap();
-    } else {
-      await createProduct(body).unwrap();
-    }
-  }
 
   function askDelete(product: ApiAdminProduct) {
     setActionError("");
@@ -135,13 +111,12 @@ export function DashboardProductsPage() {
             Catalog for the shop. Filters apply to the table below.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={openCreate}
+        <Link
+          href={ROUTES.dashboardProductNew}
           className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
         >
           Add product
-        </button>
+        </Link>
       </div>
 
       <div className="space-y-3 rounded-2xl border border-[#e8ddd2] bg-white p-4">
@@ -307,7 +282,7 @@ export function DashboardProductsPage() {
                             ) : null}
                           </p>
                           <p className="truncate text-xs text-[#8a7a6c]">
-                            {product.slug}
+                            {product.id}
                           </p>
                         </div>
                       </div>
@@ -348,13 +323,12 @@ export function DashboardProductsPage() {
                         >
                           {product.isActive ? "Hide" : "Show"}
                         </button>
-                        <button
-                          type="button"
-                          onClick={() => openEdit(product)}
+                        <Link
+                          href={ROUTES.dashboardProductEdit(product.id)}
                           className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
                         >
                           Edit
-                        </button>
+                        </Link>
                         <button
                           type="button"
                           onClick={() => askDelete(product)}
@@ -375,15 +349,6 @@ export function DashboardProductsPage() {
           <AdminPagination meta={meta} onPageChange={setPage} />
         ) : null}
       </div>
-
-      <ProductFormModal
-        open={modalOpen}
-        initial={editing}
-        categories={categories}
-        saving={creating || updating}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleSubmit}
-      />
 
       <AdminConfirmDrawer
         open={Boolean(deletingItem)}

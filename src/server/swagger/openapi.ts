@@ -348,6 +348,55 @@ export function getOpenApiDocument(baseUrl?: string) {
           responses: { "200": { description: "Deleted" } },
         },
       },
+      "/api/admin/orders": {
+        get: {
+          tags: ["Admin Catalog"],
+          summary: "List orders (admin, filterable)",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "page", in: "query", schema: { type: "integer", default: 1 } },
+            { name: "limit", in: "query", schema: { type: "integer", default: 10 } },
+            { name: "search", in: "query", schema: { type: "string" } },
+            {
+              name: "status",
+              in: "query",
+              schema: {
+                type: "string",
+                enum: [
+                  "PENDING",
+                  "CONFIRMED",
+                  "PREPARING",
+                  "OUT_FOR_DELIVERY",
+                  "DELIVERED",
+                  "CANCELLED",
+                ],
+              },
+            },
+          ],
+          responses: { "200": { description: "{ items, meta }" } },
+        },
+      },
+      "/api/admin/orders/{id}": {
+        get: {
+          tags: ["Admin Catalog"],
+          summary: "Get order details",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Order with items" }, "404": { description: "Not found" } },
+        },
+        put: {
+          tags: ["Admin Catalog"],
+          summary: "Update order status",
+          description: "Cancelling an order restores product stock.",
+          security: [{ adminCookieAuth: [] }],
+          parameters: [
+            { name: "id", in: "path", required: true, schema: { type: "string" } },
+          ],
+          responses: { "200": { description: "Updated order" } },
+        },
+      },
       "/api/products": {
         get: {
           tags: ["Products"],

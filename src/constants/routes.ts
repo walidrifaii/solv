@@ -15,9 +15,12 @@ export const ROUTES = {
   dashboardLogin: "/dashboard/login",
   dashboardOrders: "/dashboard/orders",
   dashboardProducts: "/dashboard/products",
+  dashboardProductNew: "/dashboard/products/new",
+  dashboardProductEdit: (id: string) => `/dashboard/products/${id}/edit` as const,
   dashboardCategories: "/dashboard/categories",
+  dashboardCategoryNew: "/dashboard/categories/new",
+  dashboardCategoryEdit: (id: string) =>
+    `/dashboard/categories/${id}/edit` as const,
   dashboardSubscribers: "/dashboard/subscribers",
   dashboardSettings: "/dashboard/settings",
 } as const;
-
-export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES];

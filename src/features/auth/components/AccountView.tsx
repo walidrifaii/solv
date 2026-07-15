@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
+import { statusLabel, statusTone } from "@/features/dashboard/data";
 import {
   useGetMeQuery,
   useGetMyOrdersQuery,
@@ -83,7 +84,11 @@ export function AccountView() {
                     <p className="font-medium text-[#2a1f16]">
                       {order.orderNumber}
                     </p>
-                    <p className="text-sm text-[#8a7a6c]">{order.status}</p>
+                    <span
+                      className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${statusTone(order.status)}`}
+                    >
+                      {statusLabel(order.status)}
+                    </span>
                   </div>
                   <p className="mt-1 text-sm text-[#7a6b5d]">
                     {order.itemCount} item{order.itemCount === 1 ? "" : "s"} · QAR{" "}

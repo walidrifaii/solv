@@ -2,6 +2,7 @@
 import "@/store/slices/auth/authApi";
 import "@/store/slices/admin/adminAuthApi";
 import "@/store/slices/admin/adminCategoriesApi";
+import "@/store/slices/admin/adminOrdersApi";
 import "@/store/slices/admin/adminProductsApi";
 import "@/store/slices/admin/adminUploadApi";
 import "@/store/slices/products/productsApi";
@@ -43,6 +44,13 @@ export {
   useAdminUpdateProductMutation,
   useAdminDeleteProductMutation,
 } from "@/store/slices/admin/adminProductsApi";
+
+export {
+  useAdminListOrdersQuery,
+  useAdminGetOrderQuery,
+  useLazyAdminGetOrderQuery,
+  useAdminUpdateOrderStatusMutation,
+} from "@/store/slices/admin/adminOrdersApi";
 
 export { useAdminUploadImageMutation } from "@/store/slices/admin/adminUploadApi";
 

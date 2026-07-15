@@ -167,3 +167,23 @@ export const updateProductSchema = z
     message: "At least one field is required",
   })
   .superRefine(refineDiscount);
+
+export const orderStatusEnum = z.enum([
+  "PENDING",
+  "CONFIRMED",
+  "PREPARING",
+  "OUT_FOR_DELIVERY",
+  "DELIVERED",
+  "CANCELLED",
+]);
+
+export const adminOrderListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  search: z.string().trim().max(100).optional(),
+  status: orderStatusEnum.optional(),
+});
+
+export const updateOrderStatusSchema = z.object({
+  status: orderStatusEnum,
+});

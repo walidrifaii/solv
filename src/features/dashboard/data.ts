@@ -177,6 +177,37 @@ export function statusLabel(status: string) {
   return status.replaceAll("_", " ");
 }
 
+export const ORDER_STATUS_FILTERS = [
+  { value: "all", label: "All" },
+  { value: "PENDING", label: "Pending" },
+  { value: "CONFIRMED", label: "Confirmed" },
+  { value: "PREPARING", label: "Preparing" },
+  { value: "OUT_FOR_DELIVERY", label: "Out for delivery" },
+  { value: "DELIVERED", label: "Delivered" },
+  { value: "CANCELLED", label: "Cancelled" },
+] as const;
+
+export const ORDER_STATUSES = [
+  "PENDING",
+  "CONFIRMED",
+  "PREPARING",
+  "OUT_FOR_DELIVERY",
+  "DELIVERED",
+  "CANCELLED",
+] as const;
+
+export function formatOrderDate(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+}
+
 export function statusTone(status: string) {
   switch (status) {
     case "PENDING":

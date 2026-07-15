@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
 import { ActiveBadge } from "@/features/dashboard/components/AdminModal";
 import { AdminConfirmDrawer } from "@/features/dashboard/components/AdminConfirmDrawer";
 import { AdminPagination } from "@/features/dashboard/components/AdminPagination";
-import { CategoryFormModal } from "@/features/dashboard/components/CategoryFormModal";
+import { ROUTES } from "@/constants/routes";
 import { getApiErrorMessage } from "@/store/api/errors";
-import type { ApiAdminCategory, CreateCategoryInput } from "@/store/api/types";
+import type { ApiAdminCategory } from "@/store/api/types";
 import {
-  useAdminCreateCategoryMutation,
   useAdminDeleteCategoryMutation,
   useAdminListCategoriesQuery,
   useAdminUpdateCategoryMutation,
@@ -22,8 +22,6 @@ export function DashboardCategoriesPage() {
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search.trim());
   const [status, setStatus] = useState<StatusFilter>("all");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editing, setEditing] = useState<ApiAdminCategory | null>(null);
   const [deletingItem, setDeletingItem] = useState<ApiAdminCategory | null>(
     null,
   );
@@ -45,8 +43,6 @@ export function DashboardCategoriesPage() {
 
   const { data, isLoading, isFetching, isError, error, refetch } =
     useAdminListCategoriesQuery(queryArgs);
-  const [createCategory, { isLoading: creating }] =
-    useAdminCreateCategoryMutation();
   const [updateCategory, { isLoading: updating }] =
     useAdminUpdateCategoryMutation();
   const [deleteCategory, { isLoading: deleting }] =
@@ -54,26 +50,6 @@ export function DashboardCategoriesPage() {
 
   const items = data?.items ?? [];
   const meta = data?.meta;
-
-  function openCreate() {
-    setEditing(null);
-    setModalOpen(true);
-    setActionError("");
-  }
-
-  function openEdit(category: ApiAdminCategory) {
-    setEditing(category);
-    setModalOpen(true);
-    setActionError("");
-  }
-
-  async function handleSubmit(body: CreateCategoryInput) {
-    if (editing) {
-      await updateCategory({ id: editing.id, body }).unwrap();
-    } else {
-      await createCategory(body).unwrap();
-    }
-  }
 
   function askDelete(category: ApiAdminCategory) {
     setActionError("");
@@ -115,13 +91,12 @@ export function DashboardCategoriesPage() {
             Manage collections shown in shop-by-category.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={openCreate}
+        <Link
+          href={ROUTES.dashboardCategoryNew}
           className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
         >
           Add category
-        </button>
+        </Link>
       </div>
 
       <div className="flex flex-col gap-3 rounded-2xl border border-[#e8ddd2] bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -240,7 +215,7 @@ export function DashboardCategoriesPage() {
                             {category.name}
                           </p>
                           <p className="truncate text-xs text-[#8a7a6c]">
-                            {category.slug}
+                            {category.id}
                           </p>
                         </div>
                       </div>
@@ -264,13 +239,12 @@ export function DashboardCategoriesPage() {
                         >
                           {category.isActive ? "Hide" : "Show"}
                         </button>
-                        <button
-                          type="button"
-                          onClick={() => openEdit(category)}
+                        <Link
+                          href={ROUTES.dashboardCategoryEdit(category.id)}
                           className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
                         >
                           Edit
-                        </button>
+                        </Link>
                         <button
                           type="button"
                           onClick={() => askDelete(category)}
@@ -291,14 +265,6 @@ export function DashboardCategoriesPage() {
           <AdminPagination meta={meta} onPageChange={setPage} />
         ) : null}
       </div>
-
-      <CategoryFormModal
-        open={modalOpen}
-        initial={editing}
-        saving={creating || updating}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleSubmit}
-      />
 
       <AdminConfirmDrawer
         open={Boolean(deletingItem)}
