@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { adminLabelClass } from "@/features/dashboard/components/AdminModal";
 import { getApiErrorMessage } from "@/store/api/errors";
 import { useAdminUploadImageMutation } from "@/store/slices";
@@ -10,6 +10,7 @@ type Props = {
   label?: string;
   value: string;
   onChange: (url: string) => void;
+  onUploadingChange?: (uploading: boolean) => void;
   required?: boolean;
 };
 
@@ -17,6 +18,7 @@ export function ImageUploadField({
   label = "Image",
   value,
   onChange,
+  onUploadingChange,
   required,
 }: Props) {
   const inputId = useId();
@@ -26,6 +28,16 @@ export function ImageUploadField({
   const [localPreview, setLocalPreview] = useState<string | null>(null);
 
   const preview = localPreview || value;
+
+  useEffect(() => {
+    onUploadingChange?.(isLoading);
+  }, [isLoading, onUploadingChange]);
+
+  useEffect(() => {
+    return () => {
+      onUploadingChange?.(false);
+    };
+  }, [onUploadingChange]);
 
   async function handleFile(file: File | undefined) {
     if (!file) return;
@@ -74,6 +86,11 @@ export function ImageUploadField({
               No image
             </div>
           )}
+          {isLoading ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-[#17100a]/45 text-[11px] font-medium text-white">
+              Uploading…
+            </div>
+          ) : null}
         </div>
 
         <div className="min-w-0 flex-1 space-y-2">
@@ -83,6 +100,7 @@ export function ImageUploadField({
             type="file"
             accept="image/jpeg,image/png,image/webp,image/gif"
             className="sr-only"
+            disabled={isLoading}
             onChange={(event) => void handleFile(event.target.files?.[0])}
           />
           <div className="flex flex-wrap gap-2">
@@ -90,7 +108,7 @@ export function ImageUploadField({
               type="button"
               disabled={isLoading}
               onClick={() => inputRef.current?.click()}
-              className="rounded-xl bg-[#2a1f16] px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-[#3a2c20] disabled:opacity-60"
+              className="rounded-xl bg-[#2a1f16] px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-[#3a2c20] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoading
                 ? "Uploading…"
@@ -101,12 +119,13 @@ export function ImageUploadField({
           </div>
           <p className="text-[11px] text-[#8a7a6c]">
             JPEG, PNG, WebP or GIF · max 8MB
+            {isLoading ? " · wait until upload finishes to save" : ""}
           </p>
-          {value ? (
+          {value && !isLoading ? (
             <p className="truncate text-[11px] text-[#a39486]" title={value}>
               {value}
             </p>
-          ) : required ? (
+          ) : required && !isLoading ? (
             <p className="text-[11px] text-[#a35d5d]">Image is required</p>
           ) : null}
           {error ? (
@@ -116,7 +135,6 @@ export function ImageUploadField({
           ) : null}
         </div>
       </div>
-      <input type="hidden" value={value} required={required} readOnly />
     </div>
   );
 }

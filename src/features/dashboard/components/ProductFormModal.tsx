@@ -48,6 +48,7 @@ export function ProductFormModal({
   const [isFeatured, setIsFeatured] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [error, setError] = useState("");
+  const [imageUploading, setImageUploading] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -65,11 +66,17 @@ export function ProductFormModal({
     setIsFeatured(initial?.isFeatured ?? false);
     setIsActive(initial?.isActive ?? true);
     setError("");
+    setImageUploading(false);
   }, [open, initial, categories]);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setError("");
+
+    if (imageUploading) {
+      setError("Please wait until the image finishes uploading.");
+      return;
+    }
 
     if (!categoryId) {
       setError("Select a category.");
@@ -195,6 +202,7 @@ export function ProductFormModal({
               label="Image"
               value={imagePath}
               onChange={setImagePath}
+              onUploadingChange={setImageUploading}
               required
             />
           </div>
@@ -298,16 +306,23 @@ export function ProductFormModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-[#e8ddd2] px-4 py-2.5 text-sm font-medium text-[#5c4f43] hover:bg-[#FEF9F6]"
+            disabled={saving || imageUploading}
+            className="rounded-xl border border-[#e8ddd2] px-4 py-2.5 text-sm font-medium text-[#5c4f43] hover:bg-[#FEF9F6] disabled:cursor-not-allowed disabled:opacity-60"
           >
             Cancel
           </button>
           <button
             type="submit"
-            disabled={saving}
-            className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] hover:bg-[#d4b584] disabled:opacity-60"
+            disabled={saving || imageUploading || !imagePath.trim()}
+            className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] hover:bg-[#d4b584] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {saving ? "Saving…" : editing ? "Save changes" : "Create product"}
+            {imageUploading
+              ? "Uploading image…"
+              : saving
+                ? "Saving…"
+                : editing
+                  ? "Save changes"
+                  : "Create product"}
           </button>
         </div>
       </form>

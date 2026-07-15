@@ -33,6 +33,7 @@ export function CategoryFormModal({
   const [sortOrder, setSortOrder] = useState("0");
   const [isActive, setIsActive] = useState(true);
   const [error, setError] = useState("");
+  const [imageUploading, setImageUploading] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -43,11 +44,18 @@ export function CategoryFormModal({
     setSortOrder(String(initial?.sortOrder ?? 0));
     setIsActive(initial?.isActive ?? true);
     setError("");
+    setImageUploading(false);
   }, [open, initial]);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setError("");
+
+    if (imageUploading) {
+      setError("Please wait until the image finishes uploading.");
+      return;
+    }
+
     if (!imagePath.trim()) {
       setError("Please upload an image.");
       return;
@@ -119,6 +127,7 @@ export function CategoryFormModal({
             label="Image"
             value={imagePath}
             onChange={setImagePath}
+            onUploadingChange={setImageUploading}
             required
           />
         </div>
@@ -159,16 +168,25 @@ export function CategoryFormModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-[#e8ddd2] px-4 py-2.5 text-sm font-medium text-[#5c4f43] hover:bg-[#FEF9F6]"
+            disabled={saving || imageUploading}
+            className="rounded-xl border border-[#e8ddd2] px-4 py-2.5 text-sm font-medium text-[#5c4f43] hover:bg-[#FEF9F6] disabled:cursor-not-allowed disabled:opacity-60"
           >
             Cancel
           </button>
           <button
             type="submit"
-            disabled={saving}
-            className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] hover:bg-[#d4b584] disabled:opacity-60"
+            disabled={
+              saving || imageUploading || !imagePath.trim()
+            }
+            className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] hover:bg-[#d4b584] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {saving ? "Saving…" : editing ? "Save changes" : "Create category"}
+            {imageUploading
+              ? "Uploading image…"
+              : saving
+                ? "Saving…"
+                : editing
+                  ? "Save changes"
+                  : "Create category"}
           </button>
         </div>
       </form>

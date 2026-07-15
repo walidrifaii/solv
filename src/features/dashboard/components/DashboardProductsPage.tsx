@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
 import { ActiveBadge } from "@/features/dashboard/components/AdminModal";
+import { AdminConfirmDrawer } from "@/features/dashboard/components/AdminConfirmDrawer";
 import { AdminPagination } from "@/features/dashboard/components/AdminPagination";
 import { ProductFormModal } from "@/features/dashboard/components/ProductFormModal";
 import { getApiErrorMessage } from "@/store/api/errors";
@@ -27,6 +28,9 @@ export function DashboardProductsPage() {
   const [featuredOnly, setFeaturedOnly] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<ApiAdminProduct | null>(null);
+  const [deletingItem, setDeletingItem] = useState<ApiAdminProduct | null>(
+    null,
+  );
   const [actionError, setActionError] = useState("");
 
   const { data: categoriesData } = useAdminListCategoriesQuery({
@@ -91,15 +95,20 @@ export function DashboardProductsPage() {
     }
   }
 
-  async function handleDelete(product: ApiAdminProduct) {
-    if (!window.confirm(`Delete “${product.name}”? This cannot be undone.`)) {
-      return;
-    }
+  function askDelete(product: ApiAdminProduct) {
+    setActionError("");
+    setDeletingItem(product);
+  }
+
+  async function confirmDelete() {
+    if (!deletingItem) return;
     setActionError("");
     try {
-      await deleteProduct(product.id).unwrap();
+      await deleteProduct(deletingItem.id).unwrap();
+      setDeletingItem(null);
     } catch (err) {
       setActionError(getApiErrorMessage(err, "Could not delete product."));
+      setDeletingItem(null);
     }
   }
 
@@ -348,7 +357,7 @@ export function DashboardProductsPage() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => handleDelete(product)}
+                          onClick={() => askDelete(product)}
                           disabled={deleting}
                           className="text-xs font-medium text-[#a35d5d] hover:text-[#7a3030] disabled:opacity-50"
                         >
@@ -374,6 +383,22 @@ export function DashboardProductsPage() {
         saving={creating || updating}
         onClose={() => setModalOpen(false)}
         onSubmit={handleSubmit}
+      />
+
+      <AdminConfirmDrawer
+        open={Boolean(deletingItem)}
+        title="Delete product?"
+        description={
+          deletingItem
+            ? `“${deletingItem.name}” will be removed permanently. This cannot be undone.`
+            : ""
+        }
+        confirmLabel="Delete product"
+        loading={deleting}
+        onConfirm={() => void confirmDelete()}
+        onClose={() => {
+          if (!deleting) setDeletingItem(null);
+        }}
       />
     </div>
   );

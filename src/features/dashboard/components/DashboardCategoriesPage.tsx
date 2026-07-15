@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
 import { ActiveBadge } from "@/features/dashboard/components/AdminModal";
+import { AdminConfirmDrawer } from "@/features/dashboard/components/AdminConfirmDrawer";
 import { AdminPagination } from "@/features/dashboard/components/AdminPagination";
 import { CategoryFormModal } from "@/features/dashboard/components/CategoryFormModal";
 import { getApiErrorMessage } from "@/store/api/errors";
@@ -23,6 +24,9 @@ export function DashboardCategoriesPage() {
   const [status, setStatus] = useState<StatusFilter>("all");
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<ApiAdminCategory | null>(null);
+  const [deletingItem, setDeletingItem] = useState<ApiAdminCategory | null>(
+    null,
+  );
   const [actionError, setActionError] = useState("");
 
   const queryArgs = useMemo(
@@ -71,19 +75,20 @@ export function DashboardCategoriesPage() {
     }
   }
 
-  async function handleDelete(category: ApiAdminCategory) {
-    if (
-      !window.confirm(
-        `Delete “${category.name}”? This only works if it has no products.`,
-      )
-    ) {
-      return;
-    }
+  function askDelete(category: ApiAdminCategory) {
+    setActionError("");
+    setDeletingItem(category);
+  }
+
+  async function confirmDelete() {
+    if (!deletingItem) return;
     setActionError("");
     try {
-      await deleteCategory(category.id).unwrap();
+      await deleteCategory(deletingItem.id).unwrap();
+      setDeletingItem(null);
     } catch (err) {
       setActionError(getApiErrorMessage(err, "Could not delete category."));
+      setDeletingItem(null);
     }
   }
 
@@ -268,7 +273,7 @@ export function DashboardCategoriesPage() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => handleDelete(category)}
+                          onClick={() => askDelete(category)}
                           disabled={deleting}
                           className="text-xs font-medium text-[#a35d5d] hover:text-[#7a3030] disabled:opacity-50"
                         >
@@ -293,6 +298,22 @@ export function DashboardCategoriesPage() {
         saving={creating || updating}
         onClose={() => setModalOpen(false)}
         onSubmit={handleSubmit}
+      />
+
+      <AdminConfirmDrawer
+        open={Boolean(deletingItem)}
+        title="Delete category?"
+        description={
+          deletingItem
+            ? `“${deletingItem.name}” will be removed permanently. This only works if it has no products — otherwise hide it instead.`
+            : ""
+        }
+        confirmLabel="Delete category"
+        loading={deleting}
+        onConfirm={() => void confirmDelete()}
+        onClose={() => {
+          if (!deleting) setDeletingItem(null);
+        }}
       />
     </div>
   );
