@@ -3,10 +3,22 @@ export function getOpenApiDocument(baseUrl?: string) {
   const fallback = process.env.APP_URL ?? "http://localhost:3000";
   const candidate = (baseUrl || fallback).trim().replace(/\/$/, "");
 
-  // Swagger "Try it out" only works with http/https — never mysql:// or blank
-  const appUrl = /^https?:\/\//i.test(candidate)
+  // Swagger "Try it out" only works with http/https — never mysql://, blank, or localhost:80 behind a proxy
+  let appUrl = /^https?:\/\//i.test(candidate)
     ? candidate
     : "http://localhost:3000";
+
+  try {
+    const host = new URL(appUrl).hostname.toLowerCase();
+    if (host === "localhost" || host === "127.0.0.1") {
+      const envUrl = process.env.APP_URL?.trim().replace(/\/$/, "");
+      if (envUrl && /^https?:\/\//i.test(envUrl)) {
+        appUrl = envUrl;
+      }
+    }
+  } catch {
+    appUrl = "http://localhost:3000";
+  }
 
   return {
     openapi: "3.0.3",

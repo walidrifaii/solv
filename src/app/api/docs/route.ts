@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publicRoute } from "@/server/middleware";
 
-function docsHtml(origin: string) {
-  const specUrl = `${origin}/api/docs/openapi.json`;
-
-  return `<!doctype html>
+/**
+ * Spec URL must be relative so the browser loads it from the same host
+ * as this page (Easypanel public URL), not from internal localhost:80.
+ */
+const html = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -21,7 +22,7 @@ function docsHtml(origin: string) {
     <script src="https://unpkg.com/swagger-ui-dist@5.17.14/swagger-ui-bundle.js" crossorigin></script>
     <script>
       window.ui = SwaggerUIBundle({
-        url: ${JSON.stringify(specUrl)},
+        url: "/api/docs/openapi.json",
         dom_id: "#swagger-ui",
         presets: [SwaggerUIBundle.presets.apis],
         layout: "BaseLayout",
@@ -31,11 +32,9 @@ function docsHtml(origin: string) {
     </script>
   </body>
 </html>`;
-}
 
-export const GET = publicRoute(async (req: NextRequest) => {
-  const origin = req.nextUrl.origin;
-  return new NextResponse(docsHtml(origin), {
+export const GET = publicRoute(async (_req: NextRequest) => {
+  return new NextResponse(html, {
     status: 200,
     headers: {
       "Content-Type": "text/html; charset=utf-8",
