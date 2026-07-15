@@ -56,6 +56,7 @@ export const adminOrdersApi = baseApi.injectEndpoints({
         { type: "AdminOrders", id: "LIST" },
         "Orders",
         "Products",
+        "AdminDashboard",
       ],
     }),
   }),

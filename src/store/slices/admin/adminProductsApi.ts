@@ -60,6 +60,7 @@ export const adminProductsApi = baseApi.injectEndpoints({
       invalidatesTags: [
         { type: "AdminProducts", id: "LIST" },
         "Products",
+        "AdminDashboard",
       ],
     }),
     adminUpdateProduct: builder.mutation<
@@ -75,6 +76,7 @@ export const adminProductsApi = baseApi.injectEndpoints({
         { type: "AdminProducts", id },
         { type: "AdminProducts", id: "LIST" },
         "Products",
+        "AdminDashboard",
       ],
     }),
     adminDeleteProduct: builder.mutation<{ id: string; deleted: boolean }, string>({
@@ -85,6 +87,7 @@ export const adminProductsApi = baseApi.injectEndpoints({
       invalidatesTags: [
         { type: "AdminProducts", id: "LIST" },
         "Products",
+        "AdminDashboard",
       ],
     }),
   }),

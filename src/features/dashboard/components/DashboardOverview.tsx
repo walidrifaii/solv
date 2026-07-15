@@ -1,14 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
-import {
-  dashboardMock,
-  formatOrderDate,
-  statusLabel,
-  statusTone,
-} from "@/features/dashboard/data";
-import { useAdminListOrdersQuery } from "@/store/slices";
+import { formatOrderDate, statusLabel, statusTone } from "@/features/dashboard/data";
+import { useAdminDashboardOverviewQuery } from "@/store/slices";
 
 const toneClass = {
   gold: "border-[#c4a574]/40 bg-[#17100a] text-white",
@@ -17,38 +13,59 @@ const toneClass = {
   cream: "border-[#efe4da] bg-white text-[#2a1f16]",
 } as const;
 
-export function DashboardOverview() {
-  const { data, isLoading, isError } = useAdminListOrdersQuery({
-    page: 1,
-    limit: 5,
-  });
-  const recentOrders = data?.items ?? [];
-  const pendingCount =
-    data?.items.filter((order) => order.status === "PENDING").length ?? 0;
+function formatDelta(delta: number) {
+  if (delta === 0) return "Same as yesterday";
+  if (delta > 0) return `+${delta} vs yesterday`;
+  return `${delta} vs yesterday`;
+}
 
-  const stats = [
+export function DashboardOverview() {
+  const { data, isLoading, isError } = useAdminDashboardOverviewQuery();
+  const stats = data?.stats;
+  const recentOrders = data?.recentOrders ?? [];
+  const lowStock = data?.lowStock ?? [];
+
+  const cards = [
     {
       id: "orders",
-      label: "Recent orders",
-      value: isLoading ? "…" : String(data?.meta.total ?? 0),
-      hint: "Total in store",
+      label: "Orders today",
+      value: isLoading ? "…" : String(stats?.ordersToday ?? 0),
+      hint: isLoading ? "…" : formatDelta(stats?.ordersDelta ?? 0),
       tone: "gold" as const,
     },
     {
-      id: "pending",
-      label: "Pending (page)",
-      value: isLoading ? "…" : String(pendingCount),
-      hint: "In latest five",
+      id: "revenue",
+      label: "Revenue today (QAR)",
+      value: isLoading
+        ? "…"
+        : (stats?.revenueToday ?? 0).toLocaleString(undefined, {
+            maximumFractionDigits: 0,
+          }),
+      hint: "Non-cancelled orders",
       tone: "dark" as const,
     },
-    dashboardMock.stats[2],
-    dashboardMock.stats[3],
+    {
+      id: "stock",
+      label: "Low stock",
+      value: isLoading ? "…" : String(stats?.lowStockCount ?? 0),
+      hint: `Qty ≤ ${stats?.lowStockThreshold ?? 10} or out of stock`,
+      tone: "warn" as const,
+    },
+    {
+      id: "subscribers",
+      label: "Subscribers",
+      value: isLoading ? "…" : String(stats?.subscribers ?? 0),
+      hint: isLoading
+        ? "…"
+        : `${stats?.pendingOrders ?? 0} pending orders · ${stats?.totalOrders ?? 0} total`,
+      tone: "cream" as const,
+    },
   ];
 
   return (
     <div className="space-y-8">
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map((stat) => (
+        {cards.map((stat) => (
           <article
             key={stat.id}
             className={`rounded-2xl border px-5 py-5 ${toneClass[stat.tone]}`}
@@ -114,7 +131,7 @@ export function DashboardOverview() {
                       colSpan={4}
                       className="px-5 py-10 text-center text-[#8a7a6c]"
                     >
-                      Loading orders…
+                      Loading overview…
                     </td>
                   </tr>
                 ) : isError ? (
@@ -123,7 +140,7 @@ export function DashboardOverview() {
                       colSpan={4}
                       className="px-5 py-10 text-center text-[#a35d5d]"
                     >
-                      Could not load orders.
+                      Could not load dashboard.
                     </td>
                   </tr>
                 ) : recentOrders.length === 0 ? (
@@ -176,25 +193,49 @@ export function DashboardOverview() {
               Low stock
             </h2>
             <p className="mt-1 text-xs text-[#8a7a6c]">
-              Preview — live stock API later
+              Products at or below {stats?.lowStockThreshold ?? 10} units
             </p>
           </div>
-          <ul className="divide-y divide-[#f0e7de]">
-            {dashboardMock.lowStock.map((item) => (
-              <li
-                key={item.name}
-                className="flex items-center justify-between px-5 py-4"
-              >
-                <div>
-                  <p className="font-medium text-[#2a1f16]">{item.name}</p>
-                  <p className="text-xs text-[#8a7a6c]">{item.category}</p>
-                </div>
-                <span className="rounded-full bg-[#fff6ef] px-2.5 py-1 text-[11px] font-medium text-[#8a4f2f]">
-                  {item.qty} left
-                </span>
-              </li>
-            ))}
-          </ul>
+          {isLoading ? (
+            <p className="px-5 py-10 text-center text-sm text-[#8a7a6c]">
+              Loading stock…
+            </p>
+          ) : isError ? (
+            <p className="px-5 py-10 text-center text-sm text-[#a35d5d]">
+              Could not load stock.
+            </p>
+          ) : lowStock.length === 0 ? (
+            <p className="px-5 py-10 text-center text-sm text-[#8a7a6c]">
+              All products are sufficiently stocked.
+            </p>
+          ) : (
+            <ul className="divide-y divide-[#f0e7de]">
+              {lowStock.map((item) => (
+                <li key={item.id} className="flex items-center gap-3 px-5 py-3.5">
+                  <div className="relative size-11 shrink-0 overflow-hidden rounded-lg bg-[#FEF9F6]">
+                    <Image
+                      src={item.imagePath || "/assets/category-coffee-beans.png"}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-[#2a1f16]">
+                      {item.name}
+                    </p>
+                    <p className="truncate text-xs text-[#8a7a6c]">
+                      {item.category}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-[#fff6ef] px-2.5 py-1 text-[11px] font-medium text-[#8a4f2f]">
+                    {item.quantity} left
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
           <div className="border-t border-[#efe4da] px-5 py-3">
             <Link
               href={ROUTES.dashboardProducts}

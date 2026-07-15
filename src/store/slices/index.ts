@@ -2,6 +2,7 @@
 import "@/store/slices/auth/authApi";
 import "@/store/slices/admin/adminAuthApi";
 import "@/store/slices/admin/adminCategoriesApi";
+import "@/store/slices/admin/adminDashboardApi";
 import "@/store/slices/admin/adminOrdersApi";
 import "@/store/slices/admin/adminProductsApi";
 import "@/store/slices/admin/adminUploadApi";
@@ -57,6 +58,8 @@ export {
   useLazyAdminGetOrderQuery,
   useAdminUpdateOrderStatusMutation,
 } from "@/store/slices/admin/adminOrdersApi";
+
+export { useAdminDashboardOverviewQuery } from "@/store/slices/admin/adminDashboardApi";
 
 export { useAdminUploadImageMutation } from "@/store/slices/admin/adminUploadApi";
 
