@@ -4,16 +4,28 @@ import Image from "next/image";
 import { useState, type FormEvent } from "react";
 import newsletterImage from "@/assets/images/newsletter-community.png";
 import { newsletterContent } from "@/features/home/data/newsletter";
+import { getApiErrorMessage } from "@/store/api/errors";
+import { useSubscribeMutation } from "@/store/slices";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [subscribe, { isLoading }] = useSubscribeMutation();
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!email.trim()) return;
-    setSubmitted(true);
-    setEmail("");
+    setError("");
+    setSubmitted(false);
+
+    try {
+      await subscribe({ email: email.trim() }).unwrap();
+      setSubmitted(true);
+      setEmail("");
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Could not subscribe. Try again."));
+    }
   }
 
   return (
@@ -56,17 +68,25 @@ export function Newsletter() {
               onChange={(event) => {
                 setEmail(event.target.value);
                 setSubmitted(false);
+                setError("");
               }}
               placeholder={newsletterContent.placeholder}
               className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#c4a574] sm:rounded-r-none sm:text-base"
             />
             <button
               type="submit"
-              className="shrink-0 rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#d4b584] sm:rounded-l-none sm:px-7 sm:text-base"
+              disabled={isLoading}
+              className="shrink-0 rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:rounded-l-none sm:px-7 sm:text-base"
             >
-              {newsletterContent.cta}
+              {isLoading ? "…" : newsletterContent.cta}
             </button>
           </form>
+
+          {error ? (
+            <p className="mt-3 text-sm text-[#a35d5d]" role="alert">
+              {error}
+            </p>
+          ) : null}
 
           {submitted ? (
             <p className="mt-3 text-sm text-[#6f8f5a]" role="status">

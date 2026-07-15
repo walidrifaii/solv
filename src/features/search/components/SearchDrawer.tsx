@@ -2,25 +2,35 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import { SearchIcon } from "@/components/icons/SearchIcon";
 import { ROUTES } from "@/constants/routes";
-import { getProductBySlug, productPath } from "@/features/products/data/catalog";
+import { productPath } from "@/features/products/utils";
 import { useSearch } from "@/features/search/SearchProvider";
-import { searchLocalProducts } from "@/features/search/searchProducts";
+import { useGetProductsQuery } from "@/store/slices";
 
 export function SearchDrawer() {
   const { isOpen, closeSearch } = useSearch();
   const inputRef = useRef<HTMLInputElement>(null);
   const inputId = useId();
   const [query, setQuery] = useState("");
+  const [debounced, setDebounced] = useState("");
 
-  const results = useMemo(() => searchLocalProducts(query, 8), [query]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebounced(query.trim()), 250);
+    return () => window.clearTimeout(timer);
+  }, [query]);
+
+  const { data: results = [], isFetching } = useGetProductsQuery(
+    { search: debounced, limit: 8 },
+    { skip: !isOpen || !debounced },
+  );
 
   useEffect(() => {
     if (!isOpen) {
       setQuery("");
+      setDebounced("");
       return;
     }
     const timer = window.setTimeout(() => inputRef.current?.focus(), 40);
@@ -92,7 +102,7 @@ export function SearchDrawer() {
         </div>
 
         <div className="max-h-[min(70dvh,28rem)] overflow-y-auto overscroll-contain sm:max-h-[min(60vh,28rem)]">
-          {!query.trim() ? (
+          {!debounced ? (
             <div className="px-4 py-5 sm:px-6 sm:py-7">
               <p className="text-sm text-[#8a7a6c]">Quick search</p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -108,58 +118,54 @@ export function SearchDrawer() {
                 ))}
               </div>
             </div>
+          ) : isFetching ? (
+            <div className="px-4 py-8 text-center text-sm text-[#7a6b5d]">
+              Searching…
+            </div>
           ) : results.length === 0 ? (
             <div className="px-4 py-8 text-center sm:px-6 sm:py-10">
               <p className="font-serif text-xl text-[#2a1f16]">No matches</p>
               <p className="mt-1.5 text-sm text-[#7a6b5d]">
-                Nothing for &quot;{query.trim()}&quot;
+                Nothing for &quot;{debounced}&quot;
               </p>
             </div>
           ) : (
             <ul>
-              {results.map((item) => {
-                const catalogProduct = getProductBySlug(item.slug);
-                return (
-                  <li key={item.id}>
-                    <Link
-                      href={productPath(item.slug)}
-                      onClick={closeSearch}
-                      className="flex items-center gap-3 px-3 py-3 transition-colors hover:bg-[#F6EDE6] sm:gap-4 sm:px-5 sm:py-3.5"
-                    >
-                      <div className="relative size-12 shrink-0 overflow-hidden rounded-md bg-[#E7DDD2] sm:size-16">
-                        {catalogProduct ? (
-                          <Image
-                            src={catalogProduct.image}
-                            alt={catalogProduct.imageAlt}
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                          />
-                        ) : null}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-[15px] font-semibold text-[#1a120c] sm:text-base">
-                          {item.name}
-                        </p>
-                        <p className="mt-0.5 truncate text-xs text-[#8a7a6c] sm:text-sm">
-                          <span className="sm:hidden">{item.categoryLabel}</span>
-                          <span className="hidden sm:inline">
-                            {item.categoryLabel} · {item.subtitle}
-                          </span>
-                        </p>
-                      </div>
-                      <p className="shrink-0 text-sm font-semibold text-[#c4a574]">
-                        {item.currency} {item.price.toFixed(2)}
+              {results.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    href={productPath(item.slug)}
+                    onClick={closeSearch}
+                    className="flex items-center gap-3 px-3 py-3 transition-colors hover:bg-[#F6EDE6] sm:gap-4 sm:px-5 sm:py-3.5"
+                  >
+                    <div className="relative size-12 shrink-0 overflow-hidden rounded-md bg-[#E7DDD2] sm:size-16">
+                      <Image
+                        src={item.imagePath}
+                        alt={item.name}
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[15px] font-semibold text-[#1a120c] sm:text-base">
+                        {item.name}
                       </p>
-                    </Link>
-                  </li>
-                );
-              })}
+                      <p className="mt-0.5 truncate text-xs text-[#8a7a6c] sm:text-sm">
+                        {item.category?.name ?? item.categoryId}
+                      </p>
+                    </div>
+                    <p className="shrink-0 text-sm font-semibold text-[#c4a574]">
+                      QAR {item.finalPrice.toFixed(2)}
+                    </p>
+                  </Link>
+                </li>
+              ))}
             </ul>
           )}
         </div>
 
-        {query.trim() && results.length > 0 ? (
+        {debounced && results.length > 0 ? (
           <div className="border-t border-[#e8ddd2] px-5 py-3.5 text-center">
             <Link
               href={ROUTES.shop}

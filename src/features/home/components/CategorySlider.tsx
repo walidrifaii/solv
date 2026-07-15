@@ -4,11 +4,17 @@ import { useRef } from "react";
 import { ChevronLeftIcon } from "@/components/icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { CategoryCardItem } from "@/features/home/components/CategoryCardItem";
-import { shopCategories } from "@/data/categories";
+import { shopCategories, type CategoryCard } from "@/data/categories";
 
 const SCROLL_AMOUNT = 260;
 
-export function CategorySlider() {
+type CategorySliderProps = {
+  categories?: CategoryCard[];
+};
+
+export function CategorySlider({
+  categories = shopCategories,
+}: CategorySliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
 
   function scrollByAmount(direction: "left" | "right") {
@@ -36,7 +42,7 @@ export function CategorySlider() {
         className="no-scrollbar min-w-0 flex-1 snap-x snap-mandatory overflow-x-auto scroll-smooth pb-2"
       >
         <div className="flex gap-3 sm:gap-4">
-          {shopCategories.map((category) => (
+          {categories.map((category) => (
             <CategoryCardItem
               key={category.id}
               category={category}

@@ -2,15 +2,28 @@ import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { shopProductCategories } from "@/features/products/data/catalog";
 
+type CategoryOption = { id: string; label: string };
+
 type ShopFiltersProps = {
   activeCategory: string;
   productCount: number;
+  categories?: readonly CategoryOption[];
 };
 
-export function ShopFilters({ activeCategory, productCount }: ShopFiltersProps) {
+export function ShopFilters({
+  activeCategory,
+  productCount,
+  categories,
+}: ShopFiltersProps) {
+  const list = categories?.length
+    ? categories
+    : shopProductCategories.map((category) => ({
+        id: category.id,
+        label: category.label,
+      }));
+
   const activeLabel =
-    shopProductCategories.find((item) => item.id === activeCategory)?.label ??
-    "All";
+    list.find((item) => item.id === activeCategory)?.label ?? "All";
 
   return (
     <div className="bg-[#FEF9F6] px-4 pb-8 sm:px-6 md:px-8 lg:px-10">
@@ -20,7 +33,7 @@ export function ShopFilters({ activeCategory, productCount }: ShopFiltersProps) 
           role="list"
           aria-label="Product categories"
         >
-          {shopProductCategories.map((category) => {
+          {list.map((category) => {
             const href =
               category.id === "all"
                 ? ROUTES.shop

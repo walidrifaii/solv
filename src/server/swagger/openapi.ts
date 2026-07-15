@@ -208,7 +208,9 @@ export function getOpenApiDocument(baseUrl?: string) {
             { name: "limit", in: "query", schema: { type: "integer", default: 20, maximum: 50 } },
           ],
           responses: {
-            "200": { description: "Paginated categories" },
+            "200": {
+              description: "Paginated categories (includes imagePath)",
+            },
           },
         },
       },

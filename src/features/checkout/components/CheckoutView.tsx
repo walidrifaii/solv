@@ -13,7 +13,9 @@ import {
   paymentMethods,
   type PaymentMethodId,
 } from "@/features/checkout/data";
-import { productPath } from "@/features/products/data/catalog";
+import { productPath } from "@/features/products/utils";
+import { getApiErrorMessage } from "@/store/api/errors";
+import { useCreateOrderMutation } from "@/store/slices";
 
 const inputClass =
   "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base";
@@ -25,6 +27,7 @@ export function CheckoutView() {
   const router = useRouter();
   const { items, subtotal, currency, itemCount, clearCart, hydrated, closeCart } =
     useCart();
+  const [createOrder, { isLoading: placing }] = useCreateOrderMutation();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -44,7 +47,7 @@ export function CheckoutView() {
   const deliveryFee = useMemo(() => getDeliveryFee(subtotal), [subtotal]);
   const total = subtotal + deliveryFee;
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
 
@@ -58,10 +61,27 @@ export function CheckoutView() {
       return;
     }
 
-    const ref = `SOLV-${Date.now().toString().slice(-8)}`;
-    setOrderRef(ref);
-    setPlaced(true);
-    clearCart();
+    try {
+      const order = (await createOrder({
+        guestName: name.trim(),
+        guestEmail: email.trim(),
+        guestPhone: phone.trim(),
+        deliveryCity: city.trim() || "Doha",
+        deliveryAddress: address.trim(),
+        notes: notes.trim() || null,
+        deliveryFee,
+        items: items.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+        })),
+      }).unwrap()) as { orderNumber?: string };
+
+      setOrderRef(order.orderNumber ?? `SOLV-${Date.now().toString().slice(-8)}`);
+      setPlaced(true);
+      clearCart();
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Could not place order. Try again."));
+    }
   }
 
   if (!hydrated) {
@@ -322,9 +342,12 @@ export function CheckoutView() {
 
             <button
               type="submit"
-              className="hidden w-full rounded-md bg-[#c4a574] px-6 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] lg:inline-flex lg:w-auto lg:px-10 lg:text-base"
+              disabled={placing}
+              className="hidden w-full rounded-md bg-[#c4a574] px-6 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 lg:inline-flex lg:w-auto lg:px-10 lg:text-base"
             >
-              Place order · {currency} {total.toFixed(2)}
+              {placing
+                ? "Placing order…"
+                : `Place order · ${currency} ${total.toFixed(2)}`}
             </button>
           </div>
 
@@ -408,9 +431,10 @@ export function CheckoutView() {
               <div className="border-t border-[#e8ddd2] px-5 py-5 sm:px-6">
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center rounded-md bg-[#c4a574] px-5 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] sm:text-base"
+                  disabled={placing}
+                  className="flex w-full items-center justify-center rounded-md bg-[#c4a574] px-5 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
                 >
-                  Place order
+                  {placing ? "Placing order…" : "Place order"}
                 </button>
                 <p className="mt-3 text-center text-xs leading-relaxed text-[#8a7a6c]">
                   By placing your order you agree to be contacted for confirmation.

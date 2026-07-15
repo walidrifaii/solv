@@ -1,9 +1,28 @@
+"use client";
+
 import { OrnamentIcon } from "@/components/icons/OrnamentIcon";
 import { CategoryCardItem } from "@/features/home/components/CategoryCardItem";
 import { CategorySlider } from "@/features/home/components/CategorySlider";
-import { shopCategories } from "@/data/categories";
+import { shopCategories, type CategoryCard } from "@/data/categories";
+import { ROUTES } from "@/constants/routes";
+import type { ApiCategory } from "@/store/api/types";
+import { useGetCategoriesQuery } from "@/store/slices";
+
+function mapApiCategory(category: ApiCategory): CategoryCard {
+  return {
+    id: category.id,
+    name: category.name,
+    href: `${ROUTES.shop}?category=${category.id}`,
+    image: category.imagePath,
+    imageAlt: category.name,
+  };
+}
 
 export function ShopByCategory() {
+  const { data, isLoading } = useGetCategoriesQuery({ limit: 20 });
+  const categories =
+    data && data.length > 0 ? data.map(mapApiCategory) : shopCategories;
+
   return (
     <section className="bg-[#FEF9F6] px-4 py-14 text-[#2a1f16] sm:px-6 sm:py-16 md:px-8 md:py-20 lg:px-10 lg:py-24">
       <div className="mx-auto w-full max-w-[1400px]">
@@ -21,13 +40,25 @@ export function ShopByCategory() {
           </div>
         </div>
 
-        <CategorySlider />
+        {isLoading ? (
+          <p className="py-8 text-center text-sm text-[#7a6b5d]">
+            Loading categories…
+          </p>
+        ) : (
+          <>
+            <CategorySlider categories={categories} />
 
-        <div className="hidden grid-cols-6 gap-5 lg:grid">
-          {shopCategories.map((category) => (
-            <CategoryCardItem key={category.id} category={category} className="h-full" />
-          ))}
-        </div>
+            <div className="hidden grid-cols-6 gap-5 lg:grid">
+              {categories.map((category) => (
+                <CategoryCardItem
+                  key={category.id}
+                  category={category}
+                  className="h-full"
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

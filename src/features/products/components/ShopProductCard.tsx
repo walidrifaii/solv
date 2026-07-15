@@ -8,7 +8,7 @@ import { useCart } from "@/features/cart/CartProvider";
 import {
   formatPrice,
   productPath,
-} from "@/features/products/data/catalog";
+} from "@/features/products/utils";
 import type { ShopProduct } from "@/types/product";
 
 type ShopProductCardProps = {
@@ -29,13 +29,15 @@ export function ShopProductCard({
   function handleAdd(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
+    const imageSrc =
+      typeof product.image === "string" ? product.image : product.image.src;
     addItem({
       productId: product.id,
       slug: product.slug,
       name: product.name,
       price: product.price,
       currency: product.currency,
-      imageSrc: product.image.src,
+      imageSrc,
       imageAlt: product.imageAlt,
     });
   }

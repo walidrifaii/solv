@@ -5,10 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { BagIcon } from "@/components/icons/BagIcon";
 import { useCart } from "@/features/cart/CartProvider";
-import type { FeaturedProduct } from "@/features/home/data/featured";
+import {
+  formatPrice,
+  productImageSrc,
+  productPath,
+} from "@/features/products/utils";
+import type { ShopProduct } from "@/types/product";
 
 type FeaturedProductCardProps = {
-  product: FeaturedProduct;
+  product: ShopProduct;
   className?: string;
 };
 
@@ -17,18 +22,18 @@ export function FeaturedProductCard({
   className = "",
 }: FeaturedProductCardProps) {
   const { addItem } = useCart();
-  const formattedPrice = `${product.currency} ${product.price.toFixed(2)}`;
+  const href = productPath(product.slug);
 
   function handleAdd(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
     addItem({
       productId: product.id,
-      slug: product.id,
+      slug: product.slug,
       name: product.name,
       price: product.price,
       currency: product.currency,
-      imageSrc: product.image.src,
+      imageSrc: productImageSrc(product.image),
       imageAlt: product.imageAlt,
     });
   }
@@ -38,7 +43,7 @@ export function FeaturedProductCard({
       className={`flex h-full flex-col overflow-hidden rounded-2xl border border-[#efe4da] bg-[#F6EDE6] shadow-[0_8px_24px_rgba(42,31,22,0.04)] ${className}`}
     >
       <Link
-        href={product.href}
+        href={href}
         className="relative block aspect-[4/3] w-full overflow-hidden bg-[#E7DDD2]"
       >
         <Image
@@ -51,7 +56,7 @@ export function FeaturedProductCard({
       </Link>
 
       <div className="flex flex-1 flex-col bg-[#F6EDE6] px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5">
-        <Link href={product.href} className="block">
+        <Link href={href} className="block">
           <h3 className="text-[15px] leading-snug font-semibold text-[#1a120c] sm:text-base">
             {product.name}
           </h3>
@@ -60,7 +65,7 @@ export function FeaturedProductCard({
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-4">
           <p className="text-sm font-semibold text-[#c4a574] sm:text-base">
-            {formattedPrice}
+            {formatPrice(product)}
           </p>
           <button
             type="button"

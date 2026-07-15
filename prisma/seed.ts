@@ -4,12 +4,48 @@ import productsJson from "../src/data/products.json";
 const prisma = new PrismaClient();
 
 const categories = [
-  { id: "coffee-beans", slug: "coffee-beans", name: "Coffee Beans", sortOrder: 1 },
-  { id: "ground-coffee", slug: "ground-coffee", name: "Ground Coffee", sortOrder: 2 },
-  { id: "tea", slug: "tea", name: "Tea", sortOrder: 3 },
-  { id: "tea-bags", slug: "tea-bags", name: "Tea Bags", sortOrder: 4 },
-  { id: "accessories", slug: "accessories", name: "Accessories", sortOrder: 5 },
-  { id: "gift-sets", slug: "gift-sets", name: "Gift Sets", sortOrder: 6 },
+  {
+    id: "coffee-beans",
+    slug: "coffee-beans",
+    name: "Coffee Beans",
+    imagePath: "/assets/category-coffee-beans.png",
+    sortOrder: 1,
+  },
+  {
+    id: "ground-coffee",
+    slug: "ground-coffee",
+    name: "Ground Coffee",
+    imagePath: "/assets/category-ground-coffee.png",
+    sortOrder: 2,
+  },
+  {
+    id: "tea",
+    slug: "tea",
+    name: "Tea",
+    imagePath: "/assets/category-tea.png",
+    sortOrder: 3,
+  },
+  {
+    id: "tea-bags",
+    slug: "tea-bags",
+    name: "Tea Bags",
+    imagePath: "/assets/category-tea-bags.png",
+    sortOrder: 4,
+  },
+  {
+    id: "accessories",
+    slug: "accessories",
+    name: "Accessories",
+    imagePath: "/assets/category-accessories.png",
+    sortOrder: 5,
+  },
+  {
+    id: "gift-sets",
+    slug: "gift-sets",
+    name: "Gift Sets",
+    imagePath: "/assets/category-gift-sets.png",
+    sortOrder: 6,
+  },
 ] as const;
 
 const imagePathById: Record<string, string> = {
@@ -33,7 +69,6 @@ const featuredIds = new Set([
   "elegant-teapot",
 ]);
 
-/** percentage discounts for known deal products */
 const percentageDiscountById: Record<string, number> = {
   "espresso-blend": 20,
   "english-breakfast": 15,
@@ -47,6 +82,7 @@ async function main() {
       update: {
         slug: category.slug,
         name: category.name,
+        imagePath: category.imagePath,
         sortOrder: category.sortOrder,
         isActive: true,
       },
@@ -54,6 +90,7 @@ async function main() {
         id: category.id,
         slug: category.slug,
         name: category.name,
+        imagePath: category.imagePath,
         sortOrder: category.sortOrder,
         isActive: true,
       },

@@ -5,12 +5,19 @@ import { ChevronLeftIcon } from "@/components/icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { OrnamentIcon } from "@/components/icons/OrnamentIcon";
 import { FeaturedProductCard } from "@/features/home/components/FeaturedProductCard";
-import { featuredProducts } from "@/features/home/data/featured";
+import { mapApiProductToShop } from "@/store/mappers/product";
+import { useGetProductsQuery } from "@/store/slices";
 
 export function FeaturedItems() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
+
+  const { data, isLoading } = useGetProductsQuery({
+    featured: true,
+    limit: 12,
+  });
+  const products = (data ?? []).map(mapApiProductToShop);
 
   function updatePagination() {
     const track = trackRef.current;
@@ -26,8 +33,11 @@ export function FeaturedItems() {
     const card = track.querySelector<HTMLElement>("[data-featured-card]");
     const cardWidth = card?.offsetWidth ?? track.clientWidth;
     const gap = 20;
-    const visible = Math.max(1, Math.round(track.clientWidth / (cardWidth + gap)));
-    const pages = Math.max(1, Math.ceil(featuredProducts.length / visible));
+    const visible = Math.max(
+      1,
+      Math.round(track.clientWidth / (cardWidth + gap)),
+    );
+    const pages = Math.max(1, Math.ceil(products.length / visible));
     setPageCount(pages);
 
     const progress = track.scrollLeft / maxScroll;
@@ -45,7 +55,7 @@ export function FeaturedItems() {
       track.removeEventListener("scroll", updatePagination);
       window.removeEventListener("resize", updatePagination);
     };
-  }, []);
+  }, [products.length]);
 
   function scrollByDirection(direction: "left" | "right") {
     const track = trackRef.current;
@@ -83,61 +93,73 @@ export function FeaturedItems() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
-          <button
-            type="button"
-            onClick={() => scrollByDirection("left")}
-            className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
-            aria-label="Previous featured items"
-          >
-            <ChevronLeftIcon className="size-5 sm:size-6" />
-          </button>
-
-          <div
-            ref={trackRef}
-            className="no-scrollbar min-w-0 flex-1 snap-x snap-mandatory overflow-x-auto scroll-smooth pb-1"
-          >
-            <div className="flex gap-4 sm:gap-5">
-              {featuredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  data-featured-card
-                  className="w-[min(78vw,17.5rem)] shrink-0 snap-start sm:w-[16.5rem] md:w-[calc((100%-3.75rem)/3)] lg:w-[calc((100%-3.75rem)/4)]"
-                >
-                  <FeaturedProductCard product={product} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => scrollByDirection("right")}
-            className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
-            aria-label="Next featured items"
-          >
-            <ChevronRightIcon className="size-5 sm:size-6" />
-          </button>
-        </div>
-
-        {pageCount > 1 ? (
-          <div className="mt-8 flex items-center justify-center gap-2.5">
-            {Array.from({ length: pageCount }).map((_, i) => (
+        {isLoading ? (
+          <p className="py-10 text-center text-sm text-[#7a6b5d]">
+            Loading featured items…
+          </p>
+        ) : products.length === 0 ? (
+          <p className="py-10 text-center text-sm text-[#7a6b5d]">
+            No featured products yet.
+          </p>
+        ) : (
+          <>
+            <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
               <button
-                key={i}
                 type="button"
-                onClick={() => goToPage(i)}
-                aria-label={`Go to featured page ${i + 1}`}
-                aria-current={i === page}
-                className={`h-2 rounded-full transition-all ${
-                  i === page
-                    ? "w-2 bg-[#2a1f16]"
-                    : "w-2 bg-[#2a1f16]/25 hover:bg-[#2a1f16]/45"
-                }`}
-              />
-            ))}
-          </div>
-        ) : null}
+                onClick={() => scrollByDirection("left")}
+                className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
+                aria-label="Previous featured items"
+              >
+                <ChevronLeftIcon className="size-5 sm:size-6" />
+              </button>
+
+              <div
+                ref={trackRef}
+                className="no-scrollbar min-w-0 flex-1 snap-x snap-mandatory overflow-x-auto scroll-smooth pb-1"
+              >
+                <div className="flex gap-4 sm:gap-5">
+                  {products.map((product) => (
+                    <div
+                      key={product.id}
+                      data-featured-card
+                      className="w-[min(78vw,17.5rem)] shrink-0 snap-start sm:w-[16.5rem] md:w-[calc((100%-3.75rem)/3)] lg:w-[calc((100%-3.75rem)/4)]"
+                    >
+                      <FeaturedProductCard product={product} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => scrollByDirection("right")}
+                className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
+                aria-label="Next featured items"
+              >
+                <ChevronRightIcon className="size-5 sm:size-6" />
+              </button>
+            </div>
+
+            {pageCount > 1 ? (
+              <div className="mt-8 flex items-center justify-center gap-2.5">
+                {Array.from({ length: pageCount }).map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => goToPage(i)}
+                    aria-label={`Go to featured page ${i + 1}`}
+                    aria-current={i === page}
+                    className={`h-2 rounded-full transition-all ${
+                      i === page
+                        ? "w-2 bg-[#2a1f16]"
+                        : "w-2 bg-[#2a1f16]/25 hover:bg-[#2a1f16]/45"
+                    }`}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </>
+        )}
       </div>
     </section>
   );

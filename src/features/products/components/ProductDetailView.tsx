@@ -10,7 +10,7 @@ import { useCart } from "@/features/cart/CartProvider";
 import {
   formatPrice,
   productPath,
-} from "@/features/products/data/catalog";
+} from "@/features/products/utils";
 import type { ShopProduct } from "@/types/product";
 
 type ProductDetailViewProps = {
@@ -44,7 +44,8 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
       name: product.name,
       price: product.price,
       currency: product.currency,
-      imageSrc: product.image.src,
+      imageSrc:
+        typeof product.image === "string" ? product.image : product.image.src,
       imageAlt: product.imageAlt,
       quantity,
     });

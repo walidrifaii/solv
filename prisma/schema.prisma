@@ -57,6 +57,7 @@ model Category {
   slug        String   @unique
   name        String   @db.VarChar(80)
   description String?  @db.Text
+  imagePath   String   @default("/assets/category-coffee-beans.png") @map("image_path") @db.VarChar(255)
   sortOrder   Int      @default(0) @map("sort_order")
   isActive    Boolean  @default(true) @map("is_active")
   createdAt   DateTime @default(now()) @map("created_at")

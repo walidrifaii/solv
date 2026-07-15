@@ -6,17 +6,20 @@ import { CartProvider } from "@/features/cart/CartProvider";
 import { CartDrawer } from "@/features/cart/components/CartDrawer";
 import { SearchProvider } from "@/features/search/SearchProvider";
 import { SearchDrawer } from "@/features/search/components/SearchDrawer";
+import { StoreProvider } from "@/store/StoreProvider";
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <CartProvider>
-      <SearchProvider>
-        <Preloader>
-          {children}
-          <SearchDrawer />
-          <CartDrawer />
-        </Preloader>
-      </SearchProvider>
-    </CartProvider>
+    <StoreProvider>
+      <CartProvider>
+        <SearchProvider>
+          <Preloader>
+            {children}
+            <SearchDrawer />
+            <CartDrawer />
+          </Preloader>
+        </SearchProvider>
+      </CartProvider>
+    </StoreProvider>
   );
 }

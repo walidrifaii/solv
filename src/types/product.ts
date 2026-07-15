@@ -21,7 +21,8 @@ export type ShopProduct = {
   currency: string;
   categoryId: string;
   categoryLabel: string;
-  image: StaticImageData;
+  /** Static import or public path from API (`/assets/...`) */
+  image: StaticImageData | string;
   imageAlt: string;
   badges?: readonly string[];
   details: readonly { label: string; value: string }[];

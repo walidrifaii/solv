@@ -3,7 +3,7 @@ import dealEspresso from "@/assets/images/deal-espresso.png";
 import dealGift from "@/assets/images/deal-gift.png";
 import dealTea from "@/assets/images/deal-tea.png";
 import { ROUTES } from "@/constants/routes";
-import { productPath } from "@/features/products/data/catalog";
+import { productPath } from "@/features/products/utils";
 
 export type DealProduct = {
   id: string;

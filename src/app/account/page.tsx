@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
-import { ROUTES } from "@/constants/routes";
+import { AccountView } from "@/features/auth/components/AccountView";
 
 export default function AccountPage() {
-  redirect(ROUTES.login);
+  return <AccountView />;
 }

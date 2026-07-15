@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { authCopy } from "@/features/auth/data";
+import { ROUTES } from "@/constants/routes";
+import { useLoginMutation } from "@/store/slices";
+import { getApiErrorMessage } from "@/store/api/errors";
 
 const inputClass =
   "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base";
@@ -12,24 +16,29 @@ const labelClass =
 
 export function LoginForm() {
   const copy = authCopy.login;
+  const router = useRouter();
+  const [login, { isLoading }] = useLoginMutation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    setSuccess(false);
 
     if (!email.trim() || !password) {
       setError("Please enter your email and password.");
       return;
     }
 
-    // UI-only for now — wire to a real auth API later
-    setSuccess(true);
+    try {
+      await login({ email: email.trim(), password }).unwrap();
+      router.push(ROUTES.account);
+      router.refresh();
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Invalid email or password."));
+    }
   }
 
   return (
@@ -57,7 +66,6 @@ export function LoginForm() {
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
-              setSuccess(false);
               setError("");
             }}
             className={inputClass}
@@ -86,7 +94,6 @@ export function LoginForm() {
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
-              setSuccess(false);
               setError("");
             }}
             className={inputClass}
@@ -100,17 +107,12 @@ export function LoginForm() {
           </p>
         ) : null}
 
-        {success ? (
-          <p className="text-sm text-[#6f8f5a]" role="status">
-            Signed in successfully (demo).
-          </p>
-        ) : null}
-
         <button
           type="submit"
-          className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] sm:text-base"
+          disabled={isLoading}
+          className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
         >
-          {copy.submit}
+          {isLoading ? "Signing in…" : copy.submit}
         </button>
       </form>
 

@@ -2,17 +2,32 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import dealsBg from "@/assets/images/hot-deals-bg.png";
 import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
 import { CoffeeBeansIcon } from "@/components/icons/CoffeeBeansIcon";
 import { DealCard } from "@/features/home/components/DealCard";
-import { dealProducts, hotDeals } from "@/features/home/data/deals";
+import { hotDeals } from "@/features/home/data/deals";
+import { mapApiProductToShop } from "@/store/mappers/product";
+import { useGetProductsQuery } from "@/store/slices";
 
 export function HotDeals() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
+
+  const { data, isLoading } = useGetProductsQuery({ limit: 48 });
+  const dealProducts = useMemo(
+    () =>
+      (data ?? [])
+        .filter(
+          (product) =>
+            product.discount != null && product.finalPrice < product.price,
+        )
+        .map(mapApiProductToShop)
+        .slice(0, 6),
+    [data],
+  );
 
   function updatePagination() {
     const track = trackRef.current;
@@ -46,7 +61,7 @@ export function HotDeals() {
       track.removeEventListener("scroll", updatePagination);
       window.removeEventListener("resize", updatePagination);
     };
-  }, []);
+  }, [dealProducts.length]);
 
   function goToPage(nextPage: number) {
     const track = trackRef.current;
@@ -92,43 +107,47 @@ export function HotDeals() {
           </Link>
         </div>
 
-        <div
-          ref={trackRef}
-          className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 sm:gap-5 lg:grid lg:grid-cols-3 lg:overflow-visible"
-        >
-          {dealProducts.map((product) => (
+        {isLoading ? (
+          <p className="py-8 text-center text-sm text-white/70">Loading deals…</p>
+        ) : dealProducts.length === 0 ? (
+          <p className="py-8 text-center text-sm text-white/70">
+            No deals available right now.
+          </p>
+        ) : (
+          <>
             <div
-              key={product.id}
-              data-deal-card
-              className="w-[min(82vw,18rem)] shrink-0 snap-start sm:w-[16.5rem] md:w-[calc((100%-2.5rem)/2)] lg:w-auto lg:min-w-0"
+              ref={trackRef}
+              className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 sm:gap-5 lg:grid lg:grid-cols-3 lg:overflow-visible"
             >
-              <DealCard product={product} />
+              {dealProducts.map((product) => (
+                <div
+                  key={product.id}
+                  data-deal-card
+                  className="w-[min(82vw,18rem)] shrink-0 snap-start sm:w-[16.5rem] md:w-[calc((100%-2.5rem)/2)] lg:w-auto lg:min-w-0"
+                >
+                  <DealCard product={product} />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <div className="mt-8 flex items-center justify-center gap-2.5 lg:hidden">
-          {Array.from({ length: Math.max(pageCount, 3) }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => goToPage(i)}
-              aria-label={`Go to deals page ${i + 1}`}
-              aria-current={i === page}
-              className={`h-2 rounded-full transition-all ${
-                i === page
-                  ? "w-7 bg-white"
-                  : "w-2 bg-white/35 hover:bg-white/55"
-              }`}
-            />
-          ))}
-        </div>
-
-        <div className="mt-8 hidden items-center justify-center gap-2.5 lg:flex">
-          <span className="h-2 w-7 rounded-full bg-white" />
-          <span className="size-2 rounded-full bg-white/35" />
-          <span className="size-2 rounded-full bg-white/35" />
-        </div>
+            <div className="mt-8 flex items-center justify-center gap-2.5 lg:hidden">
+              {Array.from({ length: Math.max(pageCount, 1) }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => goToPage(i)}
+                  aria-label={`Go to deals page ${i + 1}`}
+                  aria-current={i === page}
+                  className={`h-2 rounded-full transition-all ${
+                    i === page
+                      ? "w-7 bg-white"
+                      : "w-2 bg-white/35 hover:bg-white/55"
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

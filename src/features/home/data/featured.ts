@@ -5,7 +5,7 @@ import eveningTea from "@/assets/images/product-evening-tea.png";
 import greenTea from "@/assets/images/product-green-tea.png";
 import houseBlend from "@/assets/images/product-house-blend.png";
 import teapot from "@/assets/images/product-teapot.png";
-import { productPath } from "@/features/products/data/catalog";
+import { productPath } from "@/features/products/utils";
 
 export type FeaturedProduct = {
   id: string;

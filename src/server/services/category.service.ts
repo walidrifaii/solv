@@ -10,6 +10,7 @@ function mapCategory(category: {
   slug: string;
   name: string;
   description: string | null;
+  imagePath: string;
   sortOrder: number;
   isActive: boolean;
   _count?: { products: number };
@@ -19,6 +20,7 @@ function mapCategory(category: {
     slug: category.slug,
     name: category.name,
     description: category.description,
+    imagePath: category.imagePath,
     sortOrder: category.sortOrder,
     productCount: category._count?.products ?? undefined,
   };

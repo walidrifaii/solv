@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import { ROUTES } from "@/constants/routes";
 import { useCart } from "@/features/cart/CartProvider";
-import { productPath } from "@/features/products/data/catalog";
+import { productPath } from "@/features/products/utils";
 
 export function CartDrawer() {
   const {
