@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import { getEnv } from "@/server/config/env";
 
 let transporter: nodemailer.Transporter | null = null;
+let transporterKey: string | null = null;
 
 function mailEnabled() {
   const env = getEnv();
@@ -10,19 +11,42 @@ function mailEnabled() {
 
 function getTransporter() {
   if (!mailEnabled()) return null;
-  if (transporter) return transporter;
 
   const env = getEnv();
+  const key = [
+    env.MAIL_HOST,
+    env.MAIL_PORT,
+    env.MAIL_ENCRYPTION,
+    env.MAIL_USERNAME,
+  ].join("|");
+
+  if (transporter && transporterKey === key) return transporter;
+
+  const encryption = env.MAIL_ENCRYPTION;
+  const port = env.MAIL_PORT;
+
+  // Port 465 = implicit SSL. Port 587 = STARTTLS (even if hosting labels it "ssl").
+  const useImplicitSsl = port === 465 || (encryption === "ssl" && port === 465);
+  const useStartTls =
+    encryption !== "none" && !useImplicitSsl && (port === 587 || encryption === "tls" || encryption === "ssl");
+
   transporter = nodemailer.createTransport({
     host: env.MAIL_HOST,
-    port: env.MAIL_PORT,
-    secure: env.MAIL_PORT === 465,
+    port,
+    secure: useImplicitSsl,
+    requireTLS: useStartTls,
     auth: {
       user: env.MAIL_USERNAME!,
-      pass: (env.MAIL_PASSWORD ?? "").replace(/\s+/g, ""),
+      pass: env.MAIL_PASSWORD ?? "",
+    },
+    tls: {
+      // Shared-host SMTP certs often fail strict hostname checks
+      rejectUnauthorized: false,
+      minVersion: "TLSv1.2",
     },
   });
 
+  transporterKey = key;
   return transporter;
 }
 
@@ -60,4 +84,9 @@ export async function sendMail(options: {
 export function getOrderNotifyAdminEmail() {
   const env = getEnv();
   return env.MAIL_ORDER_NOTIFY_TO || env.ADMIN_EMAIL || env.MAIL_USERNAME;
+}
+
+export function resetMailTransporter() {
+  transporter = null;
+  transporterKey = null;
 }

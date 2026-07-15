@@ -17,8 +17,13 @@ const envSchema = z.object({
     .string()
     .url()
     .default("https://st79068.ispot.cc/solv"),
-  MAIL_HOST: z.string().default("smtp.gmail.com"),
+  MAIL_HOST: z.string().default("mail.amcserver.com"),
   MAIL_PORT: z.coerce.number().int().positive().default(587),
+  MAIL_ENCRYPTION: z
+    .string()
+    .optional()
+    .transform((v) => (v ?? "tls").toLowerCase())
+    .pipe(z.enum(["ssl", "tls", "none"])),
   MAIL_USERNAME: z.string().optional(),
   MAIL_PASSWORD: z.string().optional(),
   MAIL_FROM_ADDRESS: z.string().email().optional(),
