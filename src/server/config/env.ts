@@ -29,6 +29,7 @@ const envSchema = z.object({
   MAIL_FROM_ADDRESS: z.string().email().optional(),
   MAIL_FROM_NAME: z.string().optional(),
   MAIL_ORDER_NOTIFY_TO: z.string().email().optional(),
+  MAIL_CONTACT_TO: z.string().email().optional(),
   NODE_ENV: z.enum(["development", "test", "production"]).optional(),
 });
 

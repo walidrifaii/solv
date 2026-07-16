@@ -57,7 +57,8 @@ function getTransporter() {
     socketTimeout: 15_000,
     auth: {
       user: env.MAIL_USERNAME!,
-      pass: env.MAIL_PASSWORD ?? "",
+      // Gmail app passwords are often pasted with spaces
+      pass: (env.MAIL_PASSWORD ?? "").replace(/\s+/g, ""),
     },
     tls: {
       rejectUnauthorized: false,
@@ -90,6 +91,7 @@ export async function sendMailNow(options: MailPayload) {
       text: options.text,
       ...(options.replyTo ? { replyTo: options.replyTo } : {}),
     });
+    console.info("[mail] Sent:", options.subject, "→", options.to);
     return { skipped: false as const };
   } catch (error) {
     console.error("[mail] Failed to send:", options.subject, error);
@@ -125,6 +127,17 @@ export async function sendMail(options: MailPayload) {
 export function getOrderNotifyAdminEmail() {
   const env = getEnv();
   return env.MAIL_ORDER_NOTIFY_TO || env.ADMIN_EMAIL || env.MAIL_USERNAME;
+}
+
+export function getContactNotifyEmail() {
+  const env = getEnv();
+  return (
+    env.MAIL_CONTACT_TO ||
+    env.MAIL_ORDER_NOTIFY_TO ||
+    env.MAIL_FROM_ADDRESS ||
+    env.MAIL_USERNAME ||
+    env.ADMIN_EMAIL
+  );
 }
 
 export function resetMailTransporter() {

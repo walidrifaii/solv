@@ -1,7 +1,7 @@
 import { getEnv } from "@/server/config/env";
 import {
-  getOrderNotifyAdminEmail,
-  queueMail,
+  getContactNotifyEmail,
+  sendMailNow,
 } from "@/server/mail/mailer";
 
 function escapeHtml(value: string) {
@@ -28,17 +28,17 @@ function layout(title: string, body: string) {
 </html>`;
 }
 
-export function sendContactFormEmail(input: {
+export async function sendContactFormEmail(input: {
   name: string;
   email: string;
   phone?: string | null;
   subject: string;
   message: string;
 }) {
-  const to = getOrderNotifyAdminEmail();
+  const to = getContactNotifyEmail();
   if (!to) {
     console.warn("[mail] No notify address configured for contact form");
-    return { queued: false as const };
+    return { ok: false as const, reason: "missing_to" as const };
   }
 
   const subject = `Contact: ${input.subject}`;
@@ -58,7 +58,7 @@ export function sendContactFormEmail(input: {
     `,
   );
 
-  queueMail({
+  const result = await sendMailNow({
     to,
     subject,
     html,
@@ -66,5 +66,12 @@ export function sendContactFormEmail(input: {
     replyTo: input.email,
   });
 
-  return { queued: true as const };
+  if (result.skipped) {
+    return { ok: false as const, reason: "mail_not_configured" as const };
+  }
+  if ("error" in result && result.error) {
+    return { ok: false as const, reason: "send_failed" as const };
+  }
+
+  return { ok: true as const, to };
 }

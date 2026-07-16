@@ -6,7 +6,7 @@ import type { z } from "zod";
 type ContactInput = z.infer<typeof contactSchema>;
 
 export async function submitContactForm(input: ContactInput) {
-  const result = sendContactFormEmail({
+  const result = await sendContactFormEmail({
     name: input.name,
     email: input.email.toLowerCase(),
     phone: input.phone || null,
@@ -14,10 +14,16 @@ export async function submitContactForm(input: ContactInput) {
     message: input.message,
   });
 
-  if (!result.queued) {
+  if (!result.ok) {
+    if (result.reason === "mail_not_configured" || result.reason === "missing_to") {
+      throw new ApiError(
+        "Email is not configured. Please try again later or call us directly.",
+        503,
+      );
+    }
     throw new ApiError(
-      "Email is not configured. Please try again later or call us directly.",
-      503,
+      "Could not send your message. Please try again in a moment.",
+      502,
     );
   }
 
