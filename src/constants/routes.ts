@@ -23,5 +23,4 @@ export const ROUTES = {
   dashboardCategoryEdit: (id: string) =>
     `/dashboard/categories/${id}/edit` as const,
   dashboardSubscribers: "/dashboard/subscribers",
-  dashboardSettings: "/dashboard/settings",
 } as const;

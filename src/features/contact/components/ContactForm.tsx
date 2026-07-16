@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { contactFormContent } from "@/features/contact/data";
+import { getApiErrorMessage } from "@/store/api/errors";
+import { useSendContactMessageMutation } from "@/store/slices";
 
 type Subject = (typeof contactFormContent.subjects)[number];
 
@@ -12,22 +14,38 @@ const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 export function ContactForm() {
+  const [sendMessage, { isLoading }] = useSendContactMessageMutation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [subject, setSubject] = useState<Subject>(contactFormContent.subjects[0]);
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim()) return;
-    setSubmitted(true);
-    setName("");
-    setEmail("");
-    setPhone("");
-    setSubject(contactFormContent.subjects[0]);
-    setMessage("");
+    setError("");
+    setSubmitted(false);
+
+    try {
+      await sendMessage({
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim() || null,
+        subject,
+        message: message.trim(),
+      }).unwrap();
+      setSubmitted(true);
+      setName("");
+      setEmail("");
+      setPhone("");
+      setSubject(contactFormContent.subjects[0]);
+      setMessage("");
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Could not send your message. Try again."));
+    }
   }
 
   return (
@@ -42,7 +60,7 @@ export function ContactForm() {
         {contactFormContent.description}
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-5 sm:mt-10">
+      <form onSubmit={handleSubmit} className="mt-8 space-y-5 sm:mt-10" noValidate>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="contact-name" className={labelClass}>
@@ -56,6 +74,7 @@ export function ContactForm() {
               onChange={(event) => {
                 setName(event.target.value);
                 setSubmitted(false);
+                setError("");
               }}
               className={inputClass}
               placeholder="Your name"
@@ -73,6 +92,7 @@ export function ContactForm() {
               onChange={(event) => {
                 setEmail(event.target.value);
                 setSubmitted(false);
+                setError("");
               }}
               className={inputClass}
               placeholder="you@email.com"
@@ -92,6 +112,7 @@ export function ContactForm() {
               onChange={(event) => {
                 setPhone(event.target.value);
                 setSubmitted(false);
+                setError("");
               }}
               className={inputClass}
               placeholder="+974 …"
@@ -107,6 +128,7 @@ export function ContactForm() {
               onChange={(event) => {
                 setSubject(event.target.value as Subject);
                 setSubmitted(false);
+                setError("");
               }}
               className={`${inputClass} appearance-none`}
             >
@@ -127,10 +149,12 @@ export function ContactForm() {
             id="contact-message"
             required
             rows={5}
+            minLength={10}
             value={message}
             onChange={(event) => {
               setMessage(event.target.value);
               setSubmitted(false);
+              setError("");
             }}
             className={`${inputClass} min-h-[8rem] resize-y`}
             placeholder="How can we help?"
@@ -139,10 +163,17 @@ export function ContactForm() {
 
         <button
           type="submit"
-          className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] sm:w-auto sm:px-8 sm:text-base"
+          disabled={isLoading}
+          className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:w-auto sm:px-8 sm:text-base"
         >
-          {contactFormContent.cta}
+          {isLoading ? "Sending…" : contactFormContent.cta}
         </button>
+
+        {error ? (
+          <p className="text-sm text-[#a35d5d]" role="alert">
+            {error}
+          </p>
+        ) : null}
 
         {submitted ? (
           <p className="text-sm text-[#6f8f5a]" role="status">

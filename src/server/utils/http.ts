@@ -75,6 +75,21 @@ export function handleRouteError(error: unknown) {
   if (error instanceof ZodError) {
     return fromZod(error);
   }
+
+  const message =
+    error instanceof Error ? error.message : String(error ?? "");
+  if (
+    message.includes("Can't reach database server") ||
+    message.includes("P1001") ||
+    message.includes("ECONNREFUSED")
+  ) {
+    console.error(error);
+    return fail(
+      "Database is unavailable. Start MySQL (XAMPP) and try again.",
+      503,
+    );
+  }
+
   console.error(error);
   return fail("Internal server error", 500);
 }

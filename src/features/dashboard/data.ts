@@ -32,11 +32,6 @@ export const dashboardNav: DashboardNavItem[] = [
     href: ROUTES.dashboardSubscribers,
     description: "Newsletter list",
   },
-  {
-    label: "Settings",
-    href: ROUTES.dashboardSettings,
-    description: "Admin preferences",
-  },
 ];
 
 /** UI mock data only — not wired to API yet */

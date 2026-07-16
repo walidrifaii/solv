@@ -225,3 +225,21 @@ export const adminOrderListQuerySchema = z.object({
 export const updateOrderStatusSchema = z.object({
   status: orderStatusEnum,
 });
+
+export const adminSubscriberListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  search: z.string().trim().max(100).optional(),
+  isActive: z
+    .enum(["true", "false"])
+    .optional()
+    .transform((v) => (v === undefined ? undefined : v === "true")),
+});
+
+export const contactSchema = z.object({
+  name: z.string().trim().min(2).max(120),
+  email: z.string().trim().email().max(160),
+  phone: z.string().trim().max(40).optional().nullable(),
+  subject: z.string().trim().min(2).max(120),
+  message: z.string().trim().min(10).max(5000),
+});

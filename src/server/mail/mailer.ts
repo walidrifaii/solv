@@ -7,6 +7,7 @@ export type MailPayload = {
   subject: string;
   html: string;
   text?: string;
+  replyTo?: string;
 };
 
 let transporter: nodemailer.Transporter | null = null;
@@ -87,6 +88,7 @@ export async function sendMailNow(options: MailPayload) {
       subject: options.subject,
       html: options.html,
       text: options.text,
+      ...(options.replyTo ? { replyTo: options.replyTo } : {}),
     });
     return { skipped: false as const };
   } catch (error) {
