@@ -2,7 +2,6 @@
 
 import { OrnamentIcon } from "@/components/icons/OrnamentIcon";
 import { CategoryCardItem } from "@/features/home/components/CategoryCardItem";
-import { CategorySlider } from "@/features/home/components/CategorySlider";
 import { shopCategories, type CategoryCard } from "@/data/categories";
 import { ROUTES } from "@/constants/routes";
 import type { ApiCategory } from "@/store/api/types";
@@ -49,19 +48,13 @@ export function ShopByCategory() {
             Loading categories…
           </p>
         ) : (
-          <>
-            <CategorySlider categories={categories} />
-
-            <div className="hidden grid-cols-6 gap-5 lg:grid">
-              {categories.map((category) => (
-                <CategoryCardItem
-                  key={category.id}
-                  category={category}
-                  className="h-full"
-                />
-              ))}
-            </div>
-          </>
+          <ul className="mx-auto grid w-full max-w-5xl grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-10 md:gap-x-8 lg:max-w-none lg:grid-cols-6 lg:gap-x-6 lg:gap-y-8">
+            {categories.map((category) => (
+              <li key={category.id} className="flex justify-center">
+                <CategoryCardItem category={category} className="w-full" />
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </section>

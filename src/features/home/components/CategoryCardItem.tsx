@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
 import type { CategoryCard } from "@/data/categories";
 
 type CategoryCardItemProps = {
@@ -15,25 +14,21 @@ export function CategoryCardItem({
   return (
     <Link
       href={category.href}
-      className={`group flex min-h-[240px] flex-col items-center rounded-2xl bg-[#F6EDE6] px-3 pb-5 pt-5 text-center transition-shadow hover:shadow-[0_10px_30px_rgba(42,31,22,0.08)] sm:min-h-[260px] sm:px-4 sm:pb-6 sm:pt-6 md:min-h-[280px] ${className}`}
+      className={`group flex flex-col items-center gap-3 text-center sm:gap-3.5 ${className}`}
     >
-      <div className="relative mb-4 flex aspect-square w-full max-w-[140px] flex-1 items-center justify-center sm:max-w-[150px] md:max-w-[160px]">
+      <div className="relative aspect-square w-full max-w-[9.5rem] overflow-hidden rounded-full bg-[#F6EDE6] ring-1 ring-[#e8d9cc]/80 transition-[box-shadow,transform] duration-300 group-hover:scale-[1.03] group-hover:shadow-[0_12px_28px_rgba(42,31,22,0.1)] group-focus-visible:ring-2 group-focus-visible:ring-[#c4a574] sm:max-w-[10.5rem] md:max-w-[11.5rem] lg:max-w-[12rem]">
         <Image
           src={category.imagePath}
           alt={category.imageAlt}
           fill
-          sizes="(max-width: 1024px) 45vw, 160px"
-          className="object-contain transition-transform duration-300 group-hover:scale-105"
+          sizes="(max-width: 640px) 40vw, (max-width: 1024px) 28vw, 192px"
+          className="object-contain p-4 transition-transform duration-300 group-hover:scale-105 sm:p-5"
         />
       </div>
 
-      <h3 className="font-serif text-base font-semibold text-[#2a1f16] sm:text-lg">
+      <h3 className="font-serif text-base font-semibold text-[#2a1f16] transition-colors group-hover:text-[#b0895b] sm:text-lg md:text-xl lg:text-[1.35rem]">
         {category.name}
       </h3>
-      <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-[#6b5b4d] transition-colors group-hover:text-[#b0895b] sm:text-sm">
-        Shop Now
-        <ArrowRightIcon className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-      </span>
     </Link>
   );
 }

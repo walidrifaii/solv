@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import dealsBg from "@/assets/images/hot-deals-bg.png";
 import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
 import { CoffeeBeansIcon } from "@/components/icons/CoffeeBeansIcon";
@@ -11,10 +11,10 @@ import { hotDeals } from "@/features/home/data/deals";
 import { mapApiProductToShop } from "@/store/mappers/product";
 import { useGetProductsQuery } from "@/store/slices";
 
+const CARDS_PER_PAGE = 4;
+
 export function HotDeals() {
-  const trackRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
-  const [pageCount, setPageCount] = useState(1);
 
   const { data, isLoading } = useGetProductsQuery({ limit: 48 });
   const dealProducts = useMemo(
@@ -24,52 +24,16 @@ export function HotDeals() {
           (product) =>
             product.discount != null && product.finalPrice < product.price,
         )
-        .map(mapApiProductToShop)
-        .slice(0, 6),
+        .map(mapApiProductToShop),
     [data],
   );
 
-  function updatePagination() {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const maxScroll = track.scrollWidth - track.clientWidth;
-    if (maxScroll <= 8) {
-      setPageCount(1);
-      setPage(0);
-      return;
-    }
-
-    const card = track.querySelector<HTMLElement>("[data-deal-card]");
-    const cardWidth = card?.offsetWidth ?? track.clientWidth;
-    const visible = Math.max(1, Math.round(track.clientWidth / (cardWidth + 20)));
-    const pages = Math.max(1, Math.ceil(dealProducts.length / visible));
-    setPageCount(pages);
-
-    const progress = track.scrollLeft / maxScroll;
-    setPage(Math.min(pages - 1, Math.round(progress * (pages - 1))));
-  }
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    updatePagination();
-    track.addEventListener("scroll", updatePagination, { passive: true });
-    window.addEventListener("resize", updatePagination);
-    return () => {
-      track.removeEventListener("scroll", updatePagination);
-      window.removeEventListener("resize", updatePagination);
-    };
-  }, [dealProducts.length]);
-
-  function goToPage(nextPage: number) {
-    const track = trackRef.current;
-    if (!track || pageCount <= 1) return;
-    const maxScroll = track.scrollWidth - track.clientWidth;
-    const left = (nextPage / Math.max(1, pageCount - 1)) * maxScroll;
-    track.scrollTo({ left, behavior: "smooth" });
-  }
+  const pageCount = Math.max(1, Math.ceil(dealProducts.length / CARDS_PER_PAGE));
+  const currentPage = Math.min(page, pageCount - 1);
+  const visibleProducts = dealProducts.slice(
+    currentPage * CARDS_PER_PAGE,
+    currentPage * CARDS_PER_PAGE + CARDS_PER_PAGE,
+  );
 
   return (
     <section className="relative isolate overflow-hidden bg-[#17100a] text-white">
@@ -115,37 +79,34 @@ export function HotDeals() {
           </p>
         ) : (
           <>
-            <div
-              ref={trackRef}
-              className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-1 sm:gap-5 lg:grid lg:grid-cols-3 lg:overflow-visible"
-            >
-              {dealProducts.map((product) => (
-                <div
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:gap-5">
+              {visibleProducts.map((product) => (
+                <DealCard
                   key={product.id}
-                  data-deal-card
-                  className="w-[min(82vw,18rem)] shrink-0 snap-start sm:w-[16.5rem] md:w-[calc((100%-2.5rem)/2)] lg:w-auto lg:min-w-0"
-                >
-                  <DealCard product={product} />
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 flex items-center justify-center gap-2.5 lg:hidden">
-              {Array.from({ length: Math.max(pageCount, 1) }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => goToPage(i)}
-                  aria-label={`Go to deals page ${i + 1}`}
-                  aria-current={i === page}
-                  className={`h-2 rounded-full transition-all ${
-                    i === page
-                      ? "w-7 bg-white"
-                      : "w-2 bg-white/35 hover:bg-white/55"
-                  }`}
+                  product={product}
+                  className="min-w-0 w-full"
                 />
               ))}
             </div>
+
+            {pageCount > 1 ? (
+              <div className="mt-8 flex items-center justify-center gap-2.5">
+                {Array.from({ length: pageCount }).map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setPage(i)}
+                    aria-label={`Go to deals page ${i + 1}`}
+                    aria-current={i === currentPage}
+                    className={`h-2 rounded-full transition-all ${
+                      i === currentPage
+                        ? "w-7 bg-white"
+                        : "w-2 bg-white/35 hover:bg-white/55"
+                    }`}
+                  />
+                ))}
+              </div>
+            ) : null}
           </>
         )}
       </div>

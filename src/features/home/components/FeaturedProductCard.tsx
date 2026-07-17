@@ -44,36 +44,38 @@ export function FeaturedProductCard({
     >
       <Link
         href={href}
-        className="relative block aspect-[4/3] w-full overflow-hidden bg-[#E7DDD2]"
+        className="relative block aspect-[4/5] w-full overflow-hidden bg-[#E7DDD2] sm:aspect-[4/4.5] md:aspect-square"
       >
         <Image
           src={product.image}
           alt={product.imageAlt}
           fill
-          sizes="(max-width: 768px) 78vw, (max-width: 1200px) 30vw, 280px"
+          sizes="(max-width: 768px) 45vw, (max-width: 1200px) 30vw, 280px"
           className="object-cover object-center"
         />
       </Link>
 
-      <div className="flex flex-1 flex-col bg-[#F6EDE6] px-4 pt-3 pb-4 sm:px-5 sm:pt-4 sm:pb-5">
+      <div className="flex flex-1 flex-col bg-[#F6EDE6] px-3 pt-2.5 pb-3 sm:px-4 sm:pt-3 sm:pb-3.5">
         <Link href={href} className="block">
-          <h3 className="text-[15px] leading-snug font-semibold text-[#1a120c] sm:text-base">
+          <h3 className="truncate text-sm leading-snug font-semibold text-[#1a120c] sm:text-base">
             {product.name}
           </h3>
-          <p className="mt-1 text-sm text-[#8a7a6c]">{product.subtitle}</p>
+          <p className="mt-0.5 truncate text-xs text-[#8a7a6c] sm:text-sm">
+            {product.subtitle}
+          </p>
         </Link>
 
-        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
-          <p className="text-sm font-semibold text-[#c4a574] sm:text-base">
+        <div className="mt-auto flex items-center justify-between gap-2 pt-2 sm:pt-2.5">
+          <p className="text-sm font-semibold whitespace-nowrap text-[#c4a574] sm:text-base">
             {formatPrice(product)}
           </p>
           <button
             type="button"
             onClick={handleAdd}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-10"
+            className="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-9"
             aria-label={`Add ${product.name} to cart`}
           >
-            <BagIcon className="size-4 sm:size-[1.125rem]" />
+            <BagIcon className="size-4" />
           </button>
         </div>
       </div>

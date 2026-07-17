@@ -19,28 +19,23 @@ export function SolvExperience() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {experienceFeatures.map((feature, index) => {
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:grid-cols-4">
+          {experienceFeatures.map((feature) => {
             const { Icon } = feature;
-            const desktopDivider = index > 0 ? "lg:border-l lg:border-[#e8ddd2]" : "";
-            const tabletDivider =
-              index % 2 === 1 ? "sm:border-l sm:border-[#e8ddd2] lg:border-l" : "";
-            const mobileDivider =
-              index > 0 ? "border-t border-[#e8ddd2] sm:border-t-0" : "";
 
             return (
-              <div
+              <article
                 key={feature.id}
-                className={`flex flex-col items-center px-4 py-8 text-center sm:px-6 sm:py-8 md:px-8 lg:py-4 ${mobileDivider} ${tabletDivider} ${desktopDivider}`}
+                className="flex h-full min-w-0 flex-col items-center rounded-2xl border border-[#efe4da] bg-[#F6EDE6] px-3 py-5 text-center shadow-[0_8px_24px_rgba(42,31,22,0.04)] sm:px-5 sm:py-6 md:px-6 md:py-7"
               >
-                <Icon className="mb-4 size-11 text-[#c4a574] sm:mb-5 sm:size-12" />
-                <h3 className="font-serif text-lg font-semibold text-[#2a1f16] sm:text-xl">
+                <Icon className="mb-3 size-9 text-[#c4a574] sm:mb-4 sm:size-11 md:size-12" />
+                <h3 className="font-serif text-sm font-semibold text-[#2a1f16] sm:text-lg md:text-xl">
                   {feature.title}
                 </h3>
-                <p className="mt-2 max-w-[16rem] text-sm leading-relaxed text-[#7a6b5d] sm:mt-3 sm:text-[15px]">
+                <p className="mt-1.5 text-xs leading-relaxed text-[#7a6b5d] sm:mt-2 sm:text-sm md:text-[15px]">
                   {feature.description}
                 </p>
-              </div>
+              </article>
             );
           })}
         </div>

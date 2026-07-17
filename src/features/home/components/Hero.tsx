@@ -26,7 +26,7 @@ export function Hero() {
   }
 
   return (
-    <section className="relative isolate min-h-[70svh] w-full overflow-hidden bg-[#17100a] text-white sm:min-h-[75svh] md:aspect-[1871/840] md:min-h-0">
+    <section className="relative isolate min-h-[42svh] w-full overflow-hidden bg-[#17100a] text-white sm:min-h-[50svh] md:aspect-[1871/840] md:min-h-0">
       {heroSlides.map((item, i) => (
         <div
           key={item.id}
@@ -47,23 +47,23 @@ export function Hero() {
         </div>
       ))}
 
-      <div className="relative z-10 mx-auto flex min-h-[70svh] w-full max-w-[1400px] items-start px-4 pb-16 pt-8 sm:min-h-[75svh] sm:items-center sm:px-6 sm:pb-20 sm:pt-10 md:h-full md:min-h-0 md:items-center md:px-8 md:pb-0 lg:px-10">
+      <div className="relative z-10 mx-auto flex min-h-[42svh] w-full max-w-[1400px] items-center px-4 py-10 sm:min-h-[50svh] sm:px-6 sm:py-12 md:h-full md:min-h-0 md:px-8 md:py-0 lg:px-10">
         <div
           key={slide.id}
           className="max-w-xl animate-[heroFade_0.6s_ease-out] sm:max-w-2xl md:max-w-3xl"
         >
-          <p className="mb-3 text-[11px] font-medium tracking-[0.2em] text-[#c4a574] uppercase sm:mb-4 sm:text-xs md:text-sm">
+          <p className="mb-2 text-[11px] font-medium tracking-[0.2em] text-[#c4a574] uppercase sm:mb-3 sm:text-xs md:mb-4 md:text-sm">
             {slide.eyebrow}
           </p>
-          <h1 className="font-serif text-[2rem] leading-[1.1] font-medium text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem]">
+          <h1 className="font-serif text-[1.75rem] leading-[1.1] font-medium text-white sm:text-4xl md:text-6xl lg:text-7xl xl:text-[5.25rem]">
             {slide.title}
           </h1>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85 sm:mt-5 sm:max-w-lg sm:text-base md:mt-6 md:text-lg lg:text-xl">
+          <p className="mt-2.5 max-w-md text-sm leading-relaxed text-white/85 sm:mt-4 sm:max-w-lg sm:text-base md:mt-6 md:text-lg lg:text-xl">
             {slide.description}
           </p>
           <Link
             href={slide.cta.href}
-            className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#c4a574] px-5 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] sm:mt-8 sm:px-6 sm:py-3 sm:text-base md:mt-10 md:px-7 md:py-3.5 md:text-lg"
+            className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#c4a574] px-5 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] sm:mt-6 sm:px-6 sm:py-3 sm:text-base md:mt-10 md:px-7 md:py-3.5 md:text-lg"
           >
             {slide.cta.label}
             <ArrowRightIcon className="size-3.5 sm:size-4" />

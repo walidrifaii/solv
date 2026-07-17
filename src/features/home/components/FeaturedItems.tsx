@@ -19,29 +19,44 @@ export function FeaturedItems() {
   });
   const products = (data ?? []).map(mapApiProductToShop);
 
-  function updatePagination() {
+  function getPageMetrics() {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track) return null;
 
+    const row = track.firstElementChild;
+    if (!row) return null;
+
+    const card = track.querySelector<HTMLElement>("[data-featured-card]");
+    const cardWidth = card?.offsetWidth ?? track.clientWidth;
+    const styles = window.getComputedStyle(row);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || "16") || 16;
+    const visible = Math.max(
+      1,
+      Math.round((track.clientWidth + gap) / (cardWidth + gap)),
+    );
+    const pageSize = cardWidth * visible + gap * Math.max(0, visible - 1);
+    const pages = Math.max(1, Math.ceil(products.length / visible));
+
+    return { track, pageSize, pages, visible };
+  }
+
+  function updatePagination() {
+    const metrics = getPageMetrics();
+    if (!metrics) return;
+
+    const { track, pageSize, pages } = metrics;
     const maxScroll = track.scrollWidth - track.clientWidth;
+
     if (maxScroll <= 8) {
       setPageCount(1);
       setPage(0);
       return;
     }
 
-    const card = track.querySelector<HTMLElement>("[data-featured-card]");
-    const cardWidth = card?.offsetWidth ?? track.clientWidth;
-    const gap = 20;
-    const visible = Math.max(
-      1,
-      Math.round(track.clientWidth / (cardWidth + gap)),
-    );
-    const pages = Math.max(1, Math.ceil(products.length / visible));
     setPageCount(pages);
-
-    const progress = track.scrollLeft / maxScroll;
-    setPage(Math.min(pages - 1, Math.round(progress * (pages - 1))));
+    setPage(
+      Math.min(pages - 1, Math.round(track.scrollLeft / Math.max(pageSize, 1))),
+    );
   }
 
   useEffect(() => {
@@ -58,22 +73,20 @@ export function FeaturedItems() {
   }, [products.length]);
 
   function scrollByDirection(direction: "left" | "right") {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>("[data-featured-card]");
-    const amount = (card?.offsetWidth ?? 280) + 20;
+    const metrics = getPageMetrics();
+    if (!metrics) return;
+    const { track, pageSize } = metrics;
     track.scrollBy({
-      left: direction === "left" ? -amount : amount,
+      left: direction === "left" ? -pageSize : pageSize,
       behavior: "smooth",
     });
   }
 
   function goToPage(nextPage: number) {
-    const track = trackRef.current;
-    if (!track || pageCount <= 1) return;
-    const maxScroll = track.scrollWidth - track.clientWidth;
-    const left = (nextPage / (pageCount - 1)) * maxScroll;
-    track.scrollTo({ left, behavior: "smooth" });
+    const metrics = getPageMetrics();
+    if (!metrics || pageCount <= 1) return;
+    const { track, pageSize } = metrics;
+    track.scrollTo({ left: nextPage * pageSize, behavior: "smooth" });
   }
 
   return (
@@ -117,12 +130,12 @@ export function FeaturedItems() {
                 ref={trackRef}
                 className="no-scrollbar min-w-0 flex-1 snap-x snap-mandatory overflow-x-auto scroll-smooth pb-1"
               >
-                <div className="flex gap-4 sm:gap-5">
+                <div className="flex gap-3 sm:gap-4 md:gap-5">
                   {products.map((product) => (
                     <div
                       key={product.id}
                       data-featured-card
-                      className="w-[min(78vw,17.5rem)] shrink-0 snap-start sm:w-[16.5rem] md:w-[calc((100%-3.75rem)/3)] lg:w-[calc((100%-3.75rem)/4)]"
+                      className="w-[calc((100%-0.75rem)/2)] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] md:w-[calc((100%-2.5rem)/3)] lg:w-[calc((100%-3.75rem)/4)]"
                     >
                       <FeaturedProductCard product={product} />
                     </div>

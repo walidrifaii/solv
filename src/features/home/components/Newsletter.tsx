@@ -30,8 +30,8 @@ export function Newsletter() {
 
   return (
     <section className="bg-[#FEF9F6] text-[#2a1f16]">
-      <div className="mx-auto grid w-full max-w-[1400px] items-stretch md:grid-cols-2">
-        <div className="relative min-h-[14rem] overflow-hidden sm:min-h-[16rem] md:min-h-[18rem] lg:min-h-[20rem]">
+      <div className="grid w-full items-stretch md:grid-cols-2">
+        <div className="relative min-h-[14rem] w-full overflow-hidden sm:min-h-[16rem] md:min-h-[18rem] lg:min-h-[20rem]">
           <Image
             src={newsletterImage}
             alt="SOLV community coffee and tea setup"
@@ -42,7 +42,7 @@ export function Newsletter() {
           <div className="absolute inset-y-0 right-0 hidden w-24 bg-gradient-to-r from-transparent to-[#FEF9F6] md:block" />
         </div>
 
-        <div className="flex flex-col justify-center px-4 py-10 sm:px-6 sm:py-12 md:px-10 md:py-12 lg:px-14 lg:py-14">
+        <div className="mx-auto flex w-full max-w-[700px] flex-col justify-center px-4 py-10 sm:px-6 sm:py-12 md:mx-0 md:max-w-none md:px-10 md:py-12 lg:px-14 lg:py-14">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {newsletterContent.eyebrow}
           </p>

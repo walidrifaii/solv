@@ -38,8 +38,8 @@ export function Footer() {
         backgroundSize: "3px 3px",
       }}
     >
-      <div className="mx-auto grid w-full max-w-[1400px] gap-10 px-4 py-12 sm:px-6 sm:py-14 md:grid-cols-2 md:gap-x-8 md:gap-y-12 md:px-8 lg:grid-cols-5 lg:gap-x-8 lg:px-10 lg:py-16">
-        <div>
+      <div className="mx-auto grid w-full max-w-[1400px] grid-cols-2 gap-x-4 gap-y-8 px-4 py-12 sm:gap-x-6 sm:gap-y-10 sm:px-6 sm:py-14 md:gap-x-8 md:gap-y-12 md:px-8 lg:grid-cols-5 lg:gap-x-8 lg:px-10 lg:py-16">
+        <div className="col-span-2 lg:col-span-1">
           <Link href={ROUTES.home} className="inline-block leading-none">
             <SolvLogoWhite className="block h-9 w-auto sm:h-10" />
           </Link>
@@ -77,7 +77,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <h3 className={headingClass}>Shop</h3>
           <ul className="space-y-2">
             {footerShopLinks.map((item) => (
@@ -90,7 +90,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <h3 className={headingClass}>Company</h3>
           <ul className="space-y-2">
             {footerCompanyLinks.map((item) => (
@@ -103,7 +103,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <h3 className={headingClass}>Customer Service</h3>
           <ul className="space-y-3 text-sm text-white/70">
             <li>
@@ -112,7 +112,7 @@ export function Footer() {
                 className="inline-flex items-center gap-2.5 transition-colors hover:text-white"
               >
                 <PhoneIcon className="size-4 shrink-0 text-white" />
-                {footerContact.phone}
+                <span className="break-all">{footerContact.phone}</span>
               </a>
             </li>
             <li>
@@ -121,21 +121,21 @@ export function Footer() {
                 className="inline-flex items-center gap-2.5 transition-colors hover:text-white"
               >
                 <MailIcon className="size-4 shrink-0 text-white" />
-                {footerContact.email}
+                <span className="break-all">{footerContact.email}</span>
               </a>
             </li>
             <li className="inline-flex items-start gap-2.5">
               <MapPinIcon className="mt-0.5 size-4 shrink-0 text-white" />
-              {footerContact.location}
+              <span>{footerContact.location}</span>
             </li>
             <li className="inline-flex items-start gap-2.5">
               <ClockIcon className="mt-0.5 size-4 shrink-0 text-white" />
-              {footerContact.hours}
+              <span>{footerContact.hours}</span>
             </li>
           </ul>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <h3 className={headingClass}>Payment Methods</h3>
           <div className="flex flex-row flex-wrap items-center gap-3 text-white sm:gap-4">
             <VisaLogo className="h-5 w-14 shrink-0" />
