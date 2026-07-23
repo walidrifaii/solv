@@ -24,11 +24,15 @@
     "preloaderTagline": "مورد القهوة والشاي"
   },
   "locale": {
+    "label": "اللغة",
+    "en": "English",
+    "ar": "العربية",
+    "enShort": "EN",
+    "arShort": "عربي",
     "switchTo": "العربية",
     "switchToShort": "عربي",
     "switchToEn": "English",
-    "switchToEnShort": "EN",
-    "label": "اللغة"
+    "switchToEnShort": "EN"
   },
   "nav": {
     "home": "الرئيسية",

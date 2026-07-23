@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { Preloader } from "@/components/common/Preloader";
+import { LocaleSwitchProvider } from "@/components/providers/LocaleSwitchProvider";
 import { CartProvider } from "@/features/cart/CartProvider";
 import { CartDrawer } from "@/features/cart/components/CartDrawer";
 import { SearchProvider } from "@/features/search/SearchProvider";
@@ -13,11 +14,13 @@ export function AppProviders({ children }: { children: ReactNode }) {
     <StoreProvider>
       <CartProvider>
         <SearchProvider>
-          <Preloader>
-            {children}
-            <SearchDrawer />
-            <CartDrawer />
-          </Preloader>
+          <LocaleSwitchProvider>
+            <Preloader>
+              {children}
+              <SearchDrawer />
+              <CartDrawer />
+            </Preloader>
+          </LocaleSwitchProvider>
         </SearchProvider>
       </CartProvider>
     </StoreProvider>

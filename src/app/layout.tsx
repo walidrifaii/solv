@@ -60,7 +60,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cairo.variable} h-full antialiased ${locale === "ar" ? "font-ar" : ""}`}
     >
       <body className="flex min-h-full flex-col bg-[#17100a] text-white">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProviders>
             <SiteChrome>{children}</SiteChrome>
           </AppProviders>

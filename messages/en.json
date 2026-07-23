@@ -24,11 +24,15 @@
     "preloaderTagline": "Coffee & Tea Supplier"
   },
   "locale": {
+    "label": "Language",
+    "en": "English",
+    "ar": "العربية",
+    "enShort": "EN",
+    "arShort": "عربي",
     "switchTo": "العربية",
     "switchToShort": "عربي",
     "switchToEn": "English",
-    "switchToEnShort": "EN",
-    "label": "Language"
+    "switchToEnShort": "EN"
   },
   "nav": {
     "home": "Home",

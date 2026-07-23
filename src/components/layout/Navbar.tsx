@@ -126,7 +126,7 @@ export function Navbar() {
         </nav>
 
         <div className="relative z-10 flex shrink-0 items-center justify-end gap-1 sm:gap-2 md:gap-3 lg:justify-self-end">
-          <LanguageSwitcher className="hidden sm:inline-flex" />
+          <LanguageSwitcher className="hidden sm:block" />
           <button
             type="button"
             onClick={openSearch}

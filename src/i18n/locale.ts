@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import {
   defaultLocale,
   isLocale,
@@ -17,5 +16,4 @@ export async function setLocale(nextLocale: string) {
     maxAge: 60 * 60 * 24 * 365,
     sameSite: "lax",
   });
-  revalidatePath("/", "layout");
 }
