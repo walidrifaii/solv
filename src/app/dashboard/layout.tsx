@@ -9,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  return <DashboardLayoutClient>{children}</DashboardLayoutClient>;
+  return (
+    <div lang="en" dir="ltr" className="min-h-full">
+      <DashboardLayoutClient>{children}</DashboardLayoutClient>
+    </div>
+  );
 }
