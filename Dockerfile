@@ -1,12 +1,13 @@
 # syntax=docker/dockerfile:1
 
 FROM node:20-alpine AS base
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm ci
+# Install all deps (including prisma/typescript) so `next build` can run
+RUN npm ci --include=dev
 
 FROM base AS builder
 WORKDIR /app

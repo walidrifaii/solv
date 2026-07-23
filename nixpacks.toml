@@ -1,16 +1,21 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "npm-10_x"]
+nixPkgs = ["nodejs_20", "npm-10_x", "openssl"]
 
 [variables]
-NODE_ENV = "production"
 NEXT_TELEMETRY_DISABLED = "1"
 NODE_OPTIONS = "--max-old-space-size=4096"
+# Keep install from omitting build tools (prisma, typescript, etc.)
+NPM_CONFIG_PRODUCTION = "false"
+CI = "true"
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm ci --include=dev"]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = [
+  "export NODE_ENV=production",
+  "npm run build"
+]
 
 [start]
-cmd = "npm run start"
+cmd = "NODE_ENV=production npm run start"
