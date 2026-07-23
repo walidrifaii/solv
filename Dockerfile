@@ -6,8 +6,7 @@ WORKDIR /app
 
 FROM base AS deps
 COPY package.json package-lock.json ./
-# Install all deps (including prisma/typescript) so `next build` can run
-RUN npm ci --include=dev
+RUN npm install
 
 FROM base AS builder
 WORKDIR /app
