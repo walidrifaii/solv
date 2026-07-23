@@ -113,7 +113,9 @@ export const createCategorySchema = z.object({
   id: slugField.optional(),
   slug: slugField.optional(),
   name: z.string().trim().min(2).max(80),
+  nameAr: z.string().trim().max(80).optional().nullable(),
   description: z.string().trim().max(2000).optional().nullable(),
+  descriptionAr: z.string().trim().max(2000).optional().nullable(),
   imagePath: z
     .string()
     .trim()
@@ -173,7 +175,9 @@ export const createProductSchema = z
     slug: slugField.optional(),
     categoryId: z.string().trim().min(1),
     name: z.string().trim().min(2).max(160),
+    nameAr: z.string().trim().max(160).optional().nullable(),
     description: z.string().trim().min(1).max(5000),
+    descriptionAr: z.string().trim().max(5000).optional().nullable(),
     price: z.coerce.number().min(0).max(999999),
     ...discountFields,
     imagePath: z.string().trim().min(1).max(500),
@@ -190,7 +194,9 @@ export const updateProductSchema = z
     slug: slugField.optional(),
     categoryId: z.string().trim().min(1).optional(),
     name: z.string().trim().min(2).max(160).optional(),
+    nameAr: z.string().trim().max(160).optional().nullable(),
     description: z.string().trim().min(1).max(5000).optional(),
+    descriptionAr: z.string().trim().max(5000).optional().nullable(),
     price: z.coerce.number().min(0).max(999999).optional(),
     discountType: z.enum(["FIXED", "PERCENTAGE"]).optional().nullable(),
     discount: z.coerce.number().min(0).max(999999).optional().nullable(),

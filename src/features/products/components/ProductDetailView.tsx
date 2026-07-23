@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
 import { BagIcon } from "@/components/icons/BagIcon";
@@ -19,6 +20,9 @@ type ProductDetailViewProps = {
 };
 
 export function ProductDetailView({ product, related }: ProductDetailViewProps) {
+  const t = useTranslations("shop.details");
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -52,6 +56,14 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
     setAdded(true);
   }
 
+  const fallbackDetails = [
+    { label: t("category"), value: product.categoryLabel },
+    {
+      label: t("availability"),
+      value: product.inStock ? tCommon("inStock") : tCommon("outOfStock"),
+    },
+  ];
+
   return (
     <div className="bg-[#FEF9F6] text-[#2a1f16]">
       <div className="mx-auto w-full max-w-[1400px] px-4 pt-8 pb-14 sm:px-6 sm:pt-10 sm:pb-16 md:px-8 lg:px-10 lg:pb-20">
@@ -59,13 +71,13 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link href={ROUTES.home} className="transition-colors hover:text-[#2a1f16]">
-                Home
+                {tNav("home")}
               </Link>
             </li>
             <li aria-hidden>/</li>
             <li>
               <Link href={ROUTES.shop} className="transition-colors hover:text-[#2a1f16]">
-                Shop
+                {tNav("shop")}
               </Link>
             </li>
             <li aria-hidden>/</li>
@@ -93,7 +105,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
               className="object-cover object-center"
             />
             {product.badges?.length ? (
-              <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+              <div className="absolute top-4 start-4 flex flex-wrap gap-2">
                 {product.badges.map((badge) => (
                   <span
                     key={badge}
@@ -131,7 +143,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 product.inStock ? "text-[#6f8f5a]" : "text-[#a35d5d]"
               }`}
             >
-              {product.inStock ? "In stock" : "Out of stock"}
+              {product.inStock ? tCommon("inStock") : tCommon("outOfStock")}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
@@ -140,7 +152,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                   type="button"
                   onClick={decrease}
                   className="px-3.5 py-2.5 text-lg leading-none text-[#2a1f16] transition-colors hover:bg-[#F6EDE6]"
-                  aria-label="Decrease quantity"
+                  aria-label={t("decreaseQuantity")}
                 >
                   −
                 </button>
@@ -151,7 +163,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                   type="button"
                   onClick={increase}
                   className="px-3.5 py-2.5 text-lg leading-none text-[#2a1f16] transition-colors hover:bg-[#F6EDE6]"
-                  aria-label="Increase quantity"
+                  aria-label={t("increaseQuantity")}
                 >
                   +
                 </button>
@@ -164,20 +176,20 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-8 sm:text-base"
               >
                 <BagIcon className="size-4" />
-                Add to Cart
+                {tCommon("addToCart")}
               </button>
             </div>
 
             {added ? (
               <p className="mt-3 text-sm text-[#6f8f5a]" role="status">
-                Added {quantity} to cart.
+                {t("added", { count: quantity })}
               </p>
             ) : null}
 
             <div className="mt-8 space-y-8 border-t border-[#e8ddd2] pt-6">
               <div>
                 <h2 className="font-serif text-xl font-medium text-[#2a1f16] sm:text-2xl">
-                  About this product
+                  {t("about")}
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
                   {product.longDescription || product.description}
@@ -186,25 +198,19 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
 
               <div>
                 <h2 className="font-serif text-xl font-medium text-[#2a1f16] sm:text-2xl">
-                  Details
+                  {t("heading")}
                 </h2>
                 <dl className="mt-3 divide-y divide-[#e8ddd2] border-y border-[#e8ddd2]">
                   {(product.details.length > 0
                     ? product.details
-                    : [
-                        { label: "Category", value: product.categoryLabel },
-                        {
-                          label: "Availability",
-                          value: product.inStock ? "In stock" : "Out of stock",
-                        },
-                      ]
+                    : fallbackDetails
                   ).map((detail) => (
                     <div
                       key={detail.label}
                       className="flex items-baseline justify-between gap-4 py-3.5"
                     >
                       <dt className="text-sm text-[#8a7a6c]">{detail.label}</dt>
-                      <dd className="text-right text-sm font-medium text-[#2a1f16]">
+                      <dd className="text-end text-sm font-medium text-[#2a1f16]">
                         {detail.value}
                       </dd>
                     </div>
@@ -237,18 +243,18 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="mb-2 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-                  Continue Exploring
+                  {t("continueExploring")}
                 </p>
                 <h2 className="font-serif text-3xl font-medium text-[#2a1f16] sm:text-4xl">
-                  You may also like
+                  {t("related")}
                 </h2>
               </div>
               <Link
                 href={ROUTES.shop}
                 className="inline-flex items-center gap-2 text-sm font-medium text-[#2a1f16] transition-colors hover:text-[#c4a574]"
               >
-                View all
-                <ArrowRightIcon className="size-4" />
+                {tCommon("viewAll")}
+                <ArrowRightIcon className="size-4 rtl:rotate-180" />
               </Link>
             </div>
 

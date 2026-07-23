@@ -1,14 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import heroImage from "@/assets/images/newsletter-community.png";
 import { ROUTES } from "@/constants/routes";
 
 export function ProfileHero() {
+  const t = useTranslations("account");
+  const tNav = useTranslations("nav");
+
   return (
     <section className="relative isolate min-h-[36svh] w-full overflow-hidden bg-[#17100a] text-white sm:min-h-[40svh] md:min-h-[44svh]">
       <Image
         src={heroImage}
-        alt="SOLV coffee and community"
+        alt=""
         fill
         priority
         sizes="100vw"
@@ -25,24 +31,24 @@ export function ProfileHero() {
                   href={ROUTES.home}
                   className="transition-colors hover:text-white"
                 >
-                  Home
+                  {tNav("home")}
                 </Link>
               </li>
               <li aria-hidden className="text-white/40">
                 /
               </li>
-              <li className="text-[#c4a574]">Profile</li>
+              <li className="text-[#c4a574]">{t("breadcrumbCurrent")}</li>
             </ol>
           </nav>
 
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#c4a574] uppercase sm:text-xs">
-            Your account
+            {t("heroEyebrow")}
           </p>
           <h1 className="font-serif text-4xl leading-none font-medium tracking-[0.04em] text-white sm:text-5xl md:text-6xl">
-            Profile
+            {t("profile")}
           </h1>
           <p className="mt-3 max-w-lg text-sm leading-relaxed text-white/75 sm:mt-4 sm:text-base">
-            Manage your details and review your order history.
+            {t("heroDescription")}
           </p>
         </div>
       </div>

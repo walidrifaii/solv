@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { ROUTES } from "@/constants/routes";
 import { useCart } from "@/features/cart/CartProvider";
 import {
-  checkoutContent,
   FREE_SHIPPING_FROM,
   getDeliveryFee,
 } from "@/features/checkout/data";
@@ -22,6 +22,7 @@ const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 export function CheckoutView() {
+  const t = useTranslations("checkout");
   const router = useRouter();
   const { items, subtotal, currency, itemCount, clearCart, hydrated, closeCart } =
     useCart();
@@ -49,12 +50,12 @@ export function CheckoutView() {
     setError("");
 
     if (!name.trim() || !email.trim() || !phone.trim() || !address.trim()) {
-      setError("Please complete all required fields.");
+      setError(t("requiredFields"));
       return;
     }
 
     if (items.length === 0) {
-      setError("Your cart is empty.");
+      setError(t("cartEmptyError"));
       return;
     }
 
@@ -77,14 +78,14 @@ export function CheckoutView() {
       setPlaced(true);
       clearCart();
     } catch (err) {
-      setError(getApiErrorMessage(err, "Could not place order. Try again."));
+      setError(getApiErrorMessage(err, t("placeError")));
     }
   }
 
   if (!hydrated) {
     return (
       <div className="bg-[#FEF9F6] px-4 py-24 text-center text-sm text-[#7a6b5d]">
-        Loading checkout…
+        {t("loading")}
       </div>
     );
   }
@@ -94,29 +95,29 @@ export function CheckoutView() {
       <section className="bg-[#FEF9F6] px-4 py-16 text-[#2a1f16] sm:px-6 sm:py-20 md:px-8 lg:px-10">
         <div className="mx-auto max-w-xl text-center">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-            Confirmed
+            {t("confirmed")}
           </p>
           <h1 className="font-serif text-4xl font-medium text-[#2a1f16] sm:text-5xl">
-            {checkoutContent.successTitle}
+            {t("successTitle")}
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-            {checkoutContent.successDescription}
+            {t("successDescription")}
           </p>
           <p className="mt-6 font-serif text-xl text-[#c4a574]">
-            Order {orderRef}
+            {t("orderLabel", { ref: orderRef })}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href={ROUTES.shop}
               className="inline-flex rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
             >
-              Continue shopping
+              {t("continueShopping")}
             </Link>
             <Link
               href={ROUTES.home}
               className="inline-flex rounded-md border border-[#ddd0c4] px-6 py-3 text-sm font-medium text-[#2a1f16] transition-colors hover:border-[#c4a574]"
             >
-              Back home
+              {t("backHome")}
             </Link>
           </div>
         </div>
@@ -129,16 +130,16 @@ export function CheckoutView() {
       <section className="bg-[#FEF9F6] px-4 py-16 text-[#2a1f16] sm:px-6 sm:py-20 md:px-8 lg:px-10">
         <div className="mx-auto max-w-xl text-center">
           <h1 className="font-serif text-4xl font-medium sm:text-5xl">
-            {checkoutContent.emptyTitle}
+            {t("emptyTitle")}
           </h1>
           <p className="mt-4 text-sm text-[#7a6b5d] sm:text-base">
-            {checkoutContent.emptyDescription}
+            {t("emptyDescription")}
           </p>
           <Link
             href={ROUTES.shop}
             className="mt-8 inline-flex rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
           >
-            Browse Shop
+            {t("browseShop")}
           </Link>
         </div>
       </section>
@@ -152,7 +153,7 @@ export function CheckoutView() {
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link href={ROUTES.home} className="transition-colors hover:text-[#2a1f16]">
-                Home
+                {t("home")}
               </Link>
             </li>
             <li aria-hidden>/</li>
@@ -162,23 +163,23 @@ export function CheckoutView() {
                 onClick={() => router.push(ROUTES.shop)}
                 className="transition-colors hover:text-[#2a1f16]"
               >
-                Shop
+                {t("shop")}
               </button>
             </li>
             <li aria-hidden>/</li>
-            <li className="text-[#2a1f16]">Checkout</li>
+            <li className="text-[#2a1f16]">{t("checkout")}</li>
           </ol>
         </nav>
 
         <div className="mb-10 max-w-2xl">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-            {checkoutContent.eyebrow}
+            {t("eyebrow")}
           </p>
           <h1 className="font-serif text-4xl leading-tight font-medium text-[#2a1f16] sm:text-5xl">
-            {checkoutContent.title}
+            {t("title")}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
-            {checkoutContent.description}
+            {t("description")}
           </p>
         </div>
 
@@ -190,26 +191,26 @@ export function CheckoutView() {
           <div className="space-y-10">
             <section>
               <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
-                Contact
+                {t("contactSection")}
               </h2>
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <label htmlFor="checkout-name" className={labelClass}>
-                    Full name *
+                    {t("fields.name")}
                   </label>
                   <input
                     id="checkout-name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className={inputClass}
-                    placeholder="Your name"
+                    placeholder={t("placeholders.name")}
                     required
                     autoComplete="name"
                   />
                 </div>
                 <div>
                   <label htmlFor="checkout-email" className={labelClass}>
-                    Email *
+                    {t("fields.email")}
                   </label>
                   <input
                     id="checkout-email"
@@ -217,14 +218,14 @@ export function CheckoutView() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={inputClass}
-                    placeholder="you@email.com"
+                    placeholder={t("placeholders.email")}
                     required
                     autoComplete="email"
                   />
                 </div>
                 <div>
                   <label htmlFor="checkout-phone" className={labelClass}>
-                    Phone *
+                    {t("fields.phone")}
                   </label>
                   <input
                     id="checkout-phone"
@@ -232,7 +233,7 @@ export function CheckoutView() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className={inputClass}
-                    placeholder="+974 …"
+                    placeholder={t("placeholders.phone")}
                     required
                     autoComplete="tel"
                   />
@@ -242,40 +243,40 @@ export function CheckoutView() {
 
             <section className="border-t border-[#e8ddd2] pt-10">
               <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
-                Delivery
+                {t("deliverySection")}
               </h2>
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="checkout-city" className={labelClass}>
-                    City *
+                    {t("fields.city")}
                   </label>
                   <input
                     id="checkout-city"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     className={inputClass}
-                    placeholder="Doha"
+                    placeholder={t("placeholders.city")}
                     required
                     autoComplete="address-level2"
                   />
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="checkout-address" className={labelClass}>
-                    Address *
+                    {t("fields.address")}
                   </label>
                   <input
                     id="checkout-address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className={inputClass}
-                    placeholder="Building, street, zone"
+                    placeholder={t("placeholders.address")}
                     required
                     autoComplete="street-address"
                   />
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="checkout-notes" className={labelClass}>
-                    Order notes
+                    {t("fields.notes")}
                   </label>
                   <textarea
                     id="checkout-notes"
@@ -283,7 +284,7 @@ export function CheckoutView() {
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     className={`${inputClass} min-h-[5.5rem] resize-y`}
-                    placeholder="Delivery timing, landmark, special requests…"
+                    placeholder={t("placeholders.notes")}
                   />
                 </div>
               </div>
@@ -291,17 +292,17 @@ export function CheckoutView() {
 
             <section className="border-t border-[#e8ddd2] pt-10">
               <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
-                Payment
+                {t("paymentSection")}
               </h2>
               <p className="mt-2 text-sm text-[#7a6b5d]">
-                All orders are cash on delivery.
+                {t("paymentNote")}
               </p>
               <div className="mt-5 rounded-md border border-[#c4a574] bg-white px-4 py-3.5">
                 <p className="text-sm font-medium text-[#2a1f16]">
-                  Cash on delivery
+                  {t("payment.cod.label")}
                 </p>
                 <p className="mt-0.5 text-sm text-[#7a6b5d]">
-                  Pay in cash when your order arrives.
+                  {t("payment.cod.description")}
                 </p>
               </div>
             </section>
@@ -318,8 +319,11 @@ export function CheckoutView() {
               className="hidden w-full rounded-md bg-[#c4a574] px-6 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 lg:inline-flex lg:w-auto lg:px-10 lg:text-base"
             >
               {placing
-                ? "Placing order…"
-                : `Place order · ${currency} ${total.toFixed(2)}`}
+                ? t("summary.placing")
+                : t("summary.placeOrderWithTotal", {
+                    currency,
+                    total: total.toFixed(2),
+                  })}
             </button>
           </div>
 
@@ -327,10 +331,11 @@ export function CheckoutView() {
             <div className="overflow-hidden rounded-2xl border border-[#e8ddd2] bg-[#F6EDE6]">
               <div className="border-b border-[#e8ddd2] px-5 py-4 sm:px-6">
                 <p className="text-[11px] font-medium tracking-[0.16em] text-[#b0895b] uppercase">
-                  Order summary
+                  {t("summary.title")}
                 </p>
                 <p className="mt-1 font-serif text-xl font-medium text-[#2a1f16]">
-                  {itemCount} {itemCount === 1 ? "item" : "items"}
+                  {itemCount}{" "}
+                  {itemCount === 1 ? t("item") : t("items")}
                 </p>
               </div>
 
@@ -357,7 +362,7 @@ export function CheckoutView() {
                         {item.name}
                       </Link>
                       <p className="mt-0.5 text-xs text-[#8a7a6c]">
-                        Qty {item.quantity}
+                        {t("qty", { count: item.quantity })}
                       </p>
                       <p className="mt-1 text-sm font-medium text-[#2a1f16]">
                         {item.currency}{" "}
@@ -370,30 +375,35 @@ export function CheckoutView() {
 
               <div className="space-y-2.5 border-t border-[#e8ddd2] px-5 py-5 sm:px-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#7a6b5d]">Subtotal</span>
+                  <span className="text-[#7a6b5d]">{t("summary.subtotal")}</span>
                   <span className="font-medium text-[#2a1f16]">
                     {currency} {subtotal.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#7a6b5d]">Delivery</span>
+                  <span className="text-[#7a6b5d]">{t("summary.delivery")}</span>
                   <span className="font-medium text-[#2a1f16]">
                     {deliveryFee === 0
-                      ? "Free"
+                      ? t("summary.freeDelivery")
                       : `${currency} ${deliveryFee.toFixed(2)}`}
                   </span>
                 </div>
                 {deliveryFee > 0 ? (
                   <p className="text-xs text-[#8a7a6c]">
-                    Free delivery from {currency} {FREE_SHIPPING_FROM.toFixed(0)}
+                    {t("freeFrom", {
+                      currency,
+                      amount: FREE_SHIPPING_FROM.toFixed(0),
+                    })}
                   </p>
                 ) : (
                   <p className="text-xs text-[#6f8f5a]">
-                  You've unlocked free delivery
-                </p>
+                    {t("unlockedFree")}
+                  </p>
                 )}
                 <div className="flex items-baseline justify-between border-t border-[#e8ddd2] pt-3">
-                  <span className="text-sm font-medium text-[#2a1f16]">Total</span>
+                  <span className="text-sm font-medium text-[#2a1f16]">
+                    {t("summary.total")}
+                  </span>
                   <span className="font-serif text-2xl font-medium text-[#c4a574]">
                     {currency} {total.toFixed(2)}
                   </span>
@@ -406,16 +416,16 @@ export function CheckoutView() {
                   disabled={placing}
                   className="flex w-full items-center justify-center rounded-md bg-[#c4a574] px-5 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
                 >
-                  {placing ? "Placing order…" : "Place order"}
+                  {placing ? t("summary.placing") : t("summary.placeOrder")}
                 </button>
                 <p className="mt-3 text-center text-xs leading-relaxed text-[#8a7a6c]">
-                  By placing your order you agree to be contacted for confirmation.
+                  {t("agree")}
                 </p>
                 <Link
                   href={ROUTES.shop}
                   className="mt-4 block text-center text-sm text-[#7a6b5d] transition-colors hover:text-[#2a1f16]"
                 >
-                  Return to shop
+                  {t("returnToShop")}
                 </Link>
               </div>
             </div>

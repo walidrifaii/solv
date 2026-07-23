@@ -1,11 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
 import { ROUTES } from "@/constants/routes";
 import { ProfileHero } from "@/features/auth/components/ProfileHero";
-import { statusLabel, statusTone } from "@/features/dashboard/data";
+import { statusTone } from "@/features/dashboard/data";
 import { getApiErrorMessage } from "@/store/api/errors";
 import {
   useChangePasswordMutation,
@@ -24,12 +25,20 @@ const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 type AccountTab = "settings" | "orders";
+type OrderStatus =
+  | "PENDING"
+  | "CONFIRMED"
+  | "PREPARING"
+  | "OUT_FOR_DELIVERY"
+  | "DELIVERED"
+  | "CANCELLED";
 
 function parseTab(raw: string | null): AccountTab {
   return raw === "orders" ? "orders" : "settings";
 }
 
 export function AccountView() {
+  const t = useTranslations("account");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [tab, setTabState] = useState<AccountTab>(() =>
@@ -89,7 +98,7 @@ export function AccountView() {
   if (isLoading) {
     return (
       <div className="flex flex-1 items-center justify-center bg-[#FEF9F6] px-4 py-24 text-[#7a6b5d]">
-        Loading account…
+        {t("loading")}
       </div>
     );
   }
@@ -97,7 +106,7 @@ export function AccountView() {
   if (isError || !client) {
     return (
       <div className="flex flex-1 items-center justify-center bg-[#FEF9F6] px-4 py-24 text-[#7a6b5d]">
-        Redirecting to login…
+        {t("redirecting")}
       </div>
     );
   }
@@ -114,9 +123,9 @@ export function AccountView() {
     setNameMsg("");
     try {
       await updateProfile({ name: name.trim() }).unwrap();
-      setNameMsg("Name updated.");
+      setNameMsg(t("displayName.success"));
     } catch (err) {
-      setNameErr(getApiErrorMessage(err, "Could not update name."));
+      setNameErr(getApiErrorMessage(err, t("displayName.error")));
     }
   }
 
@@ -125,16 +134,16 @@ export function AccountView() {
     setPasswordErr("");
     setPasswordMsg("");
     if (newPassword.length < 8) {
-      setPasswordErr("New password must be at least 8 characters.");
+      setPasswordErr(t("password.tooShort"));
       return;
     }
     try {
       await changePassword({ currentPassword, newPassword }).unwrap();
       setCurrentPassword("");
       setNewPassword("");
-      setPasswordMsg("Password updated.");
+      setPasswordMsg(t("password.success"));
     } catch (err) {
-      setPasswordErr(getApiErrorMessage(err, "Could not update password."));
+      setPasswordErr(getApiErrorMessage(err, t("password.error")));
     }
   }
 
@@ -149,7 +158,7 @@ export function AccountView() {
       setPendingEmail(result.pendingEmail);
       setEmailMsg(result.message);
     } catch (err) {
-      setEmailErr(getApiErrorMessage(err, "Could not start email change."));
+      setEmailErr(getApiErrorMessage(err, t("email.requestError")));
     }
   }
 
@@ -165,9 +174,9 @@ export function AccountView() {
       setNewEmail("");
       setEmailCode("");
       setPendingEmail("");
-      setEmailMsg("Email updated.");
+      setEmailMsg(t("email.success"));
     } catch (err) {
-      setEmailErr(getApiErrorMessage(err, "Could not confirm email."));
+      setEmailErr(getApiErrorMessage(err, t("email.confirmError")));
     }
   }
 
@@ -179,7 +188,7 @@ export function AccountView() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="font-serif text-2xl font-medium sm:text-3xl">
-              Hello, {client.name}
+              {t("welcome", { name: client.name })}
             </h2>
             <p className="mt-1 text-sm text-[#7a6b5d]">{client.email}</p>
           </div>
@@ -189,14 +198,14 @@ export function AccountView() {
             disabled={loggingOut}
             className="rounded-md border border-[#ddd0c4] px-4 py-2 text-sm text-[#2a1f16] transition-colors hover:border-[#c4a574] disabled:opacity-60"
           >
-            {loggingOut ? "Signing out…" : "Sign out"}
+            {loggingOut ? t("signingOut") : t("signOut")}
           </button>
         </div>
 
         <div
           className="mt-10 flex gap-1 border-b border-[#efe4da]"
           role="tablist"
-          aria-label="Account sections"
+          aria-label={t("tabsLabel")}
         >
           <button
             type="button"
@@ -209,7 +218,7 @@ export function AccountView() {
                 : "border-transparent text-[#8a7a6c] hover:text-[#2a1f16]"
             }`}
           >
-            Settings
+            {t("tabs.settings")}
           </button>
           <button
             type="button"
@@ -222,9 +231,9 @@ export function AccountView() {
                 : "border-transparent text-[#8a7a6c] hover:text-[#2a1f16]"
             }`}
           >
-            Order history
+            {t("tabs.orders")}
             {orders.length > 0 ? (
-              <span className="ml-2 text-[#b0895b]">({orders.length})</span>
+              <span className="ms-2 text-[#b0895b]">({orders.length})</span>
             ) : null}
           </button>
         </div>
@@ -236,11 +245,11 @@ export function AccountView() {
               className="rounded-xl border border-[#efe4da] bg-white p-5"
             >
               <h2 className="text-sm font-medium text-[#2a1f16]">
-                Display name
+                {t("displayName.heading")}
               </h2>
               <div className="mt-4">
                 <label htmlFor="account-name" className={labelClass}>
-                  Name
+                  {t("displayName.label")}
                 </label>
                 <input
                   id="account-name"
@@ -260,7 +269,7 @@ export function AccountView() {
                 disabled={savingName}
                 className="mt-4 rounded-md bg-[#c4a574] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
               >
-                {savingName ? "Saving…" : "Save name"}
+                {savingName ? t("displayName.saving") : t("displayName.save")}
               </button>
             </form>
 
@@ -268,11 +277,13 @@ export function AccountView() {
               onSubmit={handleSavePassword}
               className="rounded-xl border border-[#efe4da] bg-white p-5"
             >
-              <h2 className="text-sm font-medium text-[#2a1f16]">Password</h2>
+              <h2 className="text-sm font-medium text-[#2a1f16]">
+                {t("password.heading")}
+              </h2>
               <div className="mt-4 space-y-3">
                 <div>
                   <label htmlFor="current-password" className={labelClass}>
-                    Current password
+                    {t("password.current")}
                   </label>
                   <input
                     id="current-password"
@@ -285,7 +296,7 @@ export function AccountView() {
                 </div>
                 <div>
                   <label htmlFor="new-password" className={labelClass}>
-                    New password
+                    {t("password.new")}
                   </label>
                   <input
                     id="new-password"
@@ -294,7 +305,7 @@ export function AccountView() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     className={inputClass}
-                    placeholder="At least 8 characters"
+                    placeholder={t("password.newPlaceholder")}
                   />
                 </div>
               </div>
@@ -309,19 +320,21 @@ export function AccountView() {
                 disabled={savingPassword}
                 className="mt-4 rounded-md bg-[#c4a574] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
               >
-                {savingPassword ? "Updating…" : "Update password"}
+                {savingPassword ? t("password.saving") : t("password.save")}
               </button>
             </form>
 
             <div className="rounded-xl border border-[#efe4da] bg-white p-5">
-              <h2 className="text-sm font-medium text-[#2a1f16]">Email</h2>
+              <h2 className="text-sm font-medium text-[#2a1f16]">
+                {t("email.heading")}
+              </h2>
               <p className="mt-1 text-sm text-[#7a6b5d]">
-                Current: {client.email}
+                {t("email.current", { email: client.email })}
               </p>
               <form onSubmit={handleRequestEmail} className="mt-4 space-y-3">
                 <div>
                   <label htmlFor="new-email" className={labelClass}>
-                    New email
+                    {t("email.newLabel")}
                   </label>
                   <input
                     id="new-email"
@@ -329,7 +342,7 @@ export function AccountView() {
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
                     className={inputClass}
-                    placeholder="new@email.com"
+                    placeholder={t("email.newPlaceholder")}
                   />
                 </div>
                 <button
@@ -337,14 +350,14 @@ export function AccountView() {
                   disabled={requestingEmail}
                   className="rounded-md border border-[#ddd0c4] px-4 py-2 text-sm disabled:opacity-60"
                 >
-                  {requestingEmail ? "Sending code…" : "Send code to new email"}
+                  {requestingEmail ? t("email.sending") : t("email.sendCode")}
                 </button>
               </form>
 
               {pendingEmail ? (
                 <form onSubmit={handleConfirmEmail} className="mt-4 space-y-3">
                   <p className="text-sm text-[#7a6b5d]">
-                    Enter the code sent to {pendingEmail}
+                    {t("email.confirmPrompt", { email: pendingEmail })}
                   </p>
                   <input
                     type="text"
@@ -355,14 +368,14 @@ export function AccountView() {
                       setEmailCode(e.target.value.replace(/\D/g, "").slice(0, 6))
                     }
                     className={inputClass}
-                    placeholder="6-digit code"
+                    placeholder={t("email.confirmPlaceholder")}
                   />
                   <button
                     type="submit"
                     disabled={confirmingEmail}
                     className="rounded-md bg-[#c4a574] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
                   >
-                    {confirmingEmail ? "Confirming…" : "Confirm email"}
+                    {confirmingEmail ? t("email.confirming") : t("email.confirm")}
                   </button>
                 </form>
               ) : null}
@@ -378,12 +391,12 @@ export function AccountView() {
         ) : (
           <div className="mt-8" role="tabpanel">
             {ordersLoading ? (
-              <p className="text-sm text-[#7a6b5d]">Loading orders…</p>
+              <p className="text-sm text-[#7a6b5d]">{t("loading")}</p>
             ) : orders.length === 0 ? (
               <p className="text-sm text-[#7a6b5d]">
-                No orders yet.{" "}
+                {t("noOrders")}{" "}
                 <Link href={ROUTES.shop} className="text-[#c4a574] underline">
-                  Browse the shop
+                  {t("browseShop")}
                 </Link>
               </p>
             ) : (
@@ -397,7 +410,7 @@ export function AccountView() {
                     >
                       <button
                         type="button"
-                        className="flex w-full flex-wrap items-center justify-between gap-2 text-left"
+                        className="flex w-full flex-wrap items-center justify-between gap-2 text-start"
                         onClick={() =>
                           setOpenOrderId(open ? null : order.id)
                         }
@@ -408,15 +421,14 @@ export function AccountView() {
                           </p>
                           <p className="mt-1 text-sm text-[#7a6b5d]">
                             {new Date(order.createdAt).toLocaleDateString()} ·{" "}
-                            {order.itemCount} item
-                            {order.itemCount === 1 ? "" : "s"} · QAR{" "}
+                            {t("itemCount", { count: order.itemCount })} · QAR{" "}
                             {(order.total ?? 0).toFixed(2)}
                           </p>
                         </div>
                         <span
                           className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${statusTone(order.status)}`}
                         >
-                          {statusLabel(order.status)}
+                          {t(`orderStatus.${order.status as OrderStatus}`)}
                         </span>
                       </button>
 
@@ -441,10 +453,14 @@ export function AccountView() {
                           ) : null}
                           {(order.deliveryAddress || order.deliveryCity) && (
                             <p className="mt-3 text-sm text-[#7a6b5d]">
-                              Delivery: {order.deliveryAddress}
-                              {order.deliveryCity
-                                ? `, ${order.deliveryCity}`
-                                : ""}
+                              {t("deliveryLabel", {
+                                details: [
+                                  order.deliveryAddress,
+                                  order.deliveryCity,
+                                ]
+                                  .filter(Boolean)
+                                  .join(", "),
+                              })}
                             </p>
                           )}
                         </div>

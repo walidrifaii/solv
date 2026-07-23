@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import type { MouseEvent } from "react";
@@ -29,6 +30,7 @@ function discountPercent(product: ShopProduct) {
 }
 
 export function DealCard({ product, className = "" }: DealCardProps) {
+  const t = useTranslations("common");
   const { addItem } = useCart();
   const href = productPath(product.slug);
   const percent = discountPercent(product);
@@ -61,8 +63,8 @@ export function DealCard({ product, className = "" }: DealCardProps) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
       {percent > 0 ? (
-        <span className="absolute top-3 left-3 z-10 rounded-md bg-[#c43c3c] px-2 py-1 text-xs font-semibold text-white">
-          -{percent}%
+        <span className="absolute top-3 start-3 z-10 rounded-md bg-[#c43c3c] px-2 py-1 text-xs font-semibold text-white">
+          {t("off", { percent })}
         </span>
       ) : null}
 
@@ -92,7 +94,7 @@ export function DealCard({ product, className = "" }: DealCardProps) {
           type="button"
           onClick={handleAdd}
           className="relative z-20 inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-[#c4a574] text-white transition-colors hover:bg-[#d4b584] sm:size-10"
-          aria-label={`Add ${product.name} to cart`}
+          aria-label={t("addToCart")}
         >
           <BagIcon className="size-3.5 sm:size-[1.125rem]" />
         </button>

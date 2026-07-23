@@ -24,7 +24,9 @@ function mapAdminProduct(product: {
   slug: string;
   categoryId: string;
   name: string;
+  nameAr: string | null;
   description: string;
+  descriptionAr: string | null;
   price: Prisma.Decimal;
   discountType: string | null;
   discount: Prisma.Decimal | null;
@@ -36,7 +38,12 @@ function mapAdminProduct(product: {
   sortOrder: number;
   createdAt: Date;
   updatedAt: Date;
-  category?: { id: string; slug: string; name: string } | null;
+  category?: {
+    id: string;
+    slug: string;
+    name: string;
+    nameAr: string | null;
+  } | null;
 }) {
   const price = toNumber(product.price) ?? 0;
   const discount = toNumber(product.discount);
@@ -53,7 +60,9 @@ function mapAdminProduct(product: {
     slug: product.slug,
     categoryId: product.categoryId,
     name: product.name,
+    nameAr: product.nameAr,
     description: product.description,
+    descriptionAr: product.descriptionAr,
     price,
     discountType: product.discountType as "FIXED" | "PERCENTAGE" | null,
     discount,
@@ -71,13 +80,14 @@ function mapAdminProduct(product: {
           id: product.category.id,
           slug: product.category.slug,
           name: product.category.name,
+          nameAr: product.category.nameAr,
         }
       : undefined,
   };
 }
 
 const includeCategory = {
-  category: { select: { id: true, slug: true, name: true } },
+  category: { select: { id: true, slug: true, name: true, nameAr: true } },
 } as const;
 
 function toDiscountType(
@@ -98,8 +108,10 @@ export async function adminListProducts(query: ListQuery) {
       ? {
           OR: [
             { name: { contains: query.search } },
+            { nameAr: { contains: query.search } },
             { slug: { contains: query.search } },
             { description: { contains: query.search } },
+            { descriptionAr: { contains: query.search } },
           ],
         }
       : {}),
@@ -166,7 +178,9 @@ export async function adminCreateProduct(input: CreateInput) {
       slug,
       categoryId: input.categoryId,
       name: input.name,
+      nameAr: input.nameAr?.trim() || null,
       description: input.description,
+      descriptionAr: input.descriptionAr?.trim() || null,
       price: new PrismaNs.Decimal(input.price),
       discountType: toDiscountType(input.discountType ?? null) ?? null,
       discount:
@@ -218,8 +232,14 @@ export async function adminUpdateProduct(id: string, input: UpdateInput) {
         ? { categoryId: input.categoryId }
         : {}),
       ...(input.name !== undefined ? { name: input.name } : {}),
+      ...(input.nameAr !== undefined
+        ? { nameAr: input.nameAr?.trim() || null }
+        : {}),
       ...(input.description !== undefined
         ? { description: input.description }
+        : {}),
+      ...(input.descriptionAr !== undefined
+        ? { descriptionAr: input.descriptionAr?.trim() || null }
         : {}),
       ...(input.price !== undefined
         ? { price: new PrismaNs.Decimal(input.price) }

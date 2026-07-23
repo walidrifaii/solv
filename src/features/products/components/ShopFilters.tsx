@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ROUTES } from "@/constants/routes";
 import { shopProductCategories } from "@/features/products/data/catalog";
 
@@ -15,6 +18,7 @@ export function ShopFilters({
   productCount,
   categories,
 }: ShopFiltersProps) {
+  const t = useTranslations("shop");
   const list = categories?.length
     ? categories
     : shopProductCategories.map((category) => ({
@@ -23,7 +27,7 @@ export function ShopFilters({
       }));
 
   const activeLabel =
-    list.find((item) => item.id === activeCategory)?.label ?? "All";
+    list.find((item) => item.id === activeCategory)?.label ?? t("allCategories");
 
   return (
     <div className="bg-[#FEF9F6] px-4 pb-8 sm:px-6 md:px-8 lg:px-10">
@@ -31,7 +35,7 @@ export function ShopFilters({
         <div
           className="no-scrollbar -mx-4 flex min-w-0 flex-1 gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
           role="list"
-          aria-label="Product categories"
+          aria-label={t("categoriesLabel")}
         >
           {list.map((category) => {
             const href =
@@ -57,16 +61,10 @@ export function ShopFilters({
           })}
         </div>
 
-        <p className="shrink-0 text-sm whitespace-nowrap text-[#8a7a6c] sm:text-right">
-          Showing{" "}
-          <span className="font-medium text-[#2a1f16]">{productCount}</span>{" "}
-          {productCount === 1 ? "product" : "products"}
-          {activeCategory !== "all" ? (
-            <>
-              {" "}
-              in <span className="font-medium text-[#2a1f16]">{activeLabel}</span>
-            </>
-          ) : null}
+        <p className="shrink-0 text-sm whitespace-nowrap text-[#8a7a6c] sm:text-end">
+          {activeCategory !== "all"
+            ? t("showingIn", { count: productCount, category: activeLabel })
+            : t("showing", { count: productCount })}
         </p>
       </div>
     </div>

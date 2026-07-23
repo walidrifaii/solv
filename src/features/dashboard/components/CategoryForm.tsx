@@ -24,8 +24,12 @@ export function CategoryForm({
 }: Props) {
   const editing = Boolean(initial);
   const [name, setName] = useState(initial?.name ?? "");
+  const [nameAr, setNameAr] = useState(initial?.nameAr ?? "");
   const [slug, setSlug] = useState(initial?.slug ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
+  const [descriptionAr, setDescriptionAr] = useState(
+    initial?.descriptionAr ?? "",
+  );
   const [imagePath, setImagePath] = useState(initial?.imagePath ?? "");
   const [sortOrder, setSortOrder] = useState(String(initial?.sortOrder ?? 0));
   const [isActive, setIsActive] = useState(initial?.isActive ?? true);
@@ -35,8 +39,10 @@ export function CategoryForm({
   useEffect(() => {
     if (!initial) return;
     setName(initial.name);
+    setNameAr(initial.nameAr ?? "");
     setSlug(initial.slug);
     setDescription(initial.description ?? "");
+    setDescriptionAr(initial.descriptionAr ?? "");
     setImagePath(initial.imagePath);
     setSortOrder(String(initial.sortOrder));
     setIsActive(initial.isActive);
@@ -61,8 +67,10 @@ export function CategoryForm({
     try {
       await onSubmit({
         name: name.trim(),
+        nameAr: nameAr.trim() || null,
         ...(slug.trim() ? { slug: slug.trim() } : {}),
         description: description.trim() || null,
+        descriptionAr: descriptionAr.trim() || null,
         imagePath: imagePath.trim(),
         sortOrder: Number(sortOrder) || 0,
         isActive,
@@ -80,7 +88,7 @@ export function CategoryForm({
     >
       <div>
         <label className={adminLabelClass} htmlFor="category-name">
-          Name
+          Name (English)
         </label>
         <input
           id="category-name"
@@ -89,6 +97,19 @@ export function CategoryForm({
           onChange={(e) => setName(e.target.value)}
           className={adminInputClass}
           placeholder="Coffee Beans"
+        />
+      </div>
+      <div>
+        <label className={adminLabelClass} htmlFor="category-name-ar">
+          Name (Arabic)
+        </label>
+        <input
+          id="category-name-ar"
+          value={nameAr}
+          onChange={(e) => setNameAr(e.target.value)}
+          className={adminInputClass}
+          placeholder="حبوب القهوة"
+          dir="rtl"
         />
       </div>
       <div>
@@ -105,7 +126,7 @@ export function CategoryForm({
       </div>
       <div>
         <label className={adminLabelClass} htmlFor="category-description">
-          Description
+          Description (English)
         </label>
         <textarea
           id="category-description"
@@ -114,6 +135,20 @@ export function CategoryForm({
           onChange={(e) => setDescription(e.target.value)}
           className={adminInputClass + " resize-y"}
           placeholder="Short collection summary"
+        />
+      </div>
+      <div>
+        <label className={adminLabelClass} htmlFor="category-description-ar">
+          Description (Arabic)
+        </label>
+        <textarea
+          id="category-description-ar"
+          rows={4}
+          value={descriptionAr}
+          onChange={(e) => setDescriptionAr(e.target.value)}
+          className={adminInputClass + " resize-y"}
+          placeholder="ملخص قصير للمجموعة"
+          dir="rtl"
         />
       </div>
       <ImageUploadField

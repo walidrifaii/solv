@@ -29,7 +29,9 @@ export type ApiCategory = {
   id: string;
   slug: string;
   name: string;
+  nameAr: string | null;
   description: string | null;
+  descriptionAr: string | null;
   imagePath: string;
   sortOrder: number;
   productCount?: number;
@@ -46,7 +48,9 @@ export type ApiProduct = {
   slug: string;
   categoryId: string;
   name: string;
+  nameAr: string | null;
   description: string;
+  descriptionAr: string | null;
   price: number;
   discountType: "FIXED" | "PERCENTAGE" | null;
   discount: number | null;
@@ -56,7 +60,12 @@ export type ApiProduct = {
   inStock: boolean;
   isFeatured: boolean;
   sortOrder: number;
-  category?: { id: string; slug: string; name: string };
+  category?: {
+    id: string;
+    slug: string;
+    name: string;
+    nameAr: string | null;
+  };
 };
 
 export type ApiAdminProduct = ApiProduct & {
@@ -101,7 +110,9 @@ export type CreateCategoryInput = {
   id?: string;
   slug?: string;
   name: string;
+  nameAr?: string | null;
   description?: string | null;
+  descriptionAr?: string | null;
   imagePath?: string;
   sortOrder?: number;
   isActive?: boolean;
@@ -116,7 +127,9 @@ export type CreateProductInput = {
   slug?: string;
   categoryId: string;
   name: string;
+  nameAr?: string | null;
   description: string;
+  descriptionAr?: string | null;
   price: number;
   discountType?: "FIXED" | "PERCENTAGE" | null;
   discount?: number | null;

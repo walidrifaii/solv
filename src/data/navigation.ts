@@ -1,17 +1,17 @@
 import { ROUTES } from "@/constants/routes";
 
 export const navigation = [
-  { label: "Home", href: ROUTES.home },
-  { label: "About", href: ROUTES.about },
+  { key: "home", href: ROUTES.home },
+  { key: "about", href: ROUTES.about },
   {
-    label: "Shop",
+    key: "shop",
     href: ROUTES.shop,
     children: [
-      { label: "Coffee", href: `${ROUTES.shop}?category=coffee` },
-      { label: "Tea", href: `${ROUTES.shop}?category=tea` },
-      { label: "Accessories", href: `${ROUTES.shop}?category=accessories` },
+      { key: "coffee", href: `${ROUTES.shop}?category=coffee` },
+      { key: "tea", href: `${ROUTES.shop}?category=tea` },
+      { key: "accessories", href: `${ROUTES.shop}?category=accessories` },
     ],
   },
-  { label: "Services", href: ROUTES.services },
-  { label: "Contact Us", href: ROUTES.contact },
+  { key: "services", href: ROUTES.services },
+  { key: "contact", href: ROUTES.contact },
 ] as const;

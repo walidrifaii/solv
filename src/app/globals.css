@@ -23,6 +23,14 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+html.font-ar body {
+  font-family: var(--font-cairo), "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+html.font-ar .font-serif {
+  font-family: var(--font-cairo), "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
 @keyframes heroFade {
   from {
     opacity: 0;
@@ -34,9 +42,14 @@ body {
   }
 }
 
-/* —— App preloader: SOLV letter draw animation —— */
+/* —— App preloader: SOLV letter draw animation (always LTR / English brand) —— */
+.preloader {
+  direction: ltr;
+}
+
 .preloader-logo {
   display: flex;
+  flex-direction: row;
   align-items: baseline;
   gap: 0.08em;
   font-family: var(--font-playfair), Georgia, "Times New Roman", serif;

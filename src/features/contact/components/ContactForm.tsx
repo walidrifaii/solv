@@ -1,11 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
-import { contactFormContent } from "@/features/contact/data";
+import { contactFormContent, type ContactSubject } from "@/features/contact/data";
 import { getApiErrorMessage } from "@/store/api/errors";
 import { useSendContactMessageMutation } from "@/store/slices";
-
-type Subject = (typeof contactFormContent.subjects)[number];
 
 const inputClass =
   "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base";
@@ -14,11 +13,14 @@ const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 export function ContactForm() {
+  const t = useTranslations("contact.form");
   const [sendMessage, { isLoading }] = useSendContactMessageMutation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [subject, setSubject] = useState<Subject>(contactFormContent.subjects[0]);
+  const [subject, setSubject] = useState<ContactSubject>(
+    contactFormContent.subjectIds[0],
+  );
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -34,37 +36,37 @@ export function ContactForm() {
         name: name.trim(),
         email: email.trim(),
         phone: phone.trim() || null,
-        subject,
+        subject: t(`subjects.${subject}`),
         message: message.trim(),
       }).unwrap();
       setSubmitted(true);
       setName("");
       setEmail("");
       setPhone("");
-      setSubject(contactFormContent.subjects[0]);
+      setSubject(contactFormContent.subjectIds[0]);
       setMessage("");
     } catch (err) {
-      setError(getApiErrorMessage(err, "Could not send your message. Try again."));
+      setError(getApiErrorMessage(err, t("error")));
     }
   }
 
   return (
     <div>
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-        {contactFormContent.eyebrow}
+        {t("eyebrow")}
       </p>
       <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
-        {contactFormContent.title}
+        {t("title")}
       </h2>
       <p className="mt-3 max-w-md text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
-        {contactFormContent.description}
+        {t("description")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5 sm:mt-10" noValidate>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="contact-name" className={labelClass}>
-              {contactFormContent.fields.name}
+              {t("name")}
             </label>
             <input
               id="contact-name"
@@ -77,12 +79,12 @@ export function ContactForm() {
                 setError("");
               }}
               className={inputClass}
-              placeholder="Your name"
+              placeholder={t("name")}
             />
           </div>
           <div>
             <label htmlFor="contact-email" className={labelClass}>
-              {contactFormContent.fields.email}
+              {t("email")}
             </label>
             <input
               id="contact-email"
@@ -95,7 +97,7 @@ export function ContactForm() {
                 setError("");
               }}
               className={inputClass}
-              placeholder="you@email.com"
+              placeholder={t("email")}
             />
           </div>
         </div>
@@ -103,7 +105,7 @@ export function ContactForm() {
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="contact-phone" className={labelClass}>
-              {contactFormContent.fields.phone}
+              {t("phone")}
             </label>
             <input
               id="contact-phone"
@@ -115,26 +117,26 @@ export function ContactForm() {
                 setError("");
               }}
               className={inputClass}
-              placeholder="+974 …"
+              placeholder={t("phone")}
             />
           </div>
           <div>
             <label htmlFor="contact-subject" className={labelClass}>
-              {contactFormContent.fields.subject}
+              {t("subject")}
             </label>
             <select
               id="contact-subject"
               value={subject}
               onChange={(event) => {
-                setSubject(event.target.value as Subject);
+                setSubject(event.target.value as ContactSubject);
                 setSubmitted(false);
                 setError("");
               }}
               className={`${inputClass} appearance-none`}
             >
-              {contactFormContent.subjects.map((item) => (
-                <option key={item} value={item}>
-                  {item}
+              {contactFormContent.subjectIds.map((id) => (
+                <option key={id} value={id}>
+                  {t(`subjects.${id}`)}
                 </option>
               ))}
             </select>
@@ -143,7 +145,7 @@ export function ContactForm() {
 
         <div>
           <label htmlFor="contact-message" className={labelClass}>
-            {contactFormContent.fields.message}
+            {t("message")}
           </label>
           <textarea
             id="contact-message"
@@ -157,7 +159,7 @@ export function ContactForm() {
               setError("");
             }}
             className={`${inputClass} min-h-[8rem] resize-y`}
-            placeholder="How can we help?"
+            placeholder={t("message")}
           />
         </div>
 
@@ -166,7 +168,7 @@ export function ContactForm() {
           disabled={isLoading}
           className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:w-auto sm:px-8 sm:text-base"
         >
-          {isLoading ? "Sending…" : contactFormContent.cta}
+          {isLoading ? t("sending") : t("cta")}
         </button>
 
         {error ? (
@@ -177,7 +179,7 @@ export function ContactForm() {
 
         {submitted ? (
           <p className="text-sm text-[#6f8f5a]" role="status">
-            {contactFormContent.success}
+            {t("success")}
           </p>
         ) : null}
       </form>

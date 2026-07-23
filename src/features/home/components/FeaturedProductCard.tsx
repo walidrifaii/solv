@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +22,7 @@ export function FeaturedProductCard({
   product,
   className = "",
 }: FeaturedProductCardProps) {
+  const t = useTranslations("common");
   const { addItem } = useCart();
   const href = productPath(product.slug);
 
@@ -73,7 +75,7 @@ export function FeaturedProductCard({
             type="button"
             onClick={handleAdd}
             className="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-9"
-            aria-label={`Add ${product.name} to cart`}
+            aria-label={t("addToCart")}
           >
             <BagIcon className="size-4" />
           </button>

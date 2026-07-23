@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { ShopFilters } from "@/features/products/components/ShopFilters";
 import { ShopGrid } from "@/features/products/components/ShopGrid";
 import { ROUTES } from "@/constants/routes";
+import type { Locale } from "@/i18n/config";
+import { pickLocalized } from "@/lib/localized";
 import {
   useGetCategoriesQuery,
   useGetProductsQuery,
@@ -15,6 +18,8 @@ type ShopCatalogProps = {
 };
 
 export function ShopCatalog({ activeCategory }: ShopCatalogProps) {
+  const t = useTranslations("shop");
+  const locale = useLocale() as Locale;
   const categoryId =
     activeCategory === "all" ? undefined : activeCategory;
 
@@ -30,12 +35,14 @@ export function ShopCatalog({ activeCategory }: ShopCatalogProps) {
 
   const { data: categoriesData } = useGetCategoriesQuery({ limit: 50 });
 
-  const products = (productsData ?? []).map(mapApiProductToShop);
+  const products = (productsData ?? []).map((product) =>
+    mapApiProductToShop(product, locale),
+  );
   const categories = [
-    { id: "all", label: "All" },
+    { id: "all", label: t("allCategories") },
     ...(categoriesData ?? []).map((category) => ({
       id: category.id,
-      label: category.name,
+      label: pickLocalized(locale, category.name, category.nameAr),
     })),
   ];
 
@@ -48,7 +55,7 @@ export function ShopCatalog({ activeCategory }: ShopCatalogProps) {
           categories={categories}
         />
         <div className="bg-[#FEF9F6] px-4 py-20 text-center text-[#7a6b5d]">
-          Loading products…
+          {t("loading")}
         </div>
       </>
     );
@@ -58,16 +65,16 @@ export function ShopCatalog({ activeCategory }: ShopCatalogProps) {
     return (
       <div className="bg-[#FEF9F6] px-4 py-20 text-center">
         <p className="font-serif text-2xl text-[#2a1f16]">
-          Could not load products
+          {t("loadError")}
         </p>
         <p className="mt-2 text-sm text-[#7a6b5d]">
-          Check your connection or try again shortly.
+          {t("loadErrorHint")}
         </p>
         <Link
           href={ROUTES.shop}
           className="mt-6 inline-block text-sm text-[#c4a574] underline"
         >
-          Retry
+          {t("retry")}
         </Link>
       </div>
     );

@@ -19,13 +19,7 @@ export type DealProduct = {
 };
 
 export const hotDeals = {
-  eyebrow: "Limited Time Offers",
-  title: "Hot Deals",
-  description: "Special offers on our most loved products.",
-  cta: {
-    label: "Shop Deals",
-    href: ROUTES.shop,
-  },
+  href: ROUTES.shop,
 };
 
 export const dealProducts: DealProduct[] = [

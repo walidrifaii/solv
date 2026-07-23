@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
@@ -26,6 +27,8 @@ function safeNextPath(raw: string | null) {
 }
 
 export function LoginForm() {
+  const t = useTranslations("auth.login");
+  const tCommon = useTranslations("common");
   const copy = authCopy.login;
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -40,7 +43,7 @@ export function LoginForm() {
     setError("");
 
     if (!email.trim() || !password) {
-      setError("Please enter your email and password.");
+      setError(t("validation"));
       return;
     }
 
@@ -61,26 +64,26 @@ export function LoginForm() {
         );
         return;
       }
-      setError(getApiErrorMessage(err, "Invalid email or password."));
+      setError(getApiErrorMessage(err, t("invalidCredentials")));
     }
   }
 
   return (
     <div className="mx-auto w-full max-w-md">
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-        {copy.eyebrow}
+        {t("eyebrow")}
       </p>
       <h1 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
-        {copy.title}
+        {t("title")}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-        {copy.description}
+        {t("description")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
         <div>
           <label htmlFor="login-email" className={labelClass}>
-            Email
+            {t("email")}
           </label>
           <input
             id="login-email"
@@ -93,21 +96,21 @@ export function LoginForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="you@email.com"
+            placeholder={t("emailPlaceholder")}
           />
         </div>
 
         <div>
           <div className="mb-1.5 flex items-center justify-between gap-3">
             <label htmlFor="login-password" className={labelClass + " mb-0"}>
-              Password
+              {t("password")}
             </label>
             <button
               type="button"
               onClick={() => setShowPassword((open) => !open)}
               className="text-xs text-[#8a7a6c] transition-colors hover:text-[#2a1f16]"
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? tCommon("hide") : tCommon("show")}
             </button>
           </div>
           <input
@@ -121,7 +124,7 @@ export function LoginForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="Your password"
+            placeholder={t("passwordPlaceholder")}
           />
         </div>
 
@@ -136,17 +139,17 @@ export function LoginForm() {
           disabled={isLoading}
           className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
         >
-          {isLoading ? "Signing in…" : copy.submit}
+          {isLoading ? t("submitting") : t("submit")}
         </button>
       </form>
 
       <p className="mt-8 text-sm text-[#7a6b5d]">
-        {copy.switchPrompt}{" "}
+        {t("switchPrompt")}{" "}
         <Link
           href={copy.switchHref}
           className="font-medium text-[#2a1f16] underline-offset-2 transition-colors hover:text-[#c4a574] hover:underline"
         >
-          {copy.switchLabel}
+          {t("switchLabel")}
         </Link>
       </p>
     </div>

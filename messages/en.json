@@ -1,0 +1,654 @@
+{
+  "meta": {
+    "description": "Premium coffee and tea supplier in Qatar — SOLV."
+  },
+  "common": {
+    "loading": "Loading…",
+    "tryAgain": "Try again",
+    "backHome": "Back home",
+    "pageNotFound": "Page not found",
+    "somethingWentWrong": "Something went wrong",
+    "currency": "QAR",
+    "off": "{percent}% OFF",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "addToCart": "Add to cart",
+    "buyNow": "Buy now",
+    "viewAll": "View all",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "show": "Show",
+    "hide": "Hide",
+    "poweredBy": "powered by",
+    "preloaderTagline": "Coffee & Tea Supplier"
+  },
+  "locale": {
+    "switchTo": "العربية",
+    "switchToShort": "عربي",
+    "switchToEn": "English",
+    "switchToEnShort": "EN",
+    "label": "Language"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "shop": "Shop",
+    "coffee": "Coffee",
+    "tea": "Tea",
+    "accessories": "Accessories",
+    "services": "Services",
+    "contact": "Contact Us",
+    "orderNow": "Order Now",
+    "profile": "Profile",
+    "signIn": "Sign in",
+    "search": "Search",
+    "cart": "Cart, {count} items",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "logoAlt": "SOLV Coffee & Tea Supplier"
+  },
+  "footer": {
+    "brandDescription": "Premium coffee & tea supplier in Qatar, dedicated to bringing you the finest quality and exceptional service.",
+    "shop": "Shop",
+    "company": "Company",
+    "customerService": "Customer Service",
+    "paymentMethods": "Payment Methods",
+    "copyright": "© {year} SOLV Coffee & Tea Supplier. All Rights Reserved.",
+    "allProducts": "All Products",
+    "coffeeBeans": "Coffee Beans",
+    "groundCoffee": "Ground Coffee",
+    "tea": "Tea",
+    "teaBags": "Tea Bags",
+    "accessories": "Accessories",
+    "giftSets": "Gift Sets",
+    "aboutUs": "About Us",
+    "services": "Services",
+    "trackOrder": "Track Order",
+    "faqs": "FAQs",
+    "returns": "Returns & Refunds",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "hours": "Mon - Sat: 8:00 AM - 8:00 PM",
+    "location": "Doha, Qatar",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp"
+  },
+  "home": {
+    "hero": {
+      "rich-flavor": {
+        "eyebrow": "Premium Coffee & Tea",
+        "title": "Rich Flavor, Perfect Moments",
+        "description": "Discover our exclusive selection of premium coffee and tea blends, crafted for true taste lovers.",
+        "cta": "Shop Now",
+        "imageAlt": "Black coffee cup with steam, beans, and a gold cezve"
+      },
+      "latte-art": {
+        "eyebrow": "Handcrafted Brews",
+        "title": "Slow Sips, Golden Rituals",
+        "description": "From silky espresso to delicate latte art, every cup is roasted and poured for depth, aroma, and calm.",
+        "cta": "Shop Now",
+        "imageAlt": "Latte art in a black cup with coffee beans and gold spoon"
+      },
+      "tea-moments": {
+        "eyebrow": "Tea & Warmth",
+        "title": "Leaves, Steam, Quiet Luxury",
+        "description": "Explore refined tea blends and brewing rituals designed for evenings that linger a little longer.",
+        "cta": "Shop Now",
+        "imageAlt": "Black teapot and teacup with steam and dried tea leaves"
+      },
+      "prev": "Previous slide",
+      "next": "Next slide"
+    },
+    "shopByCategory": {
+      "eyebrow": "Explore",
+      "title": "Shop by Category",
+      "description": "Find the perfect coffee, tea, and accessories for every ritual."
+    },
+    "featured": {
+      "eyebrow": "Our Selection",
+      "title": "Featured Products",
+      "description": "Handpicked favorites from our collection.",
+      "empty": "No featured products yet.",
+      "prev": "Previous featured items",
+      "next": "Next featured items"
+    },
+    "deals": {
+      "eyebrow": "Limited Time Offers",
+      "title": "Hot Deals",
+      "description": "Special offers on our most loved products.",
+      "cta": "Shop Deals",
+      "empty": "No deals available right now."
+    },
+    "quality": {
+      "eyebrow": "Experience Excellence",
+      "title": "Handpicked Quality For True Taste",
+      "description": "From the finest coffee beans to exquisite tea leaves, every product is chosen for purity, aroma and flavor.",
+      "cta": "Discover More"
+    },
+    "experience": {
+      "eyebrow": "Why Solv",
+      "title": "The Solv Experience",
+      "premium-quality": {
+        "title": "Premium Quality",
+        "description": "Carefully sourced from the world's best farms."
+      },
+      "fast-delivery": {
+        "title": "Fast Delivery",
+        "description": "Quick and reliable delivery across Qatar."
+      },
+      "secure-payments": {
+        "title": "Secure Payments",
+        "description": "100% safe and secure checkout."
+      },
+      "dedicated-support": {
+        "title": "Dedicated Support",
+        "description": "We're here to help you every step of the way."
+      }
+    },
+    "newsletter": {
+      "eyebrow": "Join the Solv Community",
+      "title": "Brew Your Perfect Moment",
+      "description": "Be the first to know about new arrivals, exclusive offers and brewing tips.",
+      "placeholder": "Enter your email",
+      "cta": "Subscribe",
+      "success": "You're subscribed — thank you!",
+      "error": "Something went wrong. Please try again."
+    }
+  },
+  "about": {
+    "hero": {
+      "eyebrow": "About Solv",
+      "title": "Coffee & tea, chosen with care",
+      "description": "We bring premium coffee and tea to Qatar — for homes, cafés, and anyone who values a better cup.",
+      "primaryCta": "Shop Collection",
+      "secondaryCta": "Talk to Us"
+    },
+    "story": {
+      "eyebrow": "Our Story",
+      "title": "A supplier built around true taste",
+      "p1": "SOLV was founded in Qatar with a simple purpose: make exceptional coffee and tea easy to discover, order, and enjoy — without compromising on origin, freshness, or service.",
+      "p2": "We work with trusted growers and producers, then curate every product for aroma, balance, and everyday excellence. From single-origin beans to refined tea leaves and thoughtful accessories, each item earns its place on our shelves.",
+      "p3": "Whether you brew at home or supply a café, we deliver quality you can taste — and support you can rely on across Doha and beyond.",
+      "highlightLabel": "Based in Qatar",
+      "highlightValue": "Serving coffee & tea lovers nationwide"
+    },
+    "values": {
+      "eyebrow": "What We Stand For",
+      "title": "Values that shape every cup",
+      "integrity": {
+        "title": "Sourced with Integrity",
+        "description": "We partner with growers and producers who prioritize quality, consistency, and care at origin."
+      },
+      "quality": {
+        "title": "Selected for Flavor",
+        "description": "Every lot is chosen for aroma, balance, and character — not just labels or trend."
+      },
+      "delivery": {
+        "title": "Delivered Across Qatar",
+        "description": "Reliable fulfilment from Doha outward, so freshness arrives when you need it."
+      },
+      "support": {
+        "title": "Guided by People",
+        "description": "Real support for homes, hospitality, and café partners — before and after you order."
+      }
+    },
+    "journey": {
+      "eyebrow": "How We Work",
+      "title": "From origin to your cup",
+      "description": "A quiet, careful process behind every product we offer.",
+      "source": {
+        "title": "Source",
+        "description": "We identify exceptional coffee and tea from respected growing regions around the world."
+      },
+      "curate": {
+        "title": "Curate",
+        "description": "Each selection is evaluated for purity, aroma, and how it performs in real everyday brewing."
+      },
+      "prepare": {
+        "title": "Prepare",
+        "description": "Beans, blends, leaves, and accessories are prepared and packed to protect freshness and flavor."
+      },
+      "deliver": {
+        "title": "Deliver",
+        "description": "Orders reach homes and businesses across Qatar with clear service and dependable timing."
+      }
+    },
+    "promise": {
+      "eyebrow": "Our Promise",
+      "title": "Quality you can taste. Service you can trust.",
+      "description": "From the first sip to the last refill, SOLV is here to elevate the coffee and tea experience in Qatar — thoughtfully, consistently, and without the noise.",
+      "cta": "Explore Products"
+    },
+    "facts": {
+      "focus": { "label": "Focus", "value": "Premium coffee & tea" },
+      "location": { "label": "Location", "value": "Doha, Qatar" },
+      "service": { "label": "Service", "value": "Home & hospitality" },
+      "care": { "label": "Care", "value": "Handpicked quality" }
+    }
+  },
+  "services": {
+    "hero": {
+      "eyebrow": "Our Services",
+      "title": "Supply, delivery, and care for every brew",
+      "description": "From home kitchens to cafés and hospitality partners — SOLV supports Qatar with premium coffee, tea, and dependable service.",
+      "primaryCta": "Request Service",
+      "secondaryCta": "Browse Shop"
+    },
+    "list": {
+      "eyebrow": "What We Offer",
+      "title": "Services tailored to taste",
+      "description": "Premium products, reliable logistics, and thoughtful guidance — so every order feels simple and intentional."
+    },
+    "items": {
+      "home-supply": {
+        "title": "Home & Office Supply",
+        "description": "Curated coffee, tea, and accessories for everyday brewing — delivered with freshness in mind.",
+        "p1": "Beans, ground & tea",
+        "p2": "Repeat-friendly ordering",
+        "p3": "Everyday essentials"
+      },
+      "hospitality": {
+        "title": "Café & Hospitality Supply",
+        "description": "Reliable product supply for cafés, hotels, and restaurants that need consistent quality at volume.",
+        "p1": "Menu-ready selections",
+        "p2": "Steady replenishment",
+        "p3": "Partner support"
+      },
+      "wholesale": {
+        "title": "Bulk & Wholesale Orders",
+        "description": "Larger quantities for businesses and events, with guidance on product fit and quantity planning.",
+        "p1": "Flexible order sizes",
+        "p2": "Clear lead times",
+        "p3": "Business-friendly service"
+      },
+      "delivery": {
+        "title": "Delivery Across Qatar",
+        "description": "Dependable fulfilment from Doha outward so coffee and tea arrive when your schedule needs them.",
+        "p1": "Nationwide reach",
+        "p2": "Careful packing",
+        "p3": "Trackable support"
+      },
+      "gifting": {
+        "title": "Corporate & Gift Sets",
+        "description": "Thoughtful coffee and tea gift sets for clients, teams, and special occasions — ready to impress.",
+        "p1": "Ready-made sets",
+        "p2": "Corporate options",
+        "p3": "Premium presentation"
+      },
+      "consultation": {
+        "title": "Product Guidance",
+        "description": "Help choosing the right roast, tea style, or accessory — for home setups or professional menus.",
+        "p1": "Taste-led recommendations",
+        "p2": "Brew tips",
+        "p3": "Dedicated advisors"
+      }
+    },
+    "audience": {
+      "eyebrow": "Who We Serve",
+      "title": "Built for every kind of coffee & tea moment",
+      "description": "Whether you brew for one or fill a busy floor, SOLV adapts to how you work.",
+      "homes": {
+        "title": "Homes & Offices",
+        "description": "Premium everyday coffee and tea with simple ordering and reliable delivery."
+      },
+      "cafes": {
+        "title": "Cafés & Restaurants",
+        "description": "Consistent supply and product guidance so your cups stay true service after service."
+      },
+      "hospitality": {
+        "title": "Hotels & Events",
+        "description": "Scalable fulfilment for guest experiences, corporate gifting, and special occasions."
+      }
+    },
+    "process": {
+      "eyebrow": "How It Works",
+      "title": "Simple from first message to first delivery",
+      "description": "A clear path to getting the right coffee and tea into your space.",
+      "share": {
+        "title": "Share your needs",
+        "description": "Tell us what you brew, how often you need it, and who you serve."
+      },
+      "curate": {
+        "title": "Get a curated plan",
+        "description": "We recommend products, quantities, and options that fit your setup."
+      },
+      "confirm": {
+        "title": "Confirm & schedule",
+        "description": "Approve your order, delivery window, and any recurring supply needs."
+      },
+      "enjoy": {
+        "title": "Receive & enjoy",
+        "description": "Your coffee and tea arrive carefully packed — with support whenever you need it."
+      }
+    },
+    "support": {
+      "eyebrow": "Always Nearby",
+      "title": "Real people. Clear answers.",
+      "description": "Questions about roast profiles, tea selections, wholesale timing, or gift orders — our team is here to help before and after every purchase.",
+      "hours": "Mon – Sat · 8:00 AM – 8:00 PM"
+    },
+    "cta": {
+      "eyebrow": "Start With Solv",
+      "title": "Ready for better coffee & tea service?",
+      "description": "Tell us what you need — supply, delivery, wholesale, or gifts — and we'll shape a simple plan around it.",
+      "label": "Contact Our Team"
+    }
+  },
+  "contact": {
+    "hero": {
+      "eyebrow": "Contact Us",
+      "title": "Let's talk coffee, tea, and supply",
+      "description": "Questions, wholesale requests, or gift orders — reach the SOLV team in Qatar and we'll help you find the right next step."
+    },
+    "form": {
+      "eyebrow": "Send a Message",
+      "title": "We're here to help",
+      "description": "Share a few details and our team will get back to you during business hours.",
+      "name": "Full name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "subject": "Subject",
+      "message": "Your message",
+      "cta": "Send Message",
+      "sending": "Sending…",
+      "success": "Thank you — your message has been received. We'll be in touch soon.",
+      "error": "Could not send your message. Please try again.",
+      "subjects": {
+        "general": "General inquiry",
+        "product": "Product question",
+        "wholesale": "Wholesale / hospitality",
+        "delivery": "Delivery & orders",
+        "gifting": "Corporate gifting",
+        "other": "Other"
+      }
+    },
+    "info": {
+      "eyebrow": "Reach Us Directly",
+      "title": "Contact details",
+      "description": "Prefer to call, message, or visit? Use the channels below — we respond Mon to Sat.",
+      "phone": "Phone",
+      "email": "Email",
+      "location": "Location",
+      "hours": "Hours",
+      "follow": "Follow Solv"
+    },
+    "quickLinks": {
+      "heading": "Explore",
+      "about": "About Solv",
+      "services": "Our Services",
+      "shop": "Shop Collection"
+    }
+  },
+  "auth": {
+    "login": {
+      "eyebrow": "Welcome Back",
+      "title": "Sign in to SOLV",
+      "description": "Access your account to track orders and manage your details.",
+      "submit": "Sign In",
+      "submitting": "Signing in…",
+      "switchPrompt": "Don't have an account?",
+      "switchLabel": "Create one",
+      "email": "Email",
+      "password": "Password",
+      "validation": "Please enter your email and password.",
+      "invalidCredentials": "Invalid email or password.",
+      "emailPlaceholder": "you@email.com",
+      "passwordPlaceholder": "Your password"
+    },
+    "register": {
+      "eyebrow": "Join Solv",
+      "title": "Create your account",
+      "description": "Register with your email. We'll send a code to verify and open your account.",
+      "submit": "Create Account",
+      "submitting": "Creating account…",
+      "switchPrompt": "Already have an account?",
+      "switchLabel": "Sign in",
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "validation": "Please fill in all fields.",
+      "passwordTooShort": "Password must be at least 8 characters.",
+      "passwordMismatch": "Passwords do not match.",
+      "error": "Could not create account.",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "you@email.com",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPasswordPlaceholder": "Repeat password"
+    },
+    "verify": {
+      "eyebrow": "Verify email",
+      "title": "Enter your code",
+      "description": "We sent a 6-digit code to your email. Enter it below to open your account.",
+      "submit": "Verify and continue",
+      "submitting": "Verifying…",
+      "code": "Verification code",
+      "resend": "Resend code",
+      "resending": "Sending…",
+      "email": "Email",
+      "emailPlaceholder": "you@email.com",
+      "codePlaceholder": "000000",
+      "validation": "Enter your email and the 6-digit code.",
+      "emailRequired": "Enter your email first.",
+      "error": "Could not verify code.",
+      "resendError": "Could not resend code.",
+      "codeSent": "Code sent to {email}",
+      "wrongEmail": "Wrong email?",
+      "registerAgain": "Register again"
+    }
+  },
+  "cart": {
+    "eyebrow": "Your Cart",
+    "title": "Your cart",
+    "emptyLabel": "Empty",
+    "item": "item",
+    "items": "items",
+    "empty": "Your cart is empty",
+    "emptyHint": "Add coffee, tea, or accessories from the shop to get started.",
+    "browseShop": "Browse Shop",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "continueShopping": "Continue shopping",
+    "remove": "Remove",
+    "close": "Close cart",
+    "ariaLabel": "Shopping cart",
+    "decrease": "Decrease {name}",
+    "increase": "Increase {name}"
+  },
+  "search": {
+    "title": "Search products",
+    "placeholder": "Search coffee, tea, gifts...",
+    "close": "Close search",
+    "quickSearch": "Quick search",
+    "searching": "Searching…",
+    "noResults": "No matches",
+    "noResultsFor": "Nothing for \"{query}\"",
+    "viewAll": "View all in shop",
+    "suggestions": {
+      "coffee": "Coffee",
+      "tea": "Tea",
+      "gift": "Gift",
+      "espresso": "Espresso"
+    }
+  },
+  "shop": {
+    "title": "Shop",
+    "collection": "SOLV Collection",
+    "description": "Premium coffee, tea, accessories, and gift sets — curated for homes and hospitality across Qatar.",
+    "home": "Home",
+    "allCategories": "All",
+    "categoriesLabel": "Product categories",
+    "filters": "Filters",
+    "showing": "Showing {count} {count, plural, one {product} other {products}}",
+    "showingIn": "Showing {count} {count, plural, one {product} other {products}} in {category}",
+    "results": "{count} products",
+    "noProducts": "No products match your filters.",
+    "loading": "Loading products…",
+    "loadError": "Could not load products",
+    "loadErrorHint": "Check your connection or try again shortly.",
+    "retry": "Retry",
+    "loadingProduct": "Loading product…",
+    "productNotFound": "Product not found",
+    "backToShop": "Back to shop",
+    "sort": {
+      "label": "Sort",
+      "featured": "Featured",
+      "priceAsc": "Price: low to high",
+      "priceDesc": "Price: high to low",
+      "name": "Name"
+    },
+    "details": {
+      "about": "About this product",
+      "description": "Description",
+      "heading": "Details",
+      "category": "Category",
+      "availability": "Availability",
+      "sku": "SKU",
+      "continueExploring": "Continue Exploring",
+      "related": "You may also like",
+      "quantity": "Quantity",
+      "decreaseQuantity": "Decrease quantity",
+      "increaseQuantity": "Increase quantity",
+      "added": "Added {count} to cart."
+    }
+  },
+  "checkout": {
+    "eyebrow": "Secure Checkout",
+    "title": "Complete your order",
+    "description": "Confirm your details and delivery preference. Payment is cash on delivery.",
+    "emptyTitle": "Your cart is empty",
+    "emptyDescription": "Add products from the shop before checking out.",
+    "successTitle": "Order received",
+    "successDescription": "Thank you. Pay cash on delivery when your order arrives. Our team will contact you to confirm timing.",
+    "confirmed": "Confirmed",
+    "orderLabel": "Order {ref}",
+    "orderNumber": "Order number",
+    "backToShop": "Back to shop",
+    "backHome": "Back home",
+    "browseShop": "Browse Shop",
+    "continueShopping": "Continue shopping",
+    "returnToShop": "Return to shop",
+    "loading": "Loading checkout…",
+    "home": "Home",
+    "shop": "Shop",
+    "checkout": "Checkout",
+    "contactSection": "Contact",
+    "deliverySection": "Delivery",
+    "paymentSection": "Payment",
+    "paymentNote": "All orders are cash on delivery.",
+    "requiredFields": "Please complete all required fields.",
+    "cartEmptyError": "Your cart is empty.",
+    "placeError": "Could not place order. Try again.",
+    "qty": "Qty {count}",
+    "item": "item",
+    "items": "items",
+    "freeFrom": "Free delivery from {currency} {amount}",
+    "unlockedFree": "You've unlocked free delivery",
+    "agree": "By placing your order you agree to be contacted for confirmation.",
+    "placeholders": {
+      "name": "Your name",
+      "email": "you@email.com",
+      "phone": "+974 …",
+      "city": "Doha",
+      "address": "Building, street, zone",
+      "notes": "Delivery timing, landmark, special requests…"
+    },
+    "payment": {
+      "cod": {
+        "label": "Cash on delivery",
+        "description": "Pay in cash when your order arrives."
+      }
+    },
+    "fields": {
+      "name": "Full name *",
+      "email": "Email *",
+      "phone": "Phone *",
+      "city": "City *",
+      "address": "Address *",
+      "notes": "Order notes"
+    },
+    "summary": {
+      "title": "Order summary",
+      "subtotal": "Subtotal",
+      "delivery": "Delivery",
+      "freeDelivery": "Free",
+      "total": "Total",
+      "placeOrder": "Place order",
+      "placeOrderWithTotal": "Place order · {currency} {total}",
+      "placing": "Placing order…"
+    }
+  },
+  "account": {
+    "title": "My account",
+    "welcome": "Welcome, {name}",
+    "orders": "Orders",
+    "profile": "Profile",
+    "signOut": "Sign out",
+    "signingOut": "Signing out…",
+    "noOrders": "You have no orders yet.",
+    "browseShop": "Browse the shop",
+    "loading": "Loading account…",
+    "redirecting": "Redirecting to login…",
+    "heroEyebrow": "Your account",
+    "heroDescription": "Manage your details and review your order history.",
+    "breadcrumbCurrent": "Profile",
+    "tabsLabel": "Account sections",
+    "tabs": {
+      "settings": "Settings",
+      "orders": "Order history"
+    },
+    "itemCount": "{count, plural, one {# item} other {# items}}",
+    "deliveryLabel": "Delivery: {details}",
+    "displayName": {
+      "heading": "Display name",
+      "label": "Name",
+      "save": "Save name",
+      "saving": "Saving…",
+      "success": "Name updated.",
+      "error": "Could not update name."
+    },
+    "password": {
+      "heading": "Password",
+      "current": "Current password",
+      "new": "New password",
+      "newPlaceholder": "At least 8 characters",
+      "save": "Update password",
+      "saving": "Updating…",
+      "success": "Password updated.",
+      "error": "Could not update password.",
+      "tooShort": "New password must be at least 8 characters."
+    },
+    "email": {
+      "heading": "Email",
+      "current": "Current: {email}",
+      "newLabel": "New email",
+      "newPlaceholder": "new@email.com",
+      "sendCode": "Send code to new email",
+      "sending": "Sending code…",
+      "confirmPrompt": "Enter the code sent to {email}",
+      "confirmPlaceholder": "6-digit code",
+      "confirm": "Confirm email",
+      "confirming": "Confirming…",
+      "success": "Email updated.",
+      "requestError": "Could not start email change.",
+      "confirmError": "Could not confirm email."
+    },
+    "orderStatus": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "PREPARING": "Preparing",
+      "OUT_FOR_DELIVERY": "Out for delivery",
+      "DELIVERED": "Delivered",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "admin": {
+    "nameEn": "Name (English)",
+    "nameAr": "Name (Arabic)",
+    "descriptionEn": "Description (English)",
+    "descriptionAr": "Description (Arabic)"
+  }
+}

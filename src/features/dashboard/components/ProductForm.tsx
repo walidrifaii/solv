@@ -30,11 +30,15 @@ export function ProductForm({
 }: Props) {
   const editing = Boolean(initial);
   const [name, setName] = useState(initial?.name ?? "");
+  const [nameAr, setNameAr] = useState(initial?.nameAr ?? "");
   const [slug, setSlug] = useState(initial?.slug ?? "");
   const [categoryId, setCategoryId] = useState(
     initial?.categoryId ?? categories[0]?.id ?? "",
   );
   const [description, setDescription] = useState(initial?.description ?? "");
+  const [descriptionAr, setDescriptionAr] = useState(
+    initial?.descriptionAr ?? "",
+  );
   const [price, setPrice] = useState(initial ? String(initial.price) : "");
   const [discountType, setDiscountType] = useState<"" | "FIXED" | "PERCENTAGE">(
     initial?.discountType ?? "",
@@ -54,9 +58,11 @@ export function ProductForm({
   useEffect(() => {
     if (!initial) return;
     setName(initial.name);
+    setNameAr(initial.nameAr ?? "");
     setSlug(initial.slug);
     setCategoryId(initial.categoryId);
     setDescription(initial.description);
+    setDescriptionAr(initial.descriptionAr ?? "");
     setPrice(String(initial.price));
     setDiscountType(initial.discountType ?? "");
     setDiscount(initial.discount != null ? String(initial.discount) : "");
@@ -98,9 +104,11 @@ export function ProductForm({
 
     const body: CreateProductInput = {
       name: name.trim(),
+      nameAr: nameAr.trim() || null,
       ...(slug.trim() ? { slug: slug.trim() } : {}),
       categoryId,
       description: description.trim(),
+      descriptionAr: descriptionAr.trim() || null,
       price: Number(price),
       imagePath: imagePath.trim(),
       quantity: Number(quantity) || 0,
@@ -126,9 +134,9 @@ export function ProductForm({
       noValidate
     >
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
+        <div>
           <label className={adminLabelClass} htmlFor="product-name">
-            Name
+            Name (English)
           </label>
           <input
             id="product-name"
@@ -137,6 +145,19 @@ export function ProductForm({
             onChange={(e) => setName(e.target.value)}
             className={adminInputClass}
             placeholder="Ethiopian Yirgacheffe"
+          />
+        </div>
+        <div>
+          <label className={adminLabelClass} htmlFor="product-name-ar">
+            Name (Arabic)
+          </label>
+          <input
+            id="product-name-ar"
+            value={nameAr}
+            onChange={(e) => setNameAr(e.target.value)}
+            className={adminInputClass}
+            placeholder="يورغاتشيف الإثيوبية"
+            dir="rtl"
           />
         </div>
         <div>
@@ -175,7 +196,7 @@ export function ProductForm({
         </div>
         <div className="sm:col-span-2">
           <label className={adminLabelClass} htmlFor="product-description">
-            Description
+            Description (English)
           </label>
           <textarea
             id="product-description"
@@ -184,6 +205,19 @@ export function ProductForm({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className={adminInputClass + " resize-y"}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={adminLabelClass} htmlFor="product-description-ar">
+            Description (Arabic)
+          </label>
+          <textarea
+            id="product-description-ar"
+            rows={4}
+            value={descriptionAr}
+            onChange={(e) => setDescriptionAr(e.target.value)}
+            className={adminInputClass + " resize-y"}
+            dir="rtl"
           />
         </div>
         <div>

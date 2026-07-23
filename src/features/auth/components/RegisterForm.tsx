@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
@@ -15,6 +16,8 @@ const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 export function RegisterForm() {
+  const t = useTranslations("auth.register");
+  const tCommon = useTranslations("common");
   const copy = authCopy.register;
   const router = useRouter();
   const [register, { isLoading }] = useRegisterMutation();
@@ -30,17 +33,17 @@ export function RegisterForm() {
     setError("");
 
     if (!name.trim() || !email.trim() || !password || !confirmPassword) {
-      setError("Please fill in all fields.");
+      setError(t("validation"));
       return;
     }
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError(t("passwordTooShort"));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError(t("passwordMismatch"));
       return;
     }
 
@@ -56,26 +59,26 @@ export function RegisterForm() {
       );
       router.refresh();
     } catch (err) {
-      setError(getApiErrorMessage(err, "Could not create account."));
+      setError(getApiErrorMessage(err, t("error")));
     }
   }
 
   return (
     <div className="mx-auto w-full max-w-md">
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-        {copy.eyebrow}
+        {t("eyebrow")}
       </p>
       <h1 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
-        {copy.title}
+        {t("title")}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-        {copy.description}
+        {t("description")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
         <div>
           <label htmlFor="register-name" className={labelClass}>
-            Full name
+            {t("name")}
           </label>
           <input
             id="register-name"
@@ -88,13 +91,13 @@ export function RegisterForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="Your name"
+            placeholder={t("namePlaceholder")}
           />
         </div>
 
         <div>
           <label htmlFor="register-email" className={labelClass}>
-            Email
+            {t("email")}
           </label>
           <input
             id="register-email"
@@ -107,21 +110,21 @@ export function RegisterForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="you@email.com"
+            placeholder={t("emailPlaceholder")}
           />
         </div>
 
         <div>
           <div className="mb-1.5 flex items-center justify-between gap-3">
             <label htmlFor="register-password" className={labelClass + " mb-0"}>
-              Password
+              {t("password")}
             </label>
             <button
               type="button"
               onClick={() => setShowPassword((open) => !open)}
               className="text-xs text-[#8a7a6c] transition-colors hover:text-[#2a1f16]"
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? tCommon("hide") : tCommon("show")}
             </button>
           </div>
           <input
@@ -135,13 +138,13 @@ export function RegisterForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="At least 8 characters"
+            placeholder={t("passwordPlaceholder")}
           />
         </div>
 
         <div>
           <label htmlFor="register-confirm" className={labelClass}>
-            Confirm password
+            {t("confirmPassword")}
           </label>
           <input
             id="register-confirm"
@@ -154,7 +157,7 @@ export function RegisterForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="Repeat password"
+            placeholder={t("confirmPasswordPlaceholder")}
           />
         </div>
 
@@ -169,17 +172,17 @@ export function RegisterForm() {
           disabled={isLoading}
           className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
         >
-          {isLoading ? "Creating account…" : copy.submit}
+          {isLoading ? t("submitting") : t("submit")}
         </button>
       </form>
 
       <p className="mt-8 text-sm text-[#7a6b5d]">
-        {copy.switchPrompt}{" "}
+        {t("switchPrompt")}{" "}
         <Link
           href={copy.switchHref}
           className="font-medium text-[#2a1f16] underline-offset-2 transition-colors hover:text-[#c4a574] hover:underline"
         >
-          {copy.switchLabel}
+          {t("switchLabel")}
         </Link>
       </p>
     </div>

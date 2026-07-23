@@ -1,14 +1,19 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeftIcon } from "@/components/icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import { OrnamentIcon } from "@/components/icons/OrnamentIcon";
 import { FeaturedProductCard } from "@/features/home/components/FeaturedProductCard";
+import type { Locale } from "@/i18n/config";
 import { mapApiProductToShop } from "@/store/mappers/product";
 import { useGetProductsQuery } from "@/store/slices";
 
 export function FeaturedItems() {
+  const t = useTranslations("home.featured");
+  const tCommon = useTranslations("common");
+  const locale = useLocale() as Locale;
   const trackRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
@@ -17,7 +22,9 @@ export function FeaturedItems() {
     featured: true,
     limit: 12,
   });
-  const products = (data ?? []).map(mapApiProductToShop);
+  const products = (data ?? []).map((product) =>
+    mapApiProductToShop(product, locale),
+  );
 
   function getPageMetrics() {
     const track = trackRef.current;
@@ -94,10 +101,10 @@ export function FeaturedItems() {
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 md:mb-14">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-            Our Selection
+            {t("eyebrow")}
           </p>
           <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.75rem]">
-            Featured Items
+            {t("title")}
           </h2>
           <div className="mt-5 flex items-center justify-center gap-3 text-[#c4a574]">
             <span className="h-px w-12 bg-[#c4a574]/70 sm:w-16" />
@@ -108,11 +115,11 @@ export function FeaturedItems() {
 
         {isLoading ? (
           <p className="py-10 text-center text-sm text-[#7a6b5d]">
-            Loading featured items…
+            {tCommon("loading")}
           </p>
         ) : products.length === 0 ? (
           <p className="py-10 text-center text-sm text-[#7a6b5d]">
-            No featured products yet.
+            {t("empty")}
           </p>
         ) : (
           <>
@@ -121,9 +128,9 @@ export function FeaturedItems() {
                 type="button"
                 onClick={() => scrollByDirection("left")}
                 className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
-                aria-label="Previous featured items"
+                aria-label={t("prev")}
               >
-                <ChevronLeftIcon className="size-5 sm:size-6" />
+                <ChevronLeftIcon className="size-5 sm:size-6 rtl:rotate-180" />
               </button>
 
               <div
@@ -147,9 +154,9 @@ export function FeaturedItems() {
                 type="button"
                 onClick={() => scrollByDirection("right")}
                 className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
-                aria-label="Next featured items"
+                aria-label={t("next")}
               >
-                <ChevronRightIcon className="size-5 sm:size-6" />
+                <ChevronRightIcon className="size-5 sm:size-6 rtl:rotate-180" />
               </button>
             </div>
 
@@ -160,7 +167,7 @@ export function FeaturedItems() {
                     key={i}
                     type="button"
                     onClick={() => goToPage(i)}
-                    aria-label={`Go to featured page ${i + 1}`}
+                    aria-label={`${i + 1}`}
                     aria-current={i === page}
                     className={`h-2 rounded-full transition-all ${
                       i === page

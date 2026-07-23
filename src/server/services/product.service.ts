@@ -12,7 +12,9 @@ function mapProduct(product: {
   slug: string;
   categoryId: string;
   name: string;
+  nameAr: string | null;
   description: string;
+  descriptionAr: string | null;
   price: Prisma.Decimal;
   discountType: string | null;
   discount: Prisma.Decimal | null;
@@ -22,7 +24,12 @@ function mapProduct(product: {
   isFeatured: boolean;
   isActive: boolean;
   sortOrder: number;
-  category?: { id: string; slug: string; name: string } | null;
+  category?: {
+    id: string;
+    slug: string;
+    name: string;
+    nameAr: string | null;
+  } | null;
 }) {
   const price = toNumber(product.price) ?? 0;
   const discount = toNumber(product.discount);
@@ -39,7 +46,9 @@ function mapProduct(product: {
     slug: product.slug,
     categoryId: product.categoryId,
     name: product.name,
+    nameAr: product.nameAr,
     description: product.description,
+    descriptionAr: product.descriptionAr,
     price,
     discountType: product.discountType,
     discount,
@@ -54,10 +63,18 @@ function mapProduct(product: {
           id: product.category.id,
           slug: product.category.slug,
           name: product.category.name,
+          nameAr: product.category.nameAr,
         }
       : undefined,
   };
 }
+
+const categorySelect = {
+  id: true,
+  slug: true,
+  name: true,
+  nameAr: true,
+} as const;
 
 export async function listProducts(query: {
   page: number;
@@ -76,7 +93,9 @@ export async function listProducts(query: {
       ? {
           OR: [
             { name: { contains: query.search } },
+            { nameAr: { contains: query.search } },
             { description: { contains: query.search } },
+            { descriptionAr: { contains: query.search } },
           ],
         }
       : {}),
@@ -89,7 +108,7 @@ export async function listProducts(query: {
     prisma.product.findMany({
       where,
       include: {
-        category: { select: { id: true, slug: true, name: true } },
+        category: { select: categorySelect },
       },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
       skip,
@@ -107,7 +126,7 @@ export async function getProductBySlug(slug: string) {
   const product = await prisma.product.findFirst({
     where: { slug, isActive: true },
     include: {
-      category: { select: { id: true, slug: true, name: true } },
+      category: { select: categorySelect },
     },
   });
 

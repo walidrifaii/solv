@@ -1,29 +1,32 @@
+import { getTranslations } from "next-intl/server";
 import { servicesSupport } from "@/features/services/data";
 
-export function ServicesSupport() {
+export async function ServicesSupport() {
+  const t = await getTranslations("services.support");
+  const tContact = await getTranslations("contact.info");
   const { Icon } = servicesSupport;
   const { highlight } = servicesSupport;
 
   return (
     <section className="bg-[#F6EDE6] px-4 py-12 text-[#2a1f16] sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10">
-      <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center text-center lg:flex-row lg:items-start lg:justify-between lg:gap-16 lg:text-left">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center text-center lg:flex-row lg:items-start lg:justify-between lg:gap-16 lg:text-start">
         <div className="max-w-xl">
           <Icon className="mx-auto mb-4 size-12 text-[#c4a574] lg:mx-0" />
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-            {servicesSupport.eyebrow}
+            {t("eyebrow")}
           </p>
           <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
-            {servicesSupport.title}
+            {t("title")}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-            {servicesSupport.description}
+            {t("description")}
           </p>
         </div>
 
-        <div className="mt-8 w-full max-w-md space-y-4 border-t border-[#e0d2c4] pt-8 lg:mt-0 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12">
+        <div className="mt-8 w-full max-w-md space-y-4 border-t border-[#e0d2c4] pt-8 lg:mt-0 lg:border-t-0 lg:border-s lg:pt-0 lg:ps-12">
           <div>
             <p className="text-[10px] font-medium tracking-[0.18em] text-[#b0895b] uppercase">
-              Phone
+              {tContact("phone")}
             </p>
             <a
               href={highlight.phoneHref}
@@ -34,7 +37,7 @@ export function ServicesSupport() {
           </div>
           <div>
             <p className="text-[10px] font-medium tracking-[0.18em] text-[#b0895b] uppercase">
-              Email
+              {tContact("email")}
             </p>
             <a
               href={highlight.emailHref}
@@ -45,10 +48,10 @@ export function ServicesSupport() {
           </div>
           <div>
             <p className="text-[10px] font-medium tracking-[0.18em] text-[#b0895b] uppercase">
-              Hours
+              {tContact("hours")}
             </p>
             <p className="mt-1 text-sm text-[#7a6b5d] sm:text-base">
-              {highlight.hours}
+              {t("hours")}
             </p>
           </div>
         </div>

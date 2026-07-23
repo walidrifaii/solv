@@ -110,15 +110,17 @@ model AdminRefreshToken {
 }
 
 model Category {
-  id          String   @id // e.g. coffee-beans
-  slug        String   @unique
-  name        String   @db.VarChar(80)
-  description String?  @db.Text
-  imagePath   String   @default("/assets/category-coffee-beans.png") @map("image_path") @db.VarChar(512)
-  sortOrder   Int      @default(0) @map("sort_order")
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id            String   @id // e.g. coffee-beans
+  slug          String   @unique
+  name          String   @db.VarChar(80)
+  nameAr        String?  @map("name_ar") @db.VarChar(80)
+  description   String?  @db.Text
+  descriptionAr String?  @map("description_ar") @db.Text
+  imagePath     String   @default("/assets/category-coffee-beans.png") @map("image_path") @db.VarChar(512)
+  sortOrder     Int      @default(0) @map("sort_order")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   products Product[]
 
@@ -127,13 +129,15 @@ model Category {
 }
 
 model Product {
-  id           String        @id // stable business id / slug
-  slug         String        @unique
-  categoryId   String        @map("category_id")
-  name         String        @db.VarChar(160)
-  description  String        @db.Text
+  id            String        @id // stable business id / slug
+  slug          String        @unique
+  categoryId    String        @map("category_id")
+  name          String        @db.VarChar(160)
+  nameAr        String?       @map("name_ar") @db.VarChar(160)
+  description   String        @db.Text
+  descriptionAr String?       @map("description_ar") @db.Text
   /// Base price in major units (QAR), e.g. 69.00
-  price        Decimal       @db.Decimal(10, 2)
+  price         Decimal       @db.Decimal(10, 2)
   discountType DiscountType? @map("discount_type")
   /// FIXED = amount off price; PERCENTAGE = % off price (e.g. 20 = 20%)
   discount     Decimal?      @db.Decimal(10, 2)

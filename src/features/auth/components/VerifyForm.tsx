@@ -1,9 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { authCopy } from "@/features/auth/data";
 import { ROUTES } from "@/constants/routes";
 import {
   useResendOtpMutation,
@@ -18,7 +18,7 @@ const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 export function VerifyForm() {
-  const copy = authCopy.verify;
+  const t = useTranslations("auth.verify");
   const router = useRouter();
   const searchParams = useSearchParams();
   const emailFromQuery = searchParams.get("email")?.trim() ?? "";
@@ -29,7 +29,7 @@ export function VerifyForm() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [info, setInfo] = useState(
-    emailFromQuery ? `Code sent to ${emailFromQuery}` : "",
+    emailFromQuery ? t("codeSent", { email: emailFromQuery }) : "",
   );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -38,7 +38,7 @@ export function VerifyForm() {
     setInfo("");
 
     if (!email.trim() || !/^\d{6}$/.test(code.trim())) {
-      setError("Enter your email and the 6-digit code.");
+      setError(t("validation"));
       return;
     }
 
@@ -47,7 +47,7 @@ export function VerifyForm() {
       router.push(ROUTES.account);
       router.refresh();
     } catch (err) {
-      setError(getApiErrorMessage(err, "Could not verify code."));
+      setError(getApiErrorMessage(err, t("error")));
     }
   }
 
@@ -55,33 +55,33 @@ export function VerifyForm() {
     setError("");
     setInfo("");
     if (!email.trim()) {
-      setError("Enter your email first.");
+      setError(t("emailRequired"));
       return;
     }
     try {
       const result = await resendOtp({ email: email.trim() }).unwrap();
       setInfo(result.message);
     } catch (err) {
-      setError(getApiErrorMessage(err, "Could not resend code."));
+      setError(getApiErrorMessage(err, t("resendError")));
     }
   }
 
   return (
     <div className="mx-auto w-full max-w-md">
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-        {copy.eyebrow}
+        {t("eyebrow")}
       </p>
       <h1 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
-        {copy.title}
+        {t("title")}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-        {copy.description}
+        {t("description")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
         <div>
           <label htmlFor="verify-email" className={labelClass}>
-            Email
+            {t("email")}
           </label>
           <input
             id="verify-email"
@@ -93,14 +93,14 @@ export function VerifyForm() {
               setEmail(event.target.value);
               setError("");
             }}
-            className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base tracking-normal text-left"
-            placeholder="you@email.com"
+            className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base tracking-normal text-start"
+            placeholder={t("emailPlaceholder")}
           />
         </div>
 
         <div>
           <label htmlFor="verify-code" className={labelClass}>
-            Verification code
+            {t("code")}
           </label>
           <input
             id="verify-code"
@@ -115,7 +115,7 @@ export function VerifyForm() {
               setError("");
             }}
             className={inputClass}
-            placeholder="000000"
+            placeholder={t("codePlaceholder")}
           />
         </div>
 
@@ -135,7 +135,7 @@ export function VerifyForm() {
           disabled={isLoading}
           className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
         >
-          {isLoading ? "Verifying…" : copy.submit}
+          {isLoading ? t("submitting") : t("submit")}
         </button>
       </form>
 
@@ -145,16 +145,16 @@ export function VerifyForm() {
         disabled={resending}
         className="mt-4 text-sm text-[#8a7a6c] transition-colors hover:text-[#2a1f16] disabled:opacity-60"
       >
-        {resending ? "Sending…" : "Resend code"}
+        {resending ? t("resending") : t("resend")}
       </button>
 
       <p className="mt-8 text-sm text-[#7a6b5d]">
-        Wrong email?{" "}
+        {t("wrongEmail")}{" "}
         <Link
           href={ROUTES.register}
           className="font-medium text-[#2a1f16] underline-offset-2 transition-colors hover:text-[#c4a574] hover:underline"
         >
-          Register again
+          {t("registerAgain")}
         </Link>
       </p>
     </div>

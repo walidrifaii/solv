@@ -21,7 +21,9 @@ function mapAdminCategory(category: {
   id: string;
   slug: string;
   name: string;
+  nameAr: string | null;
   description: string | null;
+  descriptionAr: string | null;
   imagePath: string;
   sortOrder: number;
   isActive: boolean;
@@ -33,7 +35,9 @@ function mapAdminCategory(category: {
     id: category.id,
     slug: category.slug,
     name: category.name,
+    nameAr: category.nameAr,
     description: category.description,
+    descriptionAr: category.descriptionAr,
     imagePath: category.imagePath,
     sortOrder: category.sortOrder,
     isActive: category.isActive,
@@ -54,8 +58,10 @@ export async function adminListCategories(query: ListQuery) {
       ? {
           OR: [
             { name: { contains: query.search } },
+            { nameAr: { contains: query.search } },
             { slug: { contains: query.search } },
             { description: { contains: query.search } },
+            { descriptionAr: { contains: query.search } },
           ],
         }
       : {}),
@@ -116,7 +122,9 @@ export async function adminCreateCategory(input: CreateInput) {
       id,
       slug,
       name: input.name,
+      nameAr: input.nameAr?.trim() || null,
       description: input.description ?? null,
+      descriptionAr: input.descriptionAr?.trim() || null,
       imagePath: input.imagePath,
       sortOrder: input.sortOrder,
       isActive: input.isActive,
@@ -148,8 +156,14 @@ export async function adminUpdateCategory(id: string, input: UpdateInput) {
     data: {
       ...(input.slug !== undefined ? { slug: input.slug } : {}),
       ...(input.name !== undefined ? { name: input.name } : {}),
+      ...(input.nameAr !== undefined
+        ? { nameAr: input.nameAr?.trim() || null }
+        : {}),
       ...(input.description !== undefined
         ? { description: input.description }
+        : {}),
+      ...(input.descriptionAr !== undefined
+        ? { descriptionAr: input.descriptionAr?.trim() || null }
         : {}),
       ...(input.imagePath !== undefined ? { imagePath: input.imagePath } : {}),
       ...(input.sortOrder !== undefined ? { sortOrder: input.sortOrder } : {}),
