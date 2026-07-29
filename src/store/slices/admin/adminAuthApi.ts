@@ -47,6 +47,35 @@ export const adminAuthApi = baseApi.injectEndpoints({
       transformResponse: (res: AdminAuthResponse) => res.admin,
       invalidatesTags: ["AdminMe"],
     }),
+
+    adminRequestPasswordChange: builder.mutation<
+      { email: string; message: string },
+      { currentPassword: string; newPassword: string; confirmPassword: string }
+    >({
+      query: (body) => ({
+        url: "/admin/auth/password/request",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    adminConfirmPasswordChange: builder.mutation<
+      { updated: boolean },
+      { code: string }
+    >({
+      query: (body) => ({
+        url: "/admin/auth/password/confirm",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    adminResendPasswordChangeOtp: builder.mutation<{ message: string }, void>({
+      query: () => ({
+        url: "/admin/auth/password/resend",
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -56,4 +85,7 @@ export const {
   useAdminLoginMutation,
   useAdminLogoutMutation,
   useAdminRefreshMutation,
+  useAdminRequestPasswordChangeMutation,
+  useAdminConfirmPasswordChangeMutation,
+  useAdminResendPasswordChangeOtpMutation,
 } = adminAuthApi;

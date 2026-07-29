@@ -38,6 +38,24 @@ export const changePasswordSchema = z.object({
   newPassword: z.string().min(8).max(72),
 });
 
+export const adminRequestPasswordChangeSchema = z
+  .object({
+    currentPassword: z.string().min(1).max(72),
+    newPassword: z.string().min(8).max(72),
+    confirmPassword: z.string().min(8).max(72),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export const adminConfirmPasswordChangeSchema = z.object({
+  code: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, "Enter the 6-digit code"),
+});
+
 export const requestEmailChangeSchema = z.object({
   email: z.string().trim().email().max(160),
 });

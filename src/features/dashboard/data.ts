@@ -37,6 +37,11 @@ export const dashboardNav: DashboardNavItem[] = [
     href: ROUTES.dashboardSubscribers,
     description: "Newsletter list",
   },
+  {
+    label: "Change password",
+    href: ROUTES.dashboardPassword,
+    description: "Secure your admin account",
+  },
 ];
 
 /** UI mock data only — not wired to API yet */

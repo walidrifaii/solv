@@ -31,6 +31,14 @@ function isStalePrismaClient(client: PrismaClient) {
     return true;
   }
 
+  const otpPurposeValues = runtime._runtimeDataModel?.enums?.OtpPurpose?.values;
+  if (
+    Array.isArray(otpPurposeValues) &&
+    !otpPurposeValues.some((value) => value.name === "ADMIN_PASSWORD_CHANGE")
+  ) {
+    return true;
+  }
+
   return false;
 }
 

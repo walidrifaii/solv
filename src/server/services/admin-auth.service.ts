@@ -11,10 +11,22 @@ import {
   hashToken,
 } from "@/server/utils/crypto";
 import { ApiError, ok } from "@/server/utils/http";
-import type { loginSchema } from "@/server/validators/schemas";
+import type {
+  adminConfirmPasswordChangeSchema,
+  adminRequestPasswordChangeSchema,
+  loginSchema,
+} from "@/server/validators/schemas";
 import type { z } from "zod";
+import { createEmailOtp, consumeEmailOtp } from "@/server/mail/otp";
+import { sendAdminPasswordChangeOtpEmail } from "@/server/mail/auth-emails";
 
 type LoginInput = z.infer<typeof loginSchema>;
+type AdminRequestPasswordChangeInput = z.infer<
+  typeof adminRequestPasswordChangeSchema
+>;
+type AdminConfirmPasswordChangeInput = z.infer<
+  typeof adminConfirmPasswordChangeSchema
+>;
 
 function publicAdmin(admin: {
   id: string;
@@ -117,6 +129,99 @@ export async function getAdminProfile(adminId: string) {
     throw new ApiError("Admin not found", 404);
   }
   return publicAdmin(admin);
+}
+
+export async function requestAdminPasswordChange(
+  adminId: string,
+  input: AdminRequestPasswordChangeInput,
+) {
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (!admin || !admin.isActive) {
+    throw new ApiError("Admin not found", 404);
+  }
+
+  const valid = await verifyPassword(input.currentPassword, admin.passwordHash);
+  if (!valid) {
+    throw new ApiError("Current password is incorrect", 400);
+  }
+
+  const passwordHash = await hashPassword(input.newPassword);
+  const { code } = await createEmailOtp({
+    email: admin.email,
+    purpose: "ADMIN_PASSWORD_CHANGE",
+    payload: passwordHash,
+  });
+
+  sendAdminPasswordChangeOtpEmail(admin.email, code, admin.name);
+
+  return {
+    email: admin.email,
+    message: "Verification code sent to your email",
+  };
+}
+
+export async function resendAdminPasswordChangeOtp(adminId: string) {
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (!admin || !admin.isActive) {
+    throw new ApiError("Admin not found", 404);
+  }
+
+  const email = admin.email.toLowerCase();
+  const pending = await prisma.emailOtp.findFirst({
+    where: {
+      email,
+      purpose: "ADMIN_PASSWORD_CHANGE",
+      consumedAt: null,
+      expiresAt: { gt: new Date() },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (!pending?.payload) {
+    throw new ApiError("No pending password change. Start again.", 400);
+  }
+
+  const { code } = await createEmailOtp({
+    email,
+    purpose: "ADMIN_PASSWORD_CHANGE",
+    payload: pending.payload,
+  });
+
+  sendAdminPasswordChangeOtpEmail(admin.email, code, admin.name);
+
+  return { message: "New verification code sent" };
+}
+
+export async function confirmAdminPasswordChange(
+  adminId: string,
+  input: AdminConfirmPasswordChangeInput,
+) {
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (!admin || !admin.isActive) {
+    throw new ApiError("Admin not found", 404);
+  }
+
+  const otp = await consumeEmailOtp({
+    email: admin.email,
+    purpose: "ADMIN_PASSWORD_CHANGE",
+    code: input.code,
+  });
+
+  if (!otp.payload) {
+    throw new ApiError("Invalid verification code", 400);
+  }
+
+  await prisma.admin.update({
+    where: { id: adminId },
+    data: { passwordHash: otp.payload },
+  });
+
+  await prisma.adminRefreshToken.updateMany({
+    where: { adminId, revokedAt: null },
+    data: { revokedAt: new Date() },
+  });
+
+  return { updated: true };
 }
 
 /** Used by seed / bootstrap scripts */

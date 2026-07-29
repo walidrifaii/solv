@@ -25,6 +25,7 @@ enum OrderStatus {
 enum OtpPurpose {
   REGISTER
   EMAIL_CHANGE
+  ADMIN_PASSWORD_CHANGE
 }
 
 model ShopClient {

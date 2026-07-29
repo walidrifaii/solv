@@ -39,6 +39,9 @@ export {
   useAdminLoginMutation,
   useAdminLogoutMutation,
   useAdminRefreshMutation,
+  useAdminRequestPasswordChangeMutation,
+  useAdminConfirmPasswordChangeMutation,
+  useAdminResendPasswordChangeOtpMutation,
 } from "@/store/slices/admin/adminAuthApi";
 
 export {

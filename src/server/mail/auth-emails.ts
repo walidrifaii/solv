@@ -66,3 +66,26 @@ export function sendEmailChangeOtpEmail(
   );
   queueMail({ to, subject, html, text: `Your code is ${code}` });
 }
+
+export function sendAdminPasswordChangeOtpEmail(
+  to: string,
+  code: string,
+  name: string,
+) {
+  const subject = "Confirm your password change";
+  const html = layout(
+    "Admin password change",
+    `
+      <p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:14px;color:#7a6b5d;">
+        Hi ${escapeHtml(name)}, use this code to confirm your new admin password.
+      </p>
+      <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:32px;letter-spacing:0.2em;font-weight:700;color:#17100a;">
+        ${escapeHtml(code)}
+      </p>
+      <p style="margin:16px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#7a6b5d;">
+        This code expires in 10 minutes. If you did not request this change, secure your account immediately.
+      </p>
+    `,
+  );
+  queueMail({ to, subject, html, text: `Your code is ${code}` });
+}
