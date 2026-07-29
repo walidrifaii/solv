@@ -50,24 +50,26 @@ function isShopChildActive(
 
 const desktopNavClass = (active: boolean) =>
   cn(
-    "shrink-0 whitespace-nowrap text-sm font-normal transition-colors xl:text-base",
-    active ? "text-[#C9A962]" : "text-black hover:text-black/70",
+    "shrink-0 whitespace-nowrap text-sm transition-colors xl:text-base",
+    active
+      ? "font-extrabold text-[#C9A962]"
+      : "font-normal text-black hover:text-black/70",
   );
 
 const mobileNavClass = (active: boolean) =>
   cn(
     "border-b border-black/10 py-3.5 text-base transition-colors",
     active
-      ? "font-medium text-[#C9A962]"
-      : "text-black hover:text-black/70",
+      ? "font-extrabold text-[#C9A962]"
+      : "font-normal text-black hover:text-black/70",
   );
 
 const mobileShopChildClass = (active: boolean) =>
   cn(
     "block py-2.5 text-sm transition-colors",
     active
-      ? "font-medium text-[#C9A962]"
-      : "text-black/75 hover:text-black",
+      ? "font-extrabold text-[#C9A962]"
+      : "font-normal text-black/75 hover:text-black",
   );
 
 function hasChildren(
@@ -140,10 +142,10 @@ export function Navbar() {
                 <button
                   type="button"
                   className={cn(
-                    "inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-normal transition-colors xl:text-base",
+                    "inline-flex items-center gap-1.5 whitespace-nowrap text-sm transition-colors xl:text-base",
                     isNavItemActive(pathname, item.href)
-                      ? "text-[#C9A962]"
-                      : "text-black hover:text-black/70",
+                      ? "font-extrabold text-[#C9A962]"
+                      : "font-normal text-black hover:text-black/70",
                   )}
                   aria-expanded={shopOpen}
                   aria-haspopup="true"
@@ -171,8 +173,8 @@ export function Navbar() {
                           className={cn(
                             "block px-4 py-2.5 text-sm transition-colors hover:bg-[#17100a]/5",
                             childActive
-                              ? "font-medium text-[#C9A962]"
-                              : "text-black/75 hover:text-black",
+                              ? "font-extrabold text-[#C9A962]"
+                              : "font-normal text-black/75 hover:text-black",
                           )}
                         >
                           {t(child.key)}
@@ -262,8 +264,8 @@ export function Navbar() {
                     className={cn(
                       "flex w-full items-center justify-between py-3.5 text-start text-base transition-colors",
                       isNavItemActive(pathname, item.href)
-                        ? "font-medium text-[#C9A962]"
-                        : "text-black hover:text-black/70",
+                        ? "font-extrabold text-[#C9A962]"
+                        : "font-normal text-black hover:text-black/70",
                     )}
                     aria-expanded={mobileShopOpen}
                     onClick={() => setMobileShopOpen((open) => !open)}

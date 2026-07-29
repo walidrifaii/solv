@@ -71,7 +71,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
       >
         <span className="min-w-[1.75rem] text-center">{t(current.shortKey)}</span>
         <ChevronDownIcon
-          className={`size-3.5 shrink-0 text-[#C9A962] transition-transform ${open ? "rotate-180" : ""}`}
+          className={`size-3.5 shrink-0 text-black transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
