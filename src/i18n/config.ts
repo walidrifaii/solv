@@ -7,7 +7,7 @@ export const defaultLocale: Locale = "ar";
 /** Admin dashboard is always English regardless of storefront default. */
 export const dashboardLocale: Locale = "en";
 
-export const localeCookieName = "NEXT_LOCALE";
+export const localeCookieName = "SOLV_LOCALE";
 
 export function isLocale(value: string | undefined | null): value is Locale {
   return value === "en" || value === "ar";
