@@ -16,6 +16,7 @@ function isStalePrismaClient(client: PrismaClient) {
     city?: unknown;
     _runtimeDataModel?: {
       models?: Record<string, { fields?: Array<{ name: string }> }>;
+      enums?: Record<string, { values?: Array<{ name: string }> }>;
     };
   };
 
