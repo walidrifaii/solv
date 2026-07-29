@@ -125,8 +125,14 @@ export function DashboardChangePasswordPage() {
         </h2>
         <p className="mt-1 text-sm text-[#7a6b5d]">
           Two-step verification: enter your new password, then confirm with a
-          code sent to your email.
+          code sent to your admin email on file.
         </p>
+        {admin?.email ? (
+          <p className="mt-2 text-sm text-[#2a1f16]">
+            Admin email (from database):{" "}
+            <span className="font-medium">{admin.email}</span>
+          </p>
+        ) : null}
       </div>
 
       <div className="flex items-center gap-2 text-xs font-medium tracking-[0.12em] text-[#8a7a6c] uppercase">

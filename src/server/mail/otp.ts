@@ -16,6 +16,7 @@ export async function createEmailOtp(input: {
   email: string;
   purpose: OtpPurpose;
   clientId?: string | null;
+  adminId?: string | null;
   payload?: string | null;
 }) {
   const email = input.email.toLowerCase();
@@ -24,6 +25,8 @@ export async function createEmailOtp(input: {
     where: {
       email,
       purpose: input.purpose,
+      ...(input.adminId ? { adminId: input.adminId } : {}),
+      ...(input.clientId ? { clientId: input.clientId } : {}),
       consumedAt: null,
       createdAt: { gt: new Date(Date.now() - RESEND_COOLDOWN_MS) },
     },
@@ -44,6 +47,8 @@ export async function createEmailOtp(input: {
     where: {
       email,
       purpose: input.purpose,
+      ...(input.adminId ? { adminId: input.adminId } : {}),
+      ...(input.clientId ? { clientId: input.clientId } : {}),
       consumedAt: null,
     },
     data: { consumedAt: new Date() },
@@ -55,6 +60,7 @@ export async function createEmailOtp(input: {
       email,
       purpose: input.purpose,
       clientId: input.clientId ?? null,
+      adminId: input.adminId ?? null,
       payload: input.payload ?? null,
       codeHash: hashToken(code),
       expiresAt: new Date(Date.now() + OTP_TTL_MS),
@@ -68,12 +74,16 @@ export async function consumeEmailOtp(input: {
   email: string;
   purpose: OtpPurpose;
   code: string;
+  clientId?: string;
+  adminId?: string;
 }) {
   const email = input.email.toLowerCase();
   const otp = await prisma.emailOtp.findFirst({
     where: {
       email,
       purpose: input.purpose,
+      ...(input.adminId ? { adminId: input.adminId } : {}),
+      ...(input.clientId ? { clientId: input.clientId } : {}),
       consumedAt: null,
     },
     orderBy: { createdAt: "desc" },

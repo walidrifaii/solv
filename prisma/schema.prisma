@@ -51,17 +51,20 @@ model EmailOtp {
   codeHash   String     @map("code_hash") @db.VarChar(128)
   purpose    OtpPurpose
   clientId   String?    @map("client_id")
-  /// Pending value for EMAIL_CHANGE (new email)
-  payload    String?    @db.VarChar(160)
+  adminId    String?    @map("admin_id")
+  /// Pending value for EMAIL_CHANGE (new email) or ADMIN_PASSWORD_CHANGE (password hash)
+  payload    String?    @db.VarChar(255)
   attempts   Int        @default(0)
   expiresAt  DateTime   @map("expires_at")
   consumedAt DateTime?  @map("consumed_at")
   createdAt  DateTime   @default(now()) @map("created_at")
 
   client ShopClient? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  admin  Admin?      @relation(fields: [adminId], references: [id], onDelete: Cascade)
 
   @@index([email, purpose])
   @@index([clientId])
+  @@index([adminId])
   @@index([expiresAt])
   @@map("email_otps")
 }
@@ -91,6 +94,7 @@ model Admin {
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   refreshTokens AdminRefreshToken[]
+  otps          EmailOtp[]
 
   @@map("admins")
 }

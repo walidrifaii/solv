@@ -149,6 +149,7 @@ export async function requestAdminPasswordChange(
   const { code } = await createEmailOtp({
     email: admin.email,
     purpose: "ADMIN_PASSWORD_CHANGE",
+    adminId: admin.id,
     payload: passwordHash,
   });
 
@@ -169,6 +170,7 @@ export async function resendAdminPasswordChangeOtp(adminId: string) {
   const email = admin.email.toLowerCase();
   const pending = await prisma.emailOtp.findFirst({
     where: {
+      adminId: admin.id,
       email,
       purpose: "ADMIN_PASSWORD_CHANGE",
       consumedAt: null,
@@ -184,6 +186,7 @@ export async function resendAdminPasswordChangeOtp(adminId: string) {
   const { code } = await createEmailOtp({
     email,
     purpose: "ADMIN_PASSWORD_CHANGE",
+    adminId: admin.id,
     payload: pending.payload,
   });
 
@@ -204,10 +207,11 @@ export async function confirmAdminPasswordChange(
   const otp = await consumeEmailOtp({
     email: admin.email,
     purpose: "ADMIN_PASSWORD_CHANGE",
+    adminId: admin.id,
     code: input.code,
   });
 
-  if (!otp.payload) {
+  if (!otp.payload || otp.adminId !== admin.id) {
     throw new ApiError("Invalid verification code", 400);
   }
 
