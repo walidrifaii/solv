@@ -52,7 +52,7 @@ export async function ContactDetails() {
           const value = item.value ?? itemValues[item.id];
           const content = (
             <>
-              <Icon className="mt-0.5 size-4 shrink-0 text-[#c4a574]" />
+              <Icon className="mt-0.5 size-4 shrink-0 text-[#a5a196]" />
               <span>
                 <span className="block text-[10px] font-medium tracking-[0.16em] text-[#b0895b] uppercase">
                   {t(item.id)}
@@ -113,7 +113,7 @@ export async function ContactDetails() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm text-[#2a1f16] transition-colors hover:text-[#c4a574]"
+                className="text-sm text-[#2a1f16] transition-colors hover:text-[#a5a196]"
               >
                 {tContact(link.key)}
               </Link>

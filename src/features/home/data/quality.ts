@@ -1,5 +1,5 @@
 import { ROUTES } from "@/constants/routes";
 
 export const qualityShowcase = {
-  href: ROUTES.discover,
+  href: ROUTES.shop,
 };

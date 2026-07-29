@@ -22,7 +22,7 @@ export function CategoryCreatePage() {
       <div>
         <Link
           href={ROUTES.dashboardCategories}
-          className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
+          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
         >
           ← Back to categories
         </Link>

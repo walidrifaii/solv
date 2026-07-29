@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { ROUTES } from "@/constants/routes";
 import { useCart } from "@/features/cart/CartProvider";
@@ -12,26 +12,42 @@ import {
   getDeliveryFee,
 } from "@/features/checkout/data";
 import { productPath } from "@/features/products/utils";
+import type { Locale } from "@/i18n/config";
+import { pickLocalized } from "@/lib/localized";
+import {
+  formatQatarPhoneForBackend,
+  isValidQatarLocalPhone,
+  QATAR_PHONE_MAX_DIGITS,
+  sanitizeLocalPhoneDigits,
+  stripQatarCountryCode,
+} from "@/lib/phone";
 import { getApiErrorMessage } from "@/store/api/errors";
-import { useCreateOrderMutation } from "@/store/slices";
+import { CheckoutAuthModal } from "@/features/checkout/components/CheckoutAuthModal";
+import { useCreateOrderMutation, useGetCitiesQuery, useGetMeQuery } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base";
+  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196] sm:text-base";
+
+const selectClass = `${inputClass} cursor-pointer`;
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 export function CheckoutView() {
   const t = useTranslations("checkout");
+  const locale = useLocale() as Locale;
   const router = useRouter();
   const { items, subtotal, currency, itemCount, clearCart, hydrated, closeCart } =
     useCart();
   const [createOrder, { isLoading: placing }] = useCreateOrderMutation();
+  const { data: cities = [], isLoading: citiesLoading } = useGetCitiesQuery();
+  const { data: client, isLoading: authLoading } = useGetMeQuery();
 
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("Doha");
+  const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
@@ -39,32 +55,59 @@ export function CheckoutView() {
   const [orderRef, setOrderRef] = useState("");
 
   useEffect(() => {
+    if (city || cities.length === 0) return;
+    setCity(cities[0].name);
+  }, [cities, city]);
+
+  useEffect(() => {
+    if (!client) return;
+    setName(client.name);
+    setEmail(client.email);
+    if (client.phone) setPhone(stripQatarCountryCode(client.phone));
+  }, [client]);
+
+  useEffect(() => {
     closeCart();
   }, [closeCart]);
 
   const deliveryFee = useMemo(() => getDeliveryFee(subtotal), [subtotal]);
   const total = subtotal + deliveryFee;
+  const loginNext = `${ROUTES.login}?next=${encodeURIComponent(ROUTES.checkout)}`;
+  const registerNext = `${ROUTES.register}?next=${encodeURIComponent(ROUTES.checkout)}`;
+  const isLoggedIn = Boolean(client);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
+  function handlePhoneChange(value: string) {
+    setPhone(sanitizeLocalPhoneDigits(value));
+  }
 
-    if (!name.trim() || !email.trim() || !phone.trim() || !address.trim()) {
+  function validateCheckoutForm() {
+    if (!name.trim() || !email.trim() || !phone.trim() || !city.trim() || !address.trim()) {
       setError(t("requiredFields"));
-      return;
+      return false;
+    }
+
+    if (!isValidQatarLocalPhone(phone)) {
+      setError(t("invalidPhone"));
+      return false;
     }
 
     if (items.length === 0) {
       setError(t("cartEmptyError"));
-      return;
+      return false;
     }
+
+    return true;
+  }
+
+  async function placeOrder() {
+    setError("");
 
     try {
       const order = (await createOrder({
         guestName: name.trim(),
         guestEmail: email.trim(),
-        guestPhone: phone.trim(),
-        deliveryCity: city.trim() || "Doha",
+        guestPhone: formatQatarPhoneForBackend(phone),
+        deliveryCity: city.trim(),
         deliveryAddress: address.trim(),
         notes: notes.trim() || null,
         deliveryFee,
@@ -80,6 +123,25 @@ export function CheckoutView() {
     } catch (err) {
       setError(getApiErrorMessage(err, t("placeError")));
     }
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+
+    if (!validateCheckoutForm()) return;
+
+    if (!isLoggedIn) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    await placeOrder();
+  }
+
+  function handleGuestCheckout() {
+    setShowAuthModal(false);
+    void placeOrder();
   }
 
   if (!hydrated) {
@@ -103,19 +165,19 @@ export function CheckoutView() {
           <p className="mt-4 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
             {t("successDescription")}
           </p>
-          <p className="mt-6 font-serif text-xl text-[#c4a574]">
+          <p className="mt-6 font-serif text-xl text-[#a5a196]">
             {t("orderLabel", { ref: orderRef })}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href={ROUTES.shop}
-              className="inline-flex rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
+              className="inline-flex rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
             >
               {t("continueShopping")}
             </Link>
             <Link
               href={ROUTES.home}
-              className="inline-flex rounded-md border border-[#ddd0c4] px-6 py-3 text-sm font-medium text-[#2a1f16] transition-colors hover:border-[#c4a574]"
+              className="inline-flex rounded-md border border-[#ddd0c4] px-6 py-3 text-sm font-medium text-[#2a1f16] transition-colors hover:border-[#a5a196]"
             >
               {t("backHome")}
             </Link>
@@ -137,7 +199,7 @@ export function CheckoutView() {
           </p>
           <Link
             href={ROUTES.shop}
-            className="mt-8 inline-flex rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
+            className="mt-8 inline-flex rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
           >
             {t("browseShop")}
           </Link>
@@ -148,6 +210,14 @@ export function CheckoutView() {
 
   return (
     <section className="bg-[#FEF9F6] text-[#2a1f16]">
+      <CheckoutAuthModal
+        open={showAuthModal}
+        onGuest={handleGuestCheckout}
+        onClose={() => setShowAuthModal(false)}
+        loginHref={loginNext}
+        registerHref={registerNext}
+      />
+
       <div className="mx-auto w-full max-w-[1400px] px-4 py-10 sm:px-6 sm:py-12 md:px-8 lg:px-10 lg:py-14">
         <nav className="mb-8 text-sm text-[#8a7a6c]" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-2">
@@ -189,6 +259,17 @@ export function CheckoutView() {
           noValidate
         >
           <div className="space-y-10">
+            {client ? (
+              <div className="rounded-md border border-[#a5a196] bg-white px-4 py-4 sm:px-5">
+                <p className="text-sm font-medium text-[#2a1f16]">
+                  {t("authChoice.signedInAs", { name: client.name })}
+                </p>
+                <p className="mt-1 text-sm text-[#7a6b5d]">
+                  {t("authChoice.signedInHint")}
+                </p>
+              </div>
+            ) : null}
+
             <section>
               <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
                 {t("contactSection")}
@@ -227,16 +308,27 @@ export function CheckoutView() {
                   <label htmlFor="checkout-phone" className={labelClass}>
                     {t("fields.phone")}
                   </label>
-                  <input
-                    id="checkout-phone"
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className={inputClass}
-                    placeholder={t("placeholders.phone")}
-                    required
-                    autoComplete="tel"
-                  />
+                  <div className="flex overflow-hidden rounded-md border border-[#ddd0c4] bg-white transition-colors focus-within:border-[#a5a196]">
+                    <span className="flex shrink-0 items-center border-e border-[#ddd0c4] bg-[#F6EDE6] px-3 text-sm text-[#7a6b5d] sm:px-4 sm:text-base">
+                      +974
+                    </span>
+                    <input
+                      id="checkout-phone"
+                      type="tel"
+                      inputMode="numeric"
+                      autoComplete="tel-national"
+                      value={phone}
+                      onChange={(e) => handlePhoneChange(e.target.value)}
+                      maxLength={QATAR_PHONE_MAX_DIGITS}
+                      className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] sm:text-base"
+                      placeholder={t("placeholders.phone")}
+                      required
+                      aria-describedby="checkout-phone-hint"
+                    />
+                  </div>
+                  <p id="checkout-phone-hint" className="mt-1.5 text-xs text-[#8a7a6c]">
+                    {t("phoneHint")}
+                  </p>
                 </div>
               </div>
             </section>
@@ -250,15 +342,27 @@ export function CheckoutView() {
                   <label htmlFor="checkout-city" className={labelClass}>
                     {t("fields.city")}
                   </label>
-                  <input
+                  <select
                     id="checkout-city"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className={inputClass}
-                    placeholder={t("placeholders.city")}
+                    className={selectClass}
                     required
+                    disabled={citiesLoading || cities.length === 0}
                     autoComplete="address-level2"
-                  />
+                  >
+                    {cities.length === 0 ? (
+                      <option value="">
+                        {citiesLoading ? t("loadingCities") : t("noCities")}
+                      </option>
+                    ) : (
+                      cities.map((option) => (
+                        <option key={option.id} value={option.name}>
+                          {pickLocalized(locale, option.name, option.nameAr)}
+                        </option>
+                      ))
+                    )}
+                  </select>
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="checkout-address" className={labelClass}>
@@ -297,7 +401,7 @@ export function CheckoutView() {
               <p className="mt-2 text-sm text-[#7a6b5d]">
                 {t("paymentNote")}
               </p>
-              <div className="mt-5 rounded-md border border-[#c4a574] bg-white px-4 py-3.5">
+              <div className="mt-5 rounded-md border border-[#a5a196] bg-white px-4 py-3.5">
                 <p className="text-sm font-medium text-[#2a1f16]">
                   {t("payment.cod.label")}
                 </p>
@@ -315,8 +419,8 @@ export function CheckoutView() {
 
             <button
               type="submit"
-              disabled={placing}
-              className="hidden w-full rounded-md bg-[#c4a574] px-6 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 lg:inline-flex lg:w-auto lg:px-10 lg:text-base"
+              disabled={placing || authLoading}
+              className="hidden w-full cursor-pointer rounded-md bg-[#a5a196] px-6 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60 lg:inline-flex lg:w-auto lg:px-10 lg:text-base"
             >
               {placing
                 ? t("summary.placing")
@@ -404,7 +508,7 @@ export function CheckoutView() {
                   <span className="text-sm font-medium text-[#2a1f16]">
                     {t("summary.total")}
                   </span>
-                  <span className="font-serif text-2xl font-medium text-[#c4a574]">
+                  <span className="font-serif text-2xl font-medium text-[#a5a196]">
                     {currency} {total.toFixed(2)}
                   </span>
                 </div>
@@ -413,8 +517,8 @@ export function CheckoutView() {
               <div className="border-t border-[#e8ddd2] px-5 py-5 sm:px-6">
                 <button
                   type="submit"
-                  disabled={placing}
-                  className="flex w-full items-center justify-center rounded-md bg-[#c4a574] px-5 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
+                  disabled={placing || authLoading}
+                  className="flex w-full cursor-pointer items-center justify-center rounded-md bg-[#a5a196] px-5 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
                 >
                   {placing ? t("summary.placing") : t("summary.placeOrder")}
                 </button>

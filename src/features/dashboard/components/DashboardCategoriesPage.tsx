@@ -93,7 +93,7 @@ export function DashboardCategoriesPage() {
         </div>
         <Link
           href={ROUTES.dashboardCategoryNew}
-          className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
+          className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
         >
           Add category
         </Link>
@@ -109,7 +109,7 @@ export function DashboardCategoriesPage() {
               setPage(1);
             }}
             placeholder="Search name or slug…"
-            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#c4a574]"
+            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196]"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -178,7 +178,7 @@ export function DashboardCategoriesPage() {
                     <button
                       type="button"
                       onClick={() => refetch()}
-                      className="mt-3 text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+                      className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
                     >
                       Try again
                     </button>
@@ -241,7 +241,7 @@ export function DashboardCategoriesPage() {
                         </button>
                         <Link
                           href={ROUTES.dashboardCategoryEdit(category.id)}
-                          className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
+                          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
                         >
                           Edit
                         </Link>

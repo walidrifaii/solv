@@ -37,6 +37,13 @@ export type ApiCategory = {
   productCount?: number;
 };
 
+export type ApiCity = {
+  id: string;
+  name: string;
+  nameAr: string | null;
+  sortOrder: number;
+};
+
 export type ApiAdminCategory = ApiCategory & {
   isActive: boolean;
   createdAt: string;
@@ -69,6 +76,29 @@ export type ApiProduct = {
 };
 
 export type ApiAdminProduct = ApiProduct & {
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ApiHeroSlide = {
+  id: string;
+  eyebrow: string;
+  eyebrowAr: string | null;
+  title: string;
+  titleAr: string | null;
+  description: string;
+  descriptionAr: string | null;
+  ctaLabel: string;
+  ctaLabelAr: string | null;
+  imageAlt: string;
+  imageAltAr: string | null;
+  imagePath: string;
+  href: string;
+  sortOrder: number;
+};
+
+export type ApiAdminHeroSlide = ApiHeroSlide & {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -142,6 +172,31 @@ export type CreateProductInput = {
 };
 
 export type UpdateProductInput = Partial<Omit<CreateProductInput, "id">>;
+
+export type AdminSlideListParams = PaginationParams & {
+  search?: string;
+  isActive?: boolean;
+};
+
+export type CreateSlideInput = {
+  id?: string;
+  eyebrow: string;
+  eyebrowAr?: string | null;
+  title: string;
+  titleAr?: string | null;
+  description: string;
+  descriptionAr?: string | null;
+  ctaLabel: string;
+  ctaLabelAr?: string | null;
+  imageAlt: string;
+  imageAltAr?: string | null;
+  imagePath: string;
+  href: string;
+  sortOrder?: number;
+  isActive?: boolean;
+};
+
+export type UpdateSlideInput = Partial<Omit<CreateSlideInput, "id">>;
 
 export type OrderStatus =
   | "PENDING"

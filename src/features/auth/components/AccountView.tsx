@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { ROUTES } from "@/constants/routes";
 import { ProfileHero } from "@/features/auth/components/ProfileHero";
 import { statusTone } from "@/features/dashboard/data";
@@ -19,7 +20,7 @@ import {
 } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574]";
+  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196]";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -196,7 +197,7 @@ export function AccountView() {
             type="button"
             onClick={handleLogout}
             disabled={loggingOut}
-            className="rounded-md border border-[#ddd0c4] px-4 py-2 text-sm text-[#2a1f16] transition-colors hover:border-[#c4a574] disabled:opacity-60"
+            className="rounded-md border border-[#ddd0c4] px-4 py-2 text-sm text-[#2a1f16] transition-colors hover:border-[#a5a196] disabled:opacity-60"
           >
             {loggingOut ? t("signingOut") : t("signOut")}
           </button>
@@ -214,7 +215,7 @@ export function AccountView() {
             onClick={() => selectTab("settings")}
             className={`-mb-px border-b-2 px-4 py-3 text-sm transition-colors ${
               tab === "settings"
-                ? "border-[#c4a574] text-[#2a1f16]"
+                ? "border-[#a5a196] text-[#2a1f16]"
                 : "border-transparent text-[#8a7a6c] hover:text-[#2a1f16]"
             }`}
           >
@@ -227,7 +228,7 @@ export function AccountView() {
             onClick={() => selectTab("orders")}
             className={`-mb-px border-b-2 px-4 py-3 text-sm transition-colors ${
               tab === "orders"
-                ? "border-[#c4a574] text-[#2a1f16]"
+                ? "border-[#a5a196] text-[#2a1f16]"
                 : "border-transparent text-[#8a7a6c] hover:text-[#2a1f16]"
             }`}
           >
@@ -267,7 +268,7 @@ export function AccountView() {
               <button
                 type="submit"
                 disabled={savingName}
-                className="mt-4 rounded-md bg-[#c4a574] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
+                className="mt-4 rounded-md bg-[#a5a196] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
               >
                 {savingName ? t("displayName.saving") : t("displayName.save")}
               </button>
@@ -285,9 +286,8 @@ export function AccountView() {
                   <label htmlFor="current-password" className={labelClass}>
                     {t("password.current")}
                   </label>
-                  <input
+                  <PasswordInput
                     id="current-password"
-                    type="password"
                     autoComplete="current-password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -298,9 +298,8 @@ export function AccountView() {
                   <label htmlFor="new-password" className={labelClass}>
                     {t("password.new")}
                   </label>
-                  <input
+                  <PasswordInput
                     id="new-password"
-                    type="password"
                     autoComplete="new-password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -318,7 +317,7 @@ export function AccountView() {
               <button
                 type="submit"
                 disabled={savingPassword}
-                className="mt-4 rounded-md bg-[#c4a574] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
+                className="mt-4 rounded-md bg-[#a5a196] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
               >
                 {savingPassword ? t("password.saving") : t("password.save")}
               </button>
@@ -373,7 +372,7 @@ export function AccountView() {
                   <button
                     type="submit"
                     disabled={confirmingEmail}
-                    className="rounded-md bg-[#c4a574] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
+                    className="rounded-md bg-[#a5a196] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
                   >
                     {confirmingEmail ? t("email.confirming") : t("email.confirm")}
                   </button>
@@ -395,7 +394,7 @@ export function AccountView() {
             ) : orders.length === 0 ? (
               <p className="text-sm text-[#7a6b5d]">
                 {t("noOrders")}{" "}
-                <Link href={ROUTES.shop} className="text-[#c4a574] underline">
+                <Link href={ROUTES.shop} className="text-[#a5a196] underline">
                   {t("browseShop")}
                 </Link>
               </p>

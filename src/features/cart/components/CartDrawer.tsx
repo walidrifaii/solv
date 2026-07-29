@@ -84,7 +84,7 @@ export function CartDrawer() {
               <Link
                 href={ROUTES.shop}
                 onClick={closeCart}
-                className="mt-6 inline-flex rounded-md bg-[#c4a574] px-5 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
+                className="mt-6 inline-flex rounded-md bg-[#a5a196] px-5 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
               >
                 {t("browseShop")}
               </Link>
@@ -120,14 +120,14 @@ export function CartDrawer() {
                         <h3 className="truncate text-sm font-semibold text-[#1a120c] sm:text-[15px]">
                           {item.name}
                         </h3>
-                        <p className="mt-1 text-sm font-medium text-[#c4a574]">
+                        <p className="mt-1 text-sm font-medium text-[#a5a196]">
                           {item.currency} {item.price.toFixed(2)}
                         </p>
                       </Link>
                       <button
                         type="button"
                         onClick={() => removeItem(item.productId)}
-                        className="shrink-0 text-xs text-[#8a7a6c] transition-colors hover:text-[#a35d5d]"
+                        className="shrink-0 cursor-pointer text-xs text-[#a35d5d] transition-colors hover:text-[#7a3030]"
                       >
                         {t("remove")}
                       </button>
@@ -182,14 +182,14 @@ export function CartDrawer() {
             <Link
               href={ROUTES.checkout}
               onClick={closeCart}
-              className="flex w-full items-center justify-center rounded-md bg-[#c4a574] px-5 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
+              className="flex w-full items-center justify-center rounded-md bg-[#a5a196] px-5 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
             >
               {t("checkout")}
             </Link>
             <button
               type="button"
               onClick={closeCart}
-              className="mt-3 w-full text-center text-sm text-[#7a6b5d] transition-colors hover:text-[#2a1f16]"
+              className="mt-3 w-full cursor-pointer text-center text-sm text-[#7a6b5d] transition-colors hover:text-[#2a1f16]"
             >
               {t("continueShopping")}
             </button>

@@ -36,7 +36,7 @@ export function ProductCreatePage() {
       <div>
         <Link
           href={ROUTES.dashboardProducts}
-          className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
+          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
         >
           ← Back to products
         </Link>
@@ -54,7 +54,7 @@ export function ProductCreatePage() {
           </p>
           <Link
             href={ROUTES.dashboardCategoryNew}
-            className="mt-3 inline-block text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+            className="mt-3 inline-block text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
           >
             Add category
           </Link>

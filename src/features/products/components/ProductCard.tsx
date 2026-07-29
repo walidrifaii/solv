@@ -35,7 +35,7 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
           <p className="mt-1 text-sm text-[#8a7a6c]">{product.subtitle}</p>
         </Link>
         <div className="mt-auto flex items-center justify-between pt-3">
-          <p className="font-semibold text-[#c4a574]">{formatPrice(product)}</p>
+          <p className="font-semibold text-[#a5a196]">{formatPrice(product)}</p>
           <BagIcon className="size-4 text-[#2a1f16]" />
         </div>
       </div>

@@ -14,6 +14,7 @@ import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { images } from "@/constants/images";
 import { ROUTES } from "@/constants/routes";
 import { navigation } from "@/data/navigation";
+import { footerContact } from "@/data/footer";
 import { useCart } from "@/features/cart/CartProvider";
 import { useSearch } from "@/features/search/SearchProvider";
 import { useGetMeQuery } from "@/store/slices";
@@ -146,21 +147,21 @@ export function Navbar() {
           <button
             type="button"
             onClick={openCart}
-            className="relative hidden shrink-0 p-1.5 transition-colors hover:text-white sm:inline-flex"
+            className="relative hidden shrink-0 cursor-pointer p-1.5 transition-colors hover:text-white sm:inline-flex"
             aria-label={t("cart", { count: cartCount })}
           >
             <BagIcon className="size-5 lg:size-6" />
-            <span className="absolute -top-0.5 -end-0.5 flex size-4 items-center justify-center rounded-full bg-[#c4a574] text-[10px] leading-none font-semibold text-white lg:size-5 lg:text-[11px]">
+            <span className="absolute -top-0.5 -end-0.5 flex size-4 items-center justify-center rounded-full bg-[#a5a196] text-[10px] leading-none font-semibold text-white lg:size-5 lg:text-[11px]">
               {cartCount}
             </span>
           </button>
 
-          <Link
-            href={ROUTES.order}
-            className="shrink-0 rounded-md bg-[#c4a574] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white transition-colors hover:bg-[#d4b584] sm:px-4 sm:py-2 sm:text-sm md:px-5 md:text-base"
+          <a
+            href={footerContact.phoneHref}
+            className="shrink-0 cursor-pointer rounded-md bg-[#a5a196] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white transition-colors hover:bg-[#b5b1a6] sm:px-4 sm:py-2 sm:text-sm md:px-5 md:text-base"
           >
             {t("orderNow")}
-          </Link>
+          </a>
 
           <button
             type="button"
@@ -239,11 +240,11 @@ export function Navbar() {
                 setMobileOpen(false);
                 openCart();
               }}
-              className="relative p-1 sm:hidden"
+              className="relative cursor-pointer p-1 sm:hidden"
               aria-label={t("cart", { count: cartCount })}
             >
               <BagIcon className="size-5" />
-              <span className="absolute -top-0.5 -end-0.5 flex size-4 items-center justify-center rounded-full bg-[#c4a574] text-[10px] leading-none font-semibold text-white">
+              <span className="absolute -top-0.5 -end-0.5 flex size-4 items-center justify-center rounded-full bg-[#a5a196] text-[10px] leading-none font-semibold text-white">
                 {cartCount}
               </span>
             </button>

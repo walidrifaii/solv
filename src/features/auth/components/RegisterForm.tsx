@@ -4,20 +4,20 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { authCopy } from "@/features/auth/data";
 import { ROUTES } from "@/constants/routes";
 import { useRegisterMutation } from "@/store/slices";
 import { getApiErrorMessage } from "@/store/api/errors";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574] sm:text-base";
+  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196] sm:text-base";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
 export function RegisterForm() {
   const t = useTranslations("auth.register");
-  const tCommon = useTranslations("common");
   const copy = authCopy.register;
   const router = useRouter();
   const [register, { isLoading }] = useRegisterMutation();
@@ -25,7 +25,6 @@ export function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -115,21 +114,11 @@ export function RegisterForm() {
         </div>
 
         <div>
-          <div className="mb-1.5 flex items-center justify-between gap-3">
-            <label htmlFor="register-password" className={labelClass + " mb-0"}>
-              {t("password")}
-            </label>
-            <button
-              type="button"
-              onClick={() => setShowPassword((open) => !open)}
-              className="text-xs text-[#8a7a6c] transition-colors hover:text-[#2a1f16]"
-            >
-              {showPassword ? tCommon("hide") : tCommon("show")}
-            </button>
-          </div>
-          <input
+          <label htmlFor="register-password" className={labelClass}>
+            {t("password")}
+          </label>
+          <PasswordInput
             id="register-password"
-            type={showPassword ? "text" : "password"}
             autoComplete="new-password"
             required
             value={password}
@@ -146,9 +135,8 @@ export function RegisterForm() {
           <label htmlFor="register-confirm" className={labelClass}>
             {t("confirmPassword")}
           </label>
-          <input
+          <PasswordInput
             id="register-confirm"
-            type={showPassword ? "text" : "password"}
             autoComplete="new-password"
             required
             value={confirmPassword}
@@ -170,7 +158,7 @@ export function RegisterForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex w-full items-center justify-center rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:text-base"
+          className="inline-flex w-full items-center justify-center rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:opacity-60 sm:text-base"
         >
           {isLoading ? t("submitting") : t("submit")}
         </button>
@@ -180,7 +168,7 @@ export function RegisterForm() {
         {t("switchPrompt")}{" "}
         <Link
           href={copy.switchHref}
-          className="font-medium text-[#2a1f16] underline-offset-2 transition-colors hover:text-[#c4a574] hover:underline"
+          className="font-medium text-[#2a1f16] underline-offset-2 transition-colors hover:text-[#a5a196] hover:underline"
         >
           {t("switchLabel")}
         </Link>

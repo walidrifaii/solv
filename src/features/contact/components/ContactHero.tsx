@@ -20,7 +20,7 @@ export async function ContactHero() {
 
       <div className="relative z-10 mx-auto flex min-h-[42svh] w-full max-w-[1400px] flex-col justify-end px-4 pb-10 pt-20 sm:min-h-[48svh] sm:px-6 sm:pb-12 sm:pt-24 md:min-h-[52svh] md:justify-center md:px-8 md:pb-14 lg:px-10">
         <div className="max-w-2xl animate-[heroFade_0.6s_ease-out]">
-          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#c4a574] uppercase sm:mb-4 sm:text-xs">
+          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#a5a196] uppercase sm:mb-4 sm:text-xs">
             {t("eyebrow")}
           </p>
           <p className="font-serif text-5xl leading-none font-medium tracking-[0.06em] text-white sm:text-6xl md:text-7xl lg:text-[5.5rem]">

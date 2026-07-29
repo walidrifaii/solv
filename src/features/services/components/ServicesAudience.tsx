@@ -17,10 +17,10 @@ export async function ServicesAudience() {
           <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.5rem]">
             {t("title")}
           </h2>
-          <div className="mt-4 flex items-center gap-3 text-[#c4a574]">
-            <span className="h-px w-10 bg-[#c4a574]/70 sm:w-14" />
+          <div className="mt-4 flex items-center gap-3 text-[#a5a196]">
+            <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
             <OrnamentIcon className="size-3.5" />
-            <span className="h-px w-10 bg-[#c4a574]/70 sm:w-14" />
+            <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
           </div>
           <p className="mt-5 max-w-lg text-sm leading-relaxed text-[#7a6b5d] sm:mt-6 sm:text-base">
             {t("description")}
@@ -34,7 +34,7 @@ export async function ServicesAudience() {
                   index > 0 ? "border-t border-[#e0d2c4] pt-6" : ""
                 }`}
               >
-                <span className="font-serif text-2xl leading-none font-medium text-[#c4a574] sm:text-3xl">
+                <span className="font-serif text-2xl leading-none font-medium text-[#a5a196] sm:text-3xl">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>

@@ -82,14 +82,14 @@ export function ShopProductCard({
                 {product.currency} {product.originalPrice!.toFixed(2)}
               </p>
             ) : null}
-            <p className="text-sm font-semibold text-[#c4a574] sm:text-base">
+            <p className="text-sm font-semibold text-[#a5a196] sm:text-base">
               {formatPrice(product)}
             </p>
           </div>
           <button
             type="button"
             onClick={handleAdd}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-10"
+            className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-10"
             aria-label={`Add ${product.name} to cart`}
           >
             <BagIcon className="size-4 sm:size-[1.125rem]" />

@@ -13,6 +13,7 @@ function createPrismaClient() {
 function isStalePrismaClient(client: PrismaClient) {
   const runtime = client as {
     admin?: unknown;
+    city?: unknown;
     _runtimeDataModel?: {
       models?: Record<string, { fields?: Array<{ name: string }> }>;
     };
@@ -20,6 +21,7 @@ function isStalePrismaClient(client: PrismaClient) {
 
   // After schema changes, HMR can keep a stale singleton missing new models/fields.
   if (typeof runtime.admin === "undefined") return true;
+  if (typeof runtime.city === "undefined") return true;
 
   const orderItemFields = runtime._runtimeDataModel?.models?.OrderItem?.fields;
   if (

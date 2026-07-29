@@ -310,7 +310,7 @@ export function ProductForm({
             type="checkbox"
             checked={inStock}
             onChange={(e) => setInStock(e.target.checked)}
-            className="size-4 rounded border-[#ddd0c4] accent-[#c4a574]"
+            className="size-4 rounded border-[#ddd0c4] accent-[#a5a196]"
           />
           In stock
         </label>
@@ -319,7 +319,7 @@ export function ProductForm({
             type="checkbox"
             checked={isFeatured}
             onChange={(e) => setIsFeatured(e.target.checked)}
-            className="size-4 rounded border-[#ddd0c4] accent-[#c4a574]"
+            className="size-4 rounded border-[#ddd0c4] accent-[#a5a196]"
           />
           Featured
         </label>
@@ -328,7 +328,7 @@ export function ProductForm({
             type="checkbox"
             checked={isActive}
             onChange={(e) => setIsActive(e.target.checked)}
-            className="size-4 rounded border-[#ddd0c4] accent-[#c4a574]"
+            className="size-4 rounded border-[#ddd0c4] accent-[#a5a196]"
           />
           Active on storefront
         </label>
@@ -352,7 +352,7 @@ export function ProductForm({
         <button
           type="submit"
           disabled={saving || imageUploading || !imagePath.trim()}
-          className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] hover:bg-[#d4b584] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {imageUploading
             ? "Uploading image…"

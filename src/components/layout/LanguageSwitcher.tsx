@@ -67,11 +67,11 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
         onClick={() => {
           if (!switching) setOpen((value) => !value);
         }}
-        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/15 bg-[#17100a]/60 px-2.5 text-xs font-medium tracking-wide text-[#d1d1d1] transition-colors hover:border-[#c4a574]/50 hover:text-white disabled:cursor-wait disabled:opacity-60 sm:h-9 sm:px-3 sm:text-sm"
+        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/15 bg-[#17100a]/60 px-2.5 text-xs font-medium tracking-wide text-[#d1d1d1] transition-colors hover:border-[#a5a196]/50 hover:text-white disabled:cursor-wait disabled:opacity-60 sm:h-9 sm:px-3 sm:text-sm"
       >
         <span className="min-w-[1.75rem] text-center">{t(current.shortKey)}</span>
         <ChevronDownIcon
-          className={`size-3.5 shrink-0 text-[#c4a574] transition-transform ${open ? "rotate-180" : ""}`}
+          className={`size-3.5 shrink-0 text-[#a5a196] transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -98,7 +98,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
                   }}
                   className={`flex w-full items-center justify-between gap-3 px-3.5 py-2.5 text-start text-sm transition-colors ${
                     selected
-                      ? "bg-white/5 text-[#c4a574]"
+                      ? "bg-white/5 text-[#a5a196]"
                       : "text-[#d1d1d1] hover:bg-white/5 hover:text-white"
                   }`}
                 >

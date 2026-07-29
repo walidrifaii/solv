@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { ROUTES } from "@/constants/routes";
 import { getApiErrorMessage } from "@/store/api/errors";
 import { useAdminLoginMutation } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-xl border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#c4a574]";
+  "w-full rounded-xl border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196]";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -18,7 +19,6 @@ export function AdminLoginForm() {
   const [login, { isLoading }] = useAdminLoginMutation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -72,21 +72,11 @@ export function AdminLoginForm() {
         </div>
 
         <div>
-          <div className="mb-1.5 flex items-center justify-between">
-            <label htmlFor="admin-password" className={labelClass + " mb-0"}>
-              Password
-            </label>
-            <button
-              type="button"
-              onClick={() => setShowPassword((open) => !open)}
-              className="text-xs text-[#8a7a6c] hover:text-[#2a1f16]"
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
-          </div>
-          <input
+          <label htmlFor="admin-password" className={labelClass}>
+            Password
+          </label>
+          <PasswordInput
             id="admin-password"
-            type={showPassword ? "text" : "password"}
             autoComplete="current-password"
             required
             value={password}
@@ -108,14 +98,14 @@ export function AdminLoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex w-full items-center justify-center rounded-xl bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center rounded-xl bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:opacity-60"
         >
           {isLoading ? "Signing in…" : "Sign in"}
         </button>
       </form>
 
       <p className="mt-6 text-center text-sm text-[#7a6b5d]">
-        <Link href={ROUTES.home} className="text-[#2a1f16] hover:text-[#c4a574]">
+        <Link href={ROUTES.home} className="text-[#2a1f16] hover:text-[#a5a196]">
           Back to store
         </Link>
       </p>

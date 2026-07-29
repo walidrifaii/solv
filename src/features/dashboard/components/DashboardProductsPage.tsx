@@ -113,7 +113,7 @@ export function DashboardProductsPage() {
         </div>
         <Link
           href={ROUTES.dashboardProductNew}
-          className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584]"
+          className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
         >
           Add product
         </Link>
@@ -129,7 +129,7 @@ export function DashboardProductsPage() {
               setPage(1);
             }}
             placeholder="Search name or slug…"
-            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#c4a574] lg:max-w-xs"
+            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196] lg:max-w-xs"
           />
           <select
             value={categoryId}
@@ -137,7 +137,7 @@ export function DashboardProductsPage() {
               setCategoryId(e.target.value);
               setPage(1);
             }}
-            className="w-full rounded-xl border border-[#ddd0c4] bg-white px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none focus:border-[#c4a574] lg:max-w-[14rem]"
+            className="w-full rounded-xl border border-[#ddd0c4] bg-white px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none focus:border-[#a5a196] lg:max-w-[14rem]"
           >
             <option value="">All categories</option>
             {categories.map((category) => (
@@ -181,7 +181,7 @@ export function DashboardProductsPage() {
                 setStockOnly(e.target.checked);
                 setPage(1);
               }}
-              className="size-3.5 rounded border-[#ddd0c4] accent-[#c4a574]"
+              className="size-3.5 rounded border-[#ddd0c4] accent-[#a5a196]"
             />
             In stock only
           </label>
@@ -193,7 +193,7 @@ export function DashboardProductsPage() {
                 setFeaturedOnly(e.target.checked);
                 setPage(1);
               }}
-              className="size-3.5 rounded border-[#ddd0c4] accent-[#c4a574]"
+              className="size-3.5 rounded border-[#ddd0c4] accent-[#a5a196]"
             />
             Featured only
           </label>
@@ -240,7 +240,7 @@ export function DashboardProductsPage() {
                     <button
                       type="button"
                       onClick={() => refetch()}
-                      className="mt-3 text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+                      className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
                     >
                       Try again
                     </button>
@@ -325,7 +325,7 @@ export function DashboardProductsPage() {
                         </button>
                         <Link
                           href={ROUTES.dashboardProductEdit(product.id)}
-                          className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
+                          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
                         >
                           Edit
                         </Link>

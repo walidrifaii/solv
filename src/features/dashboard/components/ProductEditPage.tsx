@@ -43,7 +43,7 @@ export function ProductEditPage({ productId }: { productId: string }) {
         </p>
         <Link
           href={ROUTES.dashboardProducts}
-          className="text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+          className="text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
         >
           Back to products
         </Link>
@@ -56,7 +56,7 @@ export function ProductEditPage({ productId }: { productId: string }) {
       <div>
         <Link
           href={ROUTES.dashboardProducts}
-          className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
+          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
         >
           ← Back to products
         </Link>

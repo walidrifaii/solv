@@ -18,10 +18,10 @@ export async function AboutJourney() {
           <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
             {t("description")}
           </p>
-          <div className="mt-5 flex items-center justify-center gap-3 text-[#c4a574]">
-            <span className="h-px w-12 bg-[#c4a574]/70 sm:w-16" />
+          <div className="mt-5 flex items-center justify-center gap-3 text-[#a5a196]">
+            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
             <OrnamentIcon className="size-3.5 sm:size-4" />
-            <span className="h-px w-12 bg-[#c4a574]/70 sm:w-16" />
+            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
           </div>
         </div>
 
@@ -30,12 +30,12 @@ export async function AboutJourney() {
             <li key={step.id} className="relative">
               {index < aboutJourney.steps.length - 1 ? (
                 <span
-                  className="pointer-events-none absolute top-5 start-[calc(50%+2.5rem)] hidden h-px w-[calc(100%-5rem)] bg-[#c4a574]/35 lg:block"
+                  className="pointer-events-none absolute top-5 start-[calc(50%+2.5rem)] hidden h-px w-[calc(100%-5rem)] bg-[#a5a196]/35 lg:block"
                   aria-hidden
                 />
               ) : null}
               <div className="flex flex-col items-center text-center lg:items-start lg:text-start">
-                <span className="font-serif text-3xl font-medium text-[#c4a574] sm:text-4xl">
+                <span className="font-serif text-3xl font-medium text-[#a5a196] sm:text-4xl">
                   {step.number}
                 </span>
                 <h3 className="mt-3 font-serif text-xl font-semibold text-[#2a1f16]">

@@ -1,6 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { getRequestConfig } from "next-intl/server";
 import {
+  dashboardLocale,
   defaultLocale,
   isLocale,
   localeCookieName,
@@ -18,8 +19,8 @@ export default getRequestConfig(async () => {
   // Admin dashboard stays English regardless of storefront locale cookie
   if (isDashboardPath(pathname)) {
     return {
-      locale: defaultLocale,
-      messages: (await import(`../../messages/${defaultLocale}.json`)).default,
+      locale: dashboardLocale,
+      messages: (await import(`../../messages/${dashboardLocale}.json`)).default,
     };
   }
 

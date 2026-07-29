@@ -172,7 +172,7 @@ export function SearchDrawer() {
                           {categoryName}
                         </p>
                       </div>
-                      <p className="shrink-0 text-sm font-semibold text-[#c4a574]">
+                      <p className="shrink-0 text-sm font-semibold text-[#a5a196]">
                         {tCommon("currency")} {item.finalPrice.toFixed(2)}
                       </p>
                     </Link>

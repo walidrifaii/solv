@@ -82,7 +82,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
           <button
             type="button"
             onClick={() => refetch()}
-            className="mt-3 text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+            className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
           >
             Try again
           </button>
@@ -222,7 +222,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
                 type="button"
                 disabled={saving || status === order.status}
                 onClick={() => void handleSaveStatus()}
-                className="rounded-xl bg-[#c4a574] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {saving ? "Saving…" : "Update status"}
               </button>

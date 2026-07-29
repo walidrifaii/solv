@@ -15,10 +15,10 @@ export async function AboutValues() {
           <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.75rem]">
             {t("title")}
           </h2>
-          <div className="mt-5 flex items-center justify-center gap-3 text-[#c4a574]">
-            <span className="h-px w-12 bg-[#c4a574]/70 sm:w-16" />
+          <div className="mt-5 flex items-center justify-center gap-3 text-[#a5a196]">
+            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
             <OrnamentIcon className="size-3.5 sm:size-4" />
-            <span className="h-px w-12 bg-[#c4a574]/70 sm:w-16" />
+            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
           </div>
         </div>
 
@@ -39,7 +39,7 @@ export async function AboutValues() {
                 key={value.id}
                 className={`flex flex-col items-center px-4 py-8 text-center sm:px-6 sm:py-8 md:px-8 lg:py-4 ${mobileDivider} ${tabletDivider} ${desktopDivider}`}
               >
-                <Icon className="mb-4 size-11 text-[#c4a574] sm:mb-5 sm:size-12" />
+                <Icon className="mb-4 size-11 text-[#a5a196] sm:mb-5 sm:size-12" />
                 <h3 className="font-serif text-lg font-semibold text-[#2a1f16] sm:text-xl">
                   {t(`${value.id}.title`)}
                 </h3>

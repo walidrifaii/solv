@@ -28,6 +28,11 @@ export const dashboardNav: DashboardNavItem[] = [
     description: "Shop collections",
   },
   {
+    label: "Hero slider",
+    href: ROUTES.dashboardSlides,
+    description: "Homepage banners",
+  },
+  {
     label: "Subscribers",
     href: ROUTES.dashboardSubscribers,
     description: "Newsletter list",

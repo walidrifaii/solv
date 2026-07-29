@@ -22,5 +22,8 @@ export const ROUTES = {
   dashboardCategoryNew: "/dashboard/categories/new",
   dashboardCategoryEdit: (id: string) =>
     `/dashboard/categories/${id}/edit` as const,
+  dashboardSlides: "/dashboard/slides",
+  dashboardSlideNew: "/dashboard/slides/new",
+  dashboardSlideEdit: (id: string) => `/dashboard/slides/${id}/edit` as const,
   dashboardSubscribers: "/dashboard/subscribers",
 } as const;

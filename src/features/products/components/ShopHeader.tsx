@@ -34,10 +34,10 @@ export function ShopHeader() {
         <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
           {t("description")}
         </p>
-        <div className="mt-5 flex items-center gap-3 text-[#c4a574]">
-          <span className="h-px w-10 bg-[#c4a574]/70 sm:w-14" />
+        <div className="mt-5 flex items-center gap-3 text-[#a5a196]">
+          <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
           <OrnamentIcon className="size-3.5" />
-          <span className="h-px w-10 bg-[#c4a574]/70 sm:w-14" />
+          <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
         </div>
       </div>
     </section>

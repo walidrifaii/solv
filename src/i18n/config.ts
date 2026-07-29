@@ -1,8 +1,11 @@
-export const locales = ["en", "ar"] as const;
+export const locales = ["ar", "en"] as const;
 
 export type Locale = (typeof locales)[number];
 
-export const defaultLocale: Locale = "en";
+export const defaultLocale: Locale = "ar";
+
+/** Admin dashboard is always English regardless of storefront default. */
+export const dashboardLocale: Locale = "en";
 
 export const localeCookieName = "NEXT_LOCALE";
 

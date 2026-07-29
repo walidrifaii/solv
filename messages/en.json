@@ -43,7 +43,7 @@
     "accessories": "Accessories",
     "services": "Services",
     "contact": "Contact Us",
-    "orderNow": "Order Now",
+    "orderNow": "Call us",
     "profile": "Profile",
     "signIn": "Sign in",
     "search": "Search",
@@ -81,27 +81,6 @@
   },
   "home": {
     "hero": {
-      "rich-flavor": {
-        "eyebrow": "Premium Coffee & Tea",
-        "title": "Rich Flavor, Perfect Moments",
-        "description": "Discover our exclusive selection of premium coffee and tea blends, crafted for true taste lovers.",
-        "cta": "Shop Now",
-        "imageAlt": "Black coffee cup with steam, beans, and a gold cezve"
-      },
-      "latte-art": {
-        "eyebrow": "Handcrafted Brews",
-        "title": "Slow Sips, Golden Rituals",
-        "description": "From silky espresso to delicate latte art, every cup is roasted and poured for depth, aroma, and calm.",
-        "cta": "Shop Now",
-        "imageAlt": "Latte art in a black cup with coffee beans and gold spoon"
-      },
-      "tea-moments": {
-        "eyebrow": "Tea & Warmth",
-        "title": "Leaves, Steam, Quiet Luxury",
-        "description": "Explore refined tea blends and brewing rituals designed for evenings that linger a little longer.",
-        "cta": "Shop Now",
-        "imageAlt": "Black teapot and teacup with steam and dried tea leaves"
-      },
       "prev": "Previous slide",
       "next": "Next slide"
     },
@@ -536,14 +515,37 @@
     "continueShopping": "Continue shopping",
     "returnToShop": "Return to shop",
     "loading": "Loading checkout…",
+    "loadingCities": "Loading cities…",
+    "noCities": "No cities available",
     "home": "Home",
     "shop": "Shop",
     "checkout": "Checkout",
+    "authChoice": {
+      "eyebrow": "Checkout",
+      "title": "How would you like to continue?",
+      "close": "Close",
+      "guest": {
+        "label": "Guest checkout",
+        "description": "Place your order without creating an account."
+      },
+      "login": {
+        "label": "Sign in",
+        "description": "Use your account for faster checkout and order history.",
+        "prompt": "Sign in to your account to continue checkout with your saved details."
+      },
+      "signInButton": "Sign in to continue",
+      "registerPrompt": "Don't have an account?",
+      "registerLink": "Create account",
+      "signedInAs": "Signed in as {name}",
+      "signedInHint": "Your contact details are filled in from your account."
+    },
     "contactSection": "Contact",
     "deliverySection": "Delivery",
     "paymentSection": "Payment",
     "paymentNote": "All orders are cash on delivery.",
     "requiredFields": "Please complete all required fields.",
+    "invalidPhone": "Enter a valid phone number (digits only, 8–15 digits).",
+    "phoneHint": "Digits only. Country code +974 is added automatically.",
     "cartEmptyError": "Your cart is empty.",
     "placeError": "Could not place order. Try again.",
     "qty": "Qty {count}",
@@ -555,7 +557,7 @@
     "placeholders": {
       "name": "Your name",
       "email": "you@email.com",
-      "phone": "+974 …",
+      "phone": "33123456",
       "city": "Doha",
       "address": "Building, street, zone",
       "notes": "Delivery timing, landmark, special requests…"

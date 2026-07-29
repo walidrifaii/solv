@@ -5,10 +5,13 @@ import "@/store/slices/admin/adminCategoriesApi";
 import "@/store/slices/admin/adminDashboardApi";
 import "@/store/slices/admin/adminOrdersApi";
 import "@/store/slices/admin/adminProductsApi";
+import "@/store/slices/admin/adminSlidesApi";
 import "@/store/slices/admin/adminSubscribersApi";
 import "@/store/slices/admin/adminUploadApi";
 import "@/store/slices/products/productsApi";
 import "@/store/slices/categories/categoriesApi";
+import "@/store/slices/cities/citiesApi";
+import "@/store/slices/slides/slidesApi";
 import "@/store/slices/orders/ordersApi";
 import "@/store/slices/subscribers/subscribersApi";
 import "@/store/slices/contact/contactApi";
@@ -47,6 +50,14 @@ export {
 } from "@/store/slices/admin/adminCategoriesApi";
 
 export {
+  useAdminListSlidesQuery,
+  useAdminGetSlideQuery,
+  useAdminCreateSlideMutation,
+  useAdminUpdateSlideMutation,
+  useAdminDeleteSlideMutation,
+} from "@/store/slices/admin/adminSlidesApi";
+
+export {
   useAdminListProductsQuery,
   useAdminGetProductQuery,
   useAdminCreateProductMutation,
@@ -76,6 +87,10 @@ export {
   useGetCategoriesQuery,
   useGetCategoryByIdQuery,
 } from "@/store/slices/categories/categoriesApi";
+
+export { useGetCitiesQuery } from "@/store/slices/cities/citiesApi";
+
+export { useGetSlidesQuery } from "@/store/slices/slides/slidesApi";
 
 export {
   useGetMyOrdersQuery,

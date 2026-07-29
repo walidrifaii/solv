@@ -72,12 +72,12 @@ export function Newsletter() {
                 setError("");
               }}
               placeholder={t("placeholder")}
-              className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#c4a574] sm:rounded-e-none sm:text-base"
+              className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196] sm:rounded-e-none sm:text-base"
             />
             <button
               type="submit"
               disabled={isLoading}
-              className="shrink-0 rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#d4b584] disabled:opacity-60 sm:rounded-s-none sm:px-7 sm:text-base"
+              className="shrink-0 cursor-pointer rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60 sm:rounded-s-none sm:px-7 sm:text-base"
             >
               {isLoading ? "…" : t("cta")}
             </button>

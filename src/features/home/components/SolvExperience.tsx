@@ -15,10 +15,10 @@ export function SolvExperience() {
           <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.75rem]">
             {t("title")}
           </h2>
-          <div className="mt-5 flex items-center justify-center gap-3 text-[#c4a574]">
-            <span className="h-px w-12 bg-[#c4a574]/70 sm:w-16" />
+          <div className="mt-5 flex items-center justify-center gap-3 text-[#a5a196]">
+            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
             <OrnamentIcon className="size-3.5 sm:size-4" />
-            <span className="h-px w-12 bg-[#c4a574]/70 sm:w-16" />
+            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
           </div>
         </div>
 
@@ -31,7 +31,7 @@ export function SolvExperience() {
                 key={feature.id}
                 className="flex h-full min-w-0 flex-col items-center rounded-2xl border border-[#efe4da] bg-[#F6EDE6] px-3 py-5 text-center shadow-[0_8px_24px_rgba(42,31,22,0.04)] sm:px-5 sm:py-6 md:px-6 md:py-7"
               >
-                <Icon className="mb-3 size-9 text-[#c4a574] sm:mb-4 sm:size-11 md:size-12" />
+                <Icon className="mb-3 size-9 text-[#a5a196] sm:mb-4 sm:size-11 md:size-12" />
                 <h3 className="font-serif text-sm font-semibold text-[#2a1f16] sm:text-lg md:text-xl">
                   {t(`${feature.id}.title`)}
                 </h3>

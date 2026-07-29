@@ -133,7 +133,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                   {product.currency} {product.originalPrice!.toFixed(2)}
                 </span>
               ) : null}
-              <span className="font-serif text-3xl font-medium text-[#c4a574] sm:text-4xl">
+              <span className="font-serif text-3xl font-medium text-[#a5a196] sm:text-4xl">
                 {formatPrice(product)}
               </span>
             </div>
@@ -173,7 +173,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 type="button"
                 onClick={handleAdd}
                 disabled={!product.inStock}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-[#c4a574] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#d4b584] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-8 sm:text-base"
+                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-8 sm:text-base"
               >
                 <BagIcon className="size-4" />
                 {tCommon("addToCart")}
@@ -226,7 +226,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                       className="flex items-start gap-2.5 text-sm text-[#5c4f43] sm:text-[15px]"
                     >
                       <span
-                        className="mt-2 size-1.5 shrink-0 rounded-full bg-[#c4a574]"
+                        className="mt-2 size-1.5 shrink-0 rounded-full bg-[#a5a196]"
                         aria-hidden
                       />
                       {item}
@@ -251,7 +251,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
               </div>
               <Link
                 href={ROUTES.shop}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#2a1f16] transition-colors hover:text-[#c4a574]"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#2a1f16] transition-colors hover:text-[#a5a196]"
               >
                 {tCommon("viewAll")}
                 <ArrowRightIcon className="size-4 rtl:rotate-180" />
@@ -286,7 +286,7 @@ function RelatedCard({ product }: { product: ShopProduct }) {
       <h3 className="mt-3 text-[15px] font-semibold text-[#1a120c] group-hover:text-[#2a1f16]">
         {product.name}
       </h3>
-      <p className="mt-1 text-sm font-medium text-[#c4a574]">{formatPrice(product)}</p>
+      <p className="mt-1 text-sm font-medium text-[#a5a196]">{formatPrice(product)}</p>
     </Link>
   );
 }

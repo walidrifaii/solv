@@ -46,7 +46,7 @@ export function ProductDetailContainer({ slug }: ProductDetailContainerProps) {
         <p className="font-serif text-2xl text-[#2a1f16]">{t("productNotFound")}</p>
         <Link
           href={ROUTES.shop}
-          className="mt-4 text-sm text-[#c4a574] underline"
+          className="mt-4 text-sm text-[#a5a196] underline"
         >
           {t("backToShop")}
         </Link>

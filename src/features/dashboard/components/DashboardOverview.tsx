@@ -7,7 +7,7 @@ import { formatOrderDate, statusLabel, statusTone } from "@/features/dashboard/d
 import { useAdminDashboardOverviewQuery } from "@/store/slices";
 
 const toneClass = {
-  gold: "border-[#c4a574]/40 bg-[#17100a] text-white",
+  gold: "border-[#a5a196]/40 bg-[#17100a] text-white",
   dark: "border-[#2a1f16]/10 bg-[#2a1f16] text-white",
   warn: "border-[#e8c4a8] bg-[#fff6ef] text-[#8a4f2f]",
   cream: "border-[#efe4da] bg-white text-[#2a1f16]",
@@ -73,7 +73,7 @@ export function DashboardOverview() {
             <p
               className={`text-[11px] font-medium tracking-[0.16em] uppercase ${
                 stat.tone === "gold" || stat.tone === "dark"
-                  ? "text-[#c4a574]"
+                  ? "text-[#a5a196]"
                   : "text-[#8a7a6c]"
               }`}
             >
@@ -108,7 +108,7 @@ export function DashboardOverview() {
             </div>
             <Link
               href={ROUTES.dashboardOrders}
-              className="text-sm font-medium text-[#c4a574] transition-colors hover:text-[#2a1f16]"
+              className="text-sm font-medium text-[#a5a196] transition-colors hover:text-[#2a1f16]"
             >
               View all
             </Link>
@@ -239,7 +239,7 @@ export function DashboardOverview() {
           <div className="border-t border-[#efe4da] px-5 py-3">
             <Link
               href={ROUTES.dashboardProducts}
-              className="text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+              className="text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
             >
               Manage products
             </Link>

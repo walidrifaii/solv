@@ -72,7 +72,7 @@ export function ShopCatalog({ activeCategory }: ShopCatalogProps) {
         </p>
         <Link
           href={ROUTES.shop}
-          className="mt-6 inline-block text-sm text-[#c4a574] underline"
+          className="mt-6 inline-block text-sm text-[#a5a196] underline"
         >
           {t("retry")}
         </Link>

@@ -93,7 +93,7 @@ export function DealCard({ product, className = "" }: DealCardProps) {
         <button
           type="button"
           onClick={handleAdd}
-          className="relative z-20 inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-[#c4a574] text-white transition-colors hover:bg-[#d4b584] sm:size-10"
+          className="relative z-20 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#a5a196] text-white transition-colors hover:bg-[#b5b1a6] sm:size-10"
           aria-label={t("addToCart")}
         >
           <BagIcon className="size-3.5 sm:size-[1.125rem]" />

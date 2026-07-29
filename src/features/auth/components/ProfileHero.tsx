@@ -37,11 +37,11 @@ export function ProfileHero() {
               <li aria-hidden className="text-white/40">
                 /
               </li>
-              <li className="text-[#c4a574]">{t("breadcrumbCurrent")}</li>
+              <li className="text-[#a5a196]">{t("breadcrumbCurrent")}</li>
             </ol>
           </nav>
 
-          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#c4a574] uppercase sm:text-xs">
+          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#a5a196] uppercase sm:text-xs">
             {t("heroEyebrow")}
           </p>
           <h1 className="font-serif text-4xl leading-none font-medium tracking-[0.04em] text-white sm:text-5xl md:text-6xl">

@@ -249,3 +249,40 @@ export const contactSchema = z.object({
   subject: z.string().trim().min(2).max(120),
   message: z.string().trim().min(10).max(5000),
 });
+
+export const slideListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(20),
+});
+
+export const adminSlideListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  search: z.string().trim().max(100).optional(),
+  isActive: boolQuery,
+});
+
+export const createSlideSchema = z.object({
+  id: slugField.optional(),
+  eyebrow: z.string().trim().min(1).max(120),
+  eyebrowAr: z.string().trim().max(120).optional().nullable(),
+  title: z.string().trim().min(2).max(200),
+  titleAr: z.string().trim().max(200).optional().nullable(),
+  description: z.string().trim().min(2).max(2000),
+  descriptionAr: z.string().trim().max(2000).optional().nullable(),
+  ctaLabel: z.string().trim().min(1).max(80),
+  ctaLabelAr: z.string().trim().max(80).optional().nullable(),
+  imageAlt: z.string().trim().min(1).max(200),
+  imageAltAr: z.string().trim().max(200).optional().nullable(),
+  imagePath: z.string().trim().min(1).max(500),
+  href: z.string().trim().min(1).max(500),
+  sortOrder: z.coerce.number().int().min(0).max(9999).default(0),
+  isActive: z.boolean().default(true),
+});
+
+export const updateSlideSchema = createSlideSchema
+  .omit({ id: true })
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  });

@@ -39,7 +39,7 @@ export function CategoryEditPage({ categoryId }: { categoryId: string }) {
         </p>
         <Link
           href={ROUTES.dashboardCategories}
-          className="text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+          className="text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
         >
           Back to categories
         </Link>
@@ -52,7 +52,7 @@ export function CategoryEditPage({ categoryId }: { categoryId: string }) {
       <div>
         <Link
           href={ROUTES.dashboardCategories}
-          className="text-xs font-medium text-[#c4a574] hover:text-[#2a1f16]"
+          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
         >
           ← Back to categories
         </Link>

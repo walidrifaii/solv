@@ -28,10 +28,10 @@ export async function AboutStory() {
           <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.5rem]">
             {t("title")}
           </h2>
-          <div className="mt-4 flex items-center gap-3 text-[#c4a574]">
-            <span className="h-px w-10 bg-[#c4a574]/70 sm:w-14" />
+          <div className="mt-4 flex items-center gap-3 text-[#a5a196]">
+            <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
             <OrnamentIcon className="size-3.5" />
-            <span className="h-px w-10 bg-[#c4a574]/70 sm:w-14" />
+            <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
           </div>
 
           <div className="mt-6 space-y-4 sm:mt-8">
@@ -49,7 +49,7 @@ export async function AboutStory() {
             <span className="font-medium tracking-wide text-[#2a1f16] uppercase">
               {t("highlightLabel")}
             </span>
-            <span className="mx-2 text-[#c4a574]">·</span>
+            <span className="mx-2 text-[#a5a196]">·</span>
             {t("highlightValue")}
           </p>
         </div>

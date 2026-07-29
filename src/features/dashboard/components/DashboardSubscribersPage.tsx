@@ -67,7 +67,7 @@ export function DashboardSubscribersPage() {
             setPage(1);
           }}
           placeholder="Search by email…"
-          className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#c4a574] lg:max-w-md"
+          className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196] lg:max-w-md"
         />
         <div className="flex flex-wrap gap-2">
           <button
@@ -114,7 +114,7 @@ export function DashboardSubscribersPage() {
             <button
               type="button"
               onClick={() => refetch()}
-              className="mt-3 text-sm font-medium text-[#c4a574] hover:text-[#2a1f16]"
+              className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
             >
               Try again
             </button>
