@@ -13,10 +13,10 @@ function layout(title: string, body: string) {
   const brand = getEnv().APP_NAME || "Solv";
   return `<!doctype html>
 <html>
-  <body style="margin:0;background:#FEF9F6;font-family:Georgia,serif;color:#2a1f16;">
+  <body style="margin:0;background:#FEF9F6;font-family:Georgia,serif;color:#a5a196;">
     <div style="max-width:560px;margin:24px auto;background:#ffffff;border:1px solid #e8ddd2;border-radius:16px;overflow:hidden;">
-      <div style="background:#17100a;padding:20px 24px;">
-        <p style="margin:0;color:#a5a196;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">${escapeHtml(brand)}</p>
+      <div style="background:#a5a196;padding:20px 24px;">
+        <p style="margin:0;color:#C9A962;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">${escapeHtml(brand)}</p>
         <h1 style="margin:8px 0 0;color:#ffffff;font-size:22px;font-weight:500;">${title}</h1>
       </div>
       <div style="padding:24px;">${body}</div>
@@ -33,7 +33,7 @@ export function sendRegisterOtpEmail(to: string, code: string, name: string) {
       <p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:14px;color:#7a6b5d;">
         Hi ${escapeHtml(name)}, use this code to open your account.
       </p>
-      <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:32px;letter-spacing:0.2em;font-weight:700;color:#17100a;">
+      <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:32px;letter-spacing:0.2em;font-weight:700;color:#a5a196;">
         ${escapeHtml(code)}
       </p>
       <p style="margin:16px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#7a6b5d;">
@@ -56,7 +56,7 @@ export function sendEmailChangeOtpEmail(
       <p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:14px;color:#7a6b5d;">
         Hi ${escapeHtml(name)}, use this code to confirm your new email address.
       </p>
-      <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:32px;letter-spacing:0.2em;font-weight:700;color:#17100a;">
+      <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:32px;letter-spacing:0.2em;font-weight:700;color:#a5a196;">
         ${escapeHtml(code)}
       </p>
       <p style="margin:16px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#7a6b5d;">
@@ -79,7 +79,7 @@ export function sendAdminPasswordChangeOtpEmail(
       <p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:14px;color:#7a6b5d;">
         Hi ${escapeHtml(name)}, use this code to confirm your new admin password.
       </p>
-      <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:32px;letter-spacing:0.2em;font-weight:700;color:#17100a;">
+      <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:32px;letter-spacing:0.2em;font-weight:700;color:#a5a196;">
         ${escapeHtml(code)}
       </p>
       <p style="margin:16px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#7a6b5d;">

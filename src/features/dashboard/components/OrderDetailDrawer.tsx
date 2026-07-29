@@ -82,7 +82,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
           <button
             type="button"
             onClick={() => refetch()}
-            className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
+            className="mt-3 text-sm font-medium text-[#C9A962] hover:text-[#a5a196]"
           >
             Try again
           </button>
@@ -105,7 +105,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
               <h3 className="text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase">
                 Customer
               </h3>
-              <p className="mt-2 font-medium text-[#2a1f16]">{order.guestName}</p>
+              <p className="mt-2 font-medium text-[#a5a196]">{order.guestName}</p>
               <p className="mt-1 text-sm text-[#5c4f43]">{order.guestEmail}</p>
               <p className="mt-0.5 text-sm text-[#5c4f43]">{order.guestPhone}</p>
             </section>
@@ -113,7 +113,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
               <h3 className="text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase">
                 Delivery
               </h3>
-              <p className="mt-2 font-medium text-[#2a1f16]">
+              <p className="mt-2 font-medium text-[#a5a196]">
                 {order.deliveryCity}
               </p>
               <p className="mt-1 text-sm text-[#5c4f43]">
@@ -164,7 +164,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
                             )}
                           </div>
                           <div className="min-w-0">
-                            <p className="font-medium text-[#2a1f16]">
+                            <p className="font-medium text-[#a5a196]">
                               {item.productName}
                             </p>
                             <p className="truncate text-xs text-[#8a7a6c]">
@@ -174,7 +174,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-[#5c4f43]">{item.quantity}</td>
-                      <td className="px-4 py-3 text-right font-medium text-[#2a1f16]">
+                      <td className="px-4 py-3 text-right font-medium text-[#a5a196]">
                         QAR {(item.total ?? 0).toFixed(2)}
                       </td>
                     </tr>
@@ -191,7 +191,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
                 <span>Delivery</span>
                 <span>QAR {(order.deliveryFee ?? 0).toFixed(2)}</span>
               </div>
-              <div className="flex justify-between border-t border-[#efe4da] pt-2 font-medium text-[#2a1f16]">
+              <div className="flex justify-between border-t border-[#efe4da] pt-2 font-medium text-[#a5a196]">
                 <span>Total</span>
                 <span>QAR {(order.total ?? 0).toFixed(2)}</span>
               </div>
@@ -222,7 +222,7 @@ export function OrderDetailDrawer({ orderId, open, onClose }: Props) {
                 type="button"
                 disabled={saving || status === order.status}
                 onClick={() => void handleSaveStatus()}
-                className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {saving ? "Saving…" : "Update status"}
               </button>

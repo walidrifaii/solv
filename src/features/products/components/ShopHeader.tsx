@@ -9,21 +9,21 @@ export function ShopHeader() {
   const t = useTranslations("shop");
 
   return (
-    <section className="bg-[#FEF9F6] px-4 pt-10 pb-6 text-[#2a1f16] sm:px-6 sm:pt-12 sm:pb-8 md:px-8 lg:px-10">
+    <section className="bg-[#FEF9F6] px-4 pt-10 pb-6 text-[#a5a196] sm:px-6 sm:pt-12 sm:pb-8 md:px-8 lg:px-10">
       <div className="mx-auto w-full max-w-[1400px]">
-        <h1 className="font-serif text-4xl leading-tight font-medium text-[#2a1f16] sm:text-5xl md:text-[3.25rem]">
+        <h1 className="font-serif text-4xl leading-tight font-medium text-[#a5a196] sm:text-5xl md:text-[3.25rem]">
           {t("title")}
         </h1>
 
         <nav className="mt-4 text-sm text-[#8a7a6c]" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
-              <Link href={ROUTES.home} className="transition-colors hover:text-[#2a1f16]">
+              <Link href={ROUTES.home} className="transition-colors hover:text-[#a5a196]">
                 {t("home")}
               </Link>
             </li>
             <li aria-hidden>/</li>
-            <li className="text-[#2a1f16]">{t("title")}</li>
+            <li className="text-[#a5a196]">{t("title")}</li>
           </ol>
         </nav>
 
@@ -34,10 +34,10 @@ export function ShopHeader() {
         <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
           {t("description")}
         </p>
-        <div className="mt-5 flex items-center gap-3 text-[#a5a196]">
-          <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
+        <div className="mt-5 flex items-center gap-3 text-[#C9A962]">
+          <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
           <OrnamentIcon className="size-3.5" />
-          <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
+          <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
         </div>
       </div>
     </section>

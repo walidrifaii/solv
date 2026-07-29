@@ -36,14 +36,14 @@ function NavLinks({
             onClick={onNavigate}
             className={`rounded-xl px-3 py-2.5 transition-colors ${
               active
-                ? "bg-[#a5a196]/18 text-[#a5a196]"
+                ? "bg-[#C9A962]/18 text-[#C9A962]"
                 : "text-[#d1c4b6] hover:bg-white/5 hover:text-white"
             }`}
           >
             <span className="block text-sm font-medium">{item.label}</span>
             <span
               className={`mt-0.5 block text-[11px] ${
-                active ? "text-[#a5a196]/80" : "text-[#8a7a6c]"
+                active ? "text-[#C9A962]/80" : "text-[#8a7a6c]"
               }`}
             >
               {item.description}
@@ -105,9 +105,9 @@ export function DashboardShell({ children }: { children: ReactNode }) {
     )?.label ?? "Overview";
 
   return (
-    <div className="flex min-h-screen bg-[#FEF9F6] text-[#2a1f16]">
+    <div className="flex min-h-screen bg-[#FEF9F6] text-[#a5a196]">
       {/* Desktop sidebar */}
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-[#2a1f16]/20 bg-[#17100a] text-white lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-[#a5a196]/20 bg-[#a5a196] text-white lg:flex">
         <div className="border-b border-white/10 px-5 py-5">
           <Link href={ROUTES.dashboard} className="inline-flex items-center gap-3">
             <Image
@@ -121,7 +121,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               <p className="font-serif text-lg leading-none tracking-wide">
                 SOLV
               </p>
-              <p className="mt-1 text-[10px] tracking-[0.18em] text-[#a5a196] uppercase">
+              <p className="mt-1 text-[10px] tracking-[0.18em] text-[#C9A962] uppercase">
                 Admin
               </p>
             </div>
@@ -138,7 +138,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           <div className="mt-3 flex gap-2">
             <Link
               href={ROUTES.home}
-              className="flex-1 rounded-lg border border-white/15 px-2 py-2 text-center text-xs text-[#d1c4b6] transition-colors hover:border-[#a5a196]/50 hover:text-white"
+              className="flex-1 rounded-lg border border-white/15 px-2 py-2 text-center text-xs text-[#d1c4b6] transition-colors hover:border-[#C9A962]/50 hover:text-white"
             >
               View site
             </Link>
@@ -146,7 +146,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               type="button"
               onClick={handleLogout}
               disabled={loggingOut}
-              className="flex-1 rounded-lg bg-[#a5a196] px-2 py-2 text-xs font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:opacity-60"
+              className="flex-1 rounded-lg bg-[#C9A962] px-2 py-2 text-xs font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:opacity-60"
             >
               {loggingOut ? "…" : "Sign out"}
             </button>
@@ -163,13 +163,13 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         <button
           type="button"
           aria-label="Close menu"
-          className={`absolute inset-0 bg-[#17100a]/50 transition-opacity ${
+          className={`absolute inset-0 bg-[#a5a196]/50 transition-opacity ${
             mobileOpen ? "opacity-100" : "opacity-0"
           }`}
           onClick={() => setMobileOpen(false)}
         />
         <aside
-          className={`absolute inset-y-0 left-0 flex w-[min(20rem,88vw)] flex-col bg-[#17100a] text-white shadow-2xl transition-transform duration-300 ${
+          className={`absolute inset-y-0 left-0 flex w-[min(20rem,88vw)] flex-col bg-[#a5a196] text-white shadow-2xl transition-transform duration-300 ${
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -199,7 +199,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <div className="flex min-w-0 items-center gap-3">
               <button
                 type="button"
-                className="inline-flex size-10 items-center justify-center rounded-xl border border-[#e8ddd2] bg-white text-[#2a1f16] lg:hidden"
+                className="inline-flex size-10 items-center justify-center rounded-xl border border-[#e8ddd2] bg-white text-[#a5a196] lg:hidden"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open menu"
               >
@@ -209,7 +209,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
                 <p className="text-[10px] font-medium tracking-[0.18em] text-[#b0895b] uppercase">
                   Dashboard
                 </p>
-                <h1 className="truncate font-serif text-xl font-medium text-[#2a1f16] sm:text-2xl">
+                <h1 className="truncate font-serif text-xl font-medium text-[#a5a196] sm:text-2xl">
                   {activeLabel}
                 </h1>
               </div>
@@ -218,7 +218,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <div className="flex items-center gap-2 sm:gap-3">
               <Link
                 href={ROUTES.shop}
-                className="hidden rounded-xl border border-[#e8ddd2] bg-white px-3 py-2 text-xs font-medium text-[#5c4f43] transition-colors hover:border-[#a5a196] sm:inline-flex"
+                className="hidden rounded-xl border border-[#e8ddd2] bg-white px-3 py-2 text-xs font-medium text-[#5c4f43] transition-colors hover:border-[#C9A962] sm:inline-flex"
               >
                 Open shop
               </Link>

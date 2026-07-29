@@ -17,7 +17,7 @@ export function SolvLogoWhite({ className = "h-10 w-auto" }: SolvLogoProps) {
       <text
         x="0"
         y="28"
-        fill="#ffffff"
+        fill="currentColor"
         style={{
           fontFamily: "Georgia, 'Times New Roman', Times, serif",
           fontSize: "32px",
@@ -30,7 +30,7 @@ export function SolvLogoWhite({ className = "h-10 w-auto" }: SolvLogoProps) {
       <text
         x="0"
         y="44"
-        fill="#ffffff"
+        fill="currentColor"
         style={{
           fontFamily: "Arial, Helvetica, sans-serif",
           fontSize: "8px",

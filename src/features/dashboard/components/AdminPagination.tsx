@@ -28,7 +28,7 @@ export function AdminPagination({
           type="button"
           disabled={!meta.hasPrev}
           onClick={() => onPageChange(meta.page - 1)}
-          className="rounded-lg border border-[#e8ddd2] bg-white px-3 py-1.5 text-xs font-medium text-[#5c4f43] transition-colors hover:border-[#a5a196] disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg border border-[#e8ddd2] bg-white px-3 py-1.5 text-xs font-medium text-[#5c4f43] transition-colors hover:border-[#C9A962] disabled:cursor-not-allowed disabled:opacity-40"
         >
           Previous
         </button>
@@ -39,7 +39,7 @@ export function AdminPagination({
           type="button"
           disabled={!meta.hasNext}
           onClick={() => onPageChange(meta.page + 1)}
-          className="rounded-lg border border-[#e8ddd2] bg-white px-3 py-1.5 text-xs font-medium text-[#5c4f43] transition-colors hover:border-[#a5a196] disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg border border-[#e8ddd2] bg-white px-3 py-1.5 text-xs font-medium text-[#5c4f43] transition-colors hover:border-[#C9A962] disabled:cursor-not-allowed disabled:opacity-40"
         >
           Next
         </button>

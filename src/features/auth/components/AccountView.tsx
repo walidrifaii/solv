@@ -20,7 +20,7 @@ import {
 } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196]";
+  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962]";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -182,7 +182,7 @@ export function AccountView() {
   }
 
   return (
-    <main className="flex flex-1 flex-col bg-[#FEF9F6] text-[#2a1f16]">
+    <main className="flex flex-1 flex-col bg-[#FEF9F6] text-[#a5a196]">
       <ProfileHero />
 
       <section className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14 md:px-8">
@@ -197,7 +197,7 @@ export function AccountView() {
             type="button"
             onClick={handleLogout}
             disabled={loggingOut}
-            className="rounded-md border border-[#ddd0c4] px-4 py-2 text-sm text-[#2a1f16] transition-colors hover:border-[#a5a196] disabled:opacity-60"
+            className="rounded-md border border-[#ddd0c4] px-4 py-2 text-sm text-[#a5a196] transition-colors hover:border-[#C9A962] disabled:opacity-60"
           >
             {loggingOut ? t("signingOut") : t("signOut")}
           </button>
@@ -215,8 +215,8 @@ export function AccountView() {
             onClick={() => selectTab("settings")}
             className={`-mb-px border-b-2 px-4 py-3 text-sm transition-colors ${
               tab === "settings"
-                ? "border-[#a5a196] text-[#2a1f16]"
-                : "border-transparent text-[#8a7a6c] hover:text-[#2a1f16]"
+                ? "border-[#C9A962] text-[#a5a196]"
+                : "border-transparent text-[#8a7a6c] hover:text-[#a5a196]"
             }`}
           >
             {t("tabs.settings")}
@@ -228,8 +228,8 @@ export function AccountView() {
             onClick={() => selectTab("orders")}
             className={`-mb-px border-b-2 px-4 py-3 text-sm transition-colors ${
               tab === "orders"
-                ? "border-[#a5a196] text-[#2a1f16]"
-                : "border-transparent text-[#8a7a6c] hover:text-[#2a1f16]"
+                ? "border-[#C9A962] text-[#a5a196]"
+                : "border-transparent text-[#8a7a6c] hover:text-[#a5a196]"
             }`}
           >
             {t("tabs.orders")}
@@ -245,7 +245,7 @@ export function AccountView() {
               onSubmit={handleSaveName}
               className="rounded-xl border border-[#efe4da] bg-white p-5"
             >
-              <h2 className="text-sm font-medium text-[#2a1f16]">
+              <h2 className="text-sm font-medium text-[#a5a196]">
                 {t("displayName.heading")}
               </h2>
               <div className="mt-4">
@@ -268,7 +268,7 @@ export function AccountView() {
               <button
                 type="submit"
                 disabled={savingName}
-                className="mt-4 rounded-md bg-[#a5a196] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
+                className="mt-4 rounded-md bg-[#C9A962] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
               >
                 {savingName ? t("displayName.saving") : t("displayName.save")}
               </button>
@@ -278,7 +278,7 @@ export function AccountView() {
               onSubmit={handleSavePassword}
               className="rounded-xl border border-[#efe4da] bg-white p-5"
             >
-              <h2 className="text-sm font-medium text-[#2a1f16]">
+              <h2 className="text-sm font-medium text-[#a5a196]">
                 {t("password.heading")}
               </h2>
               <div className="mt-4 space-y-3">
@@ -317,14 +317,14 @@ export function AccountView() {
               <button
                 type="submit"
                 disabled={savingPassword}
-                className="mt-4 rounded-md bg-[#a5a196] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
+                className="mt-4 rounded-md bg-[#C9A962] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
               >
                 {savingPassword ? t("password.saving") : t("password.save")}
               </button>
             </form>
 
             <div className="rounded-xl border border-[#efe4da] bg-white p-5">
-              <h2 className="text-sm font-medium text-[#2a1f16]">
+              <h2 className="text-sm font-medium text-[#a5a196]">
                 {t("email.heading")}
               </h2>
               <p className="mt-1 text-sm text-[#7a6b5d]">
@@ -372,7 +372,7 @@ export function AccountView() {
                   <button
                     type="submit"
                     disabled={confirmingEmail}
-                    className="rounded-md bg-[#a5a196] px-4 py-2 text-sm font-medium text-[#17100a] disabled:opacity-60"
+                    className="rounded-md bg-[#C9A962] px-4 py-2 text-sm font-medium text-[#a5a196] disabled:opacity-60"
                   >
                     {confirmingEmail ? t("email.confirming") : t("email.confirm")}
                   </button>
@@ -394,7 +394,7 @@ export function AccountView() {
             ) : orders.length === 0 ? (
               <p className="text-sm text-[#7a6b5d]">
                 {t("noOrders")}{" "}
-                <Link href={ROUTES.shop} className="text-[#a5a196] underline">
+                <Link href={ROUTES.shop} className="text-[#C9A962] underline">
                   {t("browseShop")}
                 </Link>
               </p>
@@ -415,7 +415,7 @@ export function AccountView() {
                         }
                       >
                         <div>
-                          <p className="font-medium text-[#2a1f16]">
+                          <p className="font-medium text-[#a5a196]">
                             {order.orderNumber}
                           </p>
                           <p className="mt-1 text-sm text-[#7a6b5d]">

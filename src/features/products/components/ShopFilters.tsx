@@ -51,7 +51,7 @@ export function ShopFilters({
                 role="listitem"
                 className={`shrink-0 rounded-md px-4 py-2 text-sm transition-colors ${
                   isActive
-                    ? "bg-[#2a1f16] text-white"
+                    ? "bg-[#a5a196] text-white"
                     : "bg-[#F6EDE6] text-[#5c4f43] hover:bg-[#efe4da]"
                 }`}
               >

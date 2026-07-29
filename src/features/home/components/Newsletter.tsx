@@ -30,7 +30,7 @@ export function Newsletter() {
   }
 
   return (
-    <section className="bg-[#FEF9F6] text-[#2a1f16]">
+    <section className="bg-[#FEF9F6] text-[#a5a196]">
       <div className="grid w-full items-stretch md:grid-cols-2">
         <div className="relative min-h-[14rem] w-full overflow-hidden sm:min-h-[16rem] md:min-h-[18rem] lg:min-h-[20rem]">
           <Image
@@ -47,7 +47,7 @@ export function Newsletter() {
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {t("eyebrow")}
           </p>
-          <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.5rem]">
+          <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.5rem]">
             {t("title")}
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
@@ -72,12 +72,12 @@ export function Newsletter() {
                 setError("");
               }}
               placeholder={t("placeholder")}
-              className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196] sm:rounded-e-none sm:text-base"
+              className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] focus:border-[#C9A962] sm:rounded-e-none sm:text-base"
             />
             <button
               type="submit"
               disabled={isLoading}
-              className="shrink-0 cursor-pointer rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60 sm:rounded-s-none sm:px-7 sm:text-base"
+              className="shrink-0 cursor-pointer rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60 sm:rounded-s-none sm:px-7 sm:text-base"
             >
               {isLoading ? "…" : t("cta")}
             </button>

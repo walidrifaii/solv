@@ -7,7 +7,7 @@ import { getApiErrorMessage } from "@/store/api/errors";
 import { useSendContactMessageMutation } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196] sm:text-base";
+  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962] sm:text-base";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -55,7 +55,7 @@ export function ContactForm() {
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
         {t("eyebrow")}
       </p>
-      <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
+      <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl">
         {t("title")}
       </h2>
       <p className="mt-3 max-w-md text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
@@ -166,7 +166,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex w-full items-center justify-center rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:opacity-60 sm:w-auto sm:px-8 sm:text-base"
+          className="inline-flex w-full items-center justify-center rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:opacity-60 sm:w-auto sm:px-8 sm:text-base"
         >
           {isLoading ? t("sending") : t("cta")}
         </button>

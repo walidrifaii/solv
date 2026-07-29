@@ -8,14 +8,14 @@ export async function ServicesSupport() {
   const { highlight } = servicesSupport;
 
   return (
-    <section className="bg-[#F6EDE6] px-4 py-12 text-[#2a1f16] sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10">
+    <section className="bg-[#F6EDE6] px-4 py-12 text-[#a5a196] sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10">
       <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center text-center lg:flex-row lg:items-start lg:justify-between lg:gap-16 lg:text-start">
         <div className="max-w-xl">
-          <Icon className="mx-auto mb-4 size-12 text-[#a5a196] lg:mx-0" />
+          <Icon className="mx-auto mb-4 size-12 text-[#C9A962] lg:mx-0" />
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {t("eyebrow")}
           </p>
-          <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
+          <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl">
             {t("title")}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
@@ -30,7 +30,7 @@ export async function ServicesSupport() {
             </p>
             <a
               href={highlight.phoneHref}
-              className="mt-1 block font-serif text-xl text-[#2a1f16] transition-colors hover:text-[#a5a196] sm:text-2xl"
+              className="mt-1 block font-serif text-xl text-[#a5a196] transition-colors hover:text-[#C9A962] sm:text-2xl"
             >
               {highlight.phone}
             </a>
@@ -41,7 +41,7 @@ export async function ServicesSupport() {
             </p>
             <a
               href={highlight.emailHref}
-              className="mt-1 block text-base text-[#2a1f16] transition-colors hover:text-[#a5a196] sm:text-lg"
+              className="mt-1 block text-base text-[#a5a196] transition-colors hover:text-[#C9A962] sm:text-lg"
             >
               {highlight.email}
             </a>

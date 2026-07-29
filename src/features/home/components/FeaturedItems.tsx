@@ -97,19 +97,19 @@ export function FeaturedItems() {
   }
 
   return (
-    <section className="bg-[#FEF9F6] px-4 py-14 text-[#2a1f16] sm:px-6 sm:py-16 md:px-8 md:py-20 lg:px-10 lg:py-24">
+    <section className="bg-[#FEF9F6] px-4 py-14 text-[#a5a196] sm:px-6 sm:py-16 md:px-8 md:py-20 lg:px-10 lg:py-24">
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 md:mb-14">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {t("eyebrow")}
           </p>
-          <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.75rem]">
+          <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">
             {t("title")}
           </h2>
-          <div className="mt-5 flex items-center justify-center gap-3 text-[#a5a196]">
-            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
+          <div className="mt-5 flex items-center justify-center gap-3 text-[#C9A962]">
+            <span className="h-px w-12 bg-[#C9A962]/70 sm:w-16" />
             <OrnamentIcon className="size-3.5 sm:size-4" />
-            <span className="h-px w-12 bg-[#a5a196]/70 sm:w-16" />
+            <span className="h-px w-12 bg-[#C9A962]/70 sm:w-16" />
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export function FeaturedItems() {
               <button
                 type="button"
                 onClick={() => scrollByDirection("left")}
-                className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
+                className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#a5a196] sm:size-10"
                 aria-label={t("prev")}
               >
                 <ChevronLeftIcon className="size-5 sm:size-6 rtl:rotate-180" />
@@ -153,7 +153,7 @@ export function FeaturedItems() {
               <button
                 type="button"
                 onClick={() => scrollByDirection("right")}
-                className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#2a1f16] sm:size-10"
+                className="flex size-9 shrink-0 items-center justify-center bg-transparent text-[#9a8b7c] transition-colors hover:text-[#a5a196] sm:size-10"
                 aria-label={t("next")}
               >
                 <ChevronRightIcon className="size-5 sm:size-6 rtl:rotate-180" />
@@ -171,8 +171,8 @@ export function FeaturedItems() {
                     aria-current={i === page}
                     className={`h-2 rounded-full transition-all ${
                       i === page
-                        ? "w-2 bg-[#2a1f16]"
-                        : "w-2 bg-[#2a1f16]/25 hover:bg-[#2a1f16]/45"
+                        ? "w-2 bg-[#a5a196]"
+                        : "w-2 bg-[#a5a196]/25 hover:bg-[#a5a196]/45"
                     }`}
                   />
                 ))}

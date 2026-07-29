@@ -63,7 +63,7 @@ export function SearchDrawer() {
     >
       <button
         type="button"
-        className={`absolute inset-0 bg-[#17100a]/50 transition-opacity duration-250 ${
+        className={`absolute inset-0 bg-[#a5a196]/50 transition-opacity duration-250 ${
           isOpen ? "opacity-100" : "opacity-0"
         }`}
         aria-label={t("close")}
@@ -71,7 +71,7 @@ export function SearchDrawer() {
       />
 
       <div
-        className={`relative w-full max-w-2xl overflow-hidden rounded-2xl border border-[#e8ddd2] bg-[#FEF9F6] text-[#2a1f16] shadow-[0_24px_60px_rgba(23,16,10,0.28)] transition-all duration-250 ease-out sm:rounded-2xl ${
+        className={`relative w-full max-w-2xl overflow-hidden rounded-2xl border border-[#e8ddd2] bg-[#FEF9F6] text-[#a5a196] shadow-[0_24px_60px_rgba(23,16,10,0.28)] transition-all duration-250 ease-out sm:rounded-2xl ${
           isOpen
             ? "translate-y-0 scale-100 opacity-100"
             : "pointer-events-none -translate-y-3 scale-[0.98] opacity-0"
@@ -92,7 +92,7 @@ export function SearchDrawer() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={t("placeholder")}
-            className="min-w-0 flex-1 bg-transparent py-2 text-base text-[#2a1f16] outline-none placeholder:text-[#a39486] sm:text-[17px]"
+            className="min-w-0 flex-1 bg-transparent py-2 text-base text-[#a5a196] outline-none placeholder:text-[#a39486] sm:text-[17px]"
             autoComplete="off"
             enterKeyHint="search"
           />
@@ -102,7 +102,7 @@ export function SearchDrawer() {
           <button
             type="button"
             onClick={closeSearch}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[#2a1f16] transition-colors hover:bg-[#F6EDE6]"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[#a5a196] transition-colors hover:bg-[#F6EDE6]"
             aria-label={t("close")}
           >
             <CloseIcon className="size-5" />
@@ -132,7 +132,7 @@ export function SearchDrawer() {
             </div>
           ) : results.length === 0 ? (
             <div className="px-4 py-8 text-center sm:px-6 sm:py-10">
-              <p className="font-serif text-xl text-[#2a1f16]">{t("noResults")}</p>
+              <p className="font-serif text-xl text-[#a5a196]">{t("noResults")}</p>
               <p className="mt-1.5 text-sm text-[#7a6b5d]">
                 {t("noResultsFor", { query: debounced })}
               </p>
@@ -172,7 +172,7 @@ export function SearchDrawer() {
                           {categoryName}
                         </p>
                       </div>
-                      <p className="shrink-0 text-sm font-semibold text-[#a5a196]">
+                      <p className="shrink-0 text-sm font-semibold text-[#C9A962]">
                         {tCommon("currency")} {item.finalPrice.toFixed(2)}
                       </p>
                     </Link>
@@ -188,7 +188,7 @@ export function SearchDrawer() {
             <Link
               href={ROUTES.shop}
               onClick={closeSearch}
-              className="text-sm font-medium text-[#7a6b5d] transition-colors hover:text-[#2a1f16]"
+              className="text-sm font-medium text-[#7a6b5d] transition-colors hover:text-[#a5a196]"
             >
               {t("viewAll")}
             </Link>

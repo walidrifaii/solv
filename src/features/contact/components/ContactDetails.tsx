@@ -39,7 +39,7 @@ export async function ContactDetails() {
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
         {t("eyebrow")}
       </p>
-      <h2 className="font-serif text-2xl leading-tight font-medium text-[#2a1f16] sm:text-3xl">
+      <h2 className="font-serif text-2xl leading-tight font-medium text-[#a5a196] sm:text-3xl">
         {t("title")}
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-[15px]">
@@ -52,12 +52,12 @@ export async function ContactDetails() {
           const value = item.value ?? itemValues[item.id];
           const content = (
             <>
-              <Icon className="mt-0.5 size-4 shrink-0 text-[#a5a196]" />
+              <Icon className="mt-0.5 size-4 shrink-0 text-[#C9A962]" />
               <span>
                 <span className="block text-[10px] font-medium tracking-[0.16em] text-[#b0895b] uppercase">
                   {t(item.id)}
                 </span>
-                <span className="mt-1 block text-sm text-[#2a1f16] sm:text-base">
+                <span className="mt-1 block text-sm text-[#a5a196] sm:text-base">
                   {value}
                 </span>
               </span>
@@ -85,7 +85,7 @@ export async function ContactDetails() {
         <p className="text-[10px] font-medium tracking-[0.16em] text-[#b0895b] uppercase">
           {t("follow")}
         </p>
-        <div className="mt-4 flex items-center gap-4 text-[#2a1f16]">
+        <div className="mt-4 flex items-center gap-4 text-[#a5a196]">
           {contactInfo.social.map((item) => {
             const Icon = socialIconMap[item.key];
             return (
@@ -113,7 +113,7 @@ export async function ContactDetails() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm text-[#2a1f16] transition-colors hover:text-[#a5a196]"
+                className="text-sm text-[#a5a196] transition-colors hover:text-[#C9A962]"
               >
                 {tContact(link.key)}
               </Link>

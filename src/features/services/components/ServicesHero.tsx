@@ -9,7 +9,7 @@ export async function ServicesHero() {
   const t = await getTranslations("services.hero");
 
   return (
-    <section className="relative isolate min-h-[58svh] w-full overflow-hidden bg-[#17100a] text-white sm:min-h-[62svh] md:min-h-[68svh]">
+    <section className="relative isolate min-h-[58svh] w-full overflow-hidden bg-[#a5a196] text-white sm:min-h-[62svh] md:min-h-[68svh]">
       <Image
         src={heroImage}
         alt=""
@@ -18,11 +18,11 @@ export async function ServicesHero() {
         sizes="100vw"
         className="object-cover object-[65%_center] md:object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#17100a] via-[#17100a]/55 to-[#17100a]/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#a5a196] via-[#a5a196]/55 to-[#a5a196]/25" />
 
       <div className="relative z-10 mx-auto flex min-h-[58svh] w-full max-w-[1400px] flex-col justify-end px-4 pb-12 pt-20 sm:min-h-[62svh] sm:px-6 sm:pb-14 sm:pt-24 md:min-h-[68svh] md:justify-center md:px-8 md:pb-16 lg:px-10">
         <div className="max-w-2xl animate-[heroFade_0.6s_ease-out]">
-          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#a5a196] uppercase sm:mb-4 sm:text-xs">
+          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#C9A962] uppercase sm:mb-4 sm:text-xs">
             {t("eyebrow")}
           </p>
           <p className="font-serif text-5xl leading-none font-medium tracking-[0.06em] text-white sm:text-6xl md:text-7xl lg:text-[5.5rem]">
@@ -37,7 +37,7 @@ export async function ServicesHero() {
           <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4">
             <Link
               href={servicesHero.primaryCta.href}
-              className="inline-flex items-center gap-2 rounded-md bg-[#a5a196] px-5 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] sm:px-6 sm:py-3 sm:text-base"
+              className="inline-flex items-center gap-2 rounded-md bg-[#C9A962] px-5 py-2.5 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] sm:px-6 sm:py-3 sm:text-base"
             >
               {t("primaryCta")}
               <ArrowRightIcon className="size-4 rtl:rotate-180" />

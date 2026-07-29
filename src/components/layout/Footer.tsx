@@ -44,7 +44,7 @@ export function Footer() {
 
   return (
     <footer
-      className="relative mt-auto overflow-hidden bg-[#140e0a] text-white"
+      className="relative mt-auto overflow-hidden bg-[#a5a196] text-white"
       style={{
         backgroundImage:
           "radial-gradient(rgba(255,255,255,0.035) 0.7px, transparent 0.7px)",
@@ -53,7 +53,7 @@ export function Footer() {
     >
       <div className="mx-auto grid w-full max-w-[1400px] grid-cols-2 gap-x-4 gap-y-8 px-4 py-12 sm:gap-x-6 sm:gap-y-10 sm:px-6 sm:py-14 md:gap-x-8 md:gap-y-12 md:px-8 lg:grid-cols-5 lg:gap-x-8 lg:px-10 lg:py-16">
         <div className="col-span-2 lg:col-span-1">
-          <Link href={ROUTES.home} className="inline-block leading-none">
+          <Link href={ROUTES.home} className="inline-block leading-none text-white">
             <SolvLogoWhite className="block h-9 w-auto sm:h-10" />
           </Link>
           <p className="mt-3 max-w-[18rem] text-sm leading-relaxed text-white/65">

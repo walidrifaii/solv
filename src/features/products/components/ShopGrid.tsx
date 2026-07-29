@@ -10,7 +10,7 @@ export function ShopGrid({ products }: ShopGridProps) {
     return (
       <div className="bg-[#FEF9F6] px-4 pb-16 text-center sm:px-6 md:px-8 lg:px-10">
         <div className="mx-auto max-w-[1400px] py-16">
-          <p className="font-serif text-2xl text-[#2a1f16]">No products found</p>
+          <p className="font-serif text-2xl text-[#a5a196]">No products found</p>
           <p className="mt-2 text-sm text-[#7a6b5d]">
             Try another category to explore the collection.
           </p>

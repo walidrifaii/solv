@@ -12,7 +12,7 @@ import {
 import { getApiErrorMessage } from "@/store/api/errors";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196] sm:text-base tracking-[0.35em] text-center";
+  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962] sm:text-base tracking-[0.35em] text-center";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -71,7 +71,7 @@ export function VerifyForm() {
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
         {t("eyebrow")}
       </p>
-      <h1 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl">
+      <h1 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl">
         {t("title")}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
@@ -93,7 +93,7 @@ export function VerifyForm() {
               setEmail(event.target.value);
               setError("");
             }}
-            className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196] sm:text-base tracking-normal text-start"
+            className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962] sm:text-base tracking-normal text-start"
             placeholder={t("emailPlaceholder")}
           />
         </div>
@@ -133,7 +133,7 @@ export function VerifyForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+          className="inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
         >
           {isLoading ? t("submitting") : t("submit")}
         </button>
@@ -143,7 +143,7 @@ export function VerifyForm() {
         type="button"
         onClick={handleResend}
         disabled={resending}
-        className="mt-4 text-sm text-[#8a7a6c] transition-colors hover:text-[#2a1f16] disabled:opacity-60"
+        className="mt-4 text-sm text-[#8a7a6c] transition-colors hover:text-[#a5a196] disabled:opacity-60"
       >
         {resending ? t("resending") : t("resend")}
       </button>
@@ -152,7 +152,7 @@ export function VerifyForm() {
         {t("wrongEmail")}{" "}
         <Link
           href={ROUTES.register}
-          className="font-medium text-[#2a1f16] underline-offset-2 transition-colors hover:text-[#a5a196] hover:underline"
+          className="font-medium text-[#a5a196] underline-offset-2 transition-colors hover:text-[#C9A962] hover:underline"
         >
           {t("registerAgain")}
         </Link>

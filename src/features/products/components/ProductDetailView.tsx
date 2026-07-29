@@ -65,18 +65,18 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
   ];
 
   return (
-    <div className="bg-[#FEF9F6] text-[#2a1f16]">
+    <div className="bg-[#FEF9F6] text-[#a5a196]">
       <div className="mx-auto w-full max-w-[1400px] px-4 pt-8 pb-14 sm:px-6 sm:pt-10 sm:pb-16 md:px-8 lg:px-10 lg:pb-20">
         <nav className="mb-8 text-sm text-[#8a7a6c]" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
-              <Link href={ROUTES.home} className="transition-colors hover:text-[#2a1f16]">
+              <Link href={ROUTES.home} className="transition-colors hover:text-[#a5a196]">
                 {tNav("home")}
               </Link>
             </li>
             <li aria-hidden>/</li>
             <li>
-              <Link href={ROUTES.shop} className="transition-colors hover:text-[#2a1f16]">
+              <Link href={ROUTES.shop} className="transition-colors hover:text-[#a5a196]">
                 {tNav("shop")}
               </Link>
             </li>
@@ -84,13 +84,13 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
             <li>
               <Link
                 href={`${ROUTES.shop}?category=${product.categoryId}`}
-                className="transition-colors hover:text-[#2a1f16]"
+                className="transition-colors hover:text-[#a5a196]"
               >
                 {product.categoryLabel}
               </Link>
             </li>
             <li aria-hidden>/</li>
-            <li className="text-[#2a1f16]">{product.name}</li>
+            <li className="text-[#a5a196]">{product.name}</li>
           </ol>
         </nav>
 
@@ -109,7 +109,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 {product.badges.map((badge) => (
                   <span
                     key={badge}
-                    className="rounded-md bg-[#17100a]/85 px-2.5 py-1 text-[10px] font-medium tracking-wide text-white uppercase"
+                    className="rounded-md bg-[#a5a196]/85 px-2.5 py-1 text-[10px] font-medium tracking-wide text-white uppercase"
                   >
                     {badge}
                   </span>
@@ -122,7 +122,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
             <p className="text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
               {product.categoryLabel}
             </p>
-            <h1 className="mt-3 font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.75rem]">
+            <h1 className="mt-3 font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">
               {product.name}
             </h1>
             <p className="mt-2 text-sm text-[#8a7a6c] sm:text-base">{product.subtitle}</p>
@@ -133,7 +133,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                   {product.currency} {product.originalPrice!.toFixed(2)}
                 </span>
               ) : null}
-              <span className="font-serif text-3xl font-medium text-[#a5a196] sm:text-4xl">
+              <span className="font-serif text-3xl font-medium text-[#C9A962] sm:text-4xl">
                 {formatPrice(product)}
               </span>
             </div>
@@ -151,7 +151,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 <button
                   type="button"
                   onClick={decrease}
-                  className="px-3.5 py-2.5 text-lg leading-none text-[#2a1f16] transition-colors hover:bg-[#F6EDE6]"
+                  className="px-3.5 py-2.5 text-lg leading-none text-[#a5a196] transition-colors hover:bg-[#F6EDE6]"
                   aria-label={t("decreaseQuantity")}
                 >
                   −
@@ -162,7 +162,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 <button
                   type="button"
                   onClick={increase}
-                  className="px-3.5 py-2.5 text-lg leading-none text-[#2a1f16] transition-colors hover:bg-[#F6EDE6]"
+                  className="px-3.5 py-2.5 text-lg leading-none text-[#a5a196] transition-colors hover:bg-[#F6EDE6]"
                   aria-label={t("increaseQuantity")}
                 >
                   +
@@ -173,7 +173,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 type="button"
                 onClick={handleAdd}
                 disabled={!product.inStock}
-                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-8 sm:text-base"
+                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-8 sm:text-base"
               >
                 <BagIcon className="size-4" />
                 {tCommon("addToCart")}
@@ -188,7 +188,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
 
             <div className="mt-8 space-y-8 border-t border-[#e8ddd2] pt-6">
               <div>
-                <h2 className="font-serif text-xl font-medium text-[#2a1f16] sm:text-2xl">
+                <h2 className="font-serif text-xl font-medium text-[#a5a196] sm:text-2xl">
                   {t("about")}
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
@@ -197,7 +197,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
               </div>
 
               <div>
-                <h2 className="font-serif text-xl font-medium text-[#2a1f16] sm:text-2xl">
+                <h2 className="font-serif text-xl font-medium text-[#a5a196] sm:text-2xl">
                   {t("heading")}
                 </h2>
                 <dl className="mt-3 divide-y divide-[#e8ddd2] border-y border-[#e8ddd2]">
@@ -210,7 +210,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                       className="flex items-baseline justify-between gap-4 py-3.5"
                     >
                       <dt className="text-sm text-[#8a7a6c]">{detail.label}</dt>
-                      <dd className="text-end text-sm font-medium text-[#2a1f16]">
+                      <dd className="text-end text-sm font-medium text-[#a5a196]">
                         {detail.value}
                       </dd>
                     </div>
@@ -226,7 +226,7 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                       className="flex items-start gap-2.5 text-sm text-[#5c4f43] sm:text-[15px]"
                     >
                       <span
-                        className="mt-2 size-1.5 shrink-0 rounded-full bg-[#a5a196]"
+                        className="mt-2 size-1.5 shrink-0 rounded-full bg-[#C9A962]"
                         aria-hidden
                       />
                       {item}
@@ -245,13 +245,13 @@ export function ProductDetailView({ product, related }: ProductDetailViewProps) 
                 <p className="mb-2 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
                   {t("continueExploring")}
                 </p>
-                <h2 className="font-serif text-3xl font-medium text-[#2a1f16] sm:text-4xl">
+                <h2 className="font-serif text-3xl font-medium text-[#a5a196] sm:text-4xl">
                   {t("related")}
                 </h2>
               </div>
               <Link
                 href={ROUTES.shop}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#2a1f16] transition-colors hover:text-[#a5a196]"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#a5a196] transition-colors hover:text-[#C9A962]"
               >
                 {tCommon("viewAll")}
                 <ArrowRightIcon className="size-4 rtl:rotate-180" />
@@ -283,10 +283,10 @@ function RelatedCard({ product }: { product: ShopProduct }) {
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         />
       </div>
-      <h3 className="mt-3 text-[15px] font-semibold text-[#1a120c] group-hover:text-[#2a1f16]">
+      <h3 className="mt-3 text-[15px] font-semibold text-[#1a120c] group-hover:text-[#a5a196]">
         {product.name}
       </h3>
-      <p className="mt-1 text-sm font-medium text-[#a5a196]">{formatPrice(product)}</p>
+      <p className="mt-1 text-sm font-medium text-[#C9A962]">{formatPrice(product)}</p>
     </Link>
   );
 }

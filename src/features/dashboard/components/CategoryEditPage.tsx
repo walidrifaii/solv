@@ -39,7 +39,7 @@ export function CategoryEditPage({ categoryId }: { categoryId: string }) {
         </p>
         <Link
           href={ROUTES.dashboardCategories}
-          className="text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
+          className="text-sm font-medium text-[#C9A962] hover:text-[#a5a196]"
         >
           Back to categories
         </Link>
@@ -52,11 +52,11 @@ export function CategoryEditPage({ categoryId }: { categoryId: string }) {
       <div>
         <Link
           href={ROUTES.dashboardCategories}
-          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
+          className="text-xs font-medium text-[#C9A962] hover:text-[#a5a196]"
         >
           ← Back to categories
         </Link>
-        <h2 className="mt-3 font-serif text-2xl font-medium text-[#2a1f16]">
+        <h2 className="mt-3 font-serif text-2xl font-medium text-[#a5a196]">
           Edit category
         </h2>
         <p className="mt-1 text-sm text-[#7a6b5d]">

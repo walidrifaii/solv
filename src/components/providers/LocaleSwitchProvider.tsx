@@ -101,7 +101,7 @@ export function LocaleSwitchProvider({ children }: { children: ReactNode }) {
           key={animKey}
           dir="ltr"
           lang="en"
-          className={`preloader fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#17100a] transition-opacity duration-[350ms] ease-out ${
+          className={`preloader fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#a5a196] transition-opacity duration-[350ms] ease-out ${
             fading ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
           aria-busy="true"

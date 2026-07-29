@@ -7,10 +7,10 @@ import { formatOrderDate, statusLabel, statusTone } from "@/features/dashboard/d
 import { useAdminDashboardOverviewQuery } from "@/store/slices";
 
 const toneClass = {
-  gold: "border-[#a5a196]/40 bg-[#17100a] text-white",
-  dark: "border-[#2a1f16]/10 bg-[#2a1f16] text-white",
+  gold: "border-[#C9A962]/40 bg-[#a5a196] text-white",
+  dark: "border-[#a5a196]/10 bg-[#a5a196] text-white",
   warn: "border-[#e8c4a8] bg-[#fff6ef] text-[#8a4f2f]",
-  cream: "border-[#efe4da] bg-white text-[#2a1f16]",
+  cream: "border-[#efe4da] bg-white text-[#a5a196]",
 } as const;
 
 function formatDelta(delta: number) {
@@ -73,7 +73,7 @@ export function DashboardOverview() {
             <p
               className={`text-[11px] font-medium tracking-[0.16em] uppercase ${
                 stat.tone === "gold" || stat.tone === "dark"
-                  ? "text-[#a5a196]"
+                  ? "text-[#C9A962]"
                   : "text-[#8a7a6c]"
               }`}
             >
@@ -99,7 +99,7 @@ export function DashboardOverview() {
         <div className="overflow-hidden rounded-2xl border border-[#e8ddd2] bg-white">
           <div className="flex items-center justify-between border-b border-[#efe4da] px-5 py-4">
             <div>
-              <h2 className="font-serif text-xl font-medium text-[#2a1f16]">
+              <h2 className="font-serif text-xl font-medium text-[#a5a196]">
                 Recent orders
               </h2>
               <p className="mt-1 text-xs text-[#8a7a6c]">
@@ -108,7 +108,7 @@ export function DashboardOverview() {
             </div>
             <Link
               href={ROUTES.dashboardOrders}
-              className="text-sm font-medium text-[#a5a196] transition-colors hover:text-[#2a1f16]"
+              className="text-sm font-medium text-[#C9A962] transition-colors hover:text-[#a5a196]"
             >
               View all
             </Link>
@@ -159,7 +159,7 @@ export function DashboardOverview() {
                       className="border-t border-[#f0e7de] hover:bg-[#FEF9F6]/80"
                     >
                       <td className="px-5 py-4">
-                        <p className="font-medium text-[#2a1f16]">
+                        <p className="font-medium text-[#a5a196]">
                           {order.orderNumber}
                         </p>
                         <p className="text-xs text-[#8a7a6c]">
@@ -189,7 +189,7 @@ export function DashboardOverview() {
 
         <div className="overflow-hidden rounded-2xl border border-[#e8ddd2] bg-white">
           <div className="border-b border-[#efe4da] px-5 py-4">
-            <h2 className="font-serif text-xl font-medium text-[#2a1f16]">
+            <h2 className="font-serif text-xl font-medium text-[#a5a196]">
               Low stock
             </h2>
             <p className="mt-1 text-xs text-[#8a7a6c]">
@@ -222,7 +222,7 @@ export function DashboardOverview() {
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-[#2a1f16]">
+                    <p className="truncate font-medium text-[#a5a196]">
                       {item.name}
                     </p>
                     <p className="truncate text-xs text-[#8a7a6c]">
@@ -239,7 +239,7 @@ export function DashboardOverview() {
           <div className="border-t border-[#efe4da] px-5 py-3">
             <Link
               href={ROUTES.dashboardProducts}
-              className="text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
+              className="text-sm font-medium text-[#C9A962] hover:text-[#a5a196]"
             >
               Manage products
             </Link>

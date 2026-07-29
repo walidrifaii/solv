@@ -9,7 +9,7 @@ export async function AboutStory() {
   const tFacts = await getTranslations("about.facts");
 
   return (
-    <section className="bg-[#FEF9F6] px-4 py-12 text-[#2a1f16] sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 lg:py-20">
+    <section className="bg-[#FEF9F6] px-4 py-12 text-[#a5a196] sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 lg:py-20">
       <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="relative min-h-[16rem] overflow-hidden sm:min-h-[18rem] lg:min-h-[28rem]">
           <Image
@@ -25,13 +25,13 @@ export async function AboutStory() {
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {t("eyebrow")}
           </p>
-          <h2 className="font-serif text-3xl leading-tight font-medium text-[#2a1f16] sm:text-4xl md:text-[2.5rem]">
+          <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.5rem]">
             {t("title")}
           </h2>
-          <div className="mt-4 flex items-center gap-3 text-[#a5a196]">
-            <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
+          <div className="mt-4 flex items-center gap-3 text-[#C9A962]">
+            <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
             <OrnamentIcon className="size-3.5" />
-            <span className="h-px w-10 bg-[#a5a196]/70 sm:w-14" />
+            <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
           </div>
 
           <div className="mt-6 space-y-4 sm:mt-8">
@@ -46,10 +46,10 @@ export async function AboutStory() {
           </div>
 
           <p className="mt-8 border-t border-[#e8ddd2] pt-6 text-sm text-[#7a6b5d] sm:mt-10">
-            <span className="font-medium tracking-wide text-[#2a1f16] uppercase">
+            <span className="font-medium tracking-wide text-[#a5a196] uppercase">
               {t("highlightLabel")}
             </span>
-            <span className="mx-2 text-[#a5a196]">·</span>
+            <span className="mx-2 text-[#C9A962]">·</span>
             {t("highlightValue")}
           </p>
         </div>
@@ -64,7 +64,7 @@ export async function AboutStory() {
             <p className="text-[10px] font-medium tracking-[0.18em] text-[#b0895b] uppercase sm:text-[11px]">
               {tFacts(`${factId}.label`)}
             </p>
-            <p className="mt-2 font-serif text-base font-medium text-[#2a1f16] sm:text-lg">
+            <p className="mt-2 font-serif text-base font-medium text-[#a5a196] sm:text-lg">
               {tFacts(`${factId}.value`)}
             </p>
           </div>

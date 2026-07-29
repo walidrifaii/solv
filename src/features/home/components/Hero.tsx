@@ -72,7 +72,7 @@ export function Hero() {
 
   if (isLoading && apiSlides.length === 0) {
     return (
-      <section className="relative isolate min-h-[42svh] w-full overflow-hidden bg-[#17100a] sm:min-h-[50svh] md:aspect-[1871/840] md:min-h-0" />
+      <section className="relative isolate min-h-[42svh] w-full overflow-hidden bg-[#a5a196] sm:min-h-[50svh] md:aspect-[1871/840] md:min-h-0" />
     );
   }
 
@@ -81,7 +81,7 @@ export function Hero() {
   }
 
   return (
-    <section className="relative isolate min-h-[42svh] w-full overflow-hidden bg-[#17100a] text-white sm:min-h-[50svh] md:aspect-[1871/840] md:min-h-0">
+    <section className="relative isolate min-h-[42svh] w-full overflow-hidden bg-[#a5a196] text-white sm:min-h-[50svh] md:aspect-[1871/840] md:min-h-0">
       {slides.map((item, i) => (
         <div
           key={item.id}
@@ -98,7 +98,7 @@ export function Hero() {
             sizes="100vw"
             className="object-cover object-[72%_center] sm:object-[68%_center] md:object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#17100a]/90 via-[#17100a]/45 to-transparent md:bg-gradient-to-r md:from-[#17100a]/70 md:via-[#17100a]/25 md:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#a5a196]/90 via-[#a5a196]/45 to-transparent md:bg-gradient-to-r md:from-[#a5a196]/70 md:via-[#a5a196]/25 md:to-transparent" />
         </div>
       ))}
 
@@ -107,7 +107,7 @@ export function Hero() {
           key={slide.id}
           className="max-w-xl animate-[heroFade_0.6s_ease-out] sm:max-w-2xl md:max-w-3xl"
         >
-          <p className="mb-2 text-[11px] font-medium tracking-[0.2em] text-[#a5a196] uppercase sm:mb-3 sm:text-xs md:mb-4 md:text-sm">
+          <p className="mb-2 text-[11px] font-medium tracking-[0.2em] text-[#C9A962] uppercase sm:mb-3 sm:text-xs md:mb-4 md:text-sm">
             {slide.eyebrow}
           </p>
           <h1 className="font-serif text-[1.75rem] leading-[1.1] font-medium text-white sm:text-4xl md:text-6xl lg:text-7xl xl:text-[5.25rem]">
@@ -118,7 +118,7 @@ export function Hero() {
           </p>
           <Link
             href={slide.href}
-            className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#a5a196] px-5 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] sm:mt-6 sm:px-6 sm:py-3 sm:text-base md:mt-10 md:px-7 md:py-3.5 md:text-lg"
+            className="mt-5 inline-flex items-center gap-2 rounded-md bg-[#C9A962] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] sm:mt-6 sm:px-6 sm:py-3 sm:text-base md:mt-10 md:px-7 md:py-3.5 md:text-lg"
           >
             {slide.ctaLabel}
             <ArrowRightIcon className="size-3.5 sm:size-4 rtl:rotate-180" />
@@ -131,7 +131,7 @@ export function Hero() {
           <button
             type="button"
             onClick={() => goTo(safeIndex - 1)}
-            className="absolute top-1/2 start-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#17100a]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#17100a]/75 sm:start-3 sm:size-10 md:start-5 md:size-12"
+            className="absolute top-1/2 start-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#a5a196]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#a5a196]/75 sm:start-3 sm:size-10 md:start-5 md:size-12"
             aria-label={t("prev")}
           >
             <ChevronLeftIcon className="size-4 sm:size-5 rtl:rotate-180" />
@@ -139,7 +139,7 @@ export function Hero() {
           <button
             type="button"
             onClick={() => goTo(safeIndex + 1)}
-            className="absolute top-1/2 end-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#17100a]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#17100a]/75 sm:end-3 sm:size-10 md:end-5 md:size-12"
+            className="absolute top-1/2 end-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#a5a196]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#a5a196]/75 sm:end-3 sm:size-10 md:end-5 md:size-12"
             aria-label={t("next")}
           >
             <ChevronRightIcon className="size-4 sm:size-5 rtl:rotate-180" />

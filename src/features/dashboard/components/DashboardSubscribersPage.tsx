@@ -43,7 +43,7 @@ export function DashboardSubscribersPage() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+          <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
             Subscribers
           </h2>
           <p className="mt-1 text-sm text-[#7a6b5d]">
@@ -67,7 +67,7 @@ export function DashboardSubscribersPage() {
             setPage(1);
           }}
           placeholder="Search by email…"
-          className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196] lg:max-w-md"
+          className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] focus:border-[#C9A962] lg:max-w-md"
         />
         <div className="flex flex-wrap gap-2">
           <button
@@ -78,7 +78,7 @@ export function DashboardSubscribersPage() {
             }}
             className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
               activeOnly
-                ? "bg-[#2a1f16] text-white"
+                ? "bg-[#a5a196] text-white"
                 : "bg-[#F6EDE6] text-[#5c4f43] hover:bg-[#efe4da]"
             }`}
           >
@@ -92,7 +92,7 @@ export function DashboardSubscribersPage() {
             }}
             className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
               !activeOnly
-                ? "bg-[#2a1f16] text-white"
+                ? "bg-[#a5a196] text-white"
                 : "bg-[#F6EDE6] text-[#5c4f43] hover:bg-[#efe4da]"
             }`}
           >
@@ -114,7 +114,7 @@ export function DashboardSubscribersPage() {
             <button
               type="button"
               onClick={() => refetch()}
-              className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
+              className="mt-3 text-sm font-medium text-[#C9A962] hover:text-[#a5a196]"
             >
               Try again
             </button>
@@ -131,7 +131,7 @@ export function DashboardSubscribersPage() {
                 className="flex flex-wrap items-center justify-between gap-3 px-5 py-4"
               >
                 <div>
-                  <p className="font-medium text-[#2a1f16]">{row.email}</p>
+                  <p className="font-medium text-[#a5a196]">{row.email}</p>
                   <p className="text-xs text-[#8a7a6c]">
                     Joined {formatJoined(row.subscribedAt)}
                   </p>

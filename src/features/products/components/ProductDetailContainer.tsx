@@ -43,10 +43,10 @@ export function ProductDetailContainer({ slug }: ProductDetailContainerProps) {
   if (isError || !product) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center bg-[#FEF9F6] px-4 py-24 text-center">
-        <p className="font-serif text-2xl text-[#2a1f16]">{t("productNotFound")}</p>
+        <p className="font-serif text-2xl text-[#a5a196]">{t("productNotFound")}</p>
         <Link
           href={ROUTES.shop}
-          className="mt-4 text-sm text-[#a5a196] underline"
+          className="mt-4 text-sm text-[#C9A962] underline"
         >
           {t("backToShop")}
         </Link>

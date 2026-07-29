@@ -104,7 +104,7 @@ export function DashboardProductsPage() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+          <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
             Products
           </h2>
           <p className="mt-1 text-sm text-[#7a6b5d]">
@@ -113,7 +113,7 @@ export function DashboardProductsPage() {
         </div>
         <Link
           href={ROUTES.dashboardProductNew}
-          className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
+          className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
         >
           Add product
         </Link>
@@ -129,7 +129,7 @@ export function DashboardProductsPage() {
               setPage(1);
             }}
             placeholder="Search name or slug…"
-            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196] lg:max-w-xs"
+            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] focus:border-[#C9A962] lg:max-w-xs"
           />
           <select
             value={categoryId}
@@ -137,7 +137,7 @@ export function DashboardProductsPage() {
               setCategoryId(e.target.value);
               setPage(1);
             }}
-            className="w-full rounded-xl border border-[#ddd0c4] bg-white px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none focus:border-[#a5a196] lg:max-w-[14rem]"
+            className="w-full rounded-xl border border-[#ddd0c4] bg-white px-3.5 py-2.5 text-sm text-[#a5a196] outline-none focus:border-[#C9A962] lg:max-w-[14rem]"
           >
             <option value="">All categories</option>
             {categories.map((category) => (
@@ -163,7 +163,7 @@ export function DashboardProductsPage() {
                 }}
                 className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                   status === value
-                    ? "bg-[#2a1f16] text-white"
+                    ? "bg-[#a5a196] text-white"
                     : "bg-[#F6EDE6] text-[#5c4f43] hover:bg-[#efe4da]"
                 }`}
               >
@@ -181,7 +181,7 @@ export function DashboardProductsPage() {
                 setStockOnly(e.target.checked);
                 setPage(1);
               }}
-              className="size-3.5 rounded border-[#ddd0c4] accent-[#a5a196]"
+              className="size-3.5 rounded border-[#ddd0c4] accent-[#C9A962]"
             />
             In stock only
           </label>
@@ -193,7 +193,7 @@ export function DashboardProductsPage() {
                 setFeaturedOnly(e.target.checked);
                 setPage(1);
               }}
-              className="size-3.5 rounded border-[#ddd0c4] accent-[#a5a196]"
+              className="size-3.5 rounded border-[#ddd0c4] accent-[#C9A962]"
             />
             Featured only
           </label>
@@ -240,7 +240,7 @@ export function DashboardProductsPage() {
                     <button
                       type="button"
                       onClick={() => refetch()}
-                      className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
+                      className="mt-3 text-sm font-medium text-[#C9A962] hover:text-[#a5a196]"
                     >
                       Try again
                     </button>
@@ -273,7 +273,7 @@ export function DashboardProductsPage() {
                           />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium text-[#2a1f16]">
+                          <p className="font-medium text-[#a5a196]">
                             {product.name}
                             {product.isFeatured ? (
                               <span className="ml-2 rounded-full bg-[#F6EDE6] px-2 py-0.5 text-[10px] font-medium tracking-wide text-[#b0895b] uppercase">
@@ -291,7 +291,7 @@ export function DashboardProductsPage() {
                       {product.category?.name ?? "—"}
                     </td>
                     <td className="px-5 py-4">
-                      <p className="font-medium text-[#2a1f16]">
+                      <p className="font-medium text-[#a5a196]">
                         QAR {product.finalPrice.toFixed(2)}
                       </p>
                       {product.finalPrice !== product.price ? (
@@ -319,13 +319,13 @@ export function DashboardProductsPage() {
                           type="button"
                           onClick={() => toggleActive(product)}
                           disabled={updating || deleting}
-                          className="text-xs font-medium text-[#7a6b5d] hover:text-[#2a1f16] disabled:opacity-50"
+                          className="text-xs font-medium text-[#7a6b5d] hover:text-[#a5a196] disabled:opacity-50"
                         >
                           {product.isActive ? "Hide" : "Show"}
                         </button>
                         <Link
                           href={ROUTES.dashboardProductEdit(product.id)}
-                          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
+                          className="text-xs font-medium text-[#C9A962] hover:text-[#a5a196]"
                         >
                           Edit
                         </Link>

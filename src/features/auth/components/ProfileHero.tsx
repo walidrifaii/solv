@@ -11,7 +11,7 @@ export function ProfileHero() {
   const tNav = useTranslations("nav");
 
   return (
-    <section className="relative isolate min-h-[36svh] w-full overflow-hidden bg-[#17100a] text-white sm:min-h-[40svh] md:min-h-[44svh]">
+    <section className="relative isolate min-h-[36svh] w-full overflow-hidden bg-[#a5a196] text-white sm:min-h-[40svh] md:min-h-[44svh]">
       <Image
         src={heroImage}
         alt=""
@@ -20,7 +20,7 @@ export function ProfileHero() {
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#17100a] via-[#17100a]/65 to-[#17100a]/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#a5a196] via-[#a5a196]/65 to-[#a5a196]/35" />
 
       <div className="relative z-10 mx-auto flex min-h-[36svh] w-full max-w-[1400px] flex-col justify-end px-4 pb-10 pt-20 sm:min-h-[40svh] sm:px-6 sm:pb-12 sm:pt-24 md:min-h-[44svh] md:justify-center md:px-8 md:pb-14 lg:px-10">
         <div className="max-w-2xl animate-[heroFade_0.6s_ease-out]">
@@ -37,11 +37,11 @@ export function ProfileHero() {
               <li aria-hidden className="text-white/40">
                 /
               </li>
-              <li className="text-[#a5a196]">{t("breadcrumbCurrent")}</li>
+              <li className="text-[#C9A962]">{t("breadcrumbCurrent")}</li>
             </ol>
           </nav>
 
-          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#a5a196] uppercase sm:text-xs">
+          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#C9A962] uppercase sm:text-xs">
             {t("heroEyebrow")}
           </p>
           <h1 className="font-serif text-4xl leading-none font-medium tracking-[0.04em] text-white sm:text-5xl md:text-6xl">

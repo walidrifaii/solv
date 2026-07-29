@@ -9,7 +9,7 @@ import { getApiErrorMessage } from "@/store/api/errors";
 import { useAdminLoginMutation } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-xl border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196]";
+  "w-full rounded-xl border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962]";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -44,7 +44,7 @@ export function AdminLoginForm() {
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase">
         Admin access
       </p>
-      <h1 className="font-serif text-3xl font-medium text-[#2a1f16]">
+      <h1 className="font-serif text-3xl font-medium text-[#a5a196]">
         Sign in to dashboard
       </h1>
       <p className="mt-2 text-sm text-[#7a6b5d]">
@@ -98,14 +98,14 @@ export function AdminLoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex w-full items-center justify-center rounded-xl bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:opacity-60"
+          className="inline-flex w-full items-center justify-center rounded-xl bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:opacity-60"
         >
           {isLoading ? "Signing in…" : "Sign in"}
         </button>
       </form>
 
       <p className="mt-6 text-center text-sm text-[#7a6b5d]">
-        <Link href={ROUTES.home} className="text-[#2a1f16] hover:text-[#a5a196]">
+        <Link href={ROUTES.home} className="text-[#a5a196] hover:text-[#C9A962]">
           Back to store
         </Link>
       </p>

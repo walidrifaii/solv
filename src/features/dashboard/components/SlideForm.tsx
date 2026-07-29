@@ -281,7 +281,7 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
               type="checkbox"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="size-4 rounded border-[#ddd0c4] accent-[#a5a196]"
+              className="size-4 rounded border-[#ddd0c4] accent-[#C9A962]"
             />
             Active on homepage
           </label>
@@ -306,7 +306,7 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
         <button
           type="submit"
           disabled={saving || imageUploading || !imagePath.trim()}
-          className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-[#a5a196] hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {imageUploading
             ? "Uploading image…"

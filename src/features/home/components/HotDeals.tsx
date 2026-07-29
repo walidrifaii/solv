@@ -41,7 +41,7 @@ export function HotDeals() {
   );
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#17100a] text-white">
+    <section className="relative isolate overflow-hidden bg-[#a5a196] text-white">
       <Image
         src={dealsBg}
         alt=""
@@ -50,18 +50,18 @@ export function HotDeals() {
         className="object-cover object-center"
         aria-hidden
       />
-      <div className="absolute inset-0 bg-[#17100a]/55" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#17100a]/70 via-[#17100a]/35 to-[#17100a]/75" />
+      <div className="absolute inset-0 bg-[#a5a196]/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#a5a196]/70 via-[#a5a196]/35 to-[#a5a196]/75" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 lg:py-18">
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10 md:mb-12">
-          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#a5a196] uppercase sm:text-xs">
+          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#C9A962] uppercase sm:text-xs">
             {t("eyebrow")}
           </p>
           <h2 className="font-serif text-3xl leading-tight font-medium text-white sm:text-4xl md:text-[2.75rem]">
             {t("title")}
           </h2>
-          <div className="mt-3 flex justify-center text-[#a5a196]">
+          <div className="mt-3 flex justify-center text-[#C9A962]">
             <CoffeeBeansIcon className="size-7 sm:size-8" />
           </div>
           <p className="mt-3 text-sm text-white/80 sm:text-base">
@@ -69,7 +69,7 @@ export function HotDeals() {
           </p>
           <Link
             href={hotDeals.href}
-            className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#a5a196] px-6 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] sm:mt-7 sm:px-7 sm:py-3 sm:text-base"
+            className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#C9A962] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] sm:mt-7 sm:px-7 sm:py-3 sm:text-base"
           >
             {t("cta")}
             <ArrowRightIcon className="size-4 rtl:rotate-180" />

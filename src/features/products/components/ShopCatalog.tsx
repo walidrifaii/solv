@@ -64,7 +64,7 @@ export function ShopCatalog({ activeCategory }: ShopCatalogProps) {
   if (productsError) {
     return (
       <div className="bg-[#FEF9F6] px-4 py-20 text-center">
-        <p className="font-serif text-2xl text-[#2a1f16]">
+        <p className="font-serif text-2xl text-[#a5a196]">
           {t("loadError")}
         </p>
         <p className="mt-2 text-sm text-[#7a6b5d]">
@@ -72,7 +72,7 @@ export function ShopCatalog({ activeCategory }: ShopCatalogProps) {
         </p>
         <Link
           href={ROUTES.shop}
-          className="mt-6 inline-block text-sm text-[#a5a196] underline"
+          className="mt-6 inline-block text-sm text-[#C9A962] underline"
         >
           {t("retry")}
         </Link>

@@ -47,7 +47,7 @@ export function AdminConfirmDrawer({
         type="button"
         aria-label="Close confirmation"
         disabled={loading}
-        className="absolute inset-0 bg-[#17100a]/50 backdrop-blur-[2px] disabled:cursor-not-allowed"
+        className="absolute inset-0 bg-[#a5a196]/50 backdrop-blur-[2px] disabled:cursor-not-allowed"
         onClick={() => {
           if (!loading) onClose();
         }}
@@ -67,7 +67,7 @@ export function AdminConfirmDrawer({
             </p>
             <h2
               id="admin-confirm-title"
-              className="mt-1 font-serif text-xl font-medium text-[#2a1f16]"
+              className="mt-1 font-serif text-xl font-medium text-[#a5a196]"
             >
               {title}
             </h2>
@@ -76,7 +76,7 @@ export function AdminConfirmDrawer({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-[#7a6b5d] hover:bg-[#FEF9F6] hover:text-[#2a1f16] disabled:opacity-50"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-[#7a6b5d] hover:bg-[#FEF9F6] hover:text-[#a5a196] disabled:opacity-50"
             aria-label="Close"
           >
             <CloseIcon className="size-5" />

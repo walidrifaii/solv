@@ -4,7 +4,7 @@ import { useEffect, type ReactNode } from "react";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 
 export const adminInputClass =
-  "w-full rounded-xl border border-[#ddd0c4] bg-white px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196]";
+  "w-full rounded-xl border border-[#ddd0c4] bg-white px-3.5 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962]";
 
 export const adminLabelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -46,7 +46,7 @@ export function AdminModal({
       <button
         type="button"
         aria-label="Close dialog"
-        className="absolute inset-0 bg-[#17100a]/45 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-[#a5a196]/45 backdrop-blur-[2px]"
         onClick={onClose}
       />
       <div
@@ -61,7 +61,7 @@ export function AdminModal({
           <div className="min-w-0">
             <h2
               id="admin-modal-title"
-              className="font-serif text-xl font-medium text-[#2a1f16]"
+              className="font-serif text-xl font-medium text-[#a5a196]"
             >
               {title}
             </h2>
@@ -72,7 +72,7 @@ export function AdminModal({
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-[#7a6b5d] hover:bg-[#FEF9F6] hover:text-[#2a1f16]"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-[#7a6b5d] hover:bg-[#FEF9F6] hover:text-[#a5a196]"
             aria-label="Close"
           >
             <CloseIcon className="size-5" />

@@ -42,7 +42,7 @@ export function DashboardOrdersPage() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+          <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
             Orders
           </h2>
           <p className="mt-1 text-sm text-[#7a6b5d]">
@@ -60,7 +60,7 @@ export function DashboardOrdersPage() {
             setPage(1);
           }}
           placeholder="Search order #, name, email, phone, city…"
-          className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196] lg:max-w-md"
+          className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] focus:border-[#C9A962] lg:max-w-md"
         />
         <div className="flex flex-wrap gap-2">
           {ORDER_STATUS_FILTERS.map((filter) => (
@@ -73,7 +73,7 @@ export function DashboardOrdersPage() {
               }}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                 status === filter.value
-                  ? "bg-[#2a1f16] text-white"
+                  ? "bg-[#a5a196] text-white"
                   : "bg-[#F6EDE6] text-[#5c4f43] hover:bg-[#efe4da]"
               }`}
             >
@@ -117,7 +117,7 @@ export function DashboardOrdersPage() {
                     <button
                       type="button"
                       onClick={() => refetch()}
-                      className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
+                      className="mt-3 text-sm font-medium text-[#C9A962] hover:text-[#a5a196]"
                     >
                       Try again
                     </button>
@@ -139,7 +139,7 @@ export function DashboardOrdersPage() {
                     className="border-t border-[#f0e7de] hover:bg-[#FEF9F6]/80"
                   >
                     <td className="px-5 py-4">
-                      <p className="font-medium text-[#2a1f16]">
+                      <p className="font-medium text-[#a5a196]">
                         {order.orderNumber}
                       </p>
                       <p className="text-xs text-[#8a7a6c]">
@@ -162,7 +162,7 @@ export function DashboardOrdersPage() {
                         {statusLabel(order.status)}
                       </span>
                     </td>
-                    <td className="px-5 py-4 font-medium text-[#2a1f16]">
+                    <td className="px-5 py-4 font-medium text-[#a5a196]">
                       QAR {(order.total ?? 0).toFixed(2)}
                       <p className="text-xs font-normal text-[#8a7a6c]">
                         {order.itemCount} item
@@ -173,7 +173,7 @@ export function DashboardOrdersPage() {
                       <button
                         type="button"
                         onClick={() => setSelectedId(order.id)}
-                        className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
+                        className="text-xs font-medium text-[#C9A962] hover:text-[#a5a196]"
                       >
                         Details
                       </button>

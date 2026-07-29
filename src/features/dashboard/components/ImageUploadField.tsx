@@ -87,7 +87,7 @@ export function ImageUploadField({
             </div>
           )}
           {isLoading ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-[#17100a]/45 text-[11px] font-medium text-white">
+            <div className="absolute inset-0 flex items-center justify-center bg-[#a5a196]/45 text-[11px] font-medium text-white">
               Uploading…
             </div>
           ) : null}
@@ -108,7 +108,7 @@ export function ImageUploadField({
               type="button"
               disabled={isLoading}
               onClick={() => inputRef.current?.click()}
-              className="rounded-xl bg-[#2a1f16] px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-[#3a2c20] disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-xl bg-[#a5a196] px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-[#3a2c20] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoading
                 ? "Uploading…"

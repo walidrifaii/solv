@@ -47,7 +47,7 @@ export function CheckoutAuthModal({
     >
       <button
         type="button"
-        className="absolute inset-0 bg-[#17100a]/55 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-[#a5a196]/55 backdrop-blur-[2px]"
         aria-label={t("close")}
         onClick={onClose}
       />
@@ -61,7 +61,7 @@ export function CheckoutAuthModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 end-4 inline-flex size-9 cursor-pointer items-center justify-center rounded-md text-[#2a1f16] transition-colors hover:bg-[#F6EDE6]"
+          className="absolute top-4 end-4 inline-flex size-9 cursor-pointer items-center justify-center rounded-md text-[#a5a196] transition-colors hover:bg-[#F6EDE6]"
           aria-label={t("close")}
         >
           <CloseIcon className="size-5" />
@@ -72,7 +72,7 @@ export function CheckoutAuthModal({
         </p>
         <h2
           id="checkout-auth-title"
-          className="mt-2 pe-8 font-serif text-2xl font-medium text-[#2a1f16] sm:text-3xl"
+          className="mt-2 pe-8 font-serif text-2xl font-medium text-[#a5a196] sm:text-3xl"
         >
           {t("title")}
         </h2>
@@ -81,17 +81,17 @@ export function CheckoutAuthModal({
           <button
             type="button"
             onClick={onGuest}
-            className="w-full cursor-pointer rounded-md border border-[#a5a196] bg-[#a5a196] px-4 py-4 text-start transition-colors hover:bg-[#b5b1a6]"
+            className="w-full cursor-pointer rounded-md border border-[#C9A962] bg-[#C9A962] px-4 py-4 text-start transition-colors hover:bg-[#D9BC82]"
           >
-            <p className="text-sm font-medium text-[#17100a]">{t("guest.label")}</p>
-            <p className="mt-1 text-sm text-[#17100a]/75">{t("guest.description")}</p>
+            <p className="text-sm font-medium text-[#a5a196]">{t("guest.label")}</p>
+            <p className="mt-1 text-sm text-[#a5a196]/75">{t("guest.description")}</p>
           </button>
 
           <Link
             href={loginHref}
-            className="block w-full cursor-pointer rounded-md border border-[#ddd0c4] bg-white px-4 py-4 text-start transition-colors hover:border-[#a5a196]"
+            className="block w-full cursor-pointer rounded-md border border-[#ddd0c4] bg-white px-4 py-4 text-start transition-colors hover:border-[#C9A962]"
           >
-            <p className="text-sm font-medium text-[#2a1f16]">{t("login.label")}</p>
+            <p className="text-sm font-medium text-[#a5a196]">{t("login.label")}</p>
             <p className="mt-1 text-sm text-[#7a6b5d]">{t("login.description")}</p>
           </Link>
         </div>
@@ -100,7 +100,7 @@ export function CheckoutAuthModal({
           {t("registerPrompt")}{" "}
           <Link
             href={registerHref}
-            className="font-medium text-[#2a1f16] underline-offset-2 hover:text-[#a5a196] hover:underline"
+            className="font-medium text-[#a5a196] underline-offset-2 hover:text-[#C9A962] hover:underline"
           >
             {t("registerLink")}
           </Link>

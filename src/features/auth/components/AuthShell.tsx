@@ -15,7 +15,7 @@ export async function AuthShell({ children }: AuthShellProps) {
   const tNav = await getTranslations("nav");
 
   return (
-    <section className="bg-[#FEF9F6] text-[#2a1f16]">
+    <section className="bg-[#FEF9F6] text-[#a5a196]">
       <div className="mx-auto grid min-h-[calc(100svh-6rem)] w-full max-w-[1400px] lg:grid-cols-2">
         <div className="relative hidden min-h-full overflow-hidden lg:block">
           <Image
@@ -26,7 +26,7 @@ export async function AuthShell({ children }: AuthShellProps) {
             sizes="50vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#17100a]/70 via-[#17100a]/25 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#a5a196]/70 via-[#a5a196]/25 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-10">
             <p className="font-serif text-3xl font-medium tracking-[0.06em] text-white">
               SOLV

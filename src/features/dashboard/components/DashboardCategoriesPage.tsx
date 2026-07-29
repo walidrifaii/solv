@@ -84,7 +84,7 @@ export function DashboardCategoriesPage() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+          <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
             Categories
           </h2>
           <p className="mt-1 text-sm text-[#7a6b5d]">
@@ -93,7 +93,7 @@ export function DashboardCategoriesPage() {
         </div>
         <Link
           href={ROUTES.dashboardCategoryNew}
-          className="rounded-xl bg-[#a5a196] px-4 py-2.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
+          className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
         >
           Add category
         </Link>
@@ -109,7 +109,7 @@ export function DashboardCategoriesPage() {
               setPage(1);
             }}
             placeholder="Search name or slug…"
-            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196]"
+            className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] focus:border-[#C9A962]"
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -129,7 +129,7 @@ export function DashboardCategoriesPage() {
               }}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                 status === value
-                  ? "bg-[#2a1f16] text-white"
+                  ? "bg-[#a5a196] text-white"
                   : "bg-[#F6EDE6] text-[#5c4f43] hover:bg-[#efe4da]"
               }`}
             >
@@ -178,7 +178,7 @@ export function DashboardCategoriesPage() {
                     <button
                       type="button"
                       onClick={() => refetch()}
-                      className="mt-3 text-sm font-medium text-[#a5a196] hover:text-[#2a1f16]"
+                      className="mt-3 text-sm font-medium text-[#C9A962] hover:text-[#a5a196]"
                     >
                       Try again
                     </button>
@@ -211,7 +211,7 @@ export function DashboardCategoriesPage() {
                           />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium text-[#2a1f16]">
+                          <p className="font-medium text-[#a5a196]">
                             {category.name}
                           </p>
                           <p className="truncate text-xs text-[#8a7a6c]">
@@ -235,13 +235,13 @@ export function DashboardCategoriesPage() {
                           type="button"
                           onClick={() => toggleActive(category)}
                           disabled={updating || deleting}
-                          className="text-xs font-medium text-[#7a6b5d] hover:text-[#2a1f16] disabled:opacity-50"
+                          className="text-xs font-medium text-[#7a6b5d] hover:text-[#a5a196] disabled:opacity-50"
                         >
                           {category.isActive ? "Hide" : "Show"}
                         </button>
                         <Link
                           href={ROUTES.dashboardCategoryEdit(category.id)}
-                          className="text-xs font-medium text-[#a5a196] hover:text-[#2a1f16]"
+                          className="text-xs font-medium text-[#C9A962] hover:text-[#a5a196]"
                         >
                           Edit
                         </Link>

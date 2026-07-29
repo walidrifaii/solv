@@ -16,10 +16,10 @@ function layout(title: string, body: string) {
   const brand = getEnv().APP_NAME || "Solv";
   return `<!doctype html>
 <html>
-  <body style="margin:0;background:#FEF9F6;font-family:Georgia,serif;color:#2a1f16;">
+  <body style="margin:0;background:#FEF9F6;font-family:Georgia,serif;color:#a5a196;">
     <div style="max-width:560px;margin:24px auto;background:#ffffff;border:1px solid #e8ddd2;border-radius:16px;overflow:hidden;">
-      <div style="background:#17100a;padding:20px 24px;">
-        <p style="margin:0;color:#a5a196;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">${escapeHtml(brand)}</p>
+      <div style="background:#a5a196;padding:20px 24px;">
+        <p style="margin:0;color:#C9A962;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">${escapeHtml(brand)}</p>
         <h1 style="margin:8px 0 0;color:#ffffff;font-size:22px;font-weight:500;">${title}</h1>
       </div>
       <div style="padding:24px;">${body}</div>
@@ -54,7 +54,7 @@ export async function sendContactFormEmail(input: {
       <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:14px;"><strong>Phone:</strong> ${escapeHtml(phone)}</p>
       <p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:14px;"><strong>Subject:</strong> ${escapeHtml(input.subject)}</p>
       <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:14px;"><strong>Message:</strong></p>
-      <p style="margin:0;font-family:Arial,sans-serif;font-size:14px;white-space:pre-wrap;line-height:1.6;color:#2a1f16;">${escapeHtml(input.message)}</p>
+      <p style="margin:0;font-family:Arial,sans-serif;font-size:14px;white-space:pre-wrap;line-height:1.6;color:#a5a196;">${escapeHtml(input.message)}</p>
     `,
   );
 

@@ -26,7 +26,7 @@ import { CheckoutAuthModal } from "@/features/checkout/components/CheckoutAuthMo
 import { useCreateOrderMutation, useGetCitiesQuery, useGetMeQuery } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#a5a196] sm:text-base";
+  "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962] sm:text-base";
 
 const selectClass = `${inputClass} cursor-pointer`;
 
@@ -154,30 +154,30 @@ export function CheckoutView() {
 
   if (placed) {
     return (
-      <section className="bg-[#FEF9F6] px-4 py-16 text-[#2a1f16] sm:px-6 sm:py-20 md:px-8 lg:px-10">
+      <section className="bg-[#FEF9F6] px-4 py-16 text-[#a5a196] sm:px-6 sm:py-20 md:px-8 lg:px-10">
         <div className="mx-auto max-w-xl text-center">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {t("confirmed")}
           </p>
-          <h1 className="font-serif text-4xl font-medium text-[#2a1f16] sm:text-5xl">
+          <h1 className="font-serif text-4xl font-medium text-[#a5a196] sm:text-5xl">
             {t("successTitle")}
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
             {t("successDescription")}
           </p>
-          <p className="mt-6 font-serif text-xl text-[#a5a196]">
+          <p className="mt-6 font-serif text-xl text-[#C9A962]">
             {t("orderLabel", { ref: orderRef })}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href={ROUTES.shop}
-              className="inline-flex rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
+              className="inline-flex rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
             >
               {t("continueShopping")}
             </Link>
             <Link
               href={ROUTES.home}
-              className="inline-flex rounded-md border border-[#ddd0c4] px-6 py-3 text-sm font-medium text-[#2a1f16] transition-colors hover:border-[#a5a196]"
+              className="inline-flex rounded-md border border-[#ddd0c4] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:border-[#C9A962]"
             >
               {t("backHome")}
             </Link>
@@ -189,7 +189,7 @@ export function CheckoutView() {
 
   if (itemCount === 0) {
     return (
-      <section className="bg-[#FEF9F6] px-4 py-16 text-[#2a1f16] sm:px-6 sm:py-20 md:px-8 lg:px-10">
+      <section className="bg-[#FEF9F6] px-4 py-16 text-[#a5a196] sm:px-6 sm:py-20 md:px-8 lg:px-10">
         <div className="mx-auto max-w-xl text-center">
           <h1 className="font-serif text-4xl font-medium sm:text-5xl">
             {t("emptyTitle")}
@@ -199,7 +199,7 @@ export function CheckoutView() {
           </p>
           <Link
             href={ROUTES.shop}
-            className="mt-8 inline-flex rounded-md bg-[#a5a196] px-6 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6]"
+            className="mt-8 inline-flex rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
           >
             {t("browseShop")}
           </Link>
@@ -209,7 +209,7 @@ export function CheckoutView() {
   }
 
   return (
-    <section className="bg-[#FEF9F6] text-[#2a1f16]">
+    <section className="bg-[#FEF9F6] text-[#a5a196]">
       <CheckoutAuthModal
         open={showAuthModal}
         onGuest={handleGuestCheckout}
@@ -222,7 +222,7 @@ export function CheckoutView() {
         <nav className="mb-8 text-sm text-[#8a7a6c]" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
-              <Link href={ROUTES.home} className="transition-colors hover:text-[#2a1f16]">
+              <Link href={ROUTES.home} className="transition-colors hover:text-[#a5a196]">
                 {t("home")}
               </Link>
             </li>
@@ -231,13 +231,13 @@ export function CheckoutView() {
               <button
                 type="button"
                 onClick={() => router.push(ROUTES.shop)}
-                className="transition-colors hover:text-[#2a1f16]"
+                className="transition-colors hover:text-[#a5a196]"
               >
                 {t("shop")}
               </button>
             </li>
             <li aria-hidden>/</li>
-            <li className="text-[#2a1f16]">{t("checkout")}</li>
+            <li className="text-[#a5a196]">{t("checkout")}</li>
           </ol>
         </nav>
 
@@ -245,7 +245,7 @@ export function CheckoutView() {
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {t("eyebrow")}
           </p>
-          <h1 className="font-serif text-4xl leading-tight font-medium text-[#2a1f16] sm:text-5xl">
+          <h1 className="font-serif text-4xl leading-tight font-medium text-[#a5a196] sm:text-5xl">
             {t("title")}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
@@ -260,8 +260,8 @@ export function CheckoutView() {
         >
           <div className="space-y-10">
             {client ? (
-              <div className="rounded-md border border-[#a5a196] bg-white px-4 py-4 sm:px-5">
-                <p className="text-sm font-medium text-[#2a1f16]">
+              <div className="rounded-md border border-[#C9A962] bg-white px-4 py-4 sm:px-5">
+                <p className="text-sm font-medium text-[#a5a196]">
                   {t("authChoice.signedInAs", { name: client.name })}
                 </p>
                 <p className="mt-1 text-sm text-[#7a6b5d]">
@@ -271,7 +271,7 @@ export function CheckoutView() {
             ) : null}
 
             <section>
-              <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+              <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
                 {t("contactSection")}
               </h2>
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
@@ -308,7 +308,7 @@ export function CheckoutView() {
                   <label htmlFor="checkout-phone" className={labelClass}>
                     {t("fields.phone")}
                   </label>
-                  <div className="flex overflow-hidden rounded-md border border-[#ddd0c4] bg-white transition-colors focus-within:border-[#a5a196]">
+                  <div className="flex overflow-hidden rounded-md border border-[#ddd0c4] bg-white transition-colors focus-within:border-[#C9A962]">
                     <span className="flex shrink-0 items-center border-e border-[#ddd0c4] bg-[#F6EDE6] px-3 text-sm text-[#7a6b5d] sm:px-4 sm:text-base">
                       +974
                     </span>
@@ -320,7 +320,7 @@ export function CheckoutView() {
                       value={phone}
                       onChange={(e) => handlePhoneChange(e.target.value)}
                       maxLength={QATAR_PHONE_MAX_DIGITS}
-                      className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] sm:text-base"
+                      className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] sm:text-base"
                       placeholder={t("placeholders.phone")}
                       required
                       aria-describedby="checkout-phone-hint"
@@ -334,7 +334,7 @@ export function CheckoutView() {
             </section>
 
             <section className="border-t border-[#e8ddd2] pt-10">
-              <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+              <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
                 {t("deliverySection")}
               </h2>
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
@@ -395,14 +395,14 @@ export function CheckoutView() {
             </section>
 
             <section className="border-t border-[#e8ddd2] pt-10">
-              <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+              <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
                 {t("paymentSection")}
               </h2>
               <p className="mt-2 text-sm text-[#7a6b5d]">
                 {t("paymentNote")}
               </p>
-              <div className="mt-5 rounded-md border border-[#a5a196] bg-white px-4 py-3.5">
-                <p className="text-sm font-medium text-[#2a1f16]">
+              <div className="mt-5 rounded-md border border-[#C9A962] bg-white px-4 py-3.5">
+                <p className="text-sm font-medium text-[#a5a196]">
                   {t("payment.cod.label")}
                 </p>
                 <p className="mt-0.5 text-sm text-[#7a6b5d]">
@@ -420,7 +420,7 @@ export function CheckoutView() {
             <button
               type="submit"
               disabled={placing || authLoading}
-              className="hidden w-full cursor-pointer rounded-md bg-[#a5a196] px-6 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60 lg:inline-flex lg:w-auto lg:px-10 lg:text-base"
+              className="hidden w-full cursor-pointer rounded-md bg-[#C9A962] px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60 lg:inline-flex lg:w-auto lg:px-10 lg:text-base"
             >
               {placing
                 ? t("summary.placing")
@@ -437,7 +437,7 @@ export function CheckoutView() {
                 <p className="text-[11px] font-medium tracking-[0.16em] text-[#b0895b] uppercase">
                   {t("summary.title")}
                 </p>
-                <p className="mt-1 font-serif text-xl font-medium text-[#2a1f16]">
+                <p className="mt-1 font-serif text-xl font-medium text-[#a5a196]">
                   {itemCount}{" "}
                   {itemCount === 1 ? t("item") : t("items")}
                 </p>
@@ -468,7 +468,7 @@ export function CheckoutView() {
                       <p className="mt-0.5 text-xs text-[#8a7a6c]">
                         {t("qty", { count: item.quantity })}
                       </p>
-                      <p className="mt-1 text-sm font-medium text-[#2a1f16]">
+                      <p className="mt-1 text-sm font-medium text-[#a5a196]">
                         {item.currency}{" "}
                         {(item.price * item.quantity).toFixed(2)}
                       </p>
@@ -480,13 +480,13 @@ export function CheckoutView() {
               <div className="space-y-2.5 border-t border-[#e8ddd2] px-5 py-5 sm:px-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-[#7a6b5d]">{t("summary.subtotal")}</span>
-                  <span className="font-medium text-[#2a1f16]">
+                  <span className="font-medium text-[#a5a196]">
                     {currency} {subtotal.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-[#7a6b5d]">{t("summary.delivery")}</span>
-                  <span className="font-medium text-[#2a1f16]">
+                  <span className="font-medium text-[#a5a196]">
                     {deliveryFee === 0
                       ? t("summary.freeDelivery")
                       : `${currency} ${deliveryFee.toFixed(2)}`}
@@ -505,10 +505,10 @@ export function CheckoutView() {
                   </p>
                 )}
                 <div className="flex items-baseline justify-between border-t border-[#e8ddd2] pt-3">
-                  <span className="text-sm font-medium text-[#2a1f16]">
+                  <span className="text-sm font-medium text-[#a5a196]">
                     {t("summary.total")}
                   </span>
-                  <span className="font-serif text-2xl font-medium text-[#a5a196]">
+                  <span className="font-serif text-2xl font-medium text-[#C9A962]">
                     {currency} {total.toFixed(2)}
                   </span>
                 </div>
@@ -518,7 +518,7 @@ export function CheckoutView() {
                 <button
                   type="submit"
                   disabled={placing || authLoading}
-                  className="flex w-full cursor-pointer items-center justify-center rounded-md bg-[#a5a196] px-5 py-3.5 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+                  className="flex w-full cursor-pointer items-center justify-center rounded-md bg-[#C9A962] px-5 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
                 >
                   {placing ? t("summary.placing") : t("summary.placeOrder")}
                 </button>
@@ -527,7 +527,7 @@ export function CheckoutView() {
                 </p>
                 <Link
                   href={ROUTES.shop}
-                  className="mt-4 block text-center text-sm text-[#7a6b5d] transition-colors hover:text-[#2a1f16]"
+                  className="mt-4 block text-center text-sm text-[#7a6b5d] transition-colors hover:text-[#a5a196]"
                 >
                   {t("returnToShop")}
                 </Link>

@@ -11,7 +11,7 @@ import {
 } from "@/store/slices";
 
 const inputClass =
-  "w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#2a1f16] outline-none placeholder:text-[#a39486] focus:border-[#a5a196]";
+  "w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] focus:border-[#C9A962]";
 
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
@@ -120,7 +120,7 @@ export function DashboardChangePasswordPage() {
   return (
     <div className="mx-auto max-w-lg space-y-5">
       <div>
-        <h2 className="font-serif text-2xl font-medium text-[#2a1f16]">
+        <h2 className="font-serif text-2xl font-medium text-[#a5a196]">
           Change password
         </h2>
         <p className="mt-1 text-sm text-[#7a6b5d]">
@@ -128,7 +128,7 @@ export function DashboardChangePasswordPage() {
           code sent to your admin email on file.
         </p>
         {admin?.email ? (
-          <p className="mt-2 text-sm text-[#2a1f16]">
+          <p className="mt-2 text-sm text-[#a5a196]">
             Admin email (from database):{" "}
             <span className="font-medium">{admin.email}</span>
           </p>
@@ -139,7 +139,7 @@ export function DashboardChangePasswordPage() {
         <span
           className={`rounded-full px-3 py-1 ${
             step === "password"
-              ? "bg-[#a5a196] text-[#17100a]"
+              ? "bg-[#C9A962] text-[#a5a196]"
               : "bg-[#efe4da] text-[#7a6b5d]"
           }`}
         >
@@ -151,7 +151,7 @@ export function DashboardChangePasswordPage() {
         <span
           className={`rounded-full px-3 py-1 ${
             step === "verify"
-              ? "bg-[#a5a196] text-[#17100a]"
+              ? "bg-[#C9A962] text-[#a5a196]"
               : "bg-[#efe4da] text-[#7a6b5d]"
           }`}
         >
@@ -222,7 +222,7 @@ export function DashboardChangePasswordPage() {
           <button
             type="submit"
             disabled={requesting}
-            className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#a5a196] px-5 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#C9A962] px-5 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {requesting ? "Sending code…" : "Continue to verification"}
           </button>
@@ -235,7 +235,7 @@ export function DashboardChangePasswordPage() {
         >
           <p className="text-sm leading-relaxed text-[#7a6b5d]">
             We sent a 6-digit code to{" "}
-            <span className="font-medium text-[#2a1f16]">
+            <span className="font-medium text-[#a5a196]">
               {maskEmail(sentTo || admin?.email || "")}
             </span>
             . Enter it below to save your new password.
@@ -280,7 +280,7 @@ export function DashboardChangePasswordPage() {
           <button
             type="submit"
             disabled={confirming}
-            className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#a5a196] px-5 py-3 text-sm font-medium text-[#17100a] transition-colors hover:bg-[#b5b1a6] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#C9A962] px-5 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {confirming ? "Verifying…" : "Confirm new password"}
           </button>
@@ -289,7 +289,7 @@ export function DashboardChangePasswordPage() {
             <button
               type="button"
               onClick={handleStartOver}
-              className="cursor-pointer text-sm text-[#7a6b5d] transition-colors hover:text-[#2a1f16]"
+              className="cursor-pointer text-sm text-[#7a6b5d] transition-colors hover:text-[#a5a196]"
             >
               Start over
             </button>
@@ -297,7 +297,7 @@ export function DashboardChangePasswordPage() {
               type="button"
               onClick={handleResend}
               disabled={resending}
-              className="cursor-pointer text-sm text-[#8a7a6c] transition-colors hover:text-[#2a1f16] disabled:opacity-60"
+              className="cursor-pointer text-sm text-[#8a7a6c] transition-colors hover:text-[#a5a196] disabled:opacity-60"
             >
               {resending ? "Sending…" : "Resend code"}
             </button>

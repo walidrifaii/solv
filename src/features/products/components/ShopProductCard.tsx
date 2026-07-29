@@ -58,7 +58,7 @@ export function ShopProductCard({
           className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
         />
         {product.badges?.[0] ? (
-          <span className="absolute top-3 left-3 rounded-md bg-[#17100a]/85 px-2 py-1 text-[10px] font-medium tracking-wide text-white uppercase">
+          <span className="absolute top-3 left-3 rounded-md bg-[#a5a196]/85 px-2 py-1 text-[10px] font-medium tracking-wide text-white uppercase">
             {product.badges[0]}
           </span>
         ) : null}
@@ -69,7 +69,7 @@ export function ShopProductCard({
           {product.categoryLabel}
         </p>
         <Link href={href} className="mt-1 block">
-          <h3 className="text-[15px] leading-snug font-semibold text-[#1a120c] transition-colors group-hover:text-[#2a1f16] sm:text-base">
+          <h3 className="text-[15px] leading-snug font-semibold text-[#1a120c] transition-colors group-hover:text-[#a5a196] sm:text-base">
             {product.name}
           </h3>
           <p className="mt-1 text-sm text-[#8a7a6c]">{product.subtitle}</p>
@@ -82,14 +82,14 @@ export function ShopProductCard({
                 {product.currency} {product.originalPrice!.toFixed(2)}
               </p>
             ) : null}
-            <p className="text-sm font-semibold text-[#a5a196] sm:text-base">
+            <p className="text-sm font-semibold text-[#C9A962] sm:text-base">
               {formatPrice(product)}
             </p>
           </div>
           <button
             type="button"
             onClick={handleAdd}
-            className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-10"
+            className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#a5a196] text-white transition-colors hover:bg-[#3d2e22] sm:size-10"
             aria-label={`Add ${product.name} to cart`}
           >
             <BagIcon className="size-4 sm:size-[1.125rem]" />

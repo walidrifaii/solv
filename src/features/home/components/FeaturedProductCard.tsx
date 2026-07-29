@@ -68,13 +68,13 @@ export function FeaturedProductCard({
         </Link>
 
         <div className="mt-auto flex items-center justify-between gap-2 pt-2 sm:pt-2.5">
-          <p className="text-sm font-semibold whitespace-nowrap text-[#a5a196] sm:text-base">
+          <p className="text-sm font-semibold whitespace-nowrap text-[#C9A962] sm:text-base">
             {formatPrice(product)}
           </p>
           <button
             type="button"
             onClick={handleAdd}
-            className="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#2a1f16] text-white transition-colors hover:bg-[#3d2e22] sm:size-9"
+            className="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#a5a196] text-white transition-colors hover:bg-[#3d2e22] sm:size-9"
             aria-label={t("addToCart")}
           >
             <BagIcon className="size-4" />
