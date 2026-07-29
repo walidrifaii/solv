@@ -59,7 +59,7 @@ html.font-ar .font-serif {
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.14em;
-  color: #C9A962;
+  color: #ffffff;
 }
 
 .preloader-letter {
@@ -76,8 +76,8 @@ html.font-ar .font-serif {
 
 .preloader-letter-draw {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(201, 169, 98, 0.85);
-  text-stroke: 1.5px rgba(201, 169, 98, 0.85);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
+  text-stroke: 1.5px rgba(255, 255, 255, 0.85);
   clip-path: inset(0 100% 0 0);
   animation: preloaderLetterDraw 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: calc(0.05s + var(--i) * 0.1s);
@@ -86,7 +86,7 @@ html.font-ar .font-serif {
 .preloader-letter-fill {
   position: absolute;
   inset: 0;
-  color: #C9A962;
+  color: #ffffff;
   opacity: 0;
   transform: translateY(8px);
   animation: preloaderLetterFill 0.28s ease-out forwards;
@@ -100,7 +100,7 @@ html.font-ar .font-serif {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(201, 169, 98, 0.85),
+    rgba(255, 255, 255, 0.85),
     transparent
   );
   animation: preloaderRuleGrow 0.45s ease-out 0.7s forwards;
@@ -187,7 +187,7 @@ html.font-ar .font-serif {
 
   .preloader-letter-draw {
     clip-path: none;
-    color: #C9A962;
+    color: #ffffff;
     -webkit-text-stroke: 0;
   }
 
