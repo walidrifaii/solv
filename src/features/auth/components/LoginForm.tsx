@@ -159,7 +159,7 @@ export function LoginForm() {
             <label htmlFor="login-phone" className={labelClass}>
               {tPhone("phone")}
             </label>
-            <div className="flex gap-2">
+            <div className="flex items-stretch gap-2">
               <CountryCodeSelect
                 id="login-country"
                 value={country?.id ?? "qa"}
@@ -176,7 +176,7 @@ export function LoginForm() {
                   setPhone(event.target.value.replace(/[^\d]/g, "").slice(0, 15));
                   setError("");
                 }}
-                className={inputClass}
+                className={`${inputClass} min-w-0 flex-1`}
                 placeholder={tPhone("phonePlaceholder")}
               />
             </div>

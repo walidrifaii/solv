@@ -120,7 +120,7 @@ export function RegisterForm() {
           <label htmlFor="register-phone" className={labelClass}>
             {tPhone("phone")}
           </label>
-          <div className="flex gap-2">
+          <div className="flex items-stretch gap-2">
             <CountryCodeSelect
               id="register-country"
               value={country?.id ?? "qa"}
@@ -137,7 +137,7 @@ export function RegisterForm() {
                 setPhone(event.target.value.replace(/[^\d]/g, "").slice(0, 15));
                 setError("");
               }}
-              className={inputClass}
+              className={`${inputClass} min-w-0 flex-1`}
               placeholder={tPhone("phonePlaceholder")}
             />
           </div>

@@ -132,7 +132,7 @@ export function ForgotPasswordForm() {
             <label htmlFor="forgot-phone" className={labelClass}>
               {tPhone("phone")}
             </label>
-            <div className="flex gap-2">
+            <div className="flex items-stretch gap-2">
               <CountryCodeSelect
                 id="forgot-country"
                 value={country?.id ?? "qa"}
@@ -149,7 +149,7 @@ export function ForgotPasswordForm() {
                   setPhone(event.target.value.replace(/[^\d]/g, "").slice(0, 15));
                   setError("");
                 }}
-                className={inputClass}
+                className={`${inputClass} min-w-0 flex-1`}
                 placeholder={tPhone("phonePlaceholder")}
               />
             </div>
