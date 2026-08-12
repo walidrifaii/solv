@@ -14,30 +14,28 @@ type NodeSendResult = {
 
 function resolveClientId() {
   const env = getEnv();
-  const clientId =
+  return (
     env.WHATSAPP_NODE_CLIENT_ID?.trim() ||
     env.OTP_DEFAULT_CLIENT_ID?.trim() ||
-    "";
+    ""
+  );
+}
 
-  // Node expects the session id (client_…), not a DB/Mongo _id.
-  if (clientId && !clientId.startsWith("client_")) {
-    console.warn(
-      "[whatsapp-node] WHATSAPP_NODE_CLIENT_ID should be the session id (client_…), not a DB _id. Got:",
-      clientId,
-    );
-  }
-
-  return clientId;
+function isNoClientError(status: number, raw?: string | null) {
+  const text = (raw || "").toLowerCase();
+  return (
+    status === 503 ||
+    text.includes("no connected whatsapp client") ||
+    text.includes("no whatsapp client") ||
+    text.includes("client available") ||
+    text.includes("not connected")
+  );
 }
 
 function friendlyNodeError(status: number, raw?: string | null) {
   const text = (raw || "").toLowerCase();
-  if (
-    status === 503 ||
-    text.includes("no connected whatsapp client") ||
-    text.includes("client available")
-  ) {
-    return "WhatsApp is temporarily unavailable. Open the WhatsApp Node dashboard, connect a client (scan QR), and set WHATSAPP_NODE_CLIENT_ID to the session id (client_…), not the DB _id.";
+  if (isNoClientError(status, raw)) {
+    return "WhatsApp is temporarily unavailable. Open the WhatsApp Node dashboard, connect a client (scan QR), and set WHATSAPP_NODE_CLIENT_ID to that client's id.";
   }
   if (text.includes("no lid for user") || text.includes("lid for user")) {
     return "WhatsApp could not find this number (No LID). Confirm the number is on WhatsApp, use country code + national digits only (e.g. 96170657961), reconnect the WhatsApp client, then retry.";
@@ -55,6 +53,33 @@ function friendlyNodeError(status: number, raw?: string | null) {
   // Never show Node stack traces to the client
   const firstLine = (raw || "").split("\n")[0]?.trim();
   return firstLine || "Could not send WhatsApp verification code";
+}
+
+async function postOtpSend(input: {
+  url: string;
+  token: string;
+  body: Record<string, string>;
+  signal: AbortSignal;
+}) {
+  const response = await fetch(`${input.url}/api/otp/send`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${input.token}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(input.body),
+    signal: input.signal,
+  });
+
+  let data: NodeSendResult | null = null;
+  try {
+    data = (await response.json()) as NodeSendResult;
+  } catch {
+    data = null;
+  }
+
+  return { response, data };
 }
 
 export async function sendWhatsAppNodeOtp(input: {
@@ -87,36 +112,50 @@ export async function sendWhatsAppNodeOtp(input: {
   const timeoutMs = env.WHATSAPP_NODE_TIMEOUT * 1000;
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
-  const body: Record<string, string> = {
+  const baseBody: Record<string, string> = {
     phone: phoneForWhatsAppNode(input.phoneE164),
     code: input.code,
     message,
   };
-  // Only send clientId when set — Node can fall back to OTP_DEFAULT_CLIENT_ID / any connected client.
-  if (clientId) {
-    body.clientId = clientId;
-  }
 
   try {
-    const response = await fetch(`${url}/api/otp/send`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(body),
+    const firstBody = { ...baseBody };
+    if (clientId) firstBody.clientId = clientId;
+
+    let { response, data } = await postOtpSend({
+      url,
+      token,
+      body: firstBody,
       signal: controller.signal,
     });
 
-    let data: NodeSendResult | null = null;
-    try {
-      data = (await response.json()) as NodeSendResult;
-    } catch {
-      data = null;
+    // Wrong/offline clientId → retry once and let Node pick any connected session.
+    if (
+      clientId &&
+      (!response.ok || !data?.ok) &&
+      isNoClientError(response.status, data?.error)
+    ) {
+      console.warn(
+        "[whatsapp-node] No connected client for",
+        clientId,
+        "— retrying without clientId. Node error:",
+        data?.error ?? response.status,
+      );
+      ({ response, data } = await postOtpSend({
+        url,
+        token,
+        body: baseBody,
+        signal: controller.signal,
+      }));
     }
 
     if (!response.ok || !data?.ok) {
+      console.error("[whatsapp-node] send failed", {
+        status: response.status,
+        error: data?.error ?? null,
+        clientIdTried: clientId || null,
+        nodeClientId: data?.clientId ?? null,
+      });
       throw new ApiError(
         friendlyNodeError(response.status, data?.error),
         response.status >= 400 ? response.status : 502,
@@ -133,7 +172,7 @@ export async function sendWhatsAppNodeOtp(input: {
         clientId,
         "node=",
         data.clientId,
-        "— set WHATSAPP_NODE_CLIENT_ID to the session id Node returns (client_…).",
+        "— set WHATSAPP_NODE_CLIENT_ID to the client id Node returns.",
       );
     }
 
