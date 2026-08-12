@@ -11,6 +11,7 @@ import "@/store/slices/admin/adminUploadApi";
 import "@/store/slices/products/productsApi";
 import "@/store/slices/categories/categoriesApi";
 import "@/store/slices/cities/citiesApi";
+import "@/store/slices/countries/countriesApi";
 import "@/store/slices/slides/slidesApi";
 import "@/store/slices/orders/ordersApi";
 import "@/store/slices/subscribers/subscribersApi";
@@ -25,6 +26,8 @@ export {
   useRegisterMutation,
   useVerifyOtpMutation,
   useResendOtpMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
   useUpdateProfileMutation,
   useChangePasswordMutation,
   useRequestEmailChangeMutation,
@@ -92,6 +95,8 @@ export {
 } from "@/store/slices/categories/categoriesApi";
 
 export { useGetCitiesQuery } from "@/store/slices/cities/citiesApi";
+
+export { useGetCountriesQuery } from "@/store/slices/countries/countriesApi";
 
 export { useGetSlidesQuery } from "@/store/slices/slides/slidesApi";
 

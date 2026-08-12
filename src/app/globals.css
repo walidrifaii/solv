@@ -25,6 +25,22 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+button,
+[type="button"],
+[type="submit"],
+[type="reset"],
+[role="button"] {
+  cursor: pointer;
+}
+
+button:disabled,
+button[disabled],
+[type="button"]:disabled,
+[type="submit"]:disabled,
+[type="reset"]:disabled {
+  cursor: not-allowed;
+}
+
 html.font-ar body {
   font-family: var(--font-cairo), "Segoe UI", Tahoma, Arial, sans-serif;
 }
@@ -44,53 +60,21 @@ html.font-ar .font-serif {
   }
 }
 
-/* —— App preloader: SOLV letter draw animation (always LTR / English brand) —— */
+/* —— App preloader: brand logo (always LTR / English brand) —— */
 .preloader {
   direction: ltr;
 }
 
 .preloader-logo {
   display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  gap: 0.08em;
-  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
-  font-size: clamp(3.5rem, 12vw, 6.5rem);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.14em;
-  color: #ffffff;
+  align-items: center;
+  justify-content: center;
 }
 
-.preloader-letter {
-  position: relative;
-  display: inline-block;
-  width: 1.05em;
-  text-align: center;
-}
-
-.preloader-letter-draw,
-.preloader-letter-fill {
-  display: block;
-}
-
-.preloader-letter-draw {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
-  text-stroke: 1.5px rgba(255, 255, 255, 0.85);
-  clip-path: inset(0 100% 0 0);
-  animation: preloaderLetterDraw 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(0.05s + var(--i) * 0.1s);
-}
-
-.preloader-letter-fill {
-  position: absolute;
-  inset: 0;
-  color: #ffffff;
+.preloader-logo-img {
   opacity: 0;
-  transform: translateY(8px);
-  animation: preloaderLetterFill 0.28s ease-out forwards;
-  animation-delay: calc(0.28s + var(--i) * 0.1s);
+  transform: translateY(10px) scale(0.96);
+  animation: preloaderLogoIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
 }
 
 .preloader-rule {
@@ -103,59 +87,35 @@ html.font-ar .font-serif {
     rgba(255, 255, 255, 0.85),
     transparent
   );
-  animation: preloaderRuleGrow 0.45s ease-out 0.7s forwards;
+  animation: preloaderRuleGrow 0.45s ease-out 0.45s forwards;
 }
 
 .preloader-tagline {
   opacity: 0;
   transform: translateY(8px);
-  animation: preloaderTaglineIn 0.35s ease-out 0.85s forwards;
+  animation: preloaderTaglineIn 0.35s ease-out 0.6s forwards;
 }
 
 /* Faster brand mark for in-app language switches */
-.preloader-logo--switch {
-  font-size: clamp(2.75rem, 9vw, 4.75rem);
-}
-
-.preloader-logo--switch .preloader-letter-draw {
-  animation-duration: 0.28s;
-  animation-delay: calc(0.02s + var(--i) * 0.07s);
-}
-
-.preloader-logo--switch .preloader-letter-fill {
-  animation-duration: 0.22s;
-  animation-delay: calc(0.18s + var(--i) * 0.07s);
+.preloader-logo--switch .preloader-logo-img {
+  animation-duration: 0.35s;
+  animation-delay: 0.04s;
 }
 
 .preloader-rule--switch {
   animation-duration: 0.3s;
-  animation-delay: 0.4s;
+  animation-delay: 0.25s;
 }
 
 .preloader-tagline--switch {
   animation-duration: 0.25s;
-  animation-delay: 0.5s;
+  animation-delay: 0.35s;
 }
 
-@keyframes preloaderLetterDraw {
-  0% {
-    clip-path: inset(0 100% 0 0);
-    opacity: 0.35;
-  }
-  100% {
-    clip-path: inset(0 0 0 0);
+@keyframes preloaderLogoIn {
+  to {
     opacity: 1;
-  }
-}
-
-@keyframes preloaderLetterFill {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -178,20 +138,13 @@ html.font-ar .font-serif {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .preloader-letter-draw,
-  .preloader-letter-fill,
+  .preloader-logo-img,
   .preloader-rule,
   .preloader-tagline {
     animation: none !important;
   }
 
-  .preloader-letter-draw {
-    clip-path: none;
-    color: #ffffff;
-    -webkit-text-stroke: 0;
-  }
-
-  .preloader-letter-fill {
+  .preloader-logo-img {
     opacity: 1;
     transform: none;
   }

@@ -1,0 +1,2262 @@
+export type CountrySeed = {
+  id: string;
+  iso2: string;
+  name: string;
+  nameAr: string | null;
+  dialCode: string;
+  flagEmoji: string;
+  sortOrder: number;
+};
+
+export const countries: CountrySeed[] = [
+  {
+    "id": "qa",
+    "iso2": "QA",
+    "name": "Qatar",
+    "nameAr": "قطر",
+    "dialCode": "974",
+    "flagEmoji": "🇶🇦",
+    "sortOrder": 0
+  },
+  {
+    "id": "ae",
+    "iso2": "AE",
+    "name": "United Arab Emirates",
+    "nameAr": "الإمارات",
+    "dialCode": "971",
+    "flagEmoji": "🇦🇪",
+    "sortOrder": 1
+  },
+  {
+    "id": "sa",
+    "iso2": "SA",
+    "name": "Saudi Arabia",
+    "nameAr": "السعودية",
+    "dialCode": "966",
+    "flagEmoji": "🇸🇦",
+    "sortOrder": 2
+  },
+  {
+    "id": "bh",
+    "iso2": "BH",
+    "name": "Bahrain",
+    "nameAr": "البحرين",
+    "dialCode": "973",
+    "flagEmoji": "🇧🇭",
+    "sortOrder": 3
+  },
+  {
+    "id": "kw",
+    "iso2": "KW",
+    "name": "Kuwait",
+    "nameAr": "الكويت",
+    "dialCode": "965",
+    "flagEmoji": "🇰🇼",
+    "sortOrder": 4
+  },
+  {
+    "id": "om",
+    "iso2": "OM",
+    "name": "Oman",
+    "nameAr": "عمان",
+    "dialCode": "968",
+    "flagEmoji": "🇴🇲",
+    "sortOrder": 5
+  },
+  {
+    "id": "eg",
+    "iso2": "EG",
+    "name": "Egypt",
+    "nameAr": "مصر",
+    "dialCode": "20",
+    "flagEmoji": "🇪🇬",
+    "sortOrder": 6
+  },
+  {
+    "id": "jo",
+    "iso2": "JO",
+    "name": "Jordan",
+    "nameAr": "الأردن",
+    "dialCode": "962",
+    "flagEmoji": "🇯🇴",
+    "sortOrder": 7
+  },
+  {
+    "id": "lb",
+    "iso2": "LB",
+    "name": "Lebanon",
+    "nameAr": "لبنان",
+    "dialCode": "961",
+    "flagEmoji": "🇱🇧",
+    "sortOrder": 8
+  },
+  {
+    "id": "ad",
+    "iso2": "AD",
+    "name": "Andorra",
+    "nameAr": null,
+    "dialCode": "376",
+    "flagEmoji": "🇦🇩",
+    "sortOrder": 100
+  },
+  {
+    "id": "af",
+    "iso2": "AF",
+    "name": "Afghanistan",
+    "nameAr": null,
+    "dialCode": "93",
+    "flagEmoji": "🇦🇫",
+    "sortOrder": 102
+  },
+  {
+    "id": "ag",
+    "iso2": "AG",
+    "name": "Antigua and Barbuda",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇦🇬",
+    "sortOrder": 103
+  },
+  {
+    "id": "ai",
+    "iso2": "AI",
+    "name": "Anguilla",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇦🇮",
+    "sortOrder": 104
+  },
+  {
+    "id": "al",
+    "iso2": "AL",
+    "name": "Albania",
+    "nameAr": null,
+    "dialCode": "355",
+    "flagEmoji": "🇦🇱",
+    "sortOrder": 105
+  },
+  {
+    "id": "am",
+    "iso2": "AM",
+    "name": "Armenia",
+    "nameAr": null,
+    "dialCode": "374",
+    "flagEmoji": "🇦🇲",
+    "sortOrder": 106
+  },
+  {
+    "id": "ao",
+    "iso2": "AO",
+    "name": "Angola",
+    "nameAr": null,
+    "dialCode": "244",
+    "flagEmoji": "🇦🇴",
+    "sortOrder": 107
+  },
+  {
+    "id": "aq",
+    "iso2": "AQ",
+    "name": "Antarctica",
+    "nameAr": null,
+    "dialCode": "672",
+    "flagEmoji": "🇦🇶",
+    "sortOrder": 108
+  },
+  {
+    "id": "ar",
+    "iso2": "AR",
+    "name": "Argentina",
+    "nameAr": null,
+    "dialCode": "54",
+    "flagEmoji": "🇦🇷",
+    "sortOrder": 109
+  },
+  {
+    "id": "as",
+    "iso2": "AS",
+    "name": "American Samoa",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇦🇸",
+    "sortOrder": 110
+  },
+  {
+    "id": "at",
+    "iso2": "AT",
+    "name": "Austria",
+    "nameAr": null,
+    "dialCode": "43",
+    "flagEmoji": "🇦🇹",
+    "sortOrder": 111
+  },
+  {
+    "id": "au",
+    "iso2": "AU",
+    "name": "Australia",
+    "nameAr": null,
+    "dialCode": "61",
+    "flagEmoji": "🇦🇺",
+    "sortOrder": 112
+  },
+  {
+    "id": "aw",
+    "iso2": "AW",
+    "name": "Aruba",
+    "nameAr": null,
+    "dialCode": "297",
+    "flagEmoji": "🇦🇼",
+    "sortOrder": 113
+  },
+  {
+    "id": "ax",
+    "iso2": "AX",
+    "name": "Aland Islands",
+    "nameAr": null,
+    "dialCode": "358",
+    "flagEmoji": "🇦🇽",
+    "sortOrder": 114
+  },
+  {
+    "id": "az",
+    "iso2": "AZ",
+    "name": "Azerbaijan",
+    "nameAr": null,
+    "dialCode": "994",
+    "flagEmoji": "🇦🇿",
+    "sortOrder": 115
+  },
+  {
+    "id": "ba",
+    "iso2": "BA",
+    "name": "Bosnia and Herzegovina",
+    "nameAr": null,
+    "dialCode": "387",
+    "flagEmoji": "🇧🇦",
+    "sortOrder": 116
+  },
+  {
+    "id": "bb",
+    "iso2": "BB",
+    "name": "Barbados",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇧🇧",
+    "sortOrder": 117
+  },
+  {
+    "id": "bd",
+    "iso2": "BD",
+    "name": "Bangladesh",
+    "nameAr": "بنغلاديش",
+    "dialCode": "880",
+    "flagEmoji": "🇧🇩",
+    "sortOrder": 118
+  },
+  {
+    "id": "be",
+    "iso2": "BE",
+    "name": "Belgium",
+    "nameAr": null,
+    "dialCode": "32",
+    "flagEmoji": "🇧🇪",
+    "sortOrder": 119
+  },
+  {
+    "id": "bf",
+    "iso2": "BF",
+    "name": "Burkina Faso",
+    "nameAr": null,
+    "dialCode": "226",
+    "flagEmoji": "🇧🇫",
+    "sortOrder": 120
+  },
+  {
+    "id": "bg",
+    "iso2": "BG",
+    "name": "Bulgaria",
+    "nameAr": null,
+    "dialCode": "359",
+    "flagEmoji": "🇧🇬",
+    "sortOrder": 121
+  },
+  {
+    "id": "bi",
+    "iso2": "BI",
+    "name": "Burundi",
+    "nameAr": null,
+    "dialCode": "257",
+    "flagEmoji": "🇧🇮",
+    "sortOrder": 123
+  },
+  {
+    "id": "bj",
+    "iso2": "BJ",
+    "name": "Benin",
+    "nameAr": null,
+    "dialCode": "229",
+    "flagEmoji": "🇧🇯",
+    "sortOrder": 124
+  },
+  {
+    "id": "bl",
+    "iso2": "BL",
+    "name": "Saint Barthelemy",
+    "nameAr": null,
+    "dialCode": "590",
+    "flagEmoji": "🇧🇱",
+    "sortOrder": 125
+  },
+  {
+    "id": "bm",
+    "iso2": "BM",
+    "name": "Bermuda",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇧🇲",
+    "sortOrder": 126
+  },
+  {
+    "id": "bn",
+    "iso2": "BN",
+    "name": "Brunei",
+    "nameAr": null,
+    "dialCode": "673",
+    "flagEmoji": "🇧🇳",
+    "sortOrder": 127
+  },
+  {
+    "id": "bo",
+    "iso2": "BO",
+    "name": "Bolivia",
+    "nameAr": null,
+    "dialCode": "591",
+    "flagEmoji": "🇧🇴",
+    "sortOrder": 128
+  },
+  {
+    "id": "bq",
+    "iso2": "BQ",
+    "name": "Caribbean Netherlands",
+    "nameAr": null,
+    "dialCode": "599",
+    "flagEmoji": "🇧🇶",
+    "sortOrder": 129
+  },
+  {
+    "id": "br",
+    "iso2": "BR",
+    "name": "Brazil",
+    "nameAr": null,
+    "dialCode": "55",
+    "flagEmoji": "🇧🇷",
+    "sortOrder": 130
+  },
+  {
+    "id": "bs",
+    "iso2": "BS",
+    "name": "Bahamas",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇧🇸",
+    "sortOrder": 131
+  },
+  {
+    "id": "bt",
+    "iso2": "BT",
+    "name": "Bhutan",
+    "nameAr": null,
+    "dialCode": "975",
+    "flagEmoji": "🇧🇹",
+    "sortOrder": 132
+  },
+  {
+    "id": "bv",
+    "iso2": "BV",
+    "name": "Bouvet Island",
+    "nameAr": null,
+    "dialCode": "47",
+    "flagEmoji": "🇧🇻",
+    "sortOrder": 133
+  },
+  {
+    "id": "bw",
+    "iso2": "BW",
+    "name": "Botswana",
+    "nameAr": null,
+    "dialCode": "267",
+    "flagEmoji": "🇧🇼",
+    "sortOrder": 134
+  },
+  {
+    "id": "by",
+    "iso2": "BY",
+    "name": "Belarus",
+    "nameAr": null,
+    "dialCode": "375",
+    "flagEmoji": "🇧🇾",
+    "sortOrder": 135
+  },
+  {
+    "id": "bz",
+    "iso2": "BZ",
+    "name": "Belize",
+    "nameAr": null,
+    "dialCode": "501",
+    "flagEmoji": "🇧🇿",
+    "sortOrder": 136
+  },
+  {
+    "id": "ca",
+    "iso2": "CA",
+    "name": "Canada",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇨🇦",
+    "sortOrder": 137
+  },
+  {
+    "id": "cc",
+    "iso2": "CC",
+    "name": "Cocos Islands",
+    "nameAr": null,
+    "dialCode": "61",
+    "flagEmoji": "🇨🇨",
+    "sortOrder": 138
+  },
+  {
+    "id": "cd",
+    "iso2": "CD",
+    "name": "DR Congo",
+    "nameAr": null,
+    "dialCode": "243",
+    "flagEmoji": "🇨🇩",
+    "sortOrder": 139
+  },
+  {
+    "id": "cf",
+    "iso2": "CF",
+    "name": "Central African Republic",
+    "nameAr": null,
+    "dialCode": "236",
+    "flagEmoji": "🇨🇫",
+    "sortOrder": 140
+  },
+  {
+    "id": "cg",
+    "iso2": "CG",
+    "name": "Congo",
+    "nameAr": null,
+    "dialCode": "242",
+    "flagEmoji": "🇨🇬",
+    "sortOrder": 141
+  },
+  {
+    "id": "ch",
+    "iso2": "CH",
+    "name": "Switzerland",
+    "nameAr": null,
+    "dialCode": "41",
+    "flagEmoji": "🇨🇭",
+    "sortOrder": 142
+  },
+  {
+    "id": "ci",
+    "iso2": "CI",
+    "name": "Ivory Coast",
+    "nameAr": null,
+    "dialCode": "225",
+    "flagEmoji": "🇨🇮",
+    "sortOrder": 143
+  },
+  {
+    "id": "ck",
+    "iso2": "CK",
+    "name": "Cook Islands",
+    "nameAr": null,
+    "dialCode": "682",
+    "flagEmoji": "🇨🇰",
+    "sortOrder": 144
+  },
+  {
+    "id": "cl",
+    "iso2": "CL",
+    "name": "Chile",
+    "nameAr": null,
+    "dialCode": "56",
+    "flagEmoji": "🇨🇱",
+    "sortOrder": 145
+  },
+  {
+    "id": "cm",
+    "iso2": "CM",
+    "name": "Cameroon",
+    "nameAr": null,
+    "dialCode": "237",
+    "flagEmoji": "🇨🇲",
+    "sortOrder": 146
+  },
+  {
+    "id": "cn",
+    "iso2": "CN",
+    "name": "China",
+    "nameAr": "الصين",
+    "dialCode": "86",
+    "flagEmoji": "🇨🇳",
+    "sortOrder": 147
+  },
+  {
+    "id": "co",
+    "iso2": "CO",
+    "name": "Colombia",
+    "nameAr": null,
+    "dialCode": "57",
+    "flagEmoji": "🇨🇴",
+    "sortOrder": 148
+  },
+  {
+    "id": "cr",
+    "iso2": "CR",
+    "name": "Costa Rica",
+    "nameAr": null,
+    "dialCode": "506",
+    "flagEmoji": "🇨🇷",
+    "sortOrder": 149
+  },
+  {
+    "id": "cu",
+    "iso2": "CU",
+    "name": "Cuba",
+    "nameAr": null,
+    "dialCode": "53",
+    "flagEmoji": "🇨🇺",
+    "sortOrder": 150
+  },
+  {
+    "id": "cv",
+    "iso2": "CV",
+    "name": "Cape Verde",
+    "nameAr": null,
+    "dialCode": "238",
+    "flagEmoji": "🇨🇻",
+    "sortOrder": 151
+  },
+  {
+    "id": "cw",
+    "iso2": "CW",
+    "name": "Curacao",
+    "nameAr": null,
+    "dialCode": "599",
+    "flagEmoji": "🇨🇼",
+    "sortOrder": 152
+  },
+  {
+    "id": "cx",
+    "iso2": "CX",
+    "name": "Christmas Island",
+    "nameAr": null,
+    "dialCode": "61",
+    "flagEmoji": "🇨🇽",
+    "sortOrder": 153
+  },
+  {
+    "id": "cy",
+    "iso2": "CY",
+    "name": "Cyprus",
+    "nameAr": null,
+    "dialCode": "357",
+    "flagEmoji": "🇨🇾",
+    "sortOrder": 154
+  },
+  {
+    "id": "cz",
+    "iso2": "CZ",
+    "name": "Czechia",
+    "nameAr": null,
+    "dialCode": "420",
+    "flagEmoji": "🇨🇿",
+    "sortOrder": 155
+  },
+  {
+    "id": "de",
+    "iso2": "DE",
+    "name": "Germany",
+    "nameAr": "ألمانيا",
+    "dialCode": "49",
+    "flagEmoji": "🇩🇪",
+    "sortOrder": 156
+  },
+  {
+    "id": "dj",
+    "iso2": "DJ",
+    "name": "Djibouti",
+    "nameAr": null,
+    "dialCode": "253",
+    "flagEmoji": "🇩🇯",
+    "sortOrder": 157
+  },
+  {
+    "id": "dk",
+    "iso2": "DK",
+    "name": "Denmark",
+    "nameAr": null,
+    "dialCode": "45",
+    "flagEmoji": "🇩🇰",
+    "sortOrder": 158
+  },
+  {
+    "id": "dm",
+    "iso2": "DM",
+    "name": "Dominica",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇩🇲",
+    "sortOrder": 159
+  },
+  {
+    "id": "do",
+    "iso2": "DO",
+    "name": "Dominican Republic",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇩🇴",
+    "sortOrder": 160
+  },
+  {
+    "id": "dz",
+    "iso2": "DZ",
+    "name": "Algeria",
+    "nameAr": "الجزائر",
+    "dialCode": "213",
+    "flagEmoji": "🇩🇿",
+    "sortOrder": 161
+  },
+  {
+    "id": "ec",
+    "iso2": "EC",
+    "name": "Ecuador",
+    "nameAr": null,
+    "dialCode": "593",
+    "flagEmoji": "🇪🇨",
+    "sortOrder": 162
+  },
+  {
+    "id": "ee",
+    "iso2": "EE",
+    "name": "Estonia",
+    "nameAr": null,
+    "dialCode": "372",
+    "flagEmoji": "🇪🇪",
+    "sortOrder": 163
+  },
+  {
+    "id": "eh",
+    "iso2": "EH",
+    "name": "Western Sahara",
+    "nameAr": null,
+    "dialCode": "212",
+    "flagEmoji": "🇪🇭",
+    "sortOrder": 165
+  },
+  {
+    "id": "er",
+    "iso2": "ER",
+    "name": "Eritrea",
+    "nameAr": null,
+    "dialCode": "291",
+    "flagEmoji": "🇪🇷",
+    "sortOrder": 166
+  },
+  {
+    "id": "es",
+    "iso2": "ES",
+    "name": "Spain",
+    "nameAr": null,
+    "dialCode": "34",
+    "flagEmoji": "🇪🇸",
+    "sortOrder": 167
+  },
+  {
+    "id": "et",
+    "iso2": "ET",
+    "name": "Ethiopia",
+    "nameAr": null,
+    "dialCode": "251",
+    "flagEmoji": "🇪🇹",
+    "sortOrder": 168
+  },
+  {
+    "id": "fi",
+    "iso2": "FI",
+    "name": "Finland",
+    "nameAr": null,
+    "dialCode": "358",
+    "flagEmoji": "🇫🇮",
+    "sortOrder": 169
+  },
+  {
+    "id": "fj",
+    "iso2": "FJ",
+    "name": "Fiji",
+    "nameAr": null,
+    "dialCode": "679",
+    "flagEmoji": "🇫🇯",
+    "sortOrder": 170
+  },
+  {
+    "id": "fk",
+    "iso2": "FK",
+    "name": "Falkland Islands",
+    "nameAr": null,
+    "dialCode": "500",
+    "flagEmoji": "🇫🇰",
+    "sortOrder": 171
+  },
+  {
+    "id": "fm",
+    "iso2": "FM",
+    "name": "Micronesia",
+    "nameAr": null,
+    "dialCode": "691",
+    "flagEmoji": "🇫🇲",
+    "sortOrder": 172
+  },
+  {
+    "id": "fo",
+    "iso2": "FO",
+    "name": "Faroe Islands",
+    "nameAr": null,
+    "dialCode": "298",
+    "flagEmoji": "🇫🇴",
+    "sortOrder": 173
+  },
+  {
+    "id": "fr",
+    "iso2": "FR",
+    "name": "France",
+    "nameAr": "فرنسا",
+    "dialCode": "33",
+    "flagEmoji": "🇫🇷",
+    "sortOrder": 174
+  },
+  {
+    "id": "ga",
+    "iso2": "GA",
+    "name": "Gabon",
+    "nameAr": null,
+    "dialCode": "241",
+    "flagEmoji": "🇬🇦",
+    "sortOrder": 175
+  },
+  {
+    "id": "gb",
+    "iso2": "GB",
+    "name": "United Kingdom",
+    "nameAr": "المملكة المتحدة",
+    "dialCode": "44",
+    "flagEmoji": "🇬🇧",
+    "sortOrder": 176
+  },
+  {
+    "id": "gd",
+    "iso2": "GD",
+    "name": "Grenada",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇬🇩",
+    "sortOrder": 177
+  },
+  {
+    "id": "ge",
+    "iso2": "GE",
+    "name": "Georgia",
+    "nameAr": null,
+    "dialCode": "995",
+    "flagEmoji": "🇬🇪",
+    "sortOrder": 178
+  },
+  {
+    "id": "gf",
+    "iso2": "GF",
+    "name": "French Guiana",
+    "nameAr": null,
+    "dialCode": "594",
+    "flagEmoji": "🇬🇫",
+    "sortOrder": 179
+  },
+  {
+    "id": "gg",
+    "iso2": "GG",
+    "name": "Guernsey",
+    "nameAr": null,
+    "dialCode": "44",
+    "flagEmoji": "🇬🇬",
+    "sortOrder": 180
+  },
+  {
+    "id": "gh",
+    "iso2": "GH",
+    "name": "Ghana",
+    "nameAr": null,
+    "dialCode": "233",
+    "flagEmoji": "🇬🇭",
+    "sortOrder": 181
+  },
+  {
+    "id": "gi",
+    "iso2": "GI",
+    "name": "Gibraltar",
+    "nameAr": null,
+    "dialCode": "350",
+    "flagEmoji": "🇬🇮",
+    "sortOrder": 182
+  },
+  {
+    "id": "gl",
+    "iso2": "GL",
+    "name": "Greenland",
+    "nameAr": null,
+    "dialCode": "299",
+    "flagEmoji": "🇬🇱",
+    "sortOrder": 183
+  },
+  {
+    "id": "gm",
+    "iso2": "GM",
+    "name": "Gambia",
+    "nameAr": null,
+    "dialCode": "220",
+    "flagEmoji": "🇬🇲",
+    "sortOrder": 184
+  },
+  {
+    "id": "gn",
+    "iso2": "GN",
+    "name": "Guinea",
+    "nameAr": null,
+    "dialCode": "224",
+    "flagEmoji": "🇬🇳",
+    "sortOrder": 185
+  },
+  {
+    "id": "gp",
+    "iso2": "GP",
+    "name": "Guadeloupe",
+    "nameAr": null,
+    "dialCode": "590",
+    "flagEmoji": "🇬🇵",
+    "sortOrder": 186
+  },
+  {
+    "id": "gq",
+    "iso2": "GQ",
+    "name": "Equatorial Guinea",
+    "nameAr": null,
+    "dialCode": "240",
+    "flagEmoji": "🇬🇶",
+    "sortOrder": 187
+  },
+  {
+    "id": "gr",
+    "iso2": "GR",
+    "name": "Greece",
+    "nameAr": null,
+    "dialCode": "30",
+    "flagEmoji": "🇬🇷",
+    "sortOrder": 188
+  },
+  {
+    "id": "gs",
+    "iso2": "GS",
+    "name": "South Georgia",
+    "nameAr": null,
+    "dialCode": "500",
+    "flagEmoji": "🇬🇸",
+    "sortOrder": 189
+  },
+  {
+    "id": "gt",
+    "iso2": "GT",
+    "name": "Guatemala",
+    "nameAr": null,
+    "dialCode": "502",
+    "flagEmoji": "🇬🇹",
+    "sortOrder": 190
+  },
+  {
+    "id": "gu",
+    "iso2": "GU",
+    "name": "Guam",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇬🇺",
+    "sortOrder": 191
+  },
+  {
+    "id": "gw",
+    "iso2": "GW",
+    "name": "Guinea-Bissau",
+    "nameAr": null,
+    "dialCode": "245",
+    "flagEmoji": "🇬🇼",
+    "sortOrder": 192
+  },
+  {
+    "id": "gy",
+    "iso2": "GY",
+    "name": "Guyana",
+    "nameAr": null,
+    "dialCode": "592",
+    "flagEmoji": "🇬🇾",
+    "sortOrder": 193
+  },
+  {
+    "id": "hk",
+    "iso2": "HK",
+    "name": "Hong Kong",
+    "nameAr": null,
+    "dialCode": "852",
+    "flagEmoji": "🇭🇰",
+    "sortOrder": 194
+  },
+  {
+    "id": "hm",
+    "iso2": "HM",
+    "name": "Heard Island",
+    "nameAr": null,
+    "dialCode": "672",
+    "flagEmoji": "🇭🇲",
+    "sortOrder": 195
+  },
+  {
+    "id": "hn",
+    "iso2": "HN",
+    "name": "Honduras",
+    "nameAr": null,
+    "dialCode": "504",
+    "flagEmoji": "🇭🇳",
+    "sortOrder": 196
+  },
+  {
+    "id": "hr",
+    "iso2": "HR",
+    "name": "Croatia",
+    "nameAr": null,
+    "dialCode": "385",
+    "flagEmoji": "🇭🇷",
+    "sortOrder": 197
+  },
+  {
+    "id": "ht",
+    "iso2": "HT",
+    "name": "Haiti",
+    "nameAr": null,
+    "dialCode": "509",
+    "flagEmoji": "🇭🇹",
+    "sortOrder": 198
+  },
+  {
+    "id": "hu",
+    "iso2": "HU",
+    "name": "Hungary",
+    "nameAr": null,
+    "dialCode": "36",
+    "flagEmoji": "🇭🇺",
+    "sortOrder": 199
+  },
+  {
+    "id": "id",
+    "iso2": "ID",
+    "name": "Indonesia",
+    "nameAr": "إندونيسيا",
+    "dialCode": "62",
+    "flagEmoji": "🇮🇩",
+    "sortOrder": 200
+  },
+  {
+    "id": "ie",
+    "iso2": "IE",
+    "name": "Ireland",
+    "nameAr": null,
+    "dialCode": "353",
+    "flagEmoji": "🇮🇪",
+    "sortOrder": 201
+  },
+  {
+    "id": "il",
+    "iso2": "IL",
+    "name": "Israel",
+    "nameAr": null,
+    "dialCode": "972",
+    "flagEmoji": "🇮🇱",
+    "sortOrder": 202
+  },
+  {
+    "id": "im",
+    "iso2": "IM",
+    "name": "Isle of Man",
+    "nameAr": null,
+    "dialCode": "44",
+    "flagEmoji": "🇮🇲",
+    "sortOrder": 203
+  },
+  {
+    "id": "in",
+    "iso2": "IN",
+    "name": "India",
+    "nameAr": "الهند",
+    "dialCode": "91",
+    "flagEmoji": "🇮🇳",
+    "sortOrder": 204
+  },
+  {
+    "id": "io",
+    "iso2": "IO",
+    "name": "British Indian Ocean Territory",
+    "nameAr": null,
+    "dialCode": "246",
+    "flagEmoji": "🇮🇴",
+    "sortOrder": 205
+  },
+  {
+    "id": "iq",
+    "iso2": "IQ",
+    "name": "Iraq",
+    "nameAr": "العراق",
+    "dialCode": "964",
+    "flagEmoji": "🇮🇶",
+    "sortOrder": 206
+  },
+  {
+    "id": "ir",
+    "iso2": "IR",
+    "name": "Iran",
+    "nameAr": null,
+    "dialCode": "98",
+    "flagEmoji": "🇮🇷",
+    "sortOrder": 207
+  },
+  {
+    "id": "is",
+    "iso2": "IS",
+    "name": "Iceland",
+    "nameAr": null,
+    "dialCode": "354",
+    "flagEmoji": "🇮🇸",
+    "sortOrder": 208
+  },
+  {
+    "id": "it",
+    "iso2": "IT",
+    "name": "Italy",
+    "nameAr": null,
+    "dialCode": "39",
+    "flagEmoji": "🇮🇹",
+    "sortOrder": 209
+  },
+  {
+    "id": "je",
+    "iso2": "JE",
+    "name": "Jersey",
+    "nameAr": null,
+    "dialCode": "44",
+    "flagEmoji": "🇯🇪",
+    "sortOrder": 210
+  },
+  {
+    "id": "jm",
+    "iso2": "JM",
+    "name": "Jamaica",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇯🇲",
+    "sortOrder": 211
+  },
+  {
+    "id": "jp",
+    "iso2": "JP",
+    "name": "Japan",
+    "nameAr": null,
+    "dialCode": "81",
+    "flagEmoji": "🇯🇵",
+    "sortOrder": 213
+  },
+  {
+    "id": "ke",
+    "iso2": "KE",
+    "name": "Kenya",
+    "nameAr": null,
+    "dialCode": "254",
+    "flagEmoji": "🇰🇪",
+    "sortOrder": 214
+  },
+  {
+    "id": "kg",
+    "iso2": "KG",
+    "name": "Kyrgyzstan",
+    "nameAr": null,
+    "dialCode": "996",
+    "flagEmoji": "🇰🇬",
+    "sortOrder": 215
+  },
+  {
+    "id": "kh",
+    "iso2": "KH",
+    "name": "Cambodia",
+    "nameAr": null,
+    "dialCode": "855",
+    "flagEmoji": "🇰🇭",
+    "sortOrder": 216
+  },
+  {
+    "id": "ki",
+    "iso2": "KI",
+    "name": "Kiribati",
+    "nameAr": null,
+    "dialCode": "686",
+    "flagEmoji": "🇰🇮",
+    "sortOrder": 217
+  },
+  {
+    "id": "km",
+    "iso2": "KM",
+    "name": "Comoros",
+    "nameAr": null,
+    "dialCode": "269",
+    "flagEmoji": "🇰🇲",
+    "sortOrder": 218
+  },
+  {
+    "id": "kn",
+    "iso2": "KN",
+    "name": "Saint Kitts and Nevis",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇰🇳",
+    "sortOrder": 219
+  },
+  {
+    "id": "kp",
+    "iso2": "KP",
+    "name": "North Korea",
+    "nameAr": null,
+    "dialCode": "850",
+    "flagEmoji": "🇰🇵",
+    "sortOrder": 220
+  },
+  {
+    "id": "kr",
+    "iso2": "KR",
+    "name": "South Korea",
+    "nameAr": null,
+    "dialCode": "82",
+    "flagEmoji": "🇰🇷",
+    "sortOrder": 221
+  },
+  {
+    "id": "ky",
+    "iso2": "KY",
+    "name": "Cayman Islands",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇰🇾",
+    "sortOrder": 223
+  },
+  {
+    "id": "kz",
+    "iso2": "KZ",
+    "name": "Kazakhstan",
+    "nameAr": null,
+    "dialCode": "7",
+    "flagEmoji": "🇰🇿",
+    "sortOrder": 224
+  },
+  {
+    "id": "la",
+    "iso2": "LA",
+    "name": "Laos",
+    "nameAr": null,
+    "dialCode": "856",
+    "flagEmoji": "🇱🇦",
+    "sortOrder": 225
+  },
+  {
+    "id": "lc",
+    "iso2": "LC",
+    "name": "Saint Lucia",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇱🇨",
+    "sortOrder": 227
+  },
+  {
+    "id": "li",
+    "iso2": "LI",
+    "name": "Liechtenstein",
+    "nameAr": null,
+    "dialCode": "423",
+    "flagEmoji": "🇱🇮",
+    "sortOrder": 228
+  },
+  {
+    "id": "lk",
+    "iso2": "LK",
+    "name": "Sri Lanka",
+    "nameAr": null,
+    "dialCode": "94",
+    "flagEmoji": "🇱🇰",
+    "sortOrder": 229
+  },
+  {
+    "id": "lr",
+    "iso2": "LR",
+    "name": "Liberia",
+    "nameAr": null,
+    "dialCode": "231",
+    "flagEmoji": "🇱🇷",
+    "sortOrder": 230
+  },
+  {
+    "id": "ls",
+    "iso2": "LS",
+    "name": "Lesotho",
+    "nameAr": null,
+    "dialCode": "266",
+    "flagEmoji": "🇱🇸",
+    "sortOrder": 231
+  },
+  {
+    "id": "lt",
+    "iso2": "LT",
+    "name": "Lithuania",
+    "nameAr": null,
+    "dialCode": "370",
+    "flagEmoji": "🇱🇹",
+    "sortOrder": 232
+  },
+  {
+    "id": "lu",
+    "iso2": "LU",
+    "name": "Luxembourg",
+    "nameAr": null,
+    "dialCode": "352",
+    "flagEmoji": "🇱🇺",
+    "sortOrder": 233
+  },
+  {
+    "id": "lv",
+    "iso2": "LV",
+    "name": "Latvia",
+    "nameAr": null,
+    "dialCode": "371",
+    "flagEmoji": "🇱🇻",
+    "sortOrder": 234
+  },
+  {
+    "id": "ly",
+    "iso2": "LY",
+    "name": "Libya",
+    "nameAr": "ليبيا",
+    "dialCode": "218",
+    "flagEmoji": "🇱🇾",
+    "sortOrder": 235
+  },
+  {
+    "id": "ma",
+    "iso2": "MA",
+    "name": "Morocco",
+    "nameAr": "المغرب",
+    "dialCode": "212",
+    "flagEmoji": "🇲🇦",
+    "sortOrder": 236
+  },
+  {
+    "id": "mc",
+    "iso2": "MC",
+    "name": "Monaco",
+    "nameAr": null,
+    "dialCode": "377",
+    "flagEmoji": "🇲🇨",
+    "sortOrder": 237
+  },
+  {
+    "id": "md",
+    "iso2": "MD",
+    "name": "Moldova",
+    "nameAr": null,
+    "dialCode": "373",
+    "flagEmoji": "🇲🇩",
+    "sortOrder": 238
+  },
+  {
+    "id": "me",
+    "iso2": "ME",
+    "name": "Montenegro",
+    "nameAr": null,
+    "dialCode": "382",
+    "flagEmoji": "🇲🇪",
+    "sortOrder": 239
+  },
+  {
+    "id": "mf",
+    "iso2": "MF",
+    "name": "Saint Martin",
+    "nameAr": null,
+    "dialCode": "590",
+    "flagEmoji": "🇲🇫",
+    "sortOrder": 240
+  },
+  {
+    "id": "mg",
+    "iso2": "MG",
+    "name": "Madagascar",
+    "nameAr": null,
+    "dialCode": "261",
+    "flagEmoji": "🇲🇬",
+    "sortOrder": 241
+  },
+  {
+    "id": "mh",
+    "iso2": "MH",
+    "name": "Marshall Islands",
+    "nameAr": null,
+    "dialCode": "692",
+    "flagEmoji": "🇲🇭",
+    "sortOrder": 242
+  },
+  {
+    "id": "mk",
+    "iso2": "MK",
+    "name": "North Macedonia",
+    "nameAr": null,
+    "dialCode": "389",
+    "flagEmoji": "🇲🇰",
+    "sortOrder": 243
+  },
+  {
+    "id": "ml",
+    "iso2": "ML",
+    "name": "Mali",
+    "nameAr": null,
+    "dialCode": "223",
+    "flagEmoji": "🇲🇱",
+    "sortOrder": 244
+  },
+  {
+    "id": "mm",
+    "iso2": "MM",
+    "name": "Myanmar",
+    "nameAr": null,
+    "dialCode": "95",
+    "flagEmoji": "🇲🇲",
+    "sortOrder": 245
+  },
+  {
+    "id": "mn",
+    "iso2": "MN",
+    "name": "Mongolia",
+    "nameAr": null,
+    "dialCode": "976",
+    "flagEmoji": "🇲🇳",
+    "sortOrder": 246
+  },
+  {
+    "id": "mo",
+    "iso2": "MO",
+    "name": "Macau",
+    "nameAr": null,
+    "dialCode": "853",
+    "flagEmoji": "🇲🇴",
+    "sortOrder": 247
+  },
+  {
+    "id": "mp",
+    "iso2": "MP",
+    "name": "Northern Mariana Islands",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇲🇵",
+    "sortOrder": 248
+  },
+  {
+    "id": "mq",
+    "iso2": "MQ",
+    "name": "Martinique",
+    "nameAr": null,
+    "dialCode": "596",
+    "flagEmoji": "🇲🇶",
+    "sortOrder": 249
+  },
+  {
+    "id": "mr",
+    "iso2": "MR",
+    "name": "Mauritania",
+    "nameAr": null,
+    "dialCode": "222",
+    "flagEmoji": "🇲🇷",
+    "sortOrder": 250
+  },
+  {
+    "id": "ms",
+    "iso2": "MS",
+    "name": "Montserrat",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇲🇸",
+    "sortOrder": 251
+  },
+  {
+    "id": "mt",
+    "iso2": "MT",
+    "name": "Malta",
+    "nameAr": null,
+    "dialCode": "356",
+    "flagEmoji": "🇲🇹",
+    "sortOrder": 252
+  },
+  {
+    "id": "mu",
+    "iso2": "MU",
+    "name": "Mauritius",
+    "nameAr": null,
+    "dialCode": "230",
+    "flagEmoji": "🇲🇺",
+    "sortOrder": 253
+  },
+  {
+    "id": "mv",
+    "iso2": "MV",
+    "name": "Maldives",
+    "nameAr": null,
+    "dialCode": "960",
+    "flagEmoji": "🇲🇻",
+    "sortOrder": 254
+  },
+  {
+    "id": "mw",
+    "iso2": "MW",
+    "name": "Malawi",
+    "nameAr": null,
+    "dialCode": "265",
+    "flagEmoji": "🇲🇼",
+    "sortOrder": 255
+  },
+  {
+    "id": "mx",
+    "iso2": "MX",
+    "name": "Mexico",
+    "nameAr": null,
+    "dialCode": "52",
+    "flagEmoji": "🇲🇽",
+    "sortOrder": 256
+  },
+  {
+    "id": "my",
+    "iso2": "MY",
+    "name": "Malaysia",
+    "nameAr": null,
+    "dialCode": "60",
+    "flagEmoji": "🇲🇾",
+    "sortOrder": 257
+  },
+  {
+    "id": "mz",
+    "iso2": "MZ",
+    "name": "Mozambique",
+    "nameAr": null,
+    "dialCode": "258",
+    "flagEmoji": "🇲🇿",
+    "sortOrder": 258
+  },
+  {
+    "id": "na",
+    "iso2": "NA",
+    "name": "Namibia",
+    "nameAr": null,
+    "dialCode": "264",
+    "flagEmoji": "🇳🇦",
+    "sortOrder": 259
+  },
+  {
+    "id": "nc",
+    "iso2": "NC",
+    "name": "New Caledonia",
+    "nameAr": null,
+    "dialCode": "687",
+    "flagEmoji": "🇳🇨",
+    "sortOrder": 260
+  },
+  {
+    "id": "ne",
+    "iso2": "NE",
+    "name": "Niger",
+    "nameAr": null,
+    "dialCode": "227",
+    "flagEmoji": "🇳🇪",
+    "sortOrder": 261
+  },
+  {
+    "id": "nf",
+    "iso2": "NF",
+    "name": "Norfolk Island",
+    "nameAr": null,
+    "dialCode": "672",
+    "flagEmoji": "🇳🇫",
+    "sortOrder": 262
+  },
+  {
+    "id": "ng",
+    "iso2": "NG",
+    "name": "Nigeria",
+    "nameAr": null,
+    "dialCode": "234",
+    "flagEmoji": "🇳🇬",
+    "sortOrder": 263
+  },
+  {
+    "id": "ni",
+    "iso2": "NI",
+    "name": "Nicaragua",
+    "nameAr": null,
+    "dialCode": "505",
+    "flagEmoji": "🇳🇮",
+    "sortOrder": 264
+  },
+  {
+    "id": "nl",
+    "iso2": "NL",
+    "name": "Netherlands",
+    "nameAr": null,
+    "dialCode": "31",
+    "flagEmoji": "🇳🇱",
+    "sortOrder": 265
+  },
+  {
+    "id": "no",
+    "iso2": "NO",
+    "name": "Norway",
+    "nameAr": null,
+    "dialCode": "47",
+    "flagEmoji": "🇳🇴",
+    "sortOrder": 266
+  },
+  {
+    "id": "np",
+    "iso2": "NP",
+    "name": "Nepal",
+    "nameAr": null,
+    "dialCode": "977",
+    "flagEmoji": "🇳🇵",
+    "sortOrder": 267
+  },
+  {
+    "id": "nr",
+    "iso2": "NR",
+    "name": "Nauru",
+    "nameAr": null,
+    "dialCode": "674",
+    "flagEmoji": "🇳🇷",
+    "sortOrder": 268
+  },
+  {
+    "id": "nu",
+    "iso2": "NU",
+    "name": "Niue",
+    "nameAr": null,
+    "dialCode": "683",
+    "flagEmoji": "🇳🇺",
+    "sortOrder": 269
+  },
+  {
+    "id": "nz",
+    "iso2": "NZ",
+    "name": "New Zealand",
+    "nameAr": null,
+    "dialCode": "64",
+    "flagEmoji": "🇳🇿",
+    "sortOrder": 270
+  },
+  {
+    "id": "pa",
+    "iso2": "PA",
+    "name": "Panama",
+    "nameAr": null,
+    "dialCode": "507",
+    "flagEmoji": "🇵🇦",
+    "sortOrder": 272
+  },
+  {
+    "id": "pe",
+    "iso2": "PE",
+    "name": "Peru",
+    "nameAr": null,
+    "dialCode": "51",
+    "flagEmoji": "🇵🇪",
+    "sortOrder": 273
+  },
+  {
+    "id": "pf",
+    "iso2": "PF",
+    "name": "French Polynesia",
+    "nameAr": null,
+    "dialCode": "689",
+    "flagEmoji": "🇵🇫",
+    "sortOrder": 274
+  },
+  {
+    "id": "pg",
+    "iso2": "PG",
+    "name": "Papua New Guinea",
+    "nameAr": null,
+    "dialCode": "675",
+    "flagEmoji": "🇵🇬",
+    "sortOrder": 275
+  },
+  {
+    "id": "ph",
+    "iso2": "PH",
+    "name": "Philippines",
+    "nameAr": "الفلبين",
+    "dialCode": "63",
+    "flagEmoji": "🇵🇭",
+    "sortOrder": 276
+  },
+  {
+    "id": "pk",
+    "iso2": "PK",
+    "name": "Pakistan",
+    "nameAr": "باكستان",
+    "dialCode": "92",
+    "flagEmoji": "🇵🇰",
+    "sortOrder": 277
+  },
+  {
+    "id": "pl",
+    "iso2": "PL",
+    "name": "Poland",
+    "nameAr": null,
+    "dialCode": "48",
+    "flagEmoji": "🇵🇱",
+    "sortOrder": 278
+  },
+  {
+    "id": "pm",
+    "iso2": "PM",
+    "name": "Saint Pierre and Miquelon",
+    "nameAr": null,
+    "dialCode": "508",
+    "flagEmoji": "🇵🇲",
+    "sortOrder": 279
+  },
+  {
+    "id": "pn",
+    "iso2": "PN",
+    "name": "Pitcairn Islands",
+    "nameAr": null,
+    "dialCode": "64",
+    "flagEmoji": "🇵🇳",
+    "sortOrder": 280
+  },
+  {
+    "id": "pr",
+    "iso2": "PR",
+    "name": "Puerto Rico",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇵🇷",
+    "sortOrder": 281
+  },
+  {
+    "id": "ps",
+    "iso2": "PS",
+    "name": "Palestine",
+    "nameAr": "فلسطين",
+    "dialCode": "970",
+    "flagEmoji": "🇵🇸",
+    "sortOrder": 282
+  },
+  {
+    "id": "pt",
+    "iso2": "PT",
+    "name": "Portugal",
+    "nameAr": null,
+    "dialCode": "351",
+    "flagEmoji": "🇵🇹",
+    "sortOrder": 283
+  },
+  {
+    "id": "pw",
+    "iso2": "PW",
+    "name": "Palau",
+    "nameAr": null,
+    "dialCode": "680",
+    "flagEmoji": "🇵🇼",
+    "sortOrder": 284
+  },
+  {
+    "id": "py",
+    "iso2": "PY",
+    "name": "Paraguay",
+    "nameAr": null,
+    "dialCode": "595",
+    "flagEmoji": "🇵🇾",
+    "sortOrder": 285
+  },
+  {
+    "id": "re",
+    "iso2": "RE",
+    "name": "Reunion",
+    "nameAr": null,
+    "dialCode": "262",
+    "flagEmoji": "🇷🇪",
+    "sortOrder": 287
+  },
+  {
+    "id": "ro",
+    "iso2": "RO",
+    "name": "Romania",
+    "nameAr": null,
+    "dialCode": "40",
+    "flagEmoji": "🇷🇴",
+    "sortOrder": 288
+  },
+  {
+    "id": "rs",
+    "iso2": "RS",
+    "name": "Serbia",
+    "nameAr": null,
+    "dialCode": "381",
+    "flagEmoji": "🇷🇸",
+    "sortOrder": 289
+  },
+  {
+    "id": "ru",
+    "iso2": "RU",
+    "name": "Russia",
+    "nameAr": null,
+    "dialCode": "7",
+    "flagEmoji": "🇷🇺",
+    "sortOrder": 290
+  },
+  {
+    "id": "rw",
+    "iso2": "RW",
+    "name": "Rwanda",
+    "nameAr": null,
+    "dialCode": "250",
+    "flagEmoji": "🇷🇼",
+    "sortOrder": 291
+  },
+  {
+    "id": "sb",
+    "iso2": "SB",
+    "name": "Solomon Islands",
+    "nameAr": null,
+    "dialCode": "677",
+    "flagEmoji": "🇸🇧",
+    "sortOrder": 293
+  },
+  {
+    "id": "sc",
+    "iso2": "SC",
+    "name": "Seychelles",
+    "nameAr": null,
+    "dialCode": "248",
+    "flagEmoji": "🇸🇨",
+    "sortOrder": 294
+  },
+  {
+    "id": "sd",
+    "iso2": "SD",
+    "name": "Sudan",
+    "nameAr": "السودان",
+    "dialCode": "249",
+    "flagEmoji": "🇸🇩",
+    "sortOrder": 295
+  },
+  {
+    "id": "se",
+    "iso2": "SE",
+    "name": "Sweden",
+    "nameAr": null,
+    "dialCode": "46",
+    "flagEmoji": "🇸🇪",
+    "sortOrder": 296
+  },
+  {
+    "id": "sg",
+    "iso2": "SG",
+    "name": "Singapore",
+    "nameAr": null,
+    "dialCode": "65",
+    "flagEmoji": "🇸🇬",
+    "sortOrder": 297
+  },
+  {
+    "id": "sh",
+    "iso2": "SH",
+    "name": "Saint Helena",
+    "nameAr": null,
+    "dialCode": "290",
+    "flagEmoji": "🇸🇭",
+    "sortOrder": 298
+  },
+  {
+    "id": "si",
+    "iso2": "SI",
+    "name": "Slovenia",
+    "nameAr": null,
+    "dialCode": "386",
+    "flagEmoji": "🇸🇮",
+    "sortOrder": 299
+  },
+  {
+    "id": "sj",
+    "iso2": "SJ",
+    "name": "Svalbard and Jan Mayen",
+    "nameAr": null,
+    "dialCode": "47",
+    "flagEmoji": "🇸🇯",
+    "sortOrder": 300
+  },
+  {
+    "id": "sk",
+    "iso2": "SK",
+    "name": "Slovakia",
+    "nameAr": null,
+    "dialCode": "421",
+    "flagEmoji": "🇸🇰",
+    "sortOrder": 301
+  },
+  {
+    "id": "sl",
+    "iso2": "SL",
+    "name": "Sierra Leone",
+    "nameAr": null,
+    "dialCode": "232",
+    "flagEmoji": "🇸🇱",
+    "sortOrder": 302
+  },
+  {
+    "id": "sm",
+    "iso2": "SM",
+    "name": "San Marino",
+    "nameAr": null,
+    "dialCode": "378",
+    "flagEmoji": "🇸🇲",
+    "sortOrder": 303
+  },
+  {
+    "id": "sn",
+    "iso2": "SN",
+    "name": "Senegal",
+    "nameAr": null,
+    "dialCode": "221",
+    "flagEmoji": "🇸🇳",
+    "sortOrder": 304
+  },
+  {
+    "id": "so",
+    "iso2": "SO",
+    "name": "Somalia",
+    "nameAr": null,
+    "dialCode": "252",
+    "flagEmoji": "🇸🇴",
+    "sortOrder": 305
+  },
+  {
+    "id": "sr",
+    "iso2": "SR",
+    "name": "Suriname",
+    "nameAr": null,
+    "dialCode": "597",
+    "flagEmoji": "🇸🇷",
+    "sortOrder": 306
+  },
+  {
+    "id": "ss",
+    "iso2": "SS",
+    "name": "South Sudan",
+    "nameAr": null,
+    "dialCode": "211",
+    "flagEmoji": "🇸🇸",
+    "sortOrder": 307
+  },
+  {
+    "id": "st",
+    "iso2": "ST",
+    "name": "Sao Tome and Principe",
+    "nameAr": null,
+    "dialCode": "239",
+    "flagEmoji": "🇸🇹",
+    "sortOrder": 308
+  },
+  {
+    "id": "sv",
+    "iso2": "SV",
+    "name": "El Salvador",
+    "nameAr": null,
+    "dialCode": "503",
+    "flagEmoji": "🇸🇻",
+    "sortOrder": 309
+  },
+  {
+    "id": "sx",
+    "iso2": "SX",
+    "name": "Sint Maarten",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇸🇽",
+    "sortOrder": 310
+  },
+  {
+    "id": "sy",
+    "iso2": "SY",
+    "name": "Syria",
+    "nameAr": "سوريا",
+    "dialCode": "963",
+    "flagEmoji": "🇸🇾",
+    "sortOrder": 311
+  },
+  {
+    "id": "sz",
+    "iso2": "SZ",
+    "name": "Eswatini",
+    "nameAr": null,
+    "dialCode": "268",
+    "flagEmoji": "🇸🇿",
+    "sortOrder": 312
+  },
+  {
+    "id": "tc",
+    "iso2": "TC",
+    "name": "Turks and Caicos Islands",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇹🇨",
+    "sortOrder": 313
+  },
+  {
+    "id": "td",
+    "iso2": "TD",
+    "name": "Chad",
+    "nameAr": null,
+    "dialCode": "235",
+    "flagEmoji": "🇹🇩",
+    "sortOrder": 314
+  },
+  {
+    "id": "tf",
+    "iso2": "TF",
+    "name": "French Southern Territories",
+    "nameAr": null,
+    "dialCode": "262",
+    "flagEmoji": "🇹🇫",
+    "sortOrder": 315
+  },
+  {
+    "id": "tg",
+    "iso2": "TG",
+    "name": "Togo",
+    "nameAr": null,
+    "dialCode": "228",
+    "flagEmoji": "🇹🇬",
+    "sortOrder": 316
+  },
+  {
+    "id": "th",
+    "iso2": "TH",
+    "name": "Thailand",
+    "nameAr": null,
+    "dialCode": "66",
+    "flagEmoji": "🇹🇭",
+    "sortOrder": 317
+  },
+  {
+    "id": "tj",
+    "iso2": "TJ",
+    "name": "Tajikistan",
+    "nameAr": null,
+    "dialCode": "992",
+    "flagEmoji": "🇹🇯",
+    "sortOrder": 318
+  },
+  {
+    "id": "tk",
+    "iso2": "TK",
+    "name": "Tokelau",
+    "nameAr": null,
+    "dialCode": "690",
+    "flagEmoji": "🇹🇰",
+    "sortOrder": 319
+  },
+  {
+    "id": "tl",
+    "iso2": "TL",
+    "name": "Timor-Leste",
+    "nameAr": null,
+    "dialCode": "670",
+    "flagEmoji": "🇹🇱",
+    "sortOrder": 320
+  },
+  {
+    "id": "tm",
+    "iso2": "TM",
+    "name": "Turkmenistan",
+    "nameAr": null,
+    "dialCode": "993",
+    "flagEmoji": "🇹🇲",
+    "sortOrder": 321
+  },
+  {
+    "id": "tn",
+    "iso2": "TN",
+    "name": "Tunisia",
+    "nameAr": "تونس",
+    "dialCode": "216",
+    "flagEmoji": "🇹🇳",
+    "sortOrder": 322
+  },
+  {
+    "id": "to",
+    "iso2": "TO",
+    "name": "Tonga",
+    "nameAr": null,
+    "dialCode": "676",
+    "flagEmoji": "🇹🇴",
+    "sortOrder": 323
+  },
+  {
+    "id": "tr",
+    "iso2": "TR",
+    "name": "Turkey",
+    "nameAr": "تركيا",
+    "dialCode": "90",
+    "flagEmoji": "🇹🇷",
+    "sortOrder": 324
+  },
+  {
+    "id": "tt",
+    "iso2": "TT",
+    "name": "Trinidad and Tobago",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇹🇹",
+    "sortOrder": 325
+  },
+  {
+    "id": "tv",
+    "iso2": "TV",
+    "name": "Tuvalu",
+    "nameAr": null,
+    "dialCode": "688",
+    "flagEmoji": "🇹🇻",
+    "sortOrder": 326
+  },
+  {
+    "id": "tw",
+    "iso2": "TW",
+    "name": "Taiwan",
+    "nameAr": null,
+    "dialCode": "886",
+    "flagEmoji": "🇹🇼",
+    "sortOrder": 327
+  },
+  {
+    "id": "tz",
+    "iso2": "TZ",
+    "name": "Tanzania",
+    "nameAr": null,
+    "dialCode": "255",
+    "flagEmoji": "🇹🇿",
+    "sortOrder": 328
+  },
+  {
+    "id": "ua",
+    "iso2": "UA",
+    "name": "Ukraine",
+    "nameAr": null,
+    "dialCode": "380",
+    "flagEmoji": "🇺🇦",
+    "sortOrder": 329
+  },
+  {
+    "id": "ug",
+    "iso2": "UG",
+    "name": "Uganda",
+    "nameAr": null,
+    "dialCode": "256",
+    "flagEmoji": "🇺🇬",
+    "sortOrder": 330
+  },
+  {
+    "id": "um",
+    "iso2": "UM",
+    "name": "US Minor Outlying Islands",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇺🇲",
+    "sortOrder": 331
+  },
+  {
+    "id": "us",
+    "iso2": "US",
+    "name": "United States",
+    "nameAr": "الولايات المتحدة",
+    "dialCode": "1",
+    "flagEmoji": "🇺🇸",
+    "sortOrder": 332
+  },
+  {
+    "id": "uy",
+    "iso2": "UY",
+    "name": "Uruguay",
+    "nameAr": null,
+    "dialCode": "598",
+    "flagEmoji": "🇺🇾",
+    "sortOrder": 333
+  },
+  {
+    "id": "uz",
+    "iso2": "UZ",
+    "name": "Uzbekistan",
+    "nameAr": null,
+    "dialCode": "998",
+    "flagEmoji": "🇺🇿",
+    "sortOrder": 334
+  },
+  {
+    "id": "va",
+    "iso2": "VA",
+    "name": "Vatican City",
+    "nameAr": null,
+    "dialCode": "39",
+    "flagEmoji": "🇻🇦",
+    "sortOrder": 335
+  },
+  {
+    "id": "vc",
+    "iso2": "VC",
+    "name": "Saint Vincent and the Grenadines",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇻🇨",
+    "sortOrder": 336
+  },
+  {
+    "id": "ve",
+    "iso2": "VE",
+    "name": "Venezuela",
+    "nameAr": null,
+    "dialCode": "58",
+    "flagEmoji": "🇻🇪",
+    "sortOrder": 337
+  },
+  {
+    "id": "vg",
+    "iso2": "VG",
+    "name": "British Virgin Islands",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇻🇬",
+    "sortOrder": 338
+  },
+  {
+    "id": "vi",
+    "iso2": "VI",
+    "name": "US Virgin Islands",
+    "nameAr": null,
+    "dialCode": "1",
+    "flagEmoji": "🇻🇮",
+    "sortOrder": 339
+  },
+  {
+    "id": "vn",
+    "iso2": "VN",
+    "name": "Vietnam",
+    "nameAr": null,
+    "dialCode": "84",
+    "flagEmoji": "🇻🇳",
+    "sortOrder": 340
+  },
+  {
+    "id": "vu",
+    "iso2": "VU",
+    "name": "Vanuatu",
+    "nameAr": null,
+    "dialCode": "678",
+    "flagEmoji": "🇻🇺",
+    "sortOrder": 341
+  },
+  {
+    "id": "wf",
+    "iso2": "WF",
+    "name": "Wallis and Futuna",
+    "nameAr": null,
+    "dialCode": "681",
+    "flagEmoji": "🇼🇫",
+    "sortOrder": 342
+  },
+  {
+    "id": "ws",
+    "iso2": "WS",
+    "name": "Samoa",
+    "nameAr": null,
+    "dialCode": "685",
+    "flagEmoji": "🇼🇸",
+    "sortOrder": 343
+  },
+  {
+    "id": "xk",
+    "iso2": "XK",
+    "name": "Kosovo",
+    "nameAr": null,
+    "dialCode": "383",
+    "flagEmoji": "🇽🇰",
+    "sortOrder": 344
+  },
+  {
+    "id": "ye",
+    "iso2": "YE",
+    "name": "Yemen",
+    "nameAr": "اليمن",
+    "dialCode": "967",
+    "flagEmoji": "🇾🇪",
+    "sortOrder": 345
+  },
+  {
+    "id": "yt",
+    "iso2": "YT",
+    "name": "Mayotte",
+    "nameAr": null,
+    "dialCode": "262",
+    "flagEmoji": "🇾🇹",
+    "sortOrder": 346
+  },
+  {
+    "id": "za",
+    "iso2": "ZA",
+    "name": "South Africa",
+    "nameAr": null,
+    "dialCode": "27",
+    "flagEmoji": "🇿🇦",
+    "sortOrder": 347
+  },
+  {
+    "id": "zm",
+    "iso2": "ZM",
+    "name": "Zambia",
+    "nameAr": null,
+    "dialCode": "260",
+    "flagEmoji": "🇿🇲",
+    "sortOrder": 348
+  },
+  {
+    "id": "zw",
+    "iso2": "ZW",
+    "name": "Zimbabwe",
+    "nameAr": null,
+    "dialCode": "263",
+    "flagEmoji": "🇿🇼",
+    "sortOrder": 349
+  }
+];

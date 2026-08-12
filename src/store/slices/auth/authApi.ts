@@ -5,7 +5,30 @@ type AuthClientResponse = { client: ApiClient };
 
 type RegisterResponse = {
   requiresVerification: true;
-  email: string;
+  channel: string;
+  otpToken: string;
+  expiresIn: number;
+  phone: string;
+  phoneMasked: string;
+  message: string;
+};
+
+type ResendPhoneResponse = {
+  phone: string;
+  phoneMasked: string;
+  channel: string;
+  otpToken: string;
+  expiresIn: number;
+  message: string;
+};
+
+type ForgotPasswordResponse = {
+  ok: true;
+  channel: string;
+  otpToken?: string;
+  expiresIn?: number;
+  phoneMasked?: string;
+  email?: string;
   message: string;
 };
 
@@ -17,7 +40,11 @@ export const authApi = baseApi.injectEndpoints({
       providesTags: ["Me"],
     }),
 
-    login: builder.mutation<ApiClient, { email: string; password: string }>({
+    login: builder.mutation<
+      ApiClient,
+      | { email: string; password: string }
+      | { countryCode: string; phone: string; password: string }
+    >({
       query: (body) => ({
         url: "/auth/login",
         method: "POST",
@@ -29,7 +56,14 @@ export const authApi = baseApi.injectEndpoints({
 
     register: builder.mutation<
       RegisterResponse,
-      { name: string; email: string; password: string; phone?: string }
+      {
+        name: string;
+        password: string;
+        countryCode: string;
+        phone: string;
+        countryId?: string;
+        email?: string | null;
+      }
     >({
       query: (body) => ({
         url: "/auth/register",
@@ -40,7 +74,13 @@ export const authApi = baseApi.injectEndpoints({
 
     verifyOtp: builder.mutation<
       ApiClient,
-      { email: string; code: string }
+      | { email: string; code: string }
+      | {
+          code: string;
+          otpToken: string;
+          countryCode?: string;
+          phone?: string;
+        }
     >({
       query: (body) => ({
         url: "/auth/verify-otp",
@@ -51,9 +91,44 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["Me", "Orders"],
     }),
 
-    resendOtp: builder.mutation<{ email: string; message: string }, { email: string }>({
+    resendOtp: builder.mutation<
+      | { email: string; message: string }
+      | ResendPhoneResponse,
+      | { email: string }
+      | { countryCode: string; phone: string }
+    >({
       query: (body) => ({
         url: "/auth/resend-otp",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    forgotPassword: builder.mutation<
+      ForgotPasswordResponse,
+      | { email: string }
+      | { countryCode: string; phone: string }
+    >({
+      query: (body) => ({
+        url: "/auth/password/forgot",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    resetPassword: builder.mutation<
+      { updated: boolean; message: string },
+      | { email: string; code: string; newPassword: string }
+      | {
+          code: string;
+          newPassword: string;
+          otpToken: string;
+          countryCode?: string;
+          phone?: string;
+        }
+    >({
+      query: (body) => ({
+        url: "/auth/password/reset",
         method: "POST",
         body,
       }),
@@ -133,6 +208,8 @@ export const {
   useRegisterMutation,
   useVerifyOtpMutation,
   useResendOtpMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
   useUpdateProfileMutation,
   useChangePasswordMutation,
   useRequestEmailChangeMutation,

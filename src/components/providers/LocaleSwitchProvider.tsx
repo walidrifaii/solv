@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   createContext,
   useCallback,
@@ -9,12 +10,12 @@ import {
   type ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
+import { images } from "@/constants/images";
 import { getDirection, type Locale } from "@/i18n/config";
 import { setLocale as setLocaleAction } from "@/i18n/locale";
 
 const SWITCH_MS = 900;
 const FADE_MS = 350;
-const LETTERS = ["S", "O", "L", "V"] as const;
 
 type LocaleSwitchContextValue = {
   switching: boolean;
@@ -109,18 +110,12 @@ export function LocaleSwitchProvider({ children }: { children: ReactNode }) {
           role="status"
         >
           <div className="preloader-logo preloader-logo--switch" aria-label="SOLV">
-            {LETTERS.map((letter, index) => (
-              <span
-                key={letter}
-                className="preloader-letter"
-                style={{ ["--i" as string]: index }}
-              >
-                <span className="preloader-letter-draw" aria-hidden>
-                  {letter}
-                </span>
-                <span className="preloader-letter-fill">{letter}</span>
-              </span>
-            ))}
+            <Image
+              src={images.logoBlack}
+              alt="SOLV"
+              className="preloader-logo-img h-auto w-[min(12rem,48vw)] object-contain sm:w-[min(16rem,42vw)]"
+              priority
+            />
           </div>
           <div className="preloader-rule preloader-rule--switch" aria-hidden />
           <p className="preloader-tagline preloader-tagline--switch mt-5 text-[10px] tracking-[0.32em] text-white/45 uppercase sm:text-[11px]">

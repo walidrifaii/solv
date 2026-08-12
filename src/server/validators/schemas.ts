@@ -1,28 +1,129 @@
 import { z } from "zod";
 
+const otpCodeSchema = z
+  .string()
+  .trim()
+  .regex(/^\d{6}$/, "Enter the 6-digit code");
+
+const countryCodeSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(8)
+  .transform((v) => v.replace(/[^\d+]/g, ""));
+
+const nationalPhoneSchema = z.string().trim().min(5).max(20);
+
+/** Phone-primary signup; email optional. */
 export const registerSchema = z.object({
   name: z.string().trim().min(2).max(120),
-  email: z.string().trim().email().max(160),
   password: z.string().min(8).max(72),
-  phone: z.string().trim().max(40).optional().nullable(),
+  countryCode: countryCodeSchema,
+  phone: nationalPhoneSchema,
+  countryId: z.string().trim().min(2).max(8).optional(),
+  email: z.string().trim().email().max(160).optional().nullable(),
 });
 
-export const loginSchema = z.object({
+/** Login with phone (country + number) or email. */
+export const loginSchema = z
+  .object({
+    password: z.string().min(1).max(72),
+    email: z.string().trim().email().max(160).optional(),
+    countryCode: countryCodeSchema.optional(),
+    phone: nationalPhoneSchema.optional(),
+  })
+  .superRefine((data, ctx) => {
+    const hasEmail = Boolean(data.email);
+    const hasPhone = Boolean(data.countryCode && data.phone);
+    if (!hasEmail && !hasPhone) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Provide email or phone",
+        path: ["phone"],
+      });
+    }
+  });
+
+export const adminLoginSchema = z.object({
   email: z.string().trim().email().max(160),
   password: z.string().min(1).max(72),
 });
 
-export const verifyOtpSchema = z.object({
-  email: z.string().trim().email().max(160),
-  code: z
-    .string()
-    .trim()
-    .regex(/^\d{6}$/, "Enter the 6-digit code"),
-});
+export const verifyOtpSchema = z
+  .object({
+    code: otpCodeSchema,
+    otpToken: z.string().trim().min(20).optional(),
+    email: z.string().trim().email().max(160).optional(),
+    countryCode: countryCodeSchema.optional(),
+    phone: nationalPhoneSchema.optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.otpToken) return;
+    if (!data.email) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Email or otpToken is required",
+        path: ["email"],
+      });
+    }
+  });
 
-export const resendOtpSchema = z.object({
-  email: z.string().trim().email().max(160),
-});
+export const resendOtpSchema = z
+  .object({
+    email: z.string().trim().email().max(160).optional(),
+    countryCode: countryCodeSchema.optional(),
+    phone: nationalPhoneSchema.optional(),
+    otpToken: z.string().trim().min(20).optional(),
+  })
+  .superRefine((data, ctx) => {
+    const hasEmail = Boolean(data.email);
+    const hasPhone = Boolean(data.countryCode && data.phone);
+    if (!hasEmail && !hasPhone) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Provide email or phone",
+        path: ["phone"],
+      });
+    }
+  });
+
+export const forgotPasswordSchema = z
+  .object({
+    email: z.string().trim().email().max(160).optional(),
+    countryCode: countryCodeSchema.optional(),
+    phone: nationalPhoneSchema.optional(),
+  })
+  .superRefine((data, ctx) => {
+    const hasEmail = Boolean(data.email);
+    const hasPhone = Boolean(data.countryCode && data.phone);
+    if (!hasEmail && !hasPhone) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Provide email or phone",
+        path: ["phone"],
+      });
+    }
+  });
+
+export const resetPasswordSchema = z
+  .object({
+    code: otpCodeSchema,
+    newPassword: z.string().min(8).max(72),
+    otpToken: z.string().trim().min(20).optional(),
+    email: z.string().trim().email().max(160).optional(),
+    countryCode: countryCodeSchema.optional(),
+    phone: nationalPhoneSchema.optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.otpToken) return;
+    if (!data.email) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Email or otpToken is required",
+        path: ["email"],
+      });
+    }
+  });
 
 export const updateProfileSchema = z
   .object({
@@ -50,10 +151,7 @@ export const adminRequestPasswordChangeSchema = z
   });
 
 export const adminConfirmPasswordChangeSchema = z.object({
-  code: z
-    .string()
-    .trim()
-    .regex(/^\d{6}$/, "Enter the 6-digit code"),
+  code: otpCodeSchema,
 });
 
 export const requestEmailChangeSchema = z.object({
@@ -62,12 +160,8 @@ export const requestEmailChangeSchema = z.object({
 
 export const confirmEmailChangeSchema = z.object({
   email: z.string().trim().email().max(160),
-  code: z
-    .string()
-    .trim()
-    .regex(/^\d{6}$/, "Enter the 6-digit code"),
+  code: otpCodeSchema,
 });
-
 export const subscribeSchema = z.object({
   email: z.string().trim().email().max(160),
 });

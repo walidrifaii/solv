@@ -30,6 +30,21 @@ const envSchema = z.object({
   MAIL_FROM_NAME: z.string().optional(),
   MAIL_ORDER_NOTIFY_TO: z.string().email().optional(),
   MAIL_CONTACT_TO: z.string().email().optional(),
+  OTP_WHATSAPP_NODE_ENABLED: z
+    .string()
+    .optional()
+    .transform((v) => (v ?? "false").toLowerCase() === "true"),
+  WHATSAPP_NODE_URL: z.string().url().optional(),
+  WHATSAPP_NODE_TOKEN: z.string().optional(),
+  WHATSAPP_NODE_CLIENT_ID: z.string().optional(),
+  WHATSAPP_NODE_PHONE_FORMAT: z
+    .string()
+    .optional()
+    .transform((v) => (v ?? "DIGITS").toUpperCase())
+    .pipe(z.enum(["DIGITS", "E164"])),
+  WHATSAPP_NODE_TIMEOUT: z.coerce.number().int().positive().default(35),
+  OTP_PEPPER: z.string().min(16).optional(),
+  OTP_TTL_SECONDS: z.coerce.number().int().positive().default(300),
   NODE_ENV: z.enum(["development", "test", "production"]).optional(),
 });
 

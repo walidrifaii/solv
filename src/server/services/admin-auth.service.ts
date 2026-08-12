@@ -13,14 +13,14 @@ import {
 import { ApiError, ok } from "@/server/utils/http";
 import type {
   adminConfirmPasswordChangeSchema,
+  adminLoginSchema,
   adminRequestPasswordChangeSchema,
-  loginSchema,
 } from "@/server/validators/schemas";
 import type { z } from "zod";
 import { createEmailOtp, consumeEmailOtp } from "@/server/mail/otp";
 import { sendAdminPasswordChangeOtpEmail } from "@/server/mail/auth-emails";
 
-type LoginInput = z.infer<typeof loginSchema>;
+type LoginInput = z.infer<typeof adminLoginSchema>;
 type AdminRequestPasswordChangeInput = z.infer<
   typeof adminRequestPasswordChangeSchema
 >;

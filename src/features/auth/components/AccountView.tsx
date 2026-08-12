@@ -191,7 +191,9 @@ export function AccountView() {
             <h2 className="font-serif text-2xl font-medium sm:text-3xl">
               {t("welcome", { name: client.name })}
             </h2>
-            <p className="mt-1 text-sm text-[#7a6b5d]">{client.email}</p>
+            <p className="mt-1 text-sm text-[#7a6b5d]">
+              {client.phone || client.email || ""}
+            </p>
           </div>
           <button
             type="button"
@@ -328,7 +330,7 @@ export function AccountView() {
                 {t("email.heading")}
               </h2>
               <p className="mt-1 text-sm text-[#7a6b5d]">
-                {t("email.current", { email: client.email })}
+                {t("email.current", { email: client.email || "—" })}
               </p>
               <form onSubmit={handleRequestEmail} className="mt-4 space-y-3">
                 <div>

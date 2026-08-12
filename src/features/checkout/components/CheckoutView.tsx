@@ -62,7 +62,7 @@ export function CheckoutView() {
   useEffect(() => {
     if (!client) return;
     setName(client.name);
-    setEmail(client.email);
+    setEmail(client.email ?? "");
     if (client.phone) setPhone(stripQatarCountryCode(client.phone));
   }, [client]);
 

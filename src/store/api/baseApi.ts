@@ -28,6 +28,8 @@ function shouldSkipReauth(url: string) {
     url.includes("/auth/register") ||
     url.includes("/auth/verify-otp") ||
     url.includes("/auth/resend-otp") ||
+    url.includes("/auth/password/forgot") ||
+    url.includes("/auth/password/reset") ||
     url.includes("/admin/auth/login") ||
     url.includes("/admin/auth/logout") ||
     url.includes("/auth/logout")
@@ -137,6 +139,7 @@ export const baseApi = createApi({
     "Products",
     "Categories",
     "Cities",
+    "Countries",
     "Slides",
     "AdminProducts",
     "AdminCategories",

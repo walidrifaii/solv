@@ -2,18 +2,12 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, type FormEvent } from "react";
 import { PasswordInput } from "@/components/ui/PasswordInput";
-import {
-  CountryCodeSelect,
-  useDefaultCountry,
-} from "@/features/auth/components/CountryCodeSelect";
-import { authCopy } from "@/features/auth/data";
 import { ROUTES } from "@/constants/routes";
-import { useRegisterMutation } from "@/store/slices";
+import { useResetPasswordMutation } from "@/store/slices";
 import { getApiErrorMessage } from "@/store/api/errors";
-import type { ApiCountry } from "@/store/api/types";
 
 const inputClass =
   "w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962] sm:text-base";
@@ -21,63 +15,70 @@ const inputClass =
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
-export function RegisterForm() {
-  const t = useTranslations("auth.register");
-  const tPhone = useTranslations("auth.phone");
-  const copy = authCopy.register;
+export function ResetPasswordForm() {
+  const t = useTranslations("auth.reset");
   const router = useRouter();
-  const [register, { isLoading }] = useRegisterMutation();
-  const defaultCountry = useDefaultCountry();
+  const searchParams = useSearchParams();
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
-  const [name, setName] = useState("");
-  const [country, setCountry] = useState<ApiCountry | null>(null);
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const otpToken = searchParams.get("otpToken")?.trim() ?? "";
+  const email = searchParams.get("email")?.trim() ?? "";
+  const dial = searchParams.get("dial")?.trim() ?? "";
+  const national = searchParams.get("national")?.trim() ?? "";
+  const phoneMasked = searchParams.get("phoneMasked")?.trim() ?? "";
+  const channel = searchParams.get("channel")?.trim() ?? "";
+
+  const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (!country && defaultCountry) setCountry(defaultCountry);
-  }, [country, defaultCountry]);
+  const [info, setInfo] = useState(
+    channel === "whatsapp_node"
+      ? t("hintWhatsapp", { phone: phoneMasked || national })
+      : email
+        ? t("hintEmail", { email })
+        : "",
+  );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+    setInfo("");
 
-    if (!name.trim() || !phone.trim() || !password || !confirmPassword || !country) {
+    if (!/^\d{6}$/.test(code.trim()) || !password || !confirmPassword) {
       setError(t("validation"));
       return;
     }
-
     if (password.length < 8) {
       setError(t("passwordTooShort"));
       return;
     }
-
     if (password !== confirmPassword) {
       setError(t("passwordMismatch"));
       return;
     }
 
     try {
-      const result = await register({
-        name: name.trim(),
-        password,
-        countryCode: `+${country.dialCode}`,
-        phone: phone.trim(),
-        countryId: country.id,
-        email: email.trim() || null,
-      }).unwrap();
-
-      const params = new URLSearchParams({
-        phone: result.phone,
-        otpToken: result.otpToken,
-        countryId: country.id,
-        dial: country.dialCode,
-        national: phone.trim(),
-      });
-      router.push(`${ROUTES.verify}?${params.toString()}`);
+      if (otpToken) {
+        await resetPassword({
+          code: code.trim(),
+          newPassword: password,
+          otpToken,
+          ...(dial && national
+            ? { countryCode: `+${dial}`, phone: national }
+            : {}),
+        }).unwrap();
+      } else if (email) {
+        await resetPassword({
+          email,
+          code: code.trim(),
+          newPassword: password,
+        }).unwrap();
+      } else {
+        setError(t("missingContext"));
+        return;
+      }
+      router.push(`${ROUTES.login}?reset=1`);
       router.refresh();
     } catch (err) {
       setError(getApiErrorMessage(err, t("error")));
@@ -98,75 +99,32 @@ export function RegisterForm() {
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
         <div>
-          <label htmlFor="register-name" className={labelClass}>
-            {t("name")}
+          <label htmlFor="reset-code" className={labelClass}>
+            {t("code")}
           </label>
           <input
-            id="register-name"
+            id="reset-code"
             type="text"
-            autoComplete="name"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            maxLength={6}
             required
-            value={name}
+            value={code}
             onChange={(event) => {
-              setName(event.target.value);
+              setCode(event.target.value.replace(/\D/g, "").slice(0, 6));
               setError("");
             }}
-            className={inputClass}
-            placeholder={t("namePlaceholder")}
+            className={`${inputClass} tracking-[0.35em] text-center`}
+            placeholder="000000"
           />
         </div>
 
         <div>
-          <label htmlFor="register-phone" className={labelClass}>
-            {tPhone("phone")}
-          </label>
-          <div className="flex gap-2">
-            <CountryCodeSelect
-              id="register-country"
-              value={country?.id ?? "qa"}
-              onChange={setCountry}
-            />
-            <input
-              id="register-phone"
-              type="tel"
-              inputMode="numeric"
-              autoComplete="tel-national"
-              required
-              value={phone}
-              onChange={(event) => {
-                setPhone(event.target.value.replace(/[^\d]/g, "").slice(0, 15));
-                setError("");
-              }}
-              className={inputClass}
-              placeholder={tPhone("phonePlaceholder")}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="register-email" className={labelClass}>
-            {t("emailOptional")}
-          </label>
-          <input
-            id="register-email"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-              setError("");
-            }}
-            className={inputClass}
-            placeholder={t("emailPlaceholder")}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="register-password" className={labelClass}>
-            {t("password")}
+          <label htmlFor="reset-password" className={labelClass}>
+            {t("newPassword")}
           </label>
           <PasswordInput
-            id="register-password"
+            id="reset-password"
             autoComplete="new-password"
             required
             value={password}
@@ -180,11 +138,11 @@ export function RegisterForm() {
         </div>
 
         <div>
-          <label htmlFor="register-confirm" className={labelClass}>
+          <label htmlFor="reset-confirm" className={labelClass}>
             {t("confirmPassword")}
           </label>
           <PasswordInput
-            id="register-confirm"
+            id="reset-confirm"
             autoComplete="new-password"
             required
             value={confirmPassword}
@@ -202,6 +160,11 @@ export function RegisterForm() {
             {error}
           </p>
         ) : null}
+        {info ? (
+          <p className="text-sm text-[#4f6b45]" role="status">
+            {info}
+          </p>
+        ) : null}
 
         <button
           type="submit"
@@ -213,12 +176,11 @@ export function RegisterForm() {
       </form>
 
       <p className="mt-8 text-sm text-[#7a6b5d]">
-        {t("switchPrompt")}{" "}
         <Link
-          href={copy.switchHref}
+          href={ROUTES.forgotPassword}
           className="font-medium text-[#a5a196] underline-offset-2 transition-colors hover:text-[#C9A962] hover:underline"
         >
-          {t("switchLabel")}
+          {t("requestAgain")}
         </Link>
       </p>
     </div>

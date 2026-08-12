@@ -1,5 +1,6 @@
 import { DiscountType, PrismaClient } from "../src/generated/prisma";
 import productsJson from "../src/data/products.json";
+import { countries } from "./data/countries";
 import { qatarCities } from "./data/qatar-cities";
 import { hashPassword } from "../src/server/auth/password";
 
@@ -162,6 +163,31 @@ async function main() {
     });
   }
 
+  for (const country of countries) {
+    await prisma.country.upsert({
+      where: { id: country.id },
+      update: {
+        name: country.name,
+        nameAr: country.nameAr,
+        iso2: country.iso2,
+        dialCode: country.dialCode,
+        flagEmoji: country.flagEmoji,
+        sortOrder: country.sortOrder,
+        isActive: true,
+      },
+      create: {
+        id: country.id,
+        name: country.name,
+        nameAr: country.nameAr,
+        iso2: country.iso2,
+        dialCode: country.dialCode,
+        flagEmoji: country.flagEmoji,
+        sortOrder: country.sortOrder,
+        isActive: true,
+      },
+    });
+  }
+
   for (const category of categories) {
     await prisma.category.upsert({
       where: { id: category.id },
@@ -224,7 +250,7 @@ async function main() {
   }
 
   console.log(
-    `Seeded ${heroSlides.length} hero slides, ${qatarCities.length} cities, ${categories.length} categories and ${productsJson.length} products.`,
+    `Seeded ${heroSlides.length} hero slides, ${qatarCities.length} cities, ${countries.length} countries, ${categories.length} categories and ${productsJson.length} products.`,
   );
 
   const adminEmail = (

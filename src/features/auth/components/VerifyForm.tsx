@@ -21,15 +21,27 @@ export function VerifyForm() {
   const t = useTranslations("auth.verify");
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const emailFromQuery = searchParams.get("email")?.trim() ?? "";
+  const phoneFromQuery = searchParams.get("phone")?.trim() ?? "";
+  const otpTokenFromQuery = searchParams.get("otpToken")?.trim() ?? "";
+  const dialFromQuery = searchParams.get("dial")?.trim() ?? "";
+  const nationalFromQuery = searchParams.get("national")?.trim() ?? "";
+
+  const isPhoneFlow = Boolean(otpTokenFromQuery || phoneFromQuery);
 
   const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
   const [resendOtp, { isLoading: resending }] = useResendOtpMutation();
   const [email, setEmail] = useState(emailFromQuery);
+  const [otpToken, setOtpToken] = useState(otpTokenFromQuery);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [info, setInfo] = useState(
-    emailFromQuery ? t("codeSent", { email: emailFromQuery }) : "",
+    isPhoneFlow
+      ? t("codeSentPhone", { phone: phoneFromQuery || nationalFromQuery })
+      : emailFromQuery
+        ? t("codeSent", { email: emailFromQuery })
+        : "",
   );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -37,13 +49,34 @@ export function VerifyForm() {
     setError("");
     setInfo("");
 
-    if (!email.trim() || !/^\d{6}$/.test(code.trim())) {
+    if (!/^\d{6}$/.test(code.trim())) {
       setError(t("validation"));
       return;
     }
 
     try {
-      await verifyOtp({ email: email.trim(), code: code.trim() }).unwrap();
+      if (isPhoneFlow) {
+        if (!otpToken) {
+          setError(t("tokenRequired"));
+          return;
+        }
+        await verifyOtp({
+          code: code.trim(),
+          otpToken,
+          ...(dialFromQuery && nationalFromQuery
+            ? {
+                countryCode: `+${dialFromQuery}`,
+                phone: nationalFromQuery,
+              }
+            : {}),
+        }).unwrap();
+      } else {
+        if (!email.trim()) {
+          setError(t("validation"));
+          return;
+        }
+        await verifyOtp({ email: email.trim(), code: code.trim() }).unwrap();
+      }
       router.push(ROUTES.account);
       router.refresh();
     } catch (err) {
@@ -54,13 +87,28 @@ export function VerifyForm() {
   async function handleResend() {
     setError("");
     setInfo("");
-    if (!email.trim()) {
-      setError(t("emailRequired"));
-      return;
-    }
     try {
-      const result = await resendOtp({ email: email.trim() }).unwrap();
-      setInfo(result.message);
+      if (isPhoneFlow) {
+        if (!dialFromQuery || !nationalFromQuery) {
+          setError(t("phoneRequired"));
+          return;
+        }
+        const result = await resendOtp({
+          countryCode: `+${dialFromQuery}`,
+          phone: nationalFromQuery,
+        }).unwrap();
+        if ("otpToken" in result) {
+          setOtpToken(result.otpToken);
+          setInfo(result.message);
+        }
+      } else {
+        if (!email.trim()) {
+          setError(t("emailRequired"));
+          return;
+        }
+        const result = await resendOtp({ email: email.trim() }).unwrap();
+        setInfo(result.message);
+      }
     } catch (err) {
       setError(getApiErrorMessage(err, t("resendError")));
     }
@@ -69,34 +117,36 @@ export function VerifyForm() {
   return (
     <div className="mx-auto w-full max-w-md">
       <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
-        {t("eyebrow")}
+        {t(isPhoneFlow ? "eyebrowPhone" : "eyebrow")}
       </p>
       <h1 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl">
         {t("title")}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-[#7a6b5d] sm:text-base">
-        {t("description")}
+        {t(isPhoneFlow ? "descriptionPhone" : "description")}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
-        <div>
-          <label htmlFor="verify-email" className={labelClass}>
-            {t("email")}
-          </label>
-          <input
-            id="verify-email"
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-              setError("");
-            }}
-            className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962] sm:text-base tracking-normal text-start"
-            placeholder={t("emailPlaceholder")}
-          />
-        </div>
+        {!isPhoneFlow ? (
+          <div>
+            <label htmlFor="verify-email" className={labelClass}>
+              {t("email")}
+            </label>
+            <input
+              id="verify-email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setError("");
+              }}
+              className="w-full rounded-md border border-[#ddd0c4] bg-white px-4 py-3 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] transition-colors focus:border-[#C9A962] sm:text-base tracking-normal text-start"
+              placeholder={t("emailPlaceholder")}
+            />
+          </div>
+        ) : null}
 
         <div>
           <label htmlFor="verify-code" className={labelClass}>
@@ -149,7 +199,7 @@ export function VerifyForm() {
       </button>
 
       <p className="mt-8 text-sm text-[#7a6b5d]">
-        {t("wrongEmail")}{" "}
+        {t(isPhoneFlow ? "wrongPhone" : "wrongEmail")}{" "}
         <Link
           href={ROUTES.register}
           className="font-medium text-[#a5a196] underline-offset-2 transition-colors hover:text-[#C9A962] hover:underline"

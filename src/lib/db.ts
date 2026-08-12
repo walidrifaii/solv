@@ -14,6 +14,7 @@ function isStalePrismaClient(client: PrismaClient) {
   const runtime = client as {
     admin?: unknown;
     city?: unknown;
+    country?: unknown;
     _runtimeDataModel?: {
       models?: Record<string, { fields?: Array<{ name: string }> }>;
       enums?: Record<string, { values?: Array<{ name: string }> }>;
@@ -23,6 +24,7 @@ function isStalePrismaClient(client: PrismaClient) {
   // After schema changes, HMR can keep a stale singleton missing new models/fields.
   if (typeof runtime.admin === "undefined") return true;
   if (typeof runtime.city === "undefined") return true;
+  if (typeof runtime.country === "undefined") return true;
 
   const orderItemFields = runtime._runtimeDataModel?.models?.OrderItem?.fields;
   if (
@@ -32,10 +34,18 @@ function isStalePrismaClient(client: PrismaClient) {
     return true;
   }
 
+  const clientFields = runtime._runtimeDataModel?.models?.ShopClient?.fields;
+  if (
+    Array.isArray(clientFields) &&
+    !clientFields.some((field) => field.name === "phoneVerifiedAt")
+  ) {
+    return true;
+  }
+
   const otpPurposeValues = runtime._runtimeDataModel?.enums?.OtpPurpose?.values;
   if (
     Array.isArray(otpPurposeValues) &&
-    !otpPurposeValues.some((value) => value.name === "ADMIN_PASSWORD_CHANGE")
+    !otpPurposeValues.some((value) => value.name === "PASSWORD_RESET")
   ) {
     return true;
   }

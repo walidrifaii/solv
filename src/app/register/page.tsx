@@ -4,7 +4,7 @@ import { RegisterForm } from "@/features/auth/components/RegisterForm";
 
 export const metadata: Metadata = {
   title: "Create Account | Solv",
-  description: "Create your SOLV account with email.",
+  description: "Create your SOLV account with phone and WhatsApp verification.",
 };
 
 export default function RegisterPage() {

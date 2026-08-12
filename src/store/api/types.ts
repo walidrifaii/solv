@@ -18,11 +18,22 @@ export type ApiFailure = {
 
 export type ApiClient = {
   id: string;
-  email: string;
+  email: string | null;
   name: string;
   phone: string | null;
+  phoneVerified?: boolean;
   emailVerified?: boolean;
   createdAt: string;
+};
+
+export type ApiCountry = {
+  id: string;
+  name: string;
+  nameAr: string | null;
+  iso2: string;
+  dialCode: string;
+  flagEmoji: string | null;
+  sortOrder: number;
 };
 
 export type ApiCategory = {

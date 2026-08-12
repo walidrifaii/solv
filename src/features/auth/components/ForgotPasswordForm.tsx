@@ -2,21 +2,15 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
-import { PasswordInput } from "@/components/ui/PasswordInput";
 import {
   CountryCodeSelect,
   useDefaultCountry,
 } from "@/features/auth/components/CountryCodeSelect";
-import { authCopy } from "@/features/auth/data";
 import { ROUTES } from "@/constants/routes";
-import { useLoginMutation } from "@/store/slices";
-import {
-  getApiErrorDetails,
-  getApiErrorMessage,
-  getApiErrorStatus,
-} from "@/store/api/errors";
+import { useForgotPasswordMutation } from "@/store/slices";
+import { getApiErrorMessage } from "@/store/api/errors";
 import type { ApiCountry } from "@/store/api/types";
 
 const inputClass =
@@ -25,27 +19,18 @@ const inputClass =
 const labelClass =
   "mb-1.5 block text-[11px] font-medium tracking-[0.14em] text-[#8a7a6c] uppercase";
 
-function safeNextPath(raw: string | null) {
-  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) {
-    return ROUTES.account;
-  }
-  return raw;
-}
-
-export function LoginForm() {
-  const t = useTranslations("auth.login");
+export function ForgotPasswordForm() {
+  const t = useTranslations("auth.forgot");
   const tPhone = useTranslations("auth.phone");
-  const copy = authCopy.login;
+  const tLogin = useTranslations("auth.login");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [login, { isLoading }] = useLoginMutation();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
   const defaultCountry = useDefaultCountry();
 
   const [mode, setMode] = useState<"phone" | "email">("phone");
   const [country, setCountry] = useState<ApiCountry | null>(null);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -56,57 +41,45 @@ export function LoginForm() {
     event.preventDefault();
     setError("");
 
-    if (!password) {
-      setError(t("validation"));
-      return;
-    }
-
-    if (mode === "phone" && (!phone.trim() || !country)) {
-      setError(t("validation"));
-      return;
-    }
-    if (mode === "email" && !email.trim()) {
-      setError(t("validation"));
-      return;
-    }
-
     try {
-      if (mode === "phone" && country) {
-        await login({
+      if (mode === "phone") {
+        if (!phone.trim() || !country) {
+          setError(t("validation"));
+          return;
+        }
+        const result = await forgotPassword({
           countryCode: `+${country.dialCode}`,
           phone: phone.trim(),
-          password,
         }).unwrap();
+
+        const params = new URLSearchParams({
+          channel: result.channel,
+        });
+        if (result.otpToken) params.set("otpToken", result.otpToken);
+        params.set("countryId", country.id);
+        params.set("dial", country.dialCode);
+        params.set("national", phone.trim());
+        if (result.phoneMasked) params.set("phoneMasked", result.phoneMasked);
+        router.push(`${ROUTES.resetPassword}?${params.toString()}`);
       } else {
-        await login({ email: email.trim(), password }).unwrap();
-      }
-      router.push(safeNextPath(searchParams.get("next")));
-      router.refresh();
-    } catch (err) {
-      const details = getApiErrorDetails(err);
-      if (getApiErrorStatus(err) === 403 && details?.code === "PHONE_NOT_VERIFIED") {
-        const params = new URLSearchParams();
-        if (typeof details.phone === "string") params.set("phone", details.phone);
-        if (country) {
-          params.set("countryId", country.id);
-          params.set("dial", country.dialCode);
-          params.set("national", phone.trim());
+        if (!email.trim()) {
+          setError(t("validation"));
+          return;
         }
-        router.push(`${ROUTES.verify}?${params.toString()}`);
-        return;
+        const result = await forgotPassword({ email: email.trim() }).unwrap();
+        const params = new URLSearchParams({
+          channel: result.channel,
+        });
+        if (result.otpToken) {
+          params.set("otpToken", result.otpToken);
+          if (result.phoneMasked) params.set("phoneMasked", result.phoneMasked);
+        } else {
+          params.set("email", email.trim());
+        }
+        router.push(`${ROUTES.resetPassword}?${params.toString()}`);
       }
-      if (
-        getApiErrorStatus(err) === 403 &&
-        details?.code === "EMAIL_NOT_VERIFIED"
-      ) {
-        const verifyEmail =
-          typeof details.email === "string" ? details.email : email.trim();
-        router.push(
-          `${ROUTES.verify}?email=${encodeURIComponent(verifyEmail)}`,
-        );
-        return;
-      }
-      setError(getApiErrorMessage(err, t("invalidCredentials")));
+    } catch (err) {
+      setError(getApiErrorMessage(err, t("error")));
     }
   }
 
@@ -149,24 +122,24 @@ export function LoginForm() {
               : "bg-[#F6EDE6] text-[#7a6b5d] hover:text-[#a5a196]"
           }`}
         >
-          {t("email")}
+          {tLogin("email")}
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
         {mode === "phone" ? (
           <div>
-            <label htmlFor="login-phone" className={labelClass}>
+            <label htmlFor="forgot-phone" className={labelClass}>
               {tPhone("phone")}
             </label>
             <div className="flex gap-2">
               <CountryCodeSelect
-                id="login-country"
+                id="forgot-country"
                 value={country?.id ?? "qa"}
                 onChange={setCountry}
               />
               <input
-                id="login-phone"
+                id="forgot-phone"
                 type="tel"
                 inputMode="numeric"
                 autoComplete="tel-national"
@@ -183,11 +156,11 @@ export function LoginForm() {
           </div>
         ) : (
           <div>
-            <label htmlFor="login-email" className={labelClass}>
-              {t("email")}
+            <label htmlFor="forgot-email" className={labelClass}>
+              {tLogin("email")}
             </label>
             <input
-              id="login-email"
+              id="forgot-email"
               type="email"
               autoComplete="email"
               required
@@ -197,36 +170,10 @@ export function LoginForm() {
                 setError("");
               }}
               className={inputClass}
-              placeholder={t("emailPlaceholder")}
+              placeholder={tLogin("emailPlaceholder")}
             />
           </div>
         )}
-
-        <div>
-          <div className="mb-1.5 flex items-center justify-between gap-3">
-            <label htmlFor="login-password" className={labelClass + " mb-0"}>
-              {t("password")}
-            </label>
-            <Link
-              href={ROUTES.forgotPassword}
-              className="text-xs text-[#8a7a6c] transition-colors hover:text-[#a5a196]"
-            >
-              {t("forgotPassword")}
-            </Link>
-          </div>
-          <PasswordInput
-            id="login-password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-              setError("");
-            }}
-            className={inputClass}
-            placeholder={t("passwordPlaceholder")}
-          />
-        </div>
 
         {error ? (
           <p className="text-sm text-[#a35d5d]" role="alert">
@@ -244,12 +191,11 @@ export function LoginForm() {
       </form>
 
       <p className="mt-8 text-sm text-[#7a6b5d]">
-        {t("switchPrompt")}{" "}
         <Link
-          href={copy.switchHref}
+          href={ROUTES.login}
           className="font-medium text-[#a5a196] underline-offset-2 transition-colors hover:text-[#C9A962] hover:underline"
         >
-          {t("switchLabel")}
+          {t("backToLogin")}
         </Link>
       </p>
     </div>

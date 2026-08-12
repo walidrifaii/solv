@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState, type ReactNode } from "react";
+import { images } from "@/constants/images";
 
 const PRELOAD_MS = 1600;
 const FADE_MS = 400;
-const LETTERS = ["S", "O", "L", "V"] as const;
 
 export function Preloader({ children }: { children: ReactNode }) {
   const [visible, setVisible] = useState(true);
@@ -42,18 +43,12 @@ export function Preloader({ children }: { children: ReactNode }) {
           role="status"
         >
           <div className="preloader-logo" aria-label="SOLV">
-            {LETTERS.map((letter, index) => (
-              <span
-                key={letter}
-                className="preloader-letter"
-                style={{ ["--i" as string]: index }}
-              >
-                <span className="preloader-letter-draw" aria-hidden>
-                  {letter}
-                </span>
-                <span className="preloader-letter-fill">{letter}</span>
-              </span>
-            ))}
+            <Image
+              src={images.logoBlack}
+              alt="SOLV"
+              className="preloader-logo-img h-auto w-[min(16rem,55vw)] object-contain sm:w-[min(20rem,50vw)]"
+              priority
+            />
           </div>
 
           <div className="preloader-rule" aria-hidden />

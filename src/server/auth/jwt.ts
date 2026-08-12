@@ -8,13 +8,16 @@ function accessSecret() {
 
 export async function signAccessToken(payload: {
   clientId: string;
-  email: string;
+  email?: string | null;
+  phone?: string | null;
 }) {
   const env = getEnv();
   const expiresIn = parseExpiresToSeconds(env.JWT_ACCESS_EXPIRES);
+  const identity = payload.email || payload.phone || payload.clientId;
 
   return new SignJWT({
-    email: payload.email,
+    email: identity,
+    phone: payload.phone ?? null,
     typ: "access",
     role: "client",
   })
@@ -36,6 +39,7 @@ export async function verifyAccessToken(token: string) {
     return {
       id: payload.sub,
       email: payload.email,
+      phone: typeof payload.phone === "string" ? payload.phone : null,
     };
   } catch {
     return null;

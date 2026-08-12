@@ -9,6 +9,8 @@ export const ROUTES = {
   login: "/login",
   register: "/register",
   verify: "/verify",
+  forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
   cart: "/cart",
   checkout: "/checkout",
   discover: "/about",
