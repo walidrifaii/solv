@@ -9,6 +9,30 @@ type NodeSendResult = {
   error?: string;
 };
 
+function resolveClientId() {
+  const env = getEnv();
+  return (
+    env.WHATSAPP_NODE_CLIENT_ID?.trim() ||
+    env.OTP_DEFAULT_CLIENT_ID?.trim() ||
+    ""
+  );
+}
+
+function friendlyNodeError(status: number, raw?: string | null) {
+  const text = (raw || "").toLowerCase();
+  if (
+    status === 503 ||
+    text.includes("no connected whatsapp client") ||
+    text.includes("client available")
+  ) {
+    return "WhatsApp is temporarily unavailable. Open the WhatsApp Node dashboard, connect a client (scan QR), and set WHATSAPP_NODE_CLIENT_ID to that client id.";
+  }
+  if (status === 401 || status === 403) {
+    return "WhatsApp Node authentication failed. Check WHATSAPP_NODE_TOKEN.";
+  }
+  return raw || "Could not send WhatsApp verification code";
+}
+
 export async function sendWhatsAppNodeOtp(input: {
   phoneE164: string;
   code: string;
@@ -22,10 +46,10 @@ export async function sendWhatsAppNodeOtp(input: {
   }
 
   const url = env.WHATSAPP_NODE_URL?.replace(/\/$/, "");
-  const token = env.WHATSAPP_NODE_TOKEN;
-  const clientId = env.WHATSAPP_NODE_CLIENT_ID;
+  const token = env.WHATSAPP_NODE_TOKEN?.trim();
+  const clientId = resolveClientId();
 
-  if (!url || !token || !clientId) {
+  if (!url || !token) {
     throw new ApiError("WhatsApp Node is not configured", 503, {
       code: "node_not_configured",
     });
@@ -39,6 +63,16 @@ export async function sendWhatsAppNodeOtp(input: {
   const timeoutMs = env.WHATSAPP_NODE_TIMEOUT * 1000;
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
+  const body: Record<string, string> = {
+    phone: phoneForWhatsAppNode(input.phoneE164),
+    code: input.code,
+    message,
+  };
+  // Only send clientId when set — Node can fall back to OTP_DEFAULT_CLIENT_ID / any connected client.
+  if (clientId) {
+    body.clientId = clientId;
+  }
+
   try {
     const response = await fetch(`${url}/api/otp/send`, {
       method: "POST",
@@ -47,12 +81,7 @@ export async function sendWhatsAppNodeOtp(input: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({
-        phone: phoneForWhatsAppNode(input.phoneE164),
-        code: input.code,
-        clientId,
-        message,
-      }),
+      body: JSON.stringify(body),
       signal: controller.signal,
     });
 
@@ -64,14 +93,14 @@ export async function sendWhatsAppNodeOtp(input: {
     }
 
     if (!response.ok || !data?.ok) {
-      const messageText =
-        data?.error ||
-        (response.status === 503
-          ? "WhatsApp client is disconnected. Try again shortly."
-          : "Could not send WhatsApp verification code");
-      throw new ApiError(messageText, response.status >= 400 ? response.status : 502, {
-        code: "whatsapp_send_failed",
-      });
+      throw new ApiError(
+        friendlyNodeError(response.status, data?.error),
+        response.status >= 400 ? response.status : 502,
+        {
+          code: "whatsapp_send_failed",
+          nodeError: data?.error ?? null,
+        },
+      );
     }
 
     return {

@@ -37,6 +37,8 @@ const envSchema = z.object({
   WHATSAPP_NODE_URL: z.string().url().optional(),
   WHATSAPP_NODE_TOKEN: z.string().optional(),
   WHATSAPP_NODE_CLIENT_ID: z.string().optional(),
+  /** Fallback used by some Node installs when WHATSAPP_NODE_CLIENT_ID is empty. */
+  OTP_DEFAULT_CLIENT_ID: z.string().optional(),
   WHATSAPP_NODE_PHONE_FORMAT: z
     .string()
     .optional()
