@@ -30,10 +30,22 @@ function friendlyNodeError(status: number, raw?: string | null) {
   ) {
     return "WhatsApp is temporarily unavailable. Open the WhatsApp Node dashboard, connect a client (scan QR), and set WHATSAPP_NODE_CLIENT_ID to that client id.";
   }
+  if (text.includes("no lid for user") || text.includes("lid for user")) {
+    return "WhatsApp could not find this number (No LID). Confirm the number is on WhatsApp, use country code + national digits only (e.g. 96170657961), reconnect the WhatsApp client, then retry.";
+  }
+  if (
+    text.includes("not registered") ||
+    text.includes("not a whatsapp") ||
+    text.includes("no whatsapp user")
+  ) {
+    return "This phone number is not registered on WhatsApp.";
+  }
   if (status === 401 || status === 403) {
     return "WhatsApp Node authentication failed. Check WHATSAPP_NODE_TOKEN.";
   }
-  return raw || "Could not send WhatsApp verification code";
+  // Never show Node stack traces to the client
+  const firstLine = (raw || "").split("\n")[0]?.trim();
+  return firstLine || "Could not send WhatsApp verification code";
 }
 
 export async function sendWhatsAppNodeOtp(input: {
