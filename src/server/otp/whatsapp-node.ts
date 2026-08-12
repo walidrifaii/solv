@@ -14,11 +14,20 @@ type NodeSendResult = {
 
 function resolveClientId() {
   const env = getEnv();
-  return (
+  const clientId =
     env.WHATSAPP_NODE_CLIENT_ID?.trim() ||
     env.OTP_DEFAULT_CLIENT_ID?.trim() ||
-    ""
-  );
+    "";
+
+  // Node expects the session id (client_…), not a DB/Mongo _id.
+  if (clientId && !clientId.startsWith("client_")) {
+    console.warn(
+      "[whatsapp-node] WHATSAPP_NODE_CLIENT_ID should be the session id (client_…), not a DB _id. Got:",
+      clientId,
+    );
+  }
+
+  return clientId;
 }
 
 function friendlyNodeError(status: number, raw?: string | null) {
@@ -28,7 +37,7 @@ function friendlyNodeError(status: number, raw?: string | null) {
     text.includes("no connected whatsapp client") ||
     text.includes("client available")
   ) {
-    return "WhatsApp is temporarily unavailable. Open the WhatsApp Node dashboard, connect a client (scan QR), and set WHATSAPP_NODE_CLIENT_ID to that client id.";
+    return "WhatsApp is temporarily unavailable. Open the WhatsApp Node dashboard, connect a client (scan QR), and set WHATSAPP_NODE_CLIENT_ID to the session id (client_…), not the DB _id.";
   }
   if (text.includes("no lid for user") || text.includes("lid for user")) {
     return "WhatsApp could not find this number (No LID). Confirm the number is on WhatsApp, use country code + national digits only (e.g. 96170657961), reconnect the WhatsApp client, then retry.";
@@ -118,9 +127,26 @@ export async function sendWhatsAppNodeOtp(input: {
       );
     }
 
+    if (data.clientId && clientId && data.clientId !== clientId) {
+      console.warn(
+        "[whatsapp-node] Node used a different clientId than configured. configured=",
+        clientId,
+        "node=",
+        data.clientId,
+        "— set WHATSAPP_NODE_CLIENT_ID to the session id Node returns (client_…).",
+      );
+    }
+
     if (data.messageId == null) {
       console.warn(
         "[whatsapp-node] Node returned ok without messageId; clientId=",
+        data.clientId ?? null,
+      );
+    } else {
+      console.info(
+        "[whatsapp-node] Message delivered messageId=",
+        data.messageId,
+        "clientId=",
         data.clientId ?? null,
       );
     }

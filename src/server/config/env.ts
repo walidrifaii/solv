@@ -36,8 +36,9 @@ const envSchema = z.object({
     .transform((v) => (v ?? "false").toLowerCase() === "true"),
   WHATSAPP_NODE_URL: z.string().url().optional(),
   WHATSAPP_NODE_TOKEN: z.string().optional(),
+  /** WhatsApp Node session id, e.g. client_e66245b6e35f — not the DB/Mongo _id. */
   WHATSAPP_NODE_CLIENT_ID: z.string().optional(),
-  /** Fallback used by some Node installs when WHATSAPP_NODE_CLIENT_ID is empty. */
+  /** Fallback used by some Node installs when WHATSAPP_NODE_CLIENT_ID is empty. Same client_… format. */
   OTP_DEFAULT_CLIENT_ID: z.string().optional(),
   WHATSAPP_NODE_PHONE_FORMAT: z
     .string()
