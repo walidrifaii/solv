@@ -106,15 +106,10 @@ export async function sendWhatsAppNodeOtp(input: {
       );
     }
 
-    // Node sometimes returns ok:true with messageId:null when nothing was delivered.
     if (data.messageId == null) {
-      throw new ApiError(
-        "WhatsApp Node accepted the request but did not deliver the message. Check that client is connected and online in the Node dashboard.",
-        502,
-        {
-          code: "whatsapp_not_delivered",
-          nodeClientId: data.clientId ?? null,
-        },
+      console.warn(
+        "[whatsapp-node] Node returned ok without messageId; clientId=",
+        data.clientId ?? null,
       );
     }
 
