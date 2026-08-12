@@ -156,24 +156,40 @@ async function issueWhatsAppOtp(input: {
 
 async function findClientByPhoneE164(phoneE164: string) {
   const digits = digitsOnly(phoneE164);
+  if (!digits) return null;
+
   const candidates = Array.from(
-    new Set([phoneE164, digits, `+${digits}`].filter(Boolean)),
+    new Set([phoneE164, digits, `+${digits}`, `00${digits}`].filter(Boolean)),
   );
 
-  for (const phone of candidates) {
-    const row = await prisma.shopClient.findFirst({
-      where: { phone },
-    });
-    if (row) return row;
-  }
-  return null;
+  const direct = await prisma.shopClient.findFirst({
+    where: { phone: { in: candidates } },
+  });
+  if (direct) return direct;
+
+  // Fallback: same digits stored with spaces/dashes/odd prefixes.
+  // MySQL: strip non-digits in app after a narrow LIKE filter.
+  const loose = await prisma.shopClient.findMany({
+    where: {
+      OR: [
+        { phone: { endsWith: digits.slice(-8) } },
+        { phone: { contains: digits.slice(-8) } },
+      ],
+    },
+    take: 25,
+  });
+  return (
+    loose.find((row) => row.phone && digitsOnly(row.phone) === digits) ?? null
+  );
 }
 
-function isVerifiedClient(client: {
-  phoneVerifiedAt: Date | null;
-  emailVerifiedAt: Date | null;
-}) {
-  return Boolean(client.phoneVerifiedAt || client.emailVerifiedAt);
+/** Phone is taken only after WhatsApp/phone OTP verification — not email. */
+function isPhoneRegistered(client: { phoneVerifiedAt: Date | null }) {
+  return Boolean(client.phoneVerifiedAt);
+}
+
+function isEmailRegistered(client: { emailVerifiedAt: Date | null }) {
+  return Boolean(client.emailVerifiedAt);
 }
 
 export async function registerClient(input: RegisterInput) {
@@ -199,8 +215,8 @@ export async function registerClient(input: RegisterInput) {
     );
   }
 
-  // Only block verified phone accounts. Unverified leftovers can be reused.
-  if (existingByPhone && isVerifiedClient(existingByPhone)) {
+  // Only block phones that completed verification. Unverified leftovers are reused.
+  if (existingByPhone && isPhoneRegistered(existingByPhone)) {
     throw new ApiError("Phone number is already registered", 409);
   }
 
@@ -214,7 +230,7 @@ export async function registerClient(input: RegisterInput) {
     if (
       existingByEmail &&
       existingByEmail.id !== existingByPhone?.id &&
-      isVerifiedClient(existingByEmail)
+      isEmailRegistered(existingByEmail)
     ) {
       throw new ApiError("Email is already registered", 409);
     }
@@ -227,7 +243,7 @@ export async function registerClient(input: RegisterInput) {
     email &&
     existingByEmail &&
     existingByEmail.id !== existingByPhone?.id &&
-    !isVerifiedClient(existingByEmail)
+    !isEmailRegistered(existingByEmail)
   ) {
     await prisma.shopClient.update({
       where: { id: existingByEmail.id },
@@ -243,6 +259,7 @@ export async function registerClient(input: RegisterInput) {
     countryId,
     phone: phoneE164,
     phoneVerifiedAt: null as Date | null,
+    emailVerifiedAt: null as Date | null,
   };
 
   async function writeClient(withoutCountry = false) {
@@ -260,10 +277,7 @@ export async function registerClient(input: RegisterInput) {
     }
 
     return prisma.shopClient.create({
-      data: {
-        ...data,
-        emailVerifiedAt: null,
-      },
+      data,
     });
   }
 
@@ -286,24 +300,25 @@ export async function registerClient(input: RegisterInput) {
     if (code === "P2003") {
       client = await writeClient(true);
     } else if (code === "P2002") {
-      // Unique conflict — try to recover unverified leftovers, never fake "already exists"
+      // Unique conflict — recover unverified leftovers; never claim "already exists" wrongly
       const conflictPhone = await findClientByPhoneE164(phoneE164);
-      if (conflictPhone && !isVerifiedClient(conflictPhone)) {
+      if (conflictPhone && !isPhoneRegistered(conflictPhone)) {
         existingByPhone = conflictPhone;
         client = await writeClient(true);
       } else if (email) {
         const conflictEmail = await prisma.shopClient.findUnique({
           where: { email },
         });
-        if (conflictEmail && !isVerifiedClient(conflictEmail)) {
+        if (conflictEmail && !isEmailRegistered(conflictEmail)) {
           await prisma.shopClient.update({
             where: { id: conflictEmail.id },
             data: { email: null },
           });
+          existingByPhone = conflictPhone;
           client = await writeClient(true);
-        } else if (conflictPhone && isVerifiedClient(conflictPhone)) {
+        } else if (conflictPhone && isPhoneRegistered(conflictPhone)) {
           throw new ApiError("Phone number is already registered", 409);
-        } else if (conflictEmail && isVerifiedClient(conflictEmail)) {
+        } else if (conflictEmail && isEmailRegistered(conflictEmail)) {
           throw new ApiError("Email is already registered", 409);
         } else {
           console.error("[register] unique conflict", { target, error });
@@ -313,8 +328,11 @@ export async function registerClient(input: RegisterInput) {
             { code: "unique_conflict", target },
           );
         }
-      } else if (conflictPhone && isVerifiedClient(conflictPhone)) {
+      } else if (conflictPhone && isPhoneRegistered(conflictPhone)) {
         throw new ApiError("Phone number is already registered", 409);
+      } else if (conflictPhone && !isPhoneRegistered(conflictPhone)) {
+        existingByPhone = conflictPhone;
+        client = await writeClient(true);
       } else {
         console.error("[register] unique conflict", { target, error });
         throw new ApiError(

@@ -105,7 +105,11 @@ export function handleRouteError(error: unknown) {
   }
   if (code === "P2002") {
     console.error(error);
-    return fail("This account already exists", 409, { code: "unique_constraint" });
+    return fail(
+      "Could not save because this value is already in use. If you already started signup, try again or use a different phone/email.",
+      409,
+      { code: "unique_constraint" },
+    );
   }
   if (code === "P2003") {
     console.error(error);
