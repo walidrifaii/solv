@@ -50,7 +50,7 @@ model Country {
 
 model ShopClient {
   id              String    @id @default(cuid())
-  email           String?   @unique @db.VarChar(160)
+  email           String?   @unique @db.VarChar(191)
   passwordHash    String    @map("password_hash") @db.VarChar(255)
   name            String    @db.VarChar(120)
   /// E.164 with leading +, e.g. +97433123456
