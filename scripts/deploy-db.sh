@@ -1,13 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-# Creates/updates all Prisma tables (including cities) and seeds Qatar cities.
-# Run once after deploy or whenever the schema/cities list changes.
-#
-# Usage (Easypanel / SSH on server):
-#   DATABASE_URL="mysql://..." npm run db:deploy
-#
-# Cities only (table must already exist):
-#   DATABASE_URL="mysql://..." npm run db:seed:cities
+# Applies schema + seeds cities/countries. Used by Docker entrypoint / Easypanel.
+# Prefer: container start runs this automatically via scripts/docker-entrypoint.sh
 
-npm run db:deploy
+node scripts/bootstrap-db.js
