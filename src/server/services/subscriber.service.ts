@@ -15,6 +15,7 @@ export async function subscribeEmail(email: string) {
           unsubscribedAt: null,
           subscribedAt: new Date(),
         },
+        // test 
       });
       return {
         id: revived.id,
