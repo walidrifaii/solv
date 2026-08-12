@@ -157,11 +157,29 @@ async function issueWhatsAppOtp(input: {
 export async function registerClient(input: RegisterInput) {
   const phoneE164 = toE164(input.countryCode, input.phone);
   const email = input.email?.trim().toLowerCase() || null;
-  const countryId = await resolveCountryId(input.countryId, input.countryCode);
+  let countryId: string | null = null;
+  try {
+    countryId = await resolveCountryId(input.countryId, input.countryCode);
+  } catch (error) {
+    console.warn("[register] country lookup failed", error);
+    countryId = null;
+  }
 
-  const existingByPhone = await prisma.shopClient.findUnique({
-    where: { phone: phoneE164 },
-  });
+  let existingByPhone: Awaited<
+    ReturnType<typeof prisma.shopClient.findUnique>
+  > = null;
+  try {
+    existingByPhone = await prisma.shopClient.findUnique({
+      where: { phone: phoneE164 },
+    });
+  } catch (error) {
+    console.error("[register] phone lookup failed", error);
+    throw new ApiError(
+      "Database schema is outdated. Redeploy the app so migrations can run.",
+      503,
+      { code: "schema_outdated" },
+    );
+  }
 
   if (existingByPhone?.phoneVerifiedAt) {
     throw new ApiError("Phone number is already registered", 409);
@@ -182,28 +200,70 @@ export async function registerClient(input: RegisterInput) {
 
   const passwordHash = await hashPassword(input.password);
 
-  const client = existingByPhone
-    ? await prisma.shopClient.update({
-        where: { id: existingByPhone.id },
-        data: {
-          name: input.name,
-          email,
-          passwordHash,
-          countryId,
-          phoneVerifiedAt: null,
-        },
-      })
-    : await prisma.shopClient.create({
-        data: {
-          name: input.name,
-          email,
-          phone: phoneE164,
-          countryId,
-          passwordHash,
-          phoneVerifiedAt: null,
-          emailVerifiedAt: null,
-        },
-      });
+  let client;
+  try {
+    client = existingByPhone
+      ? await prisma.shopClient.update({
+          where: { id: existingByPhone.id },
+          data: {
+            name: input.name,
+            email,
+            passwordHash,
+            countryId,
+            phoneVerifiedAt: null,
+          },
+        })
+      : await prisma.shopClient.create({
+          data: {
+            name: input.name,
+            email,
+            phone: phoneE164,
+            countryId,
+            passwordHash,
+            phoneVerifiedAt: null,
+            emailVerifiedAt: null,
+          },
+        });
+  } catch (error) {
+    const code =
+      error && typeof error === "object" && "code" in error
+        ? String((error as { code?: unknown }).code ?? "")
+        : "";
+    if (code === "P2003") {
+      // Country FK missing — retry without country
+      client = existingByPhone
+        ? await prisma.shopClient.update({
+            where: { id: existingByPhone.id },
+            data: {
+              name: input.name,
+              email,
+              passwordHash,
+              countryId: null,
+              phoneVerifiedAt: null,
+            },
+          })
+        : await prisma.shopClient.create({
+            data: {
+              name: input.name,
+              email,
+              phone: phoneE164,
+              countryId: null,
+              passwordHash,
+              phoneVerifiedAt: null,
+              emailVerifiedAt: null,
+            },
+          });
+    } else if (code === "P2002") {
+      throw new ApiError("Phone number is already registered", 409);
+    } else {
+      console.error("[register] create/update failed", error);
+      throw new ApiError(
+        "Could not create account. Check database schema and try again.",
+        500,
+        { code: code || "register_write_failed" },
+      );
+    }
+  }
 
   const otp = await issueWhatsAppOtp({
     phoneE164,

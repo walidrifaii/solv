@@ -39,15 +39,24 @@ export async function listCountries() {
 }
 
 export async function findCountryById(id: string) {
-  return prisma.country.findFirst({
-    where: { id: id.toLowerCase(), isActive: true },
-  });
+  try {
+    return await prisma.country.findFirst({
+      where: { id: id.toLowerCase(), isActive: true },
+    });
+  } catch {
+    return null;
+  }
 }
 
 export async function findCountryByDialCode(dialCode: string) {
-  const digits = dialCode.replace(/\D/g, "");
-  return prisma.country.findFirst({
-    where: { dialCode: digits, isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    const digits = dialCode.replace(/\D/g, "");
+    return await prisma.country.findFirst({
+      where: { dialCode: digits, isActive: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch {
+    return null;
+  }
 }
+

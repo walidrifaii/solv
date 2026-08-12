@@ -90,6 +90,35 @@ export function handleRouteError(error: unknown) {
     );
   }
 
-  console.error(error);
-  return fail("Internal server error", 500);
+  // Prisma known request errors
+  const code =
+    error && typeof error === "object" && "code" in error
+      ? String((error as { code?: unknown }).code ?? "")
+      : "";
+  if (code === "P2021" || code === "P2022" || message.includes("does not exist")) {
+    console.error(error);
+    return fail(
+      "Database schema is outdated. Redeploy so prisma db push can run.",
+      503,
+      { code: "schema_outdated" },
+    );
+  }
+  if (code === "P2002") {
+    console.error(error);
+    return fail("This account already exists", 409, { code: "unique_constraint" });
+  }
+  if (code === "P2003") {
+    console.error(error);
+    return fail("Invalid country selection. Refresh the page and try again.", 400, {
+      code: "foreign_key",
+    });
+  }
+
+  console.error("[route-error]", error);
+  return fail(
+    process.env.NODE_ENV === "production"
+      ? "Internal server error"
+      : message || "Internal server error",
+    500,
+  );
 }

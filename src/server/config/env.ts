@@ -45,7 +45,13 @@ const envSchema = z.object({
     .transform((v) => (v ?? "DIGITS").toUpperCase())
     .pipe(z.enum(["DIGITS", "E164"])),
   WHATSAPP_NODE_TIMEOUT: z.coerce.number().int().positive().default(35),
-  OTP_PEPPER: z.string().min(16).optional(),
+  OTP_PEPPER: z
+    .string()
+    .optional()
+    .transform((v) => {
+      const trimmed = v?.trim();
+      return trimmed && trimmed.length >= 16 ? trimmed : undefined;
+    }),
   OTP_TTL_SECONDS: z.coerce.number().int().positive().default(300),
   NODE_ENV: z.enum(["development", "test", "production"]).optional(),
 });
