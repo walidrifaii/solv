@@ -183,7 +183,7 @@ export function VerifyForm() {
         <button
           type="submit"
           disabled={isLoading}
--white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+          className="inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
         >
           {isLoading ? t("submitting") : t("submit")}
         </button>

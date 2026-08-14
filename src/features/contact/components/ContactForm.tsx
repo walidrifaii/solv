@@ -166,7 +166,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isLoading}
--white transition-colors hover:bg-[#D9BC82] disabled:opacity-60 sm:w-auto sm:px-8 sm:text-base"
+          className="inline-flex w-full items-center justify-center rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] disabled:opacity-60 sm:w-auto sm:px-8 sm:text-base"
         >
           {isLoading ? t("sending") : t("cta")}
         </button>

@@ -32,7 +32,7 @@ export async function AboutPromise() {
           </p>
           <Link
             href={aboutPromise.cta.href}
--white transition-colors hover:bg-[#D9BC82] sm:mt-8 sm:px-6 sm:py-3 sm:text-base"
+            className="mt-6 inline-flex w-fit items-center gap-2 rounded-md bg-[#C9A962] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] sm:mt-8 sm:px-6 sm:py-3 sm:text-base"
           >
             {t("cta")}
             <ArrowRightIcon className="size-4 rtl:rotate-180" />

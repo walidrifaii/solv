@@ -306,7 +306,7 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
         <button
           type="submit"
           disabled={saving || imageUploading || !imagePath.trim()}
--white hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {imageUploading
             ? "Uploading image…"
