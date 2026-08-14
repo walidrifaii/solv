@@ -33,6 +33,15 @@ button,
   cursor: pointer;
 }
 
+/* Gold fill buttons always use white labels */
+button.bg-\[\#C9A962\],
+a.bg-\[\#C9A962\],
+[type="button"].bg-\[\#C9A962\],
+[type="submit"].bg-\[\#C9A962\],
+[role="button"].bg-\[\#C9A962\] {
+  color: #ffffff;
+}
+
 button:disabled,
 button[disabled],
 [type="button"]:disabled,

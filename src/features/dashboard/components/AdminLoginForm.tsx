@@ -98,7 +98,7 @@ export function AdminLoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex w-full items-center justify-center rounded-xl bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:opacity-60"
+-white transition-colors hover:bg-[#D9BC82] disabled:opacity-60"
         >
           {isLoading ? "Signing in…" : "Sign in"}
         </button>

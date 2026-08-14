@@ -93,7 +93,7 @@ export function DashboardCategoriesPage() {
         </div>
         <Link
           href={ROUTES.dashboardCategoryNew}
-          className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
+-white transition-colors hover:bg-[#D9BC82]"
         >
           Add category
         </Link>

@@ -139,7 +139,7 @@ export function DashboardChangePasswordPage() {
         <span
           className={`rounded-full px-3 py-1 ${
             step === "password"
-              ? "bg-[#C9A962] text-[#a5a196]"
+-white"
               : "bg-[#efe4da] text-[#7a6b5d]"
           }`}
         >
@@ -151,7 +151,7 @@ export function DashboardChangePasswordPage() {
         <span
           className={`rounded-full px-3 py-1 ${
             step === "verify"
-              ? "bg-[#C9A962] text-[#a5a196]"
+-white"
               : "bg-[#efe4da] text-[#7a6b5d]"
           }`}
         >
@@ -222,7 +222,7 @@ export function DashboardChangePasswordPage() {
           <button
             type="submit"
             disabled={requesting}
-            className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#C9A962] px-5 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
+-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {requesting ? "Sending code…" : "Continue to verification"}
           </button>
@@ -280,7 +280,7 @@ export function DashboardChangePasswordPage() {
           <button
             type="submit"
             disabled={confirming}
-            className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#C9A962] px-5 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
+-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {confirming ? "Verifying…" : "Confirm new password"}
           </button>

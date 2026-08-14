@@ -37,7 +37,7 @@ export async function ServicesHero() {
           <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4">
             <Link
               href={servicesHero.primaryCta.href}
-              className="inline-flex items-center gap-2 rounded-md bg-[#C9A962] px-5 py-2.5 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] sm:px-6 sm:py-3 sm:text-base"
+-white transition-colors hover:bg-[#D9BC82] sm:px-6 sm:py-3 sm:text-base"
             >
               {t("primaryCta")}
               <ArrowRightIcon className="size-4 rtl:rotate-180" />

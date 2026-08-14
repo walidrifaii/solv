@@ -83,8 +83,8 @@ export function CheckoutAuthModal({
             onClick={onGuest}
             className="w-full cursor-pointer rounded-md border border-[#C9A962] bg-[#C9A962] px-4 py-4 text-start transition-colors hover:bg-[#D9BC82]"
           >
-            <p className="text-sm font-medium text-[#a5a196]">{t("guest.label")}</p>
-            <p className="mt-1 text-sm text-[#a5a196]/75">{t("guest.description")}</p>
+            <p className="text-sm font-medium text-white">{t("guest.label")}</p>
+            <p className="mt-1 text-sm text-white/80">{t("guest.description")}</p>
           </button>
 
           <Link

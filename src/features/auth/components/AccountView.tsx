@@ -374,7 +374,7 @@ export function AccountView() {
                   <button
                     type="submit"
                     disabled={confirmingEmail}
-                    className="rounded-md bg-[#C9A962] px-4 py-2 text-sm font-medium text-[#a5a196] disabled:opacity-60"
+-white disabled:opacity-60"
                   >
                     {confirmingEmail ? t("email.confirming") : t("email.confirm")}
                   </button>

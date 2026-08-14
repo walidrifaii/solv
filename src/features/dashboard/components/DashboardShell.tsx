@@ -146,7 +146,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               type="button"
               onClick={handleLogout}
               disabled={loggingOut}
-              className="flex-1 rounded-lg bg-[#C9A962] px-2 py-2 text-xs font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82] disabled:opacity-60"
+-white transition-colors hover:bg-[#D9BC82] disabled:opacity-60"
             >
               {loggingOut ? "…" : "Sign out"}
             </button>

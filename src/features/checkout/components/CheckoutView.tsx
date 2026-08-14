@@ -171,7 +171,7 @@ export function CheckoutView() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href={ROUTES.shop}
-              className="inline-flex rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
+-white transition-colors hover:bg-[#D9BC82]"
             >
               {t("continueShopping")}
             </Link>
@@ -199,7 +199,7 @@ export function CheckoutView() {
           </p>
           <Link
             href={ROUTES.shop}
-            className="mt-8 inline-flex rounded-md bg-[#C9A962] px-6 py-3 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
+-white transition-colors hover:bg-[#D9BC82]"
           >
             {t("browseShop")}
           </Link>

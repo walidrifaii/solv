@@ -203,7 +203,7 @@ export function CategoryForm({
         <button
           type="submit"
           disabled={saving || imageUploading || !imagePath.trim()}
-          className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-[#a5a196] hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
+-white hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {imageUploading
             ? "Uploading image…"

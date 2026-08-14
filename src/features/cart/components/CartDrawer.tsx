@@ -84,7 +84,7 @@ export function CartDrawer() {
               <Link
                 href={ROUTES.shop}
                 onClick={closeCart}
-                className="mt-6 inline-flex rounded-md bg-[#C9A962] px-5 py-2.5 text-sm font-medium text-[#a5a196] transition-colors hover:bg-[#D9BC82]"
+-white transition-colors hover:bg-[#D9BC82]"
               >
                 {t("browseShop")}
               </Link>
