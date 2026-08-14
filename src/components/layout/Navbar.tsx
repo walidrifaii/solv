@@ -232,46 +232,90 @@ export function Navbar() {
     await switchLocale(next);
   }
 
+  const isArabic = locale === "ar";
+
+  const cartButton = (
+    <button
+      type="button"
+      onClick={openCart}
+      className={cn(iconBtnClass, "relative")}
+      aria-label={t("cart", { count: cartCount })}
+    >
+      <BagIcon className="size-5 sm:size-6" />
+      <span className="absolute top-1.5 right-1.5 flex size-4 items-center justify-center rounded-full bg-[#C9A962] text-[10px] leading-none font-semibold text-white sm:size-5 sm:text-[11px]">
+        {cartCount}
+      </span>
+    </button>
+  );
+
+  const searchButton = (
+    <button
+      type="button"
+      onClick={openSearch}
+      className={iconBtnClass}
+      aria-label={t("search")}
+    >
+      <SearchIcon className="size-5 sm:size-6" />
+    </button>
+  );
+
+  const menuButton = (
+    <button
+      type="button"
+      className={iconBtnClass}
+      aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
+      aria-expanded={menuOpen}
+      onClick={() => setMenuOpen((open) => !open)}
+    >
+      {menuOpen ? (
+        <CloseIcon className="size-6 sm:size-7" />
+      ) : (
+        <MenuIcon className="size-6 sm:size-7" />
+      )}
+    </button>
+  );
+
+  // EN: language + burger on LEFT, search + cart on RIGHT
+  // AR: cart + search on LEFT, language + burger on RIGHT
+  const leftCluster = isArabic ? (
+    <>
+      {cartButton}
+      {searchButton}
+    </>
+  ) : (
+    <>
+      {menuButton}
+      <NavbarLanguageButton />
+    </>
+  );
+
+  const rightCluster = isArabic ? (
+    <>
+      <NavbarLanguageButton />
+      {menuButton}
+    </>
+  ) : (
+    <>
+      {searchButton}
+      {cartButton}
+    </>
+  );
+
   return (
     <header className="relative z-50 px-3 py-4 sm:px-5 sm:py-5 md:px-6 md:py-6">
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="h-px w-full bg-[#C9A962]/70" />
 
         <div className="relative mt-0 rounded-[1.5rem] border border-black/10 bg-[#FEF9F6]/95 text-black shadow-[0_10px_30px_rgba(61,46,34,0.08)] backdrop-blur-md sm:rounded-[1.75rem]">
-          {/*
-            Icon sides stay the same in EN and AR (do not mirror with page RTL):
-            LEFT  = cart + search
-            RIGHT = language + burger
-          */}
           <div
             dir="ltr"
             style={{ direction: "ltr" }}
             className="grid min-h-[4.75rem] grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 sm:min-h-[5.5rem] sm:gap-3 sm:px-6 sm:py-4 md:min-h-[6.25rem] md:px-8 md:py-5"
           >
-            {/* LEFT */}
             <div className="flex items-center justify-start gap-1 sm:gap-1.5">
-              <button
-                type="button"
-                onClick={openCart}
-                className={cn(iconBtnClass, "relative")}
-                aria-label={t("cart", { count: cartCount })}
-              >
-                <BagIcon className="size-5 sm:size-6" />
-                <span className="absolute top-1.5 right-1.5 flex size-4 items-center justify-center rounded-full bg-[#C9A962] text-[10px] leading-none font-semibold text-white sm:size-5 sm:text-[11px]">
-                  {cartCount}
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={openSearch}
-                className={iconBtnClass}
-                aria-label={t("search")}
-              >
-                <SearchIcon className="size-5 sm:size-6" />
-              </button>
+              {leftCluster}
             </div>
 
-            {/* CENTER */}
             <Link
               href={ROUTES.home}
               className="justify-self-center"
@@ -285,22 +329,8 @@ export function Navbar() {
               />
             </Link>
 
-            {/* RIGHT */}
             <div className="flex items-center justify-end gap-1 sm:gap-1.5">
-              <NavbarLanguageButton />
-              <button
-                type="button"
-                className={iconBtnClass}
-                aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
-                aria-expanded={menuOpen}
-                onClick={() => setMenuOpen((open) => !open)}
-              >
-                {menuOpen ? (
-                  <CloseIcon className="size-6 sm:size-7" />
-                ) : (
-                  <MenuIcon className="size-6 sm:size-7" />
-                )}
-              </button>
+              {rightCluster}
             </div>
           </div>
         </div>
