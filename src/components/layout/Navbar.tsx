@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useId, useRef, useState, type ComponentType } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type ComponentType } from "react";
 import { BagIcon } from "@/components/icons/BagIcon";
 import { ChevronDownIcon } from "@/components/icons/ChevronDownIcon";
 import { CloseIcon } from "@/components/icons/CloseIcon";
@@ -23,11 +23,13 @@ import { UserIcon } from "@/components/icons/UserIcon";
 import { useLocaleSwitch } from "@/components/providers/LocaleSwitchProvider";
 import { images } from "@/constants/images";
 import { ROUTES } from "@/constants/routes";
+import { shopCategories } from "@/data/categories";
 import { navigation } from "@/data/navigation";
 import { useCart } from "@/features/cart/CartProvider";
 import { useSearch } from "@/features/search/SearchProvider";
 import { locales, type Locale } from "@/i18n/config";
-import { useGetMeQuery } from "@/store/slices";
+import { pickLocalized } from "@/lib/localized";
+import { useGetCategoriesQuery, useGetMeQuery } from "@/store/slices";
 import { cn } from "@/lib/utils";
 
 type NavItem = (typeof navigation)[number];
@@ -46,14 +48,12 @@ function isNavItemActive(pathname: string, href: string) {
 function isShopChildActive(
   pathname: string,
   searchParams: URLSearchParams,
-  href: string,
+  categoryId: string,
 ) {
   if (!isShopPath(pathname)) return false;
-  const childCategory = new URL(href, "http://localhost").searchParams.get(
-    "category",
-  );
-  if (!childCategory) return false;
-  return searchParams.get("category") === childCategory;
+  const activeCategory = searchParams.get("category");
+  if (categoryId === "all") return !activeCategory;
+  return activeCategory === categoryId;
 }
 
 function hasChildren(
@@ -178,9 +178,35 @@ export function Navbar() {
   const { openSearch } = useSearch();
   const { switching, switchLocale } = useLocaleSwitch();
   const { data: client } = useGetMeQuery();
+  const { data: categoriesData } = useGetCategoriesQuery(
+    { limit: 50 },
+    { skip: !menuOpen },
+  );
   const cartCount = itemCount;
   const accountHref = client ? ROUTES.account : ROUTES.login;
   const accountLabel = client ? t("profile") : t("signIn");
+  const allProductsLabel = t("allProducts");
+
+  const shopChildren = useMemo(() => {
+    const fromApi = (categoriesData ?? []).map((category) => ({
+      id: category.id,
+      name: pickLocalized(locale, category.name, category.nameAr),
+      href: `${ROUTES.shop}?category=${category.id}`,
+    }));
+    const items =
+      fromApi.length > 0
+        ? fromApi
+        : shopCategories.map((category) => ({
+            id: category.id,
+            name: category.name,
+            href: category.href,
+          }));
+
+    return [
+      { id: "all", name: allProductsLabel, href: ROUTES.shop },
+      ...items,
+    ];
+  }, [allProductsLabel, categoriesData, locale]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -189,6 +215,10 @@ export function Navbar() {
     return () => {
       document.body.style.overflow = previous;
     };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (menuOpen) setShopOpen(true);
   }, [menuOpen]);
 
   useEffect(() => {
@@ -284,8 +314,10 @@ export function Navbar() {
 
         <aside
           className={cn(
-            "absolute inset-y-0 end-0 flex w-[min(22rem,88vw)] flex-col bg-[#FEF9F6] text-black shadow-[-12px_0_40px_rgba(61,46,34,0.18)] transition-transform duration-300 ease-out sm:w-[24rem]",
-            menuOpen ? "translate-x-0" : "translate-x-full rtl:-translate-x-full",
+            "absolute inset-y-0 start-0 flex w-[min(22rem,88vw)] flex-col bg-[#FEF9F6] text-black shadow-[12px_0_40px_rgba(61,46,34,0.18)] transition-transform duration-300 ease-out rtl:shadow-[-12px_0_40px_rgba(61,46,34,0.18)] sm:w-[24rem]",
+            menuOpen
+              ? "translate-x-0"
+              : "-translate-x-full rtl:translate-x-full",
           )}
           role="dialog"
           aria-modal="true"
@@ -387,15 +419,15 @@ export function Navbar() {
                       </button>
                       {shopOpen ? (
                         <div className="mb-3 space-y-1 border-s border-black/15 ps-10">
-                          {item.children.map((child) => {
+                          {shopChildren.map((child) => {
                             const childActive = isShopChildActive(
                               pathname,
                               searchParams,
-                              child.href,
+                              child.id,
                             );
                             return (
                               <Link
-                                key={child.href}
+                                key={child.id}
                                 href={child.href}
                                 className={cn(
                                   "block py-3 text-base transition-colors",
@@ -405,7 +437,7 @@ export function Navbar() {
                                 )}
                                 onClick={() => setMenuOpen(false)}
                               >
-                                {t(child.key)}
+                                {child.name}
                               </Link>
                             );
                           })}
