@@ -3,7 +3,7 @@
  * Production bootstrap: apply Prisma schema + seed cities/countries.
  * Safe to run on every container start (upserts only).
  * Exits non-zero only when schema push fails hard.
- */
+ test */
 const { spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
