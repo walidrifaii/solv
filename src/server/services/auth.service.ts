@@ -183,13 +183,39 @@ async function findClientByPhoneE164(phoneE164: string) {
   );
 }
 
-/** Phone is taken only after WhatsApp/phone OTP verification — not email. */
+/** Phone is taken only after WhatsApp OTP verification — not email. */
 function isPhoneRegistered(client: { phoneVerifiedAt: Date | null }) {
   return Boolean(client.phoneVerifiedAt);
 }
 
 function isEmailRegistered(client: { emailVerifiedAt: Date | null }) {
   return Boolean(client.emailVerifiedAt);
+}
+
+function prismaErrorCode(error: unknown) {
+  if (error && typeof error === "object" && "code" in error) {
+    return String((error as { code?: unknown }).code ?? "");
+  }
+  return "";
+}
+
+async function reuseUnverifiedClient(
+  id: string,
+  data: {
+    name: string;
+    email: string | null;
+    passwordHash: string;
+    countryId: string | null;
+    phone: string;
+    phoneVerifiedAt: Date | null;
+    emailVerifiedAt: Date | null;
+  },
+) {
+  await prisma.refreshToken.deleteMany({ where: { clientId: id } });
+  return prisma.shopClient.update({
+    where: { id },
+    data,
+  });
 }
 
 export async function registerClient(input: RegisterInput) {
@@ -215,7 +241,7 @@ export async function registerClient(input: RegisterInput) {
     );
   }
 
-  // Only block phones that completed verification. Unverified leftovers are reused.
+  // Verified phone is taken. Unverified leftover is reused below.
   if (existingByPhone && isPhoneRegistered(existingByPhone)) {
     throw new ApiError("Phone number is already registered", 409);
   }
@@ -262,83 +288,60 @@ export async function registerClient(input: RegisterInput) {
     emailVerifiedAt: null as Date | null,
   };
 
-  async function writeClient(withoutCountry = false) {
+  async function persistClient(withoutCountry = false) {
     const data = {
       ...writeData,
       countryId: withoutCountry ? null : writeData.countryId,
     };
 
-    // Reuse unverified phone row, else create
     if (existingByPhone) {
-      return prisma.shopClient.update({
-        where: { id: existingByPhone!.id },
-        data,
-      });
+      console.info(
+        "[register] reusing unverified client",
+        existingByPhone.id,
+        phoneE164,
+      );
+      return reuseUnverifiedClient(existingByPhone.id, data);
     }
 
-    return prisma.shopClient.create({
-      data,
-    });
+    return prisma.shopClient.create({ data });
   }
 
   let client;
   try {
-    client = await writeClient(false);
+    client = await persistClient(false);
   } catch (error) {
-    const code =
-      error && typeof error === "object" && "code" in error
-        ? String((error as { code?: unknown }).code ?? "")
-        : "";
-    const target =
-      error && typeof error === "object" && "meta" in error
-        ? String(
-            ((error as { meta?: { target?: unknown } }).meta?.target ?? "") ||
-              "",
-          )
-        : "";
+    const code = prismaErrorCode(error);
 
     if (code === "P2003") {
-      client = await writeClient(true);
+      client = await persistClient(true);
     } else if (code === "P2002") {
-      // Unique conflict — recover unverified leftovers; never claim "already exists" wrongly
       const conflictPhone = await findClientByPhoneE164(phoneE164);
+      if (conflictPhone && isPhoneRegistered(conflictPhone)) {
+        throw new ApiError("Phone number is already registered", 409);
+      }
       if (conflictPhone && !isPhoneRegistered(conflictPhone)) {
         existingByPhone = conflictPhone;
-        client = await writeClient(true);
+        client = await persistClient(true);
       } else if (email) {
         const conflictEmail = await prisma.shopClient.findUnique({
           where: { email },
         });
+        if (conflictEmail && isEmailRegistered(conflictEmail)) {
+          throw new ApiError("Email is already registered", 409);
+        }
         if (conflictEmail && !isEmailRegistered(conflictEmail)) {
           await prisma.shopClient.update({
             where: { id: conflictEmail.id },
             data: { email: null },
           });
-          existingByPhone = conflictPhone;
-          client = await writeClient(true);
-        } else if (conflictPhone && isPhoneRegistered(conflictPhone)) {
-          throw new ApiError("Phone number is already registered", 409);
-        } else if (conflictEmail && isEmailRegistered(conflictEmail)) {
-          throw new ApiError("Email is already registered", 409);
-        } else {
-          console.error("[register] unique conflict", { target, error });
-          throw new ApiError(
-            "Could not create account because of a data conflict. Try again.",
-            409,
-            { code: "unique_conflict", target },
-          );
         }
-      } else if (conflictPhone && isPhoneRegistered(conflictPhone)) {
-        throw new ApiError("Phone number is already registered", 409);
-      } else if (conflictPhone && !isPhoneRegistered(conflictPhone)) {
-        existingByPhone = conflictPhone;
-        client = await writeClient(true);
+        client = await persistClient(true);
       } else {
-        console.error("[register] unique conflict", { target, error });
+        console.error("[register] unique conflict", error);
         throw new ApiError(
           "Could not create account because of a data conflict. Try again.",
           409,
-          { code: "unique_conflict", target },
+          { code: "unique_conflict" },
         );
       }
     } else {
@@ -351,24 +354,35 @@ export async function registerClient(input: RegisterInput) {
     }
   }
 
-  const otp = await issueWhatsAppOtp({
-    phoneE164,
-    purpose: "register",
-    clientId: client.id,
-  });
+  try {
+    const otp = await issueWhatsAppOtp({
+      phoneE164,
+      purpose: "register",
+      clientId: client.id,
+    });
 
-  return ok(
-    {
-      requiresVerification: true,
-      channel: otp.channel,
-      otpToken: otp.otpToken,
-      expiresIn: otp.expiresIn,
-      phone: phoneE164,
-      phoneMasked: maskPhone(phoneE164),
-      message: "We sent a verification code to your WhatsApp",
-    },
-    { status: 201 },
-  );
+    return ok(
+      {
+        requiresVerification: true,
+        channel: otp.channel,
+        otpToken: otp.otpToken,
+        expiresIn: otp.expiresIn,
+        phone: phoneE164,
+        phoneMasked: maskPhone(phoneE164),
+        message: "We sent a verification code to your WhatsApp",
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    if (error instanceof ApiError) {
+      throw new ApiError(
+        "Your details were saved. We could not send the WhatsApp code. Submit the form again to get a new code.",
+        error.status >= 400 ? error.status : 502,
+        { code: "otp_send_failed", clientSaved: true },
+      );
+    }
+    throw error;
+  }
 }
 
 export async function verifyRegisterOtp(input: VerifyOtpInput) {
