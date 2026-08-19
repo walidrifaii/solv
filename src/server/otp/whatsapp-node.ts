@@ -9,6 +9,7 @@ type NodeSendResult = {
   error?: string;
   messageId?: string | null;
   clientId?: string;
+  source?: string;
   message?: string;
 };
 
@@ -61,12 +62,14 @@ async function postOtpSend(input: {
   body: Record<string, string>;
   signal: AbortSignal;
 }) {
+  const source = input.body.source;
   const response = await fetch(`${input.url}/api/otp/send`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${input.token}`,
       "Content-Type": "application/json",
       Accept: "application/json",
+      ...(source ? { "X-Service-Name": source } : {}),
     },
     body: JSON.stringify(input.body),
     signal: input.signal,
@@ -97,6 +100,7 @@ export async function sendWhatsAppNodeOtp(input: {
   const url = env.WHATSAPP_NODE_URL?.replace(/\/$/, "");
   const token = env.WHATSAPP_NODE_TOKEN?.trim();
   const clientId = resolveClientId();
+  const source = env.WHATSAPP_NODE_SOURCE?.trim();
 
   if (!url || !token) {
     throw new ApiError("WhatsApp Node is not configured", 503, {
@@ -116,6 +120,7 @@ export async function sendWhatsAppNodeOtp(input: {
     phone: phoneForWhatsAppNode(input.phoneE164),
     code: input.code,
     message,
+    ...(source ? { source } : {}),
   };
 
   try {
@@ -187,6 +192,8 @@ export async function sendWhatsAppNodeOtp(input: {
         data.messageId,
         "clientId=",
         data.clientId ?? null,
+        "source=",
+        data.source ?? source ?? null,
       );
     }
 

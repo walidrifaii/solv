@@ -40,6 +40,8 @@ const envSchema = z.object({
   WHATSAPP_NODE_CLIENT_ID: z.string().optional(),
   /** Fallback when WHATSAPP_NODE_CLIENT_ID is empty. */
   OTP_DEFAULT_CLIENT_ID: z.string().optional(),
+  /** Per-app label Node uses for OTP stats (keep unique vs other apps). */
+  WHATSAPP_NODE_SOURCE: z.string().min(1).default("solv"),
   /** Kept for EasyPanel parity with Node; Solv does not read this yet. */
   WHATSAPP_NODE_DELIVERY: z.string().optional(),
   WHATSAPP_NODE_PHONE_FORMAT: z
