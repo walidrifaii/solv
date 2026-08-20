@@ -37,12 +37,12 @@ export function ShopByCategory() {
     <section className="bg-[#FEF9F6] px-4 pt-14 pb-6 text-[#a5a196] sm:px-6 sm:pt-16 sm:pb-8 md:px-8 md:pt-20 md:pb-8 lg:px-10 lg:pt-24 lg:pb-10">
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 md:mb-14">
-          <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">
+          <p className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">
             {t("eyebrow")}
-          </h2>
-          <p className="mt-3 font-serif text-[18px] leading-tight font-medium text-[#a5a196]">
-            {t("title")}
           </p>
+          <h2 className="mt-3 font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">
+            {t("title")}
+          </h2>
           <div className="mt-5 flex items-center justify-center gap-3 text-[#C9A962]">
             <span className="h-px w-12 bg-[#C9A962]/70 sm:w-16" />
             <OrnamentIcon className="size-3.5 sm:size-4" />
