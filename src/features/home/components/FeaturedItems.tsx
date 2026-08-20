@@ -100,7 +100,7 @@ export function FeaturedItems() {
     <section className="bg-[#FEF9F6] px-4 pt-6 pb-14 text-[#a5a196] sm:px-6 sm:pt-8 sm:pb-16 md:px-8 md:pt-8 md:pb-20 lg:px-10 lg:pt-10 lg:pb-24">
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10 md:mb-12">
-          <p className="font-serif text-[16px] leading-tight font-medium text-[#a5a196]">
+          <p className="font-serif text-[36px] leading-tight font-medium text-[#a5a196]">
             {t("eyebrow")}
           </p>
           <h2 className="mt-3 font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">

@@ -37,7 +37,7 @@ export function ShopByCategory() {
     <section className="bg-[#FEF9F6] px-4 pt-14 pb-6 text-[#a5a196] sm:px-6 sm:pt-16 sm:pb-8 md:px-8 md:pt-20 md:pb-8 lg:px-10 lg:pt-24 lg:pb-10">
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 md:mb-14">
-          <p className="font-serif text-[16px] leading-tight font-medium text-[#a5a196]">
+          <p className="font-serif text-[36px] leading-tight font-medium text-[#a5a196]">
             {t("eyebrow")}
           </p>
           <h2 className="mt-3 font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">
