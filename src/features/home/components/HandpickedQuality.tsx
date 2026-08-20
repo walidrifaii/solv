@@ -22,7 +22,7 @@ export function HandpickedQuality() {
 
       <div className="relative z-10 mx-auto flex min-h-[18rem] w-full max-w-[1400px] items-center px-4 py-10 sm:min-h-[20rem] sm:px-6 sm:py-12 md:min-h-[22rem] md:px-8 md:py-14 lg:min-h-[24rem] lg:px-10">
         <div className="max-w-xl md:max-w-2xl">
-          <p className="font-serif text-3xl leading-[1.12] font-medium text-white sm:text-4xl md:text-[2.75rem]">
+          <p className="font-serif text-[16px] leading-tight font-medium text-white">
             {t("eyebrow")}
           </p>
           <h2 className="mt-3 font-serif text-3xl leading-[1.12] font-medium text-white sm:text-4xl md:text-[2.75rem]">
