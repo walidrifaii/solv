@@ -55,12 +55,12 @@ export function HotDeals() {
 
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-12 sm:px-6 sm:py-14 md:px-8 md:py-16 lg:px-10 lg:py-18">
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10 md:mb-12">
-          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#C9A962] uppercase sm:text-xs">
-            {t("eyebrow")}
-          </p>
           <h2 className="font-serif text-3xl leading-tight font-medium text-white sm:text-4xl md:text-[2.75rem]">
-            {t("title")}
+            {t("eyebrow")}
           </h2>
+          <p className="mt-3 font-serif text-[18px] leading-tight font-medium text-white">
+            {t("title")}
+          </p>
           <div className="mt-3 flex justify-center text-[#C9A962]">
             <CoffeeBeansIcon className="size-7 sm:size-8" />
           </div>

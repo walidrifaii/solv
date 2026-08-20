@@ -44,12 +44,12 @@ export function Newsletter() {
         </div>
 
         <div className="mx-auto flex w-full max-w-[700px] flex-col justify-center px-4 py-10 sm:px-6 sm:py-12 md:mx-0 md:max-w-none md:px-10 md:py-12 lg:px-14 lg:py-14">
-          <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
+          <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.75rem]">
             {t("eyebrow")}
-          </p>
-          <h2 className="font-serif text-3xl leading-tight font-medium text-[#a5a196] sm:text-4xl md:text-[2.5rem]">
-            {t("title")}
           </h2>
+          <p className="mt-3 font-serif text-[18px] leading-tight font-medium text-[#a5a196]">
+            {t("title")}
+          </p>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-[#7a6b5d] sm:mt-4 sm:text-base">
             {t("description")}
           </p>
