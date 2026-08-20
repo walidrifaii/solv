@@ -97,9 +97,9 @@ export function FeaturedItems() {
   }
 
   return (
-    <section className="bg-[#FEF9F6] px-4 py-14 text-[#a5a196] sm:px-6 sm:py-16 md:px-8 md:py-20 lg:px-10 lg:py-24">
+    <section className="bg-[#FEF9F6] px-4 pt-6 pb-14 text-[#a5a196] sm:px-6 sm:pt-8 sm:pb-16 md:px-8 md:pt-8 md:pb-20 lg:px-10 lg:pt-10 lg:pb-24">
       <div className="mx-auto w-full max-w-[1400px]">
-        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 md:mb-14">
+        <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10 md:mb-12">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
             {t("eyebrow")}
           </p>

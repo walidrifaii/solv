@@ -34,7 +34,7 @@ export function ShopByCategory() {
       : shopCategories;
 
   return (
-    <section className="bg-[#FEF9F6] px-4 py-14 text-[#a5a196] sm:px-6 sm:py-16 md:px-8 md:py-20 lg:px-10 lg:py-24">
+    <section className="bg-[#FEF9F6] px-4 pt-14 pb-6 text-[#a5a196] sm:px-6 sm:pt-16 sm:pb-8 md:px-8 md:pt-20 md:pb-8 lg:px-10 lg:pt-24 lg:pb-10">
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12 md:mb-14">
           <p className="mb-3 text-[11px] font-medium tracking-[0.22em] text-[#b0895b] uppercase sm:text-xs">
