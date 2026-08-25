@@ -13,6 +13,7 @@ import {
   useGetProductsQuery,
 } from "@/store/slices";
 import Link from "next/link";
+import { AutoHorizontalStrip, stripCardClass } from "@/features/home/components/AutoHorizontalStrip";
 
 const CATEGORY_MATCHERS = [
   "machines-grinders",
@@ -98,18 +99,19 @@ export function MachinesGrinders() {
           </Link>
         </div>
 
-        <div className="no-scrollbar overflow-x-auto scroll-smooth pb-1">
-          <div className="flex gap-3 sm:gap-4">
+        <AutoHorizontalStrip itemCount={products.length}>
+          <div className="flex gap-3 pe-1 sm:gap-4">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="w-[min(14rem,78vw)] shrink-0 sm:w-[16rem] md:w-[17.5rem]"
+                data-strip-card
+                className={stripCardClass}
               >
                 <ShopProductCard product={product} />
               </div>
             ))}
           </div>
-        </div>
+        </AutoHorizontalStrip>
       </div>
     </section>
   );
