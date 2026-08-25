@@ -302,8 +302,8 @@ export function Navbar() {
   );
 
   return (
-    <header className="relative z-50 px-4 py-4 sm:px-5 sm:py-5 md:px-6 md:py-6">
-      <div className="mx-auto w-full max-w-[1400px]">
+    <header className="relative z-50 px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-5">
+      <div className="mx-auto w-full max-w-[1600px]">
         <div className="h-px w-full bg-[#C9A962]/70" />
 
         <div className="relative mt-0 rounded-[1.5rem] border border-black/10 bg-[#FEF9F6]/95 text-black shadow-[0_10px_30px_rgba(61,46,34,0.08)] backdrop-blur-md sm:rounded-[1.75rem]">
