@@ -33,6 +33,11 @@ export const dashboardNav: DashboardNavItem[] = [
     description: "Homepage banners",
   },
   {
+    label: "Promo banners",
+    href: ROUTES.dashboardBanners,
+    description: "Two-up category banners",
+  },
+  {
     label: "Subscribers",
     href: ROUTES.dashboardSubscribers,
     description: "Newsletter list",

@@ -152,8 +152,9 @@ model Category {
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
-  products   Product[]
-  heroSlides HeroSlide[]
+  products     Product[]
+  heroSlides   HeroSlide[]
+  promoBanners PromoBanner[]
 
   @@index([isActive, sortOrder])
   @@map("categories")
@@ -273,6 +274,25 @@ model HeroSlide {
   @@index([isActive, sortOrder])
   @@index([categoryId])
   @@map("hero_slides")
+}
+
+model PromoBanner {
+  id          String   @id @default(cuid())
+  imageAlt    String   @map("image_alt") @db.VarChar(200)
+  imageAltAr  String?  @map("image_alt_ar") @db.VarChar(200)
+  imagePath   String   @map("image_path") @db.VarChar(512)
+  href        String   @db.VarChar(500)
+  categoryId  String?  @map("category_id")
+  sortOrder   Int      @default(0) @map("sort_order")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([isActive, sortOrder])
+  @@index([categoryId])
+  @@map("promo_banners")
 }
 
 model City {

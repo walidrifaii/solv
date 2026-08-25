@@ -85,6 +85,10 @@
       "prev": "Previous slide",
       "next": "Next slide"
     },
+    "promoBanners": {
+      "prev": "Previous banners",
+      "next": "Next banners"
+    },
     "shopByCategory": {
       "eyebrow": "Explore",
       "title": "Shop by Category",

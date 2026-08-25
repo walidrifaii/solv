@@ -399,3 +399,33 @@ export const updateSlideSchema = createSlideSchema
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field is required",
   });
+
+export const promoBannerListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(20),
+});
+
+export const adminPromoBannerListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  search: z.string().trim().max(100).optional(),
+  isActive: boolQuery,
+});
+
+export const createPromoBannerSchema = z.object({
+  id: slugField.optional(),
+  imageAlt: z.string().trim().min(1).max(200),
+  imageAltAr: z.string().trim().max(200).optional().nullable(),
+  imagePath: z.string().trim().min(1).max(500),
+  href: z.string().trim().min(1).max(500).optional(),
+  categoryId: z.string().trim().min(1).max(191),
+  sortOrder: z.coerce.number().int().min(0).max(9999).default(0),
+  isActive: z.boolean().default(true),
+});
+
+export const updatePromoBannerSchema = createPromoBannerSchema
+  .omit({ id: true })
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  });

@@ -6,6 +6,7 @@ import "@/store/slices/admin/adminDashboardApi";
 import "@/store/slices/admin/adminOrdersApi";
 import "@/store/slices/admin/adminProductsApi";
 import "@/store/slices/admin/adminSlidesApi";
+import "@/store/slices/admin/adminPromoBannersApi";
 import "@/store/slices/admin/adminSubscribersApi";
 import "@/store/slices/admin/adminUploadApi";
 import "@/store/slices/products/productsApi";
@@ -13,6 +14,7 @@ import "@/store/slices/categories/categoriesApi";
 import "@/store/slices/cities/citiesApi";
 import "@/store/slices/countries/countriesApi";
 import "@/store/slices/slides/slidesApi";
+import "@/store/slices/banners/promoBannersApi";
 import "@/store/slices/orders/ordersApi";
 import "@/store/slices/subscribers/subscribersApi";
 import "@/store/slices/contact/contactApi";
@@ -64,6 +66,14 @@ export {
 } from "@/store/slices/admin/adminSlidesApi";
 
 export {
+  useAdminListPromoBannersQuery,
+  useAdminGetPromoBannerQuery,
+  useAdminCreatePromoBannerMutation,
+  useAdminUpdatePromoBannerMutation,
+  useAdminDeletePromoBannerMutation,
+} from "@/store/slices/admin/adminPromoBannersApi";
+
+export {
   useAdminListProductsQuery,
   useAdminGetProductQuery,
   useAdminCreateProductMutation,
@@ -99,6 +109,8 @@ export { useGetCitiesQuery } from "@/store/slices/cities/citiesApi";
 export { useGetCountriesQuery } from "@/store/slices/countries/countriesApi";
 
 export { useGetSlidesQuery } from "@/store/slices/slides/slidesApi";
+
+export { useGetPromoBannersQuery } from "@/store/slices/banners/promoBannersApi";
 
 export {
   useGetMyOrdersQuery,
