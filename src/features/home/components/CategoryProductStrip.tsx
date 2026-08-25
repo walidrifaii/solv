@@ -28,6 +28,8 @@ type Props = {
   viewAllLabel: string;
   prevLabel: string;
   nextLabel: string;
+  /** Section background class, e.g. bg-[#f5f0e8] */
+  sectionBgClass?: string;
 };
 
 export function CategoryProductStrip({
@@ -36,6 +38,7 @@ export function CategoryProductStrip({
   viewAllLabel,
   prevLabel,
   nextLabel,
+  sectionBgClass = "bg-[#f5f0e8]",
 }: Props) {
   const tCommon = useTranslations("common");
   const locale = useLocale() as Locale;
@@ -74,10 +77,11 @@ export function CategoryProductStrip({
     : fallbackTitle;
 
   const isLoading = loadingCategories || (!!categoryId && loadingProducts);
+  const sectionClass = `${sectionBgClass} px-2 py-8 text-[#a5a196] sm:px-3 sm:py-10 md:px-4 md:py-12`;
 
   if (isLoading) {
     return (
-      <section className="bg-[#f5f0e8] px-2 py-8 text-[#a5a196] sm:px-3 sm:py-10 md:px-4 md:py-12">
+      <section className={sectionClass}>
         <div className="mx-auto w-full max-w-[1600px]">
           <p className="py-6 text-center text-sm text-[#7a6b5d]">
             {tCommon("loading")}
@@ -92,7 +96,7 @@ export function CategoryProductStrip({
   }
 
   return (
-    <section className="bg-[#f5f0e8] px-2 py-8 text-[#a5a196] sm:px-3 sm:py-10 md:px-4 md:py-12">
+    <section className={sectionClass}>
       <div className="mx-auto w-full max-w-[1600px]">
         <div className="mx-auto mb-6 max-w-2xl text-center sm:mb-8">
           <h2 className="font-serif text-2xl leading-tight font-medium text-[#a5a196] sm:text-3xl md:text-[2.5rem]">

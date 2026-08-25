@@ -94,18 +94,29 @@ export function PromoBanners() {
           </div>
 
           {pageCount > 1 ? (
-            <div className="mt-4 flex items-center justify-center gap-2">
-              {Array.from({ length: pageCount }, (_, i) => (
-                <span
-                  key={i}
-                  aria-hidden
-                  className={`h-1.5 rounded-full transition-all ${
-                    i === safePage
-                      ? "w-6 bg-[#C9A962]"
-                      : "w-1.5 bg-[#a5a196]/30"
-                  }`}
-                />
-              ))}
+            <div
+              className="mt-4 flex items-center justify-center gap-2"
+              role="tablist"
+              aria-label="Promo banners"
+            >
+              {Array.from({ length: pageCount }, (_, i) => {
+                const isActive = i === safePage;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-label={`Go to promo page ${i + 1}`}
+                    onClick={() => setPage(i)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      isActive
+                        ? "w-6 bg-[#C9A962]"
+                        : "w-1.5 bg-[#a5a196]/30 hover:bg-[#a5a196]/50"
+                    }`}
+                  />
+                );
+              })}
             </div>
           ) : null}
         </div>

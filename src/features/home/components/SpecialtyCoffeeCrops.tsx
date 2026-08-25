@@ -19,6 +19,7 @@ export function SpecialtyCoffeeCrops() {
       viewAllLabel={t("viewAll")}
       prevLabel={t("prev")}
       nextLabel={t("next")}
+      sectionBgClass="bg-[#FEF9F6]"
     />
   );
 }

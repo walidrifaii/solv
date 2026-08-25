@@ -2,13 +2,9 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import dealsBg from "@/assets/images/hot-deals-bg.png";
-import { ArrowRightIcon } from "@/components/icons/ArrowRightIcon";
-import { CoffeeBeansIcon } from "@/components/icons/CoffeeBeansIcon";
 import { DealCard } from "@/features/home/components/DealCard";
-import { hotDeals } from "@/features/home/data/deals";
 import type { Locale } from "@/i18n/config";
 import { mapApiProductToShop } from "@/store/mappers/product";
 import { useGetProductsQuery } from "@/store/slices";
@@ -54,28 +50,6 @@ export function HotDeals() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#a5a196]/70 via-[#a5a196]/35 to-[#a5a196]/75" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1600px] px-2 py-8 sm:px-3 sm:py-9 md:px-4 md:py-10">
-        <div className="mx-auto mb-5 max-w-xl text-center sm:mb-6">
-          <p className="font-serif text-xl leading-tight font-medium text-white sm:text-2xl md:text-[1.75rem]">
-            {t("eyebrow")}
-          </p>
-          <h2 className="mt-1.5 font-serif text-2xl leading-tight font-medium text-white sm:text-3xl md:text-[2.25rem]">
-            {t("title")}
-          </h2>
-          <div className="mt-2 flex justify-center text-[#C9A962]">
-            <CoffeeBeansIcon className="size-5 sm:size-6" />
-          </div>
-          <p className="mt-2 text-xs text-white/80 sm:text-sm">
-            {t("description")}
-          </p>
-          <Link
-            href={hotDeals.href}
-            className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-[#C9A962] px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-[#D9BC82] sm:mt-5 sm:px-5 sm:py-2.5 sm:text-sm"
-          >
-            {t("cta")}
-            <ArrowRightIcon className="size-3.5 rtl:rotate-180" />
-          </Link>
-        </div>
-
         {isLoading ? (
           <p className="py-5 text-center text-sm text-white/70">
             {tCommon("loading")}
