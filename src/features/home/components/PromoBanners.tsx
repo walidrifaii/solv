@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import { pickLocalized } from "@/lib/localized";
 import { slideHref } from "@/lib/slide-href";
@@ -43,6 +43,8 @@ function chunkBanners(banners: LocalizedBanner[]) {
 export function PromoBanners() {
   const locale = useLocale() as Locale;
   const { data, isLoading, isError } = useGetPromoBannersQuery({ limit: 50 });
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [viewportWidth, setViewportWidth] = useState(0);
   const [index, setIndex] = useState(0);
   const [instant, setInstant] = useState(false);
 
@@ -56,8 +58,19 @@ export function PromoBanners() {
   const pages = useMemo(() => chunkBanners(banners), [banners]);
   const pageCount = pages.length;
   const trackPages = pageCount > 1 ? [...pages, pages[0]] : pages;
-  const trackCount = trackPages.length;
   const activeDot = pageCount === 0 ? 0 : index % pageCount;
+
+  useEffect(() => {
+    const node = viewportRef.current;
+    if (!node) return;
+
+    const update = () => setViewportWidth(node.clientWidth);
+    update();
+
+    const observer = new ResizeObserver(update);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [banners.length]);
 
   useEffect(() => {
     setIndex(0);
@@ -80,12 +93,14 @@ export function PromoBanners() {
   return (
     <section className="bg-[#f5f0e8] px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10">
       <div className="mx-auto w-full max-w-[1600px]">
-        <div className="relative overflow-hidden">
+        <div ref={viewportRef} className="relative overflow-hidden">
           <div
             className={`flex ${instant ? "transition-none" : "transition-transform duration-700 ease-out"}`}
             style={{
-              width: `${trackCount * 100}%`,
-              transform: `translateX(-${(index * 100) / trackCount}%)`,
+              transform:
+                viewportWidth > 0
+                  ? `translate3d(-${index * viewportWidth}px, 0, 0)`
+                  : undefined,
             }}
             onTransitionEnd={(event) => {
               if (event.target !== event.currentTarget) return;
@@ -97,12 +112,14 @@ export function PromoBanners() {
             {trackPages.map((group, pageIndex) => (
               <div
                 key={`${group.map((item) => item.id).join("-")}-${pageIndex}`}
-                className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
-                style={{ width: `${100 / trackCount}%` }}
+                className="grid shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
+                style={{
+                  width: viewportWidth > 0 ? viewportWidth : "100%",
+                }}
               >
                 {group.map((banner) => (
                   <Link
-                    key={banner.id}
+                    key={`${banner.id}-${pageIndex}`}
                     href={banner.href}
                     className="group relative block aspect-[16/9] overflow-hidden rounded-2xl bg-[#a5a196] sm:rounded-[1.25rem] md:aspect-[2/1]"
                   >
