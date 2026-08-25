@@ -94,6 +94,12 @@
       "title": "Shop by Category",
       "description": "Find the perfect coffee, tea, and accessories for every ritual."
     },
+    "machinesGrinders": {
+      "title": "Machines and Grinders",
+      "description": "Brewing machines, grinders, and gear for every ritual.",
+      "viewAll": "View all",
+      "empty": "No machines or grinders yet."
+    },
     "featured": {
       "eyebrow": "Our Selection",
       "title": "Featured Products",

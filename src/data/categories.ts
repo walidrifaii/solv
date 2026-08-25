@@ -53,4 +53,11 @@ export const shopCategories: CategoryCard[] = [
     imagePath: "/assets/category-gift-sets.png",
     imageAlt: "Gift Sets",
   },
+  {
+    id: "machines-grinders",
+    name: "Machines and Grinders",
+    href: `${ROUTES.shop}?category=machines-grinders`,
+    imagePath: "/assets/category-accessories.png",
+    imageAlt: "Machines and Grinders",
+  },
 ];

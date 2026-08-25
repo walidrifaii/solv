@@ -43,11 +43,19 @@ const categories = [
     sortOrder: 5,
   },
   {
+    id: "machines-grinders",
+    slug: "machines-grinders",
+    name: "Machines and Grinders",
+    nameAr: "الأجهزة والمطاحن",
+    imagePath: "/assets/category-accessories.png",
+    sortOrder: 6,
+  },
+  {
     id: "gift-sets",
     slug: "gift-sets",
     name: "Gift Sets",
     imagePath: "/assets/category-gift-sets.png",
-    sortOrder: 6,
+    sortOrder: 7,
   },
 ] as const;
 
@@ -184,11 +192,14 @@ async function main() {
   }
 
   for (const category of categories) {
+    const nameAr =
+      "nameAr" in category ? (category.nameAr as string) : undefined;
     await prisma.category.upsert({
       where: { id: category.id },
       update: {
         slug: category.slug,
         name: category.name,
+        ...(nameAr ? { nameAr } : {}),
         imagePath: category.imagePath,
         sortOrder: category.sortOrder,
         isActive: true,
@@ -197,6 +208,7 @@ async function main() {
         id: category.id,
         slug: category.slug,
         name: category.name,
+        ...(nameAr ? { nameAr } : {}),
         imagePath: category.imagePath,
         sortOrder: category.sortOrder,
         isActive: true,
