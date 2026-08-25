@@ -33,4 +33,9 @@ export const ROUTES = {
   dashboardBannerEdit: (id: string) => `/dashboard/banners/${id}/edit` as const,
   dashboardSubscribers: "/dashboard/subscribers",
   dashboardPassword: "/dashboard/password",
+  terms: "/terms",
+  privacy: "/privacy",
+  returns: "/returns",
+  faqs: "/faqs",
+  trackOrder: "/track-order",
 } as const;

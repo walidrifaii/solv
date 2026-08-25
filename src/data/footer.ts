@@ -13,11 +13,11 @@ export const footerShopLinks = [
 export const footerCompanyLinks = [
   { key: "aboutUs", href: ROUTES.about },
   { key: "services", href: ROUTES.services },
-  { key: "trackOrder", href: "/track-order" },
-  { key: "faqs", href: "/faqs" },
-  { key: "returns", href: "/returns" },
-  { key: "privacy", href: "/privacy" },
-  { key: "terms", href: "/terms" },
+  { key: "trackOrder", href: ROUTES.trackOrder },
+  { key: "faqs", href: ROUTES.faqs },
+  { key: "returns", href: ROUTES.returns },
+  { key: "privacy", href: ROUTES.privacy },
+  { key: "terms", href: ROUTES.terms },
 ] as const;
 
 export const footerContact = {

@@ -716,5 +716,73 @@
     "nameAr": "Name (Arabic)",
     "descriptionEn": "Description (English)",
     "descriptionAr": "Description (Arabic)"
+  },
+  "legal": {
+    "eyebrow": "Help & policies",
+    "contactCta": "Contact support",
+    "homeCta": "Back to home",
+    "terms": {
+      "title": "Terms & Conditions",
+      "intro": "These terms guide how you use the SOLV website and place orders with us.",
+      "paragraphs": [
+        "By browsing or buying from SOLV, you agree to use the site for lawful personal or business purchases in Qatar.",
+        "Product details, prices, and availability may change. Your order is confirmed when we accept it and send confirmation.",
+        "You are responsible for providing accurate delivery and contact details so we can complete your order.",
+        "If you need help with an order, contact our customer service team and we will assist as quickly as possible."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "We respect your privacy and only use your information to serve your orders and improve SOLV.",
+      "paragraphs": [
+        "We may collect your name, phone, email, address, and order history when you register or checkout.",
+        "This information is used for order fulfillment, customer support, and important account updates.",
+        "We do not sell your personal data. Access is limited to what is needed to run the shop.",
+        "You can ask us to update or remove your account details by contacting support."
+      ]
+    },
+    "returns": {
+      "title": "Returns & Refunds",
+      "intro": "We want you to be happy with every order. Here is how returns and refunds work at SOLV.",
+      "paragraphs": [
+        "Please inspect your order on delivery. Contact us within 48 hours if something is damaged or incorrect.",
+        "Unopened, unused products in original packaging may be eligible for return subject to product type and condition.",
+        "Perishable or opened food items may not be returnable for hygiene and quality reasons.",
+        "Approved refunds are processed to the original payment method after we receive and review the returned items."
+      ]
+    },
+    "faqs": {
+      "title": "FAQs",
+      "intro": "Quick answers to common questions about shopping with SOLV.",
+      "paragraphs": [],
+      "items": [
+        {
+          "q": "Where do you deliver?",
+          "a": "We deliver across Qatar. Delivery timing depends on your city and order volume."
+        },
+        {
+          "q": "How can I track my order?",
+          "a": "Sign in to your account to view order status, or contact us with your order number."
+        },
+        {
+          "q": "Do you offer wholesale?",
+          "a": "Yes. Contact our team for hospitality and wholesale supply options."
+        },
+        {
+          "q": "What payment methods do you accept?",
+          "a": "We accept major cards and supported local payment options shown at checkout."
+        }
+      ]
+    },
+    "trackOrder": {
+      "title": "Track Order",
+      "intro": "Follow your SOLV order status from confirmation through delivery.",
+      "paragraphs": [
+        "If you have an account, open your profile to see recent orders and their current status.",
+        "You can also contact support with your order number and phone or email used at checkout.",
+        "Statuses may include pending, confirmed, preparing, out for delivery, and delivered.",
+        "For urgent delivery questions, call or message us during business hours and we will help."
+      ]
+    }
   }
 }
