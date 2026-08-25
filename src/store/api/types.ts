@@ -106,6 +106,7 @@ export type ApiHeroSlide = {
   imageAltAr: string | null;
   imagePath: string;
   href: string;
+  categoryId: string | null;
   sortOrder: number;
 };
 
@@ -202,7 +203,8 @@ export type CreateSlideInput = {
   imageAlt: string;
   imageAltAr?: string | null;
   imagePath: string;
-  href: string;
+  href?: string;
+  categoryId: string;
   sortOrder?: number;
   isActive?: boolean;
 };

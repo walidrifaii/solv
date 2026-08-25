@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { slideHref } from "@/lib/slide-href";
 import {
   paginate,
   paginationMeta,
@@ -18,6 +19,7 @@ function mapSlide(slide: {
   imageAltAr: string | null;
   imagePath: string;
   href: string;
+  categoryId: string | null;
   sortOrder: number;
 }) {
   return {
@@ -33,7 +35,8 @@ function mapSlide(slide: {
     imageAlt: slide.imageAlt,
     imageAltAr: slide.imageAltAr,
     imagePath: slide.imagePath,
-    href: slide.href,
+    href: slideHref(slide.categoryId, slide.href),
+    categoryId: slide.categoryId,
     sortOrder: slide.sortOrder,
   };
 }

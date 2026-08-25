@@ -18,7 +18,8 @@ export const fallbackHeroSlides: ApiHeroSlide[] = [
     imageAlt: "Black coffee cup with steam, beans, and a gold cezve",
     imageAltAr: "فنجان قهوة سوداء مع بخار وحبوب وجذوة ذهبية",
     imagePath: "/assets/hero-1.png",
-    href: ROUTES.shop,
+    href: ROUTES.shopCategory("coffee-beans"),
+    categoryId: "coffee-beans",
     sortOrder: 1,
   },
   {
@@ -36,7 +37,8 @@ export const fallbackHeroSlides: ApiHeroSlide[] = [
     imageAlt: "Latte art in a black cup with coffee beans and gold spoon",
     imageAltAr: "فن لاتيه في فنجان أسود مع حبوب قهوة وملعقة ذهبية",
     imagePath: "/assets/hero-2.png",
-    href: ROUTES.shop,
+    href: ROUTES.shopCategory("ground-coffee"),
+    categoryId: "ground-coffee",
     sortOrder: 2,
   },
   {
@@ -54,7 +56,8 @@ export const fallbackHeroSlides: ApiHeroSlide[] = [
     imageAlt: "Black teapot and teacup with steam and dried tea leaves",
     imageAltAr: "إبريق شاي أسود وفنجان مع بخار وأوراق شاي مجففة",
     imagePath: "/assets/hero-3.png",
-    href: ROUTES.shop,
+    href: ROUTES.shopCategory("tea"),
+    categoryId: "tea",
     sortOrder: 3,
   },
 ];

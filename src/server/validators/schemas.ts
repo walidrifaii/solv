@@ -387,7 +387,8 @@ export const createSlideSchema = z.object({
   imageAlt: z.string().trim().min(1).max(200),
   imageAltAr: z.string().trim().max(200).optional().nullable(),
   imagePath: z.string().trim().min(1).max(500),
-  href: z.string().trim().min(1).max(500),
+  href: z.string().trim().min(1).max(500).optional(),
+  categoryId: z.string().trim().min(1).max(191),
   sortOrder: z.coerce.number().int().min(0).max(9999).default(0),
   isActive: z.boolean().default(true),
 });

@@ -30,7 +30,7 @@ export function SlideCreatePage() {
           Add slide
         </h2>
         <p className="mt-1 text-sm text-[#7a6b5d]">
-          Shown on the homepage hero when active.
+          Upload a banner image and pick the shop category it opens.
         </p>
       </div>
       <SlideForm

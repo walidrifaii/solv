@@ -2,6 +2,7 @@ export const ROUTES = {
   home: "/",
   about: "/about",
   shop: "/products",
+  shopCategory: (id: string) => `/products?category=${id}` as const,
   services: "/services",
   contact: "/contact",
   order: "/checkout",

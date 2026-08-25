@@ -94,7 +94,8 @@ const heroSlides = [
     imageAlt: "Black coffee cup with steam, beans, and a gold cezve",
     imageAltAr: "فنجان قهوة سوداء مع بخار وحبوب وجذوة ذهبية",
     imagePath: "/assets/hero-1.png",
-    href: "/products",
+    href: "/products?category=coffee-beans",
+    categoryId: "coffee-beans",
     sortOrder: 1,
   },
   {
@@ -112,7 +113,8 @@ const heroSlides = [
     imageAlt: "Latte art in a black cup with coffee beans and gold spoon",
     imageAltAr: "فن لاتيه في فنجان أسود مع حبوب قهوة وملعقة ذهبية",
     imagePath: "/assets/hero-2.png",
-    href: "/products",
+    href: "/products?category=ground-coffee",
+    categoryId: "ground-coffee",
     sortOrder: 2,
   },
   {
@@ -130,20 +132,13 @@ const heroSlides = [
     imageAlt: "Black teapot and teacup with steam and dried tea leaves",
     imageAltAr: "إبريق شاي أسود وفنجان مع بخار وأوراق شاي مجففة",
     imagePath: "/assets/hero-3.png",
-    href: "/products",
+    href: "/products?category=tea",
+    categoryId: "tea",
     sortOrder: 3,
   },
 ] as const;
 
 async function main() {
-  for (const slide of heroSlides) {
-    await prisma.heroSlide.upsert({
-      where: { id: slide.id },
-      update: { ...slide, isActive: true },
-      create: { ...slide, isActive: true },
-    });
-  }
-
   for (const city of qatarCities) {
     await prisma.city.upsert({
       where: { id: city.id },
@@ -206,6 +201,14 @@ async function main() {
         sortOrder: category.sortOrder,
         isActive: true,
       },
+    });
+  }
+
+  for (const slide of heroSlides) {
+    await prisma.heroSlide.upsert({
+      where: { id: slide.id },
+      update: { ...slide, isActive: true },
+      create: { ...slide, isActive: true },
     });
   }
 

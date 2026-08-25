@@ -57,7 +57,7 @@ export function SlideEditPage({ slideId }: { slideId: string }) {
           Edit slide
         </h2>
         <p className="mt-1 text-sm text-[#7a6b5d]">
-          Updating {data.title}
+          Banner image and category destination.
         </p>
       </div>
       <SlideForm

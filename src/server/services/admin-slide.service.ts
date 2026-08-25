@@ -1,5 +1,6 @@
 import type { Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/db";
+import { slideHref } from "@/lib/slide-href";
 import { ApiError, ok } from "@/server/utils/http";
 import {
   paginate,
@@ -16,6 +17,16 @@ type ListQuery = z.infer<typeof adminSlideListQuerySchema>;
 type CreateInput = z.infer<typeof createSlideSchema>;
 type UpdateInput = z.infer<typeof updateSlideSchema>;
 
+async function assertCategory(categoryId: string) {
+  const category = await prisma.category.findUnique({
+    where: { id: categoryId },
+    select: { id: true },
+  });
+  if (!category) {
+    throw new ApiError("Category not found", 400);
+  }
+}
+
 function mapAdminSlide(slide: {
   id: string;
   eyebrow: string;
@@ -30,6 +41,7 @@ function mapAdminSlide(slide: {
   imageAltAr: string | null;
   imagePath: string;
   href: string;
+  categoryId: string | null;
   sortOrder: number;
   isActive: boolean;
   createdAt: Date;
@@ -48,7 +60,8 @@ function mapAdminSlide(slide: {
     imageAlt: slide.imageAlt,
     imageAltAr: slide.imageAltAr,
     imagePath: slide.imagePath,
-    href: slide.href,
+    href: slideHref(slide.categoryId, slide.href),
+    categoryId: slide.categoryId,
     sortOrder: slide.sortOrder,
     isActive: slide.isActive,
     createdAt: slide.createdAt.toISOString(),
@@ -68,6 +81,7 @@ export async function adminListSlides(query: ListQuery) {
             { eyebrowAr: { contains: query.search } },
             { description: { contains: query.search } },
             { descriptionAr: { contains: query.search } },
+            { categoryId: { contains: query.search } },
           ],
         }
       : {}),
@@ -110,6 +124,9 @@ export async function adminCreateSlide(input: CreateInput) {
     }
   }
 
+  await assertCategory(input.categoryId);
+  const href = slideHref(input.categoryId, input.href);
+
   const slide = await prisma.heroSlide.create({
     data: {
       ...(input.id ? { id: input.id } : {}),
@@ -124,7 +141,8 @@ export async function adminCreateSlide(input: CreateInput) {
       imageAlt: input.imageAlt,
       imageAltAr: input.imageAltAr?.trim() || null,
       imagePath: input.imagePath,
-      href: input.href,
+      href,
+      categoryId: input.categoryId,
       sortOrder: input.sortOrder,
       isActive: input.isActive,
     },
@@ -138,6 +156,17 @@ export async function adminUpdateSlide(id: string, input: UpdateInput) {
   if (!existing) {
     throw new ApiError("Slide not found", 404);
   }
+
+  const nextCategoryId =
+    input.categoryId !== undefined ? input.categoryId : existing.categoryId;
+  if (input.categoryId !== undefined) {
+    await assertCategory(input.categoryId);
+  }
+
+  const href =
+    input.categoryId !== undefined || input.href !== undefined
+      ? slideHref(nextCategoryId, input.href ?? existing.href)
+      : undefined;
 
   const slide = await prisma.heroSlide.update({
     where: { id },
@@ -165,7 +194,10 @@ export async function adminUpdateSlide(id: string, input: UpdateInput) {
         ? { imageAltAr: input.imageAltAr?.trim() || null }
         : {}),
       ...(input.imagePath !== undefined ? { imagePath: input.imagePath } : {}),
-      ...(input.href !== undefined ? { href: input.href } : {}),
+      ...(href !== undefined ? { href } : {}),
+      ...(input.categoryId !== undefined
+        ? { categoryId: input.categoryId }
+        : {}),
       ...(input.sortOrder !== undefined ? { sortOrder: input.sortOrder } : {}),
       ...(input.isActive !== undefined ? { isActive: input.isActive } : {}),
     },

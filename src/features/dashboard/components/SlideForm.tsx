@@ -9,6 +9,7 @@ import { ImageUploadField } from "@/features/dashboard/components/ImageUploadFie
 import { ROUTES } from "@/constants/routes";
 import type { ApiAdminHeroSlide, CreateSlideInput } from "@/store/api/types";
 import { getApiErrorMessage } from "@/store/api/errors";
+import { useAdminListCategoriesQuery } from "@/store/slices";
 
 type Props = {
   initial?: ApiAdminHeroSlide | null;
@@ -19,20 +20,14 @@ type Props = {
 
 export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
   const editing = Boolean(initial);
-  const [eyebrow, setEyebrow] = useState(initial?.eyebrow ?? "");
-  const [eyebrowAr, setEyebrowAr] = useState(initial?.eyebrowAr ?? "");
-  const [title, setTitle] = useState(initial?.title ?? "");
-  const [titleAr, setTitleAr] = useState(initial?.titleAr ?? "");
-  const [description, setDescription] = useState(initial?.description ?? "");
-  const [descriptionAr, setDescriptionAr] = useState(
-    initial?.descriptionAr ?? "",
-  );
-  const [ctaLabel, setCtaLabel] = useState(initial?.ctaLabel ?? "Shop Now");
-  const [ctaLabelAr, setCtaLabelAr] = useState(initial?.ctaLabelAr ?? "");
+  const { data: categoriesData, isLoading: loadingCategories } =
+    useAdminListCategoriesQuery({ limit: 50 });
+  const categories = categoriesData?.items ?? [];
+
+  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? "");
   const [imageAlt, setImageAlt] = useState(initial?.imageAlt ?? "");
   const [imageAltAr, setImageAltAr] = useState(initial?.imageAltAr ?? "");
   const [imagePath, setImagePath] = useState(initial?.imagePath ?? "");
-  const [href, setHref] = useState(initial?.href ?? ROUTES.shop);
   const [sortOrder, setSortOrder] = useState(String(initial?.sortOrder ?? 0));
   const [isActive, setIsActive] = useState(initial?.isActive ?? true);
   const [error, setError] = useState("");
@@ -40,23 +35,20 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
 
   useEffect(() => {
     if (!initial) return;
-    setEyebrow(initial.eyebrow);
-    setEyebrowAr(initial.eyebrowAr ?? "");
-    setTitle(initial.title);
-    setTitleAr(initial.titleAr ?? "");
-    setDescription(initial.description);
-    setDescriptionAr(initial.descriptionAr ?? "");
-    setCtaLabel(initial.ctaLabel);
-    setCtaLabelAr(initial.ctaLabelAr ?? "");
+    setCategoryId(initial.categoryId ?? "");
     setImageAlt(initial.imageAlt);
     setImageAltAr(initial.imageAltAr ?? "");
     setImagePath(initial.imagePath);
-    setHref(initial.href);
     setSortOrder(String(initial.sortOrder));
     setIsActive(initial.isActive);
     setError("");
     setImageUploading(false);
   }, [initial]);
+
+  useEffect(() => {
+    if (initial || categoryId || categories.length === 0) return;
+    setCategoryId(categories[0].id);
+  }, [initial, categoryId, categories]);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -72,20 +64,30 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
       return;
     }
 
+    if (!categoryId) {
+      setError("Please select a category.");
+      return;
+    }
+
+    const category = categories.find((item) => item.id === categoryId);
+    const name = category?.name?.trim() || "Shop";
+    const nameAr = category?.nameAr?.trim() || null;
+
     try {
       await onSubmit({
-        eyebrow: eyebrow.trim(),
-        eyebrowAr: eyebrowAr.trim() || null,
-        title: title.trim(),
-        titleAr: titleAr.trim() || null,
-        description: description.trim(),
-        descriptionAr: descriptionAr.trim() || null,
-        ctaLabel: ctaLabel.trim(),
-        ctaLabelAr: ctaLabelAr.trim() || null,
-        imageAlt: imageAlt.trim(),
-        imageAltAr: imageAltAr.trim() || null,
+        eyebrow: initial?.eyebrow?.trim() || "Shop",
+        eyebrowAr: initial?.eyebrowAr ?? null,
+        title: initial?.title?.trim() || name,
+        titleAr: initial?.titleAr ?? nameAr,
+        description: initial?.description?.trim() || name,
+        descriptionAr: initial?.descriptionAr ?? nameAr,
+        ctaLabel: initial?.ctaLabel?.trim() || "Shop Now",
+        ctaLabelAr: initial?.ctaLabelAr ?? null,
+        imageAlt: imageAlt.trim() || name,
+        imageAltAr: imageAltAr.trim() || nameAr,
         imagePath: imagePath.trim(),
-        href: href.trim(),
+        href: ROUTES.shopCategory(categoryId),
+        categoryId,
         sortOrder: Number(sortOrder) || 0,
         isActive,
       });
@@ -100,116 +102,39 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
       className="space-y-5 rounded-2xl border border-[#e8ddd2] bg-white p-5 sm:p-6"
       noValidate
     >
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className={adminLabelClass} htmlFor="slide-eyebrow">
-            Eyebrow (English)
-          </label>
-          <input
-            id="slide-eyebrow"
-            required
-            value={eyebrow}
-            onChange={(e) => setEyebrow(e.target.value)}
-            className={adminInputClass}
-            placeholder="Premium Coffee & Tea"
-          />
-        </div>
-        <div>
-          <label className={adminLabelClass} htmlFor="slide-eyebrow-ar">
-            Eyebrow (Arabic)
-          </label>
-          <input
-            id="slide-eyebrow-ar"
-            value={eyebrowAr}
-            onChange={(e) => setEyebrowAr(e.target.value)}
-            className={adminInputClass}
-            placeholder="قهوة وشاي فاخر"
-            dir="rtl"
-          />
-        </div>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className={adminLabelClass} htmlFor="slide-title">
-            Title (English)
-          </label>
-          <input
-            id="slide-title"
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className={adminInputClass}
-            placeholder="Rich Flavor, Perfect Moments"
-          />
-        </div>
-        <div>
-          <label className={adminLabelClass} htmlFor="slide-title-ar">
-            Title (Arabic)
-          </label>
-          <input
-            id="slide-title-ar"
-            value={titleAr}
-            onChange={(e) => setTitleAr(e.target.value)}
-            className={adminInputClass}
-            placeholder="نكهة غنية، لحظات مثالية"
-            dir="rtl"
-          />
-        </div>
-      </div>
+      <ImageUploadField
+        label="Banner image"
+        value={imagePath}
+        onChange={setImagePath}
+        onUploadingChange={setImageUploading}
+        required
+      />
 
       <div>
-        <label className={adminLabelClass} htmlFor="slide-description">
-          Description (English)
+        <label className={adminLabelClass} htmlFor="slide-category">
+          Category
         </label>
-        <textarea
-          id="slide-description"
+        <select
+          id="slide-category"
           required
-          rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className={adminInputClass + " resize-y"}
-        />
-      </div>
-      <div>
-        <label className={adminLabelClass} htmlFor="slide-description-ar">
-          Description (Arabic)
-        </label>
-        <textarea
-          id="slide-description-ar"
-          rows={3}
-          value={descriptionAr}
-          onChange={(e) => setDescriptionAr(e.target.value)}
-          className={adminInputClass + " resize-y"}
-          dir="rtl"
-        />
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className={adminLabelClass} htmlFor="slide-cta">
-            CTA label (English)
-          </label>
-          <input
-            id="slide-cta"
-            required
-            value={ctaLabel}
-            onChange={(e) => setCtaLabel(e.target.value)}
-            className={adminInputClass}
-          />
-        </div>
-        <div>
-          <label className={adminLabelClass} htmlFor="slide-cta-ar">
-            CTA label (Arabic)
-          </label>
-          <input
-            id="slide-cta-ar"
-            value={ctaLabelAr}
-            onChange={(e) => setCtaLabelAr(e.target.value)}
-            className={adminInputClass}
-            dir="rtl"
-          />
-        </div>
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          className={adminInputClass}
+          disabled={loadingCategories}
+        >
+          <option value="" disabled>
+            {loadingCategories ? "Loading categories…" : "Select category"}
+          </option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+              {!category.isActive ? " (hidden)" : ""}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1.5 text-xs text-[#8a7a6c]">
+          Clicking the homepage banner opens this category in the shop.
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -219,10 +144,10 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
           </label>
           <input
             id="slide-alt"
-            required
             value={imageAlt}
             onChange={(e) => setImageAlt(e.target.value)}
             className={adminInputClass}
+            placeholder="Coffee beans banner"
           />
         </div>
         <div>
@@ -234,31 +159,10 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
             value={imageAltAr}
             onChange={(e) => setImageAltAr(e.target.value)}
             className={adminInputClass}
+            placeholder="بانر حبوب القهوة"
             dir="rtl"
           />
         </div>
-      </div>
-
-      <ImageUploadField
-        label="Image"
-        value={imagePath}
-        onChange={setImagePath}
-        onUploadingChange={setImageUploading}
-        required
-      />
-
-      <div>
-        <label className={adminLabelClass} htmlFor="slide-href">
-          Link URL
-        </label>
-        <input
-          id="slide-href"
-          required
-          value={href}
-          onChange={(e) => setHref(e.target.value)}
-          className={adminInputClass}
-          placeholder="/products"
-        />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -305,7 +209,7 @@ export function SlideForm({ initial, saving, onCancel, onSubmit }: Props) {
         </button>
         <button
           type="submit"
-          disabled={saving || imageUploading || !imagePath.trim()}
+          disabled={saving || imageUploading || !imagePath.trim() || !categoryId}
           className="rounded-xl bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {imageUploading

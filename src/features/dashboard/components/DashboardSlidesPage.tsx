@@ -86,7 +86,7 @@ export function DashboardSlidesPage() {
             Hero slider
           </h2>
           <p className="mt-1 text-sm text-[#7a6b5d]">
-            Manage homepage banner slides (English & Arabic).
+            Manage homepage banner images and the category each one opens.
           </p>
         </div>
         <Link
@@ -106,7 +106,7 @@ export function DashboardSlidesPage() {
               setSearch(e.target.value);
               setPage(1);
             }}
-            placeholder="Search title or eyebrow…"
+            placeholder="Search title or category…"
             className="w-full rounded-xl border border-[#ddd0c4] bg-[#FEF9F6] px-3.5 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-[#a39486] focus:border-[#C9A962]"
           />
         </div>
@@ -149,7 +149,7 @@ export function DashboardSlidesPage() {
             <thead className="bg-[#FEF9F6] text-[11px] tracking-[0.12em] text-[#8a7a6c] uppercase">
               <tr>
                 <th className="px-5 py-3 font-medium">Slide</th>
-                <th className="px-5 py-3 font-medium">Link</th>
+                <th className="px-5 py-3 font-medium">Category</th>
                 <th className="px-5 py-3 font-medium">Sort</th>
                 <th className="px-5 py-3 font-medium">Status</th>
                 <th className="px-5 py-3 font-medium text-right">Actions</th>
@@ -218,8 +218,8 @@ export function DashboardSlidesPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="max-w-[10rem] truncate px-5 py-4 text-[#5c4f43]">
-                      {slide.href}
+                    <td className="max-w-[12rem] truncate px-5 py-4 text-[#5c4f43]">
+                      {slide.categoryId ?? slide.href}
                     </td>
                     <td className="px-5 py-4 text-[#5c4f43]">
                       {slide.sortOrder}
