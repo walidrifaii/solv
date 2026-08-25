@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { OrnamentIcon } from "@/components/icons/OrnamentIcon";
 import { ShopProductCard } from "@/features/products/components/ShopProductCard";
 import { ROUTES } from "@/constants/routes";
@@ -8,26 +9,48 @@ import type { Locale } from "@/i18n/config";
 import { pickLocalized } from "@/lib/localized";
 import { mapApiProductToShop } from "@/store/mappers/product";
 import {
-  useGetCategoryByIdQuery,
+  useGetCategoriesQuery,
   useGetProductsQuery,
 } from "@/store/slices";
 import Link from "next/link";
 
-/** Shop category: Machines and Grinders / الأجهزة والمطاحن */
-export const MACHINES_GRINDERS_CATEGORY_ID = "machines-grinders";
+const CATEGORY_MATCHERS = [
+  "machines-grinders",
+  "machines-and-grinders",
+  "machines and grinders",
+  "الأجهزة والمطاحن",
+];
+
+function normalize(value: string) {
+  return value.trim().toLowerCase().replace(/\s+/g, " ");
+}
 
 export function MachinesGrinders() {
   const t = useTranslations("home.machinesGrinders");
   const tCommon = useTranslations("common");
   const locale = useLocale() as Locale;
 
-  const { data: category } = useGetCategoryByIdQuery(
-    MACHINES_GRINDERS_CATEGORY_ID,
+  const { data: categories = [], isLoading: loadingCategories } =
+    useGetCategoriesQuery({ limit: 50 });
+
+  const category = useMemo(() => {
+    const matchers = CATEGORY_MATCHERS.map(normalize);
+    return (
+      categories.find((item) => {
+        const candidates = [item.id, item.slug, item.name, item.nameAr ?? ""].map(
+          normalize,
+        );
+        return candidates.some((value) => matchers.includes(value));
+      }) ?? null
+    );
+  }, [categories]);
+
+  const categoryId = category?.id;
+
+  const { data, isLoading: loadingProducts, isError } = useGetProductsQuery(
+    { categoryId: categoryId!, limit: 24 },
+    { skip: !categoryId },
   );
-  const { data, isLoading, isError } = useGetProductsQuery({
-    categoryId: MACHINES_GRINDERS_CATEGORY_ID,
-    limit: 24,
-  });
 
   const products = (data ?? []).map((product) =>
     mapApiProductToShop(product, locale),
@@ -36,6 +59,8 @@ export function MachinesGrinders() {
   const title = category
     ? pickLocalized(locale, category.name, category.nameAr)
     : t("title");
+
+  const isLoading = loadingCategories || (!!categoryId && loadingProducts);
 
   if (isLoading) {
     return (
@@ -49,7 +74,7 @@ export function MachinesGrinders() {
     );
   }
 
-  if (isError || products.length === 0) {
+  if (!categoryId || isError || products.length === 0) {
     return null;
   }
 
@@ -66,7 +91,7 @@ export function MachinesGrinders() {
             <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
           </div>
           <Link
-            href={ROUTES.shopCategory(MACHINES_GRINDERS_CATEGORY_ID)}
+            href={ROUTES.shopCategory(categoryId)}
             className="mt-3 inline-block text-sm font-medium text-[#C9A962] transition-colors hover:text-[#a5a196]"
           >
             {t("viewAll")}

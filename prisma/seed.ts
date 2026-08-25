@@ -43,8 +43,8 @@ const categories = [
     sortOrder: 5,
   },
   {
-    id: "machines-grinders",
-    slug: "machines-grinders",
+    id: "machines-and-grinders",
+    slug: "machines-and-grinders",
     name: "Machines and Grinders",
     nameAr: "الأجهزة والمطاحن",
     imagePath: "/assets/category-accessories.png",
