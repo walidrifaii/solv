@@ -6,7 +6,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { ChevronLeftIcon } from "@/components/icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
-import { fallbackHeroSlides } from "@/features/home/data";
 import type { Locale } from "@/i18n/config";
 import { pickLocalized } from "@/lib/localized";
 import { slideHref } from "@/lib/slide-href";
@@ -37,17 +36,15 @@ export function Hero() {
   const { data, isLoading, isError } = useGetSlidesQuery({ limit: 20 });
   const [index, setIndex] = useState(0);
 
-  const apiSlides: ApiHeroSlide[] = Array.isArray(data) ? data : [];
-  const sourceSlides =
-    !isError && apiSlides.length > 0 ? apiSlides : fallbackHeroSlides;
-  const slides = sourceSlides.map((item) => localizeSlide(item, locale));
+  const slides = (Array.isArray(data) ? data : []).map((item) =>
+    localizeSlide(item, locale),
+  );
   const count = slides.length;
   const safeIndex = count === 0 ? 0 : index % count;
-  const slide = count > 0 ? slides[safeIndex] : null;
 
   useEffect(() => {
     setIndex(0);
-  }, [sourceSlides.length, locale]);
+  }, [count, locale]);
 
   useEffect(() => {
     if (count <= 1) return;
@@ -62,27 +59,14 @@ export function Hero() {
     setIndex((next + count) % count);
   }
 
-  const frameClass =
-    "relative isolate min-h-[42svh] w-full overflow-hidden rounded-[1.5rem] bg-[#a5a196] sm:min-h-[50svh] sm:rounded-[1.75rem] md:aspect-[1871/840] md:min-h-0";
-
-  if (isLoading && apiSlides.length === 0) {
-    return (
-      <section className="px-3 pb-4 sm:px-5 sm:pb-5 md:px-6 md:pb-6">
-        <div className="mx-auto w-full max-w-[1400px]">
-          <div className={frameClass} />
-        </div>
-      </section>
-    );
-  }
-
-  if (!slide || count === 0) {
+  if (isLoading || isError || count === 0) {
     return null;
   }
 
   return (
-    <section className="px-3 pb-4 sm:px-5 sm:pb-5 md:px-6 md:pb-6">
+    <section className="px-4 pb-4 sm:px-5 sm:pb-5 md:px-6 md:pb-6">
       <div className="mx-auto w-full max-w-[1400px]">
-        <div className={`${frameClass} text-white`}>
+        <div className="relative isolate min-h-[42svh] w-full overflow-hidden rounded-[1.5rem] bg-[#a5a196] text-white sm:min-h-[50svh] sm:rounded-[1.75rem] md:aspect-[1871/840] md:min-h-0">
           {slides.map((item, i) => (
             <Link
               key={item.id}

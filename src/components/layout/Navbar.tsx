@@ -302,7 +302,7 @@ export function Navbar() {
   );
 
   return (
-    <header className="relative z-50 px-3 py-4 sm:px-5 sm:py-5 md:px-6 md:py-6">
+    <header className="relative z-50 px-4 py-4 sm:px-5 sm:py-5 md:px-6 md:py-6">
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="h-px w-full bg-[#C9A962]/70" />
 
