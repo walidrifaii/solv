@@ -4,14 +4,13 @@ import { useTranslations } from "next-intl";
 import { CategoryProductStrip } from "@/features/home/components/CategoryProductStrip";
 
 const CATEGORY_MATCHERS = [
-  "machines-grinders",
-  "machines-and-grinders",
-  "machines and grinders",
-  "الأجهزة والمطاحن",
+  "specialty-coffee-crops",
+  "specialty coffee crops",
+  "محاصيل القهوة المختصة",
 ] as const;
 
-export function MachinesGrinders() {
-  const t = useTranslations("home.machinesGrinders");
+export function SpecialtyCoffeeCrops() {
+  const t = useTranslations("home.specialtyCoffeeCrops");
 
   return (
     <CategoryProductStrip

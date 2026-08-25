@@ -51,11 +51,19 @@ const categories = [
     sortOrder: 6,
   },
   {
+    id: "specialty-coffee-crops",
+    slug: "specialty-coffee-crops",
+    name: "Specialty Coffee Crops",
+    nameAr: "محاصيل القهوة المختصة",
+    imagePath: "/assets/category-coffee-beans.png",
+    sortOrder: 7,
+  },
+  {
     id: "gift-sets",
     slug: "gift-sets",
     name: "Gift Sets",
     imagePath: "/assets/category-gift-sets.png",
-    sortOrder: 7,
+    sortOrder: 8,
   },
 ] as const;
 

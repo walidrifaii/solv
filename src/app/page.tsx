@@ -7,6 +7,7 @@ import { Newsletter } from "@/features/home/components/Newsletter";
 import { PromoBanners } from "@/features/home/components/PromoBanners";
 import { ShopByCategory } from "@/features/home/components/ShopByCategory";
 import { SolvExperience } from "@/features/home/components/SolvExperience";
+import { SpecialtyCoffeeCrops } from "@/features/home/components/SpecialtyCoffeeCrops";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <PromoBanners />
       <ShopByCategory />
       <MachinesGrinders />
+      <SpecialtyCoffeeCrops />
       <FeaturedItems />
       <HandpickedQuality />
       <SolvExperience />
