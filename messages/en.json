@@ -96,9 +96,7 @@
     },
     "machinesGrinders": {
       "title": "Machines and Grinders",
-      "description": "Brewing machines, grinders, and gear for every ritual.",
-      "viewAll": "View all",
-      "empty": "No machines or grinders yet."
+      "viewAll": "View all"
     },
     "featured": {
       "eyebrow": "Our Selection",
