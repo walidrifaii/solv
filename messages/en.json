@@ -96,7 +96,9 @@
     },
     "machinesGrinders": {
       "title": "Machines and Grinders",
-      "viewAll": "View all"
+      "viewAll": "View all",
+      "prev": "Previous products",
+      "next": "Next products"
     },
     "featured": {
       "eyebrow": "Our Selection",

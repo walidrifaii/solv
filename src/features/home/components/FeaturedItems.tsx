@@ -47,7 +47,11 @@ export function FeaturedItems() {
             {t("empty")}
           </p>
         ) : (
-          <AutoHorizontalStrip itemCount={products.length}>
+          <AutoHorizontalStrip
+            itemCount={products.length}
+            prevLabel={t("prev")}
+            nextLabel={t("next")}
+          >
             <div className="flex gap-3 pe-1 sm:gap-4">
               {products.map((product) => (
                 <div

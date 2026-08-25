@@ -99,7 +99,11 @@ export function MachinesGrinders() {
           </Link>
         </div>
 
-        <AutoHorizontalStrip itemCount={products.length}>
+        <AutoHorizontalStrip
+          itemCount={products.length}
+          prevLabel={t("prev")}
+          nextLabel={t("next")}
+        >
           <div className="flex gap-3 pe-1 sm:gap-4">
             {products.map((product) => (
               <div

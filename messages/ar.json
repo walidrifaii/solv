@@ -96,7 +96,9 @@
     },
     "machinesGrinders": {
       "title": "الأجهزة والمطاحن",
-      "viewAll": "عرض الكل"
+      "viewAll": "عرض الكل",
+      "prev": "المنتجات السابقة",
+      "next": "المنتجات التالية"
     },
     "featured": {
       "eyebrow": "اختيارنا",
