@@ -64,7 +64,7 @@ export function Hero() {
   }
 
   return (
-    <section className="px-2 pb-3 sm:px-3 sm:pb-4 md:px-4 md:pb-5">
+    <section className="bg-[#f5f0e8] px-2 pb-3 sm:px-3 sm:pb-4 md:px-4 md:pb-5">
       <div className="mx-auto w-full max-w-[1600px]">
         <div className="relative isolate min-h-[42svh] w-full overflow-hidden rounded-[1.5rem] bg-[#a5a196] text-white sm:min-h-[50svh] sm:rounded-[1.75rem] md:aspect-[1871/840] md:min-h-0">
           {slides.map((item, i) => (

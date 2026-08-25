@@ -2,10 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
-import { ChevronLeftIcon } from "@/components/icons/ChevronLeftIcon";
-import { ChevronRightIcon } from "@/components/icons/ChevronRightIcon";
 import type { Locale } from "@/i18n/config";
 import { pickLocalized } from "@/lib/localized";
 import { slideHref } from "@/lib/slide-href";
@@ -13,6 +11,7 @@ import type { ApiPromoBanner } from "@/store/api/types";
 import { useGetPromoBannersQuery } from "@/store/slices";
 
 const PER_PAGE = 2;
+const AUTO_MS = 4000;
 
 type LocalizedBanner = {
   id: string;
@@ -34,7 +33,6 @@ function localizeBanner(
 }
 
 export function PromoBanners() {
-  const t = useTranslations("home.promoBanners");
   const locale = useLocale() as Locale;
   const { data, isLoading, isError } = useGetPromoBannersQuery({ limit: 50 });
   const [page, setPage] = useState(0);
@@ -58,15 +56,26 @@ export function PromoBanners() {
     setPage(0);
   }, [banners.length, locale]);
 
+  useEffect(() => {
+    if (pageCount <= 1) return;
+    const timer = window.setInterval(() => {
+      setPage((current) => (current + 1) % pageCount);
+    }, AUTO_MS);
+    return () => window.clearInterval(timer);
+  }, [pageCount, safePage]);
+
   if (isLoading || isError || banners.length === 0) {
     return null;
   }
 
   return (
-    <section className="px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10">
+    <section className="bg-[#f5f0e8] px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10">
       <div className="mx-auto w-full max-w-[1600px]">
         <div className="relative">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5">
+          <div
+            key={safePage}
+            className="grid animate-[heroFade_0.55s_ease-out] grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
+          >
             {visible.map((banner) => (
               <Link
                 key={banner.id}
@@ -85,43 +94,19 @@ export function PromoBanners() {
           </div>
 
           {pageCount > 1 ? (
-            <>
-              <button
-                type="button"
-                onClick={() =>
-                  setPage((current) => (current - 1 + pageCount) % pageCount)
-                }
-                className="absolute top-1/2 start-1 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#a5a196]/25 bg-[#FEF9F6]/90 text-[#a5a196] shadow-sm backdrop-blur-sm transition-colors hover:bg-white sm:start-2 sm:size-10"
-                aria-label={t("prev")}
-              >
-                <ChevronLeftIcon className="size-4 sm:size-5 rtl:rotate-180" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setPage((current) => (current + 1) % pageCount)}
-                className="absolute top-1/2 end-1 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#a5a196]/25 bg-[#FEF9F6]/90 text-[#a5a196] shadow-sm backdrop-blur-sm transition-colors hover:bg-white sm:end-2 sm:size-10"
-                aria-label={t("next")}
-              >
-                <ChevronRightIcon className="size-4 sm:size-5 rtl:rotate-180" />
-              </button>
-
-              <div className="mt-4 flex items-center justify-center gap-2">
-                {Array.from({ length: pageCount }, (_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setPage(i)}
-                    aria-label={`${i + 1}`}
-                    aria-current={i === safePage}
-                    className={`h-1.5 rounded-full transition-all ${
-                      i === safePage
-                        ? "w-6 bg-[#C9A962]"
-                        : "w-1.5 bg-[#a5a196]/30 hover:bg-[#a5a196]/50"
-                    }`}
-                  />
-                ))}
-              </div>
-            </>
+            <div className="mt-4 flex items-center justify-center gap-2">
+              {Array.from({ length: pageCount }, (_, i) => (
+                <span
+                  key={i}
+                  aria-hidden
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === safePage
+                      ? "w-6 bg-[#C9A962]"
+                      : "w-1.5 bg-[#a5a196]/30"
+                  }`}
+                />
+              ))}
+            </div>
           ) : null}
         </div>
       </div>
