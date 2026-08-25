@@ -34,18 +34,12 @@ function NavLinks({
             key={item.href}
             href={item.href}
             onClick={onNavigate}
-            className={`rounded-xl px-3 py-2.5 transition-colors ${
-              active
-                ? "bg-[#C9A962] text-white"
-                : "text-[#d1c4b6] hover:bg-white/5 hover:text-white"
+            className={`rounded-xl px-3 py-2.5 text-white transition-colors ${
+              active ? "bg-[#C9A962]" : "hover:bg-white/10"
             }`}
           >
             <span className="block text-sm font-medium">{item.label}</span>
-            <span
-              className={`mt-0.5 block text-[11px] ${
-                active ? "text-white/85" : "text-[#8a7a6c]"
-              }`}
-            >
+            <span className="mt-0.5 block text-[11px] text-white/80">
               {item.description}
             </span>
           </Link>
@@ -121,7 +115,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               <p className="font-serif text-lg leading-none tracking-wide">
                 SOLV
               </p>
-              <p className="mt-1 text-[10px] tracking-[0.18em] text-[#C9A962] uppercase">
+              <p className="mt-1 text-[10px] tracking-[0.18em] text-white uppercase">
                 Admin
               </p>
             </div>
@@ -134,11 +128,11 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
         <div className="border-t border-white/10 px-4 py-4">
           <p className="truncate text-sm font-medium text-white">{admin.name}</p>
-          <p className="mt-0.5 truncate text-xs text-[#8a7a6c]">{admin.email}</p>
+          <p className="mt-0.5 truncate text-xs text-white/80">{admin.email}</p>
           <div className="mt-3 flex gap-2">
             <Link
               href={ROUTES.home}
-              className="flex-1 rounded-lg border border-white/15 px-2 py-2 text-center text-xs text-[#d1c4b6] transition-colors hover:border-[#C9A962]/50 hover:text-white"
+              className="flex-1 rounded-lg border border-white/15 px-2 py-2 text-center text-xs text-white transition-colors hover:border-white/40 hover:bg-white/10"
             >
               View site
             </Link>
