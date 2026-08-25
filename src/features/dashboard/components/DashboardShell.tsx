@@ -36,14 +36,14 @@ function NavLinks({
             onClick={onNavigate}
             className={`rounded-xl px-3 py-2.5 transition-colors ${
               active
-                ? "bg-[#C9A962]/18 text-[#C9A962]"
+                ? "bg-[#C9A962] text-white"
                 : "text-[#d1c4b6] hover:bg-white/5 hover:text-white"
             }`}
           >
             <span className="block text-sm font-medium">{item.label}</span>
             <span
               className={`mt-0.5 block text-[11px] ${
-                active ? "text-[#C9A962]/80" : "text-[#8a7a6c]"
+                active ? "text-white/85" : "text-[#8a7a6c]"
               }`}
             >
               {item.description}
