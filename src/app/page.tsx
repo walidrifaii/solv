@@ -6,7 +6,6 @@ import { MachinesGrinders } from "@/features/home/components/MachinesGrinders";
 import { Newsletter } from "@/features/home/components/Newsletter";
 import { PromoBanners } from "@/features/home/components/PromoBanners";
 import { ShopByCategory } from "@/features/home/components/ShopByCategory";
-import { SolvExperience } from "@/features/home/components/SolvExperience";
 import { SpecialtyCoffeeCrops } from "@/features/home/components/SpecialtyCoffeeCrops";
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
       <SpecialtyCoffeeCrops />
       <FeaturedItems />
       <HandpickedQuality />
-      <SolvExperience />
       <HotDeals />
       <Newsletter />
     </main>
