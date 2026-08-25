@@ -32,10 +32,19 @@ function localizeBanner(
   };
 }
 
+function chunkBanners(banners: LocalizedBanner[]) {
+  const pages: LocalizedBanner[][] = [];
+  for (let i = 0; i < banners.length; i += PER_PAGE) {
+    pages.push(banners.slice(i, i + PER_PAGE));
+  }
+  return pages;
+}
+
 export function PromoBanners() {
   const locale = useLocale() as Locale;
   const { data, isLoading, isError } = useGetPromoBannersQuery({ limit: 50 });
-  const [page, setPage] = useState(0);
+  const [index, setIndex] = useState(0);
+  const [instant, setInstant] = useState(false);
 
   const banners = useMemo(
     () =>
@@ -44,25 +53,24 @@ export function PromoBanners() {
       ),
     [data, locale],
   );
-
-  const pageCount = Math.ceil(banners.length / PER_PAGE);
-  const safePage = pageCount === 0 ? 0 : page % pageCount;
-  const visible = banners.slice(
-    safePage * PER_PAGE,
-    safePage * PER_PAGE + PER_PAGE,
-  );
+  const pages = useMemo(() => chunkBanners(banners), [banners]);
+  const pageCount = pages.length;
+  const trackPages = pageCount > 1 ? [...pages, pages[0]] : pages;
+  const activeDot = pageCount === 0 ? 0 : index % pageCount;
 
   useEffect(() => {
-    setPage(0);
+    setIndex(0);
+    setInstant(false);
   }, [banners.length, locale]);
 
   useEffect(() => {
     if (pageCount <= 1) return;
     const timer = window.setInterval(() => {
-      setPage((current) => (current + 1) % pageCount);
+      setInstant(false);
+      setIndex((current) => current + 1);
     }, AUTO_MS);
     return () => window.clearInterval(timer);
-  }, [pageCount, safePage]);
+  }, [pageCount]);
 
   if (isLoading || isError || banners.length === 0) {
     return null;
@@ -71,36 +79,48 @@ export function PromoBanners() {
   return (
     <section className="bg-[#f5f0e8] px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10">
       <div className="mx-auto w-full max-w-[1600px]">
-        <div className="relative">
+        <div className="relative overflow-hidden">
           <div
-            key={safePage}
-            className="grid animate-[heroFade_0.55s_ease-out] grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
+            className={`flex ${instant ? "" : "transition-transform duration-700 ease-out"}`}
+            style={{ transform: `translateX(-${index * 100}%)` }}
+            onTransitionEnd={() => {
+              if (index < pageCount) return;
+              setInstant(true);
+              setIndex(0);
+            }}
           >
-            {visible.map((banner) => (
-              <Link
-                key={banner.id}
-                href={banner.href}
-                className="group relative block aspect-[16/9] overflow-hidden rounded-2xl bg-[#a5a196] sm:rounded-[1.25rem] md:aspect-[2/1]"
+            {trackPages.map((group, pageIndex) => (
+              <div
+                key={`${group.map((item) => item.id).join("-")}-${pageIndex}`}
+                className="grid w-full shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
               >
-                <Image
-                  src={banner.imagePath}
-                  alt={banner.imageAlt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </Link>
+                {group.map((banner) => (
+                  <Link
+                    key={banner.id}
+                    href={banner.href}
+                    className="group relative block aspect-[16/9] overflow-hidden rounded-2xl bg-[#a5a196] sm:rounded-[1.25rem] md:aspect-[2/1]"
+                  >
+                    <Image
+                      src={banner.imagePath}
+                      alt={banner.imageAlt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </Link>
+                ))}
+              </div>
             ))}
           </div>
 
           {pageCount > 1 ? (
             <div className="mt-4 flex items-center justify-center gap-2">
-              {Array.from({ length: pageCount }, (_, i) => (
+              {pages.map((_, i) => (
                 <span
                   key={i}
                   aria-hidden
                   className={`h-1.5 rounded-full transition-all ${
-                    i === safePage
+                    i === activeDot
                       ? "w-6 bg-[#C9A962]"
                       : "w-1.5 bg-[#a5a196]/30"
                   }`}
