@@ -56,6 +56,7 @@ export function PromoBanners() {
   const pages = useMemo(() => chunkBanners(banners), [banners]);
   const pageCount = pages.length;
   const trackPages = pageCount > 1 ? [...pages, pages[0]] : pages;
+  const trackCount = trackPages.length;
   const activeDot = pageCount === 0 ? 0 : index % pageCount;
 
   useEffect(() => {
@@ -81,9 +82,13 @@ export function PromoBanners() {
       <div className="mx-auto w-full max-w-[1600px]">
         <div className="relative overflow-hidden">
           <div
-            className={`flex ${instant ? "" : "transition-transform duration-700 ease-out"}`}
-            style={{ transform: `translateX(-${index * 100}%)` }}
-            onTransitionEnd={() => {
+            className={`flex ${instant ? "transition-none" : "transition-transform duration-700 ease-out"}`}
+            style={{
+              width: `${trackCount * 100}%`,
+              transform: `translateX(-${(index * 100) / trackCount}%)`,
+            }}
+            onTransitionEnd={(event) => {
+              if (event.target !== event.currentTarget) return;
               if (index < pageCount) return;
               setInstant(true);
               setIndex(0);
@@ -92,7 +97,8 @@ export function PromoBanners() {
             {trackPages.map((group, pageIndex) => (
               <div
                 key={`${group.map((item) => item.id).join("-")}-${pageIndex}`}
-                className="grid w-full shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
+                className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
+                style={{ width: `${100 / trackCount}%` }}
               >
                 {group.map((banner) => (
                   <Link
