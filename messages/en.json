@@ -111,6 +111,7 @@
       "title": "Featured Products",
       "description": "Handpicked favorites from our collection.",
       "empty": "No featured products yet.",
+      "viewAll": "View all",
       "prev": "Previous featured items",
       "next": "Next featured items"
     },

@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { OrnamentIcon } from "@/components/icons/OrnamentIcon";
 import { AutoHorizontalStrip, stripCardClass } from "@/features/home/components/AutoHorizontalStrip";
 import { FeaturedProductCard } from "@/features/home/components/FeaturedProductCard";
+import { ROUTES } from "@/constants/routes";
 import type { Locale } from "@/i18n/config";
 import { mapApiProductToShop } from "@/store/mappers/product";
 import { useGetProductsQuery } from "@/store/slices";
@@ -36,6 +38,12 @@ export function FeaturedItems() {
             <OrnamentIcon className="size-3 sm:size-3.5" />
             <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
           </div>
+          <Link
+            href={ROUTES.shop}
+            className="mt-5 inline-flex items-center justify-center rounded-md border border-[#C9A962] bg-[#C9A962]/12 px-5 py-2 text-sm font-medium text-[#C9A962] transition-colors hover:bg-[#C9A962] hover:text-white sm:mt-6 sm:px-6 sm:py-2.5"
+          >
+            {t("viewAll")}
+          </Link>
         </div>
 
         {isLoading ? (
