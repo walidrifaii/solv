@@ -78,7 +78,12 @@
     "location": "Doha, Qatar",
     "facebook": "Facebook",
     "instagram": "Instagram",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "newsletter": "Newsletter",
+    "newsletterPlaceholder": "Enter your email",
+    "newsletterCta": "Subscribe",
+    "newsletterSuccess": "You're subscribed — thank you!",
+    "newsletterError": "Something went wrong. Please try again."
   },
   "home": {
     "hero": {

@@ -78,7 +78,12 @@
     "location": "الدوحة، قطر",
     "facebook": "فيسبوك",
     "instagram": "إنستغرام",
-    "whatsapp": "واتساب"
+    "whatsapp": "واتساب",
+    "newsletter": "النشرة البريدية",
+    "newsletterPlaceholder": "أدخل بريدك الإلكتروني",
+    "newsletterCta": "اشتراك",
+    "newsletterSuccess": "تم الاشتراك — شكراً لك!",
+    "newsletterError": "حدث خطأ. يرجى المحاولة مرة أخرى."
   },
   "home": {
     "hero": {

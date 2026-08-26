@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useState, type FormEvent } from "react";
 import {
   ApplePayLogo,
   MastercardLogo,
@@ -25,6 +26,8 @@ import {
   footerShopLinks,
   footerSocial,
 } from "@/data/footer";
+import { getApiErrorMessage } from "@/store/api/errors";
+import { useSubscribeMutation } from "@/store/slices";
 
 const linkClass =
   "text-sm leading-7 text-black/70 transition-colors hover:text-black";
@@ -43,6 +46,25 @@ export function Footer() {
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
   const year = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [subscribe, { isLoading }] = useSubscribeMutation();
+
+  async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!email.trim()) return;
+    setError("");
+    setSubmitted(false);
+
+    try {
+      await subscribe({ email: email.trim() }).unwrap();
+      setSubmitted(true);
+      setEmail("");
+    } catch (err) {
+      setError(getApiErrorMessage(err, t("newsletterError")));
+    }
+  }
 
   return (
     <footer
@@ -146,8 +168,48 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="min-w-0">
-          <h3 className={headingClass}>{t("paymentMethods")}</h3>
+        <div className="col-span-2 min-w-0 lg:col-span-1">
+          <h3 className={headingClass}>{t("newsletter")}</h3>
+          <form
+            onSubmit={handleSubscribe}
+            className="flex w-full flex-col gap-2 sm:flex-row sm:gap-0"
+          >
+            <label htmlFor="footer-newsletter-email" className="sr-only">
+              {t("newsletterPlaceholder")}
+            </label>
+            <input
+              id="footer-newsletter-email"
+              type="email"
+              required
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setSubmitted(false);
+                setError("");
+              }}
+              placeholder={t("newsletterPlaceholder")}
+              className="w-full rounded-md border border-black/15 bg-white/90 px-3 py-2.5 text-sm text-[#a5a196] outline-none placeholder:text-black/40 focus:border-[#C9A962] sm:rounded-e-none"
+            />
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="shrink-0 cursor-pointer rounded-md bg-[#C9A962] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#D9BC82] disabled:cursor-not-allowed disabled:opacity-60 sm:rounded-s-none"
+            >
+              {isLoading ? "…" : t("newsletterCta")}
+            </button>
+          </form>
+          {error ? (
+            <p className="mt-2 text-xs text-[#5c2a2a]" role="alert">
+              {error}
+            </p>
+          ) : null}
+          {submitted ? (
+            <p className="mt-2 text-xs text-[#2f4a28]" role="status">
+              {t("newsletterSuccess")}
+            </p>
+          ) : null}
+
+          <h3 className={`${headingClass} mt-6`}>{t("paymentMethods")}</h3>
           <div className="flex flex-row flex-wrap items-center gap-3 text-black sm:gap-4">
             <VisaLogo className="h-5 w-14 shrink-0" />
             <MastercardLogo className="h-6 w-10 shrink-0" />

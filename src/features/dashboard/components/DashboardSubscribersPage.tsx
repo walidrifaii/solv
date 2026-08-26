@@ -47,7 +47,7 @@ export function DashboardSubscribersPage() {
             Subscribers
           </h2>
           <p className="mt-1 text-sm text-[#7a6b5d]">
-            Newsletter signups from the home page community section.
+            Newsletter signups from the site footer.
           </p>
         </div>
         {meta ? (
