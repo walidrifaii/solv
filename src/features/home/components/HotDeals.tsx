@@ -1,9 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import Image from "next/image";
 import { useMemo, useState } from "react";
-import dealsBg from "@/assets/images/hot-deals-bg.png";
 import { DealCard } from "@/features/home/components/DealCard";
 import type { Locale } from "@/i18n/config";
 import { mapApiProductToShop } from "@/store/mappers/product";
@@ -37,25 +35,14 @@ export function HotDeals() {
   );
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#a5a196] text-white">
-      <Image
-        src={dealsBg}
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover object-center"
-        aria-hidden
-      />
-      <div className="absolute inset-0 bg-[#a5a196]/55" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#a5a196]/70 via-[#a5a196]/35 to-[#a5a196]/75" />
-
-      <div className="relative z-10 mx-auto w-full max-w-[1600px] px-2 py-8 sm:px-3 sm:py-9 md:px-4 md:py-10">
+    <section className="bg-[#f5f0e8] px-2 py-8 sm:px-3 sm:py-9 md:px-4 md:py-10">
+      <div className="mx-auto w-full max-w-[1600px]">
         {isLoading ? (
-          <p className="py-5 text-center text-sm text-white/70">
+          <p className="py-5 text-center text-sm text-[#7a6b5d]">
             {tCommon("loading")}
           </p>
         ) : dealProducts.length === 0 ? (
-          <p className="py-5 text-center text-sm text-white/70">
+          <p className="py-5 text-center text-sm text-[#7a6b5d]">
             {t("empty")}
           </p>
         ) : (
@@ -81,8 +68,8 @@ export function HotDeals() {
                     aria-current={i === currentPage}
                     className={`h-1.5 rounded-full transition-all ${
                       i === currentPage
-                        ? "w-5 bg-white"
-                        : "w-1.5 bg-white/35 hover:bg-white/55"
+                        ? "w-5 bg-[#C9A962]"
+                        : "w-1.5 bg-[#a5a196]/30 hover:bg-[#a5a196]/50"
                     }`}
                   />
                 ))}
