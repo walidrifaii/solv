@@ -92,6 +92,7 @@ export function Newsletter() {
           {submitted ? (
             <p className="mt-3 text-sm text-[#6f8f5a]" role="status">
               {t("success")}
+              {/* test */}
             </p>
           ) : null}
         </div>
