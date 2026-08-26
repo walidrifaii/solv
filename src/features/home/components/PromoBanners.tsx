@@ -3,15 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import type { Locale } from "@/i18n/config";
 import { pickLocalized } from "@/lib/localized";
 import { slideHref } from "@/lib/slide-href";
 import type { ApiPromoBanner } from "@/store/api/types";
 import { useGetPromoBannersQuery } from "@/store/slices";
 
-const PER_PAGE = 2;
 const AUTO_MS = 4000;
+const DRAG_THRESHOLD = 6;
 
 type LocalizedBanner = {
   id: string;
@@ -35,7 +41,15 @@ function localizeBanner(
 export function PromoBanners() {
   const locale = useLocale() as Locale;
   const { data, isLoading, isError } = useGetPromoBannersQuery({ limit: 50 });
-  const [page, setPage] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+  const dragRef = useRef({
+    active: false,
+    pointerId: -1,
+    startX: 0,
+    scrollLeft: 0,
+    moved: false,
+  });
 
   const banners = useMemo(
     () =>
@@ -45,24 +59,114 @@ export function PromoBanners() {
     [data, locale],
   );
 
-  const pageCount = Math.ceil(banners.length / PER_PAGE);
-  const safePage = pageCount === 0 ? 0 : page % pageCount;
-  const visible = banners.slice(
-    safePage * PER_PAGE,
-    safePage * PER_PAGE + PER_PAGE,
+  const getStep = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return 0;
+    const card = track.querySelector<HTMLElement>("[data-promo-card]");
+    if (!card) return 0;
+    const styles = window.getComputedStyle(track);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || "16") || 16;
+    return card.offsetWidth + gap;
+  }, []);
+
+  const scrollNext = useCallback(() => {
+    if (pausedRef.current) return;
+    const track = trackRef.current;
+    if (!track) return;
+
+    const step = getStep();
+    const max = track.scrollWidth - track.clientWidth;
+    if (max <= 8 || step <= 0) return;
+
+    const rtl = getComputedStyle(track).direction === "rtl";
+    const current = Math.abs(track.scrollLeft);
+    const atEnd = current >= max - 8;
+
+    if (atEnd) {
+      track.scrollTo({ left: 0, behavior: "smooth" });
+      return;
+    }
+
+    track.scrollBy({ left: rtl ? -step : step, behavior: "smooth" });
+  }, [getStep]);
+
+  useEffect(() => {
+    if (banners.length <= 1) return;
+    const timer = window.setInterval(scrollNext, AUTO_MS);
+    return () => window.clearInterval(timer);
+  }, [banners.length, scrollNext]);
+
+  const snapToNearest = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const step = getStep();
+    if (step <= 0) return;
+
+    const rtl = getComputedStyle(track).direction === "rtl";
+    const raw = rtl ? -track.scrollLeft : track.scrollLeft;
+    const index = Math.round(raw / step);
+    const target = index * step;
+    track.scrollTo({ left: rtl ? -target : target, behavior: "smooth" });
+  }, [getStep]);
+
+  const endDrag = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const drag = dragRef.current;
+      if (!drag.active || drag.pointerId !== event.pointerId) return;
+
+      drag.active = false;
+      const track = trackRef.current;
+      track?.releasePointerCapture(event.pointerId);
+      track?.classList.remove("cursor-grabbing");
+      track?.classList.add("cursor-grab");
+      if (drag.moved) snapToNearest();
+      pausedRef.current = false;
+    },
+    [snapToNearest],
   );
 
-  useEffect(() => {
-    setPage(0);
-  }, [banners.length, locale]);
+  const onPointerDown = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      if (event.pointerType === "touch") return;
+      if (event.button !== 0) return;
 
-  useEffect(() => {
-    if (pageCount <= 1) return;
-    const timer = window.setInterval(() => {
-      setPage((current) => (current + 1) % pageCount);
-    }, AUTO_MS);
-    return () => window.clearInterval(timer);
-  }, [pageCount, safePage]);
+      const track = trackRef.current;
+      if (!track) return;
+
+      pausedRef.current = true;
+      dragRef.current = {
+        active: true,
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        scrollLeft: track.scrollLeft,
+        moved: false,
+      };
+      track.setPointerCapture(event.pointerId);
+      track.classList.remove("cursor-grab");
+      track.classList.add("cursor-grabbing");
+    },
+    [],
+  );
+
+  const onPointerMove = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const drag = dragRef.current;
+      if (!drag.active || drag.pointerId !== event.pointerId) return;
+
+      const track = trackRef.current;
+      if (!track) return;
+
+      const delta = event.clientX - drag.startX;
+      if (Math.abs(delta) > DRAG_THRESHOLD) {
+        drag.moved = true;
+      }
+
+      track.scrollLeft = drag.scrollLeft - delta;
+      event.preventDefault();
+    },
+    [],
+  );
 
   if (isLoading || isError || banners.length === 0) {
     return null;
@@ -71,54 +175,51 @@ export function PromoBanners() {
   return (
     <section className="bg-[#f5f0e8] px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10">
       <div className="mx-auto w-full max-w-[1600px]">
-        <div className="relative">
-          <div
-            key={safePage}
-            className="grid animate-[heroFade_0.55s_ease-out] grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
-          >
-            {visible.map((banner) => (
-              <Link
-                key={banner.id}
-                href={banner.href}
-                className="group relative block aspect-[16/9] overflow-hidden rounded-2xl bg-[#a5a196] sm:rounded-[1.25rem] md:aspect-[2/1]"
-              >
-                <Image
-                  src={banner.imagePath}
-                  alt={banner.imageAlt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </Link>
-            ))}
-          </div>
-
-          {pageCount > 1 ? (
-            <div
-              className="mt-4 flex items-center justify-center gap-2"
-              role="tablist"
-              aria-label="Promo banners"
+        <div
+          ref={trackRef}
+          className="no-scrollbar flex cursor-grab gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth snap-x snap-mandatory sm:gap-4 md:gap-5"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onMouseEnter={() => {
+            pausedRef.current = true;
+          }}
+          onMouseLeave={() => {
+            pausedRef.current = false;
+          }}
+          onTouchStart={() => {
+            pausedRef.current = true;
+          }}
+          onTouchEnd={() => {
+            pausedRef.current = false;
+          }}
+        >
+          {banners.map((banner) => (
+            <Link
+              key={banner.id}
+              href={banner.href}
+              data-promo-card
+              draggable={false}
+              onClick={(event) => {
+                if (dragRef.current.moved) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  dragRef.current.moved = false;
+                }
+              }}
+              className="group relative aspect-[16/9] w-full min-w-full shrink-0 snap-start overflow-hidden rounded-2xl bg-[#a5a196] sm:rounded-[1.25rem] lg:aspect-[2/1] lg:w-[calc((100%-1.25rem)/2)] lg:min-w-0"
             >
-              {Array.from({ length: pageCount }, (_, i) => {
-                const isActive = i === safePage;
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-label={`Go to promo page ${i + 1}`}
-                    onClick={() => setPage(i)}
-                    className={`h-1.5 rounded-full transition-all ${
-                      isActive
-                        ? "w-6 bg-[#C9A962]"
-                        : "w-1.5 bg-[#a5a196]/30 hover:bg-[#a5a196]/50"
-                    }`}
-                  />
-                );
-              })}
-            </div>
-          ) : null}
+              <Image
+                src={banner.imagePath}
+                alt={banner.imageAlt}
+                fill
+                sizes="(max-width: 1023px) 100vw, 50vw"
+                draggable={false}
+                className="pointer-events-none object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </Link>
+          ))}
         </div>
       </div>
     </section>
