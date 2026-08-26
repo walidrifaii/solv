@@ -64,9 +64,9 @@ export function Hero() {
   }
 
   return (
-    <section className="bg-[#f5f0e8] px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10">
+    <section className="bg-[#f5f0e8] px-2 pb-3 sm:px-3 sm:pb-4 md:px-4 md:pb-5">
       <div className="mx-auto w-full max-w-[1600px]">
-        <div className="relative isolate aspect-[16/9] w-full overflow-hidden rounded-2xl bg-[#a5a196] text-white sm:rounded-[1.25rem] lg:aspect-[2/1]">
+        <div className="relative isolate min-h-[42svh] w-full overflow-hidden rounded-[1.5rem] bg-[#a5a196] text-white sm:min-h-[50svh] sm:rounded-[1.75rem] md:aspect-[1871/840] md:min-h-0">
           {slides.map((item, i) => (
             <Link
               key={item.id}
@@ -84,8 +84,8 @@ export function Hero() {
                 alt={item.imageAlt}
                 fill
                 priority={i === 0}
-                sizes="(max-width: 1400px) 100vw, 1600px"
-                className="object-cover object-center"
+                sizes="(max-width: 1400px) 100vw, 1400px"
+                className="object-cover object-[72%_center] sm:object-[68%_center] md:object-center"
               />
             </Link>
           ))}
@@ -98,7 +98,7 @@ export function Hero() {
                   event.preventDefault();
                   goTo(safeIndex - 1);
                 }}
-                className="absolute top-1/2 start-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#a5a196]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#a5a196]/75 sm:start-3 sm:size-10"
+                className="absolute top-1/2 start-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#a5a196]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#a5a196]/75 sm:start-3 sm:size-10 md:start-5 md:size-12"
                 aria-label={t("prev")}
               >
                 <ChevronLeftIcon className="size-4 sm:size-5 rtl:rotate-180" />
@@ -109,13 +109,13 @@ export function Hero() {
                   event.preventDefault();
                   goTo(safeIndex + 1);
                 }}
-                className="absolute top-1/2 end-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#a5a196]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#a5a196]/75 sm:end-3 sm:size-10"
+                className="absolute top-1/2 end-2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#a5a196]/50 text-white backdrop-blur-sm transition-colors hover:bg-[#a5a196]/75 sm:end-3 sm:size-10 md:end-5 md:size-12"
                 aria-label={t("next")}
               >
                 <ChevronRightIcon className="size-4 sm:size-5 rtl:rotate-180" />
               </button>
 
-              <div className="absolute bottom-3 start-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-4">
+              <div className="absolute bottom-4 start-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-5 md:bottom-6 md:gap-2.5">
                 {slides.map((item, i) => (
                   <button
                     key={item.id}
@@ -126,10 +126,10 @@ export function Hero() {
                     }}
                     aria-label={`${i + 1}`}
                     aria-current={i === safeIndex}
-                    className={`h-1.5 rounded-full transition-all ${
+                    className={`h-1.5 rounded-full transition-all sm:h-2 ${
                       i === safeIndex
-                        ? "w-6 bg-white"
-                        : "w-1.5 bg-white/35 hover:bg-white/60"
+                        ? "w-6 bg-white sm:w-8"
+                        : "w-1.5 bg-white/35 hover:bg-white/60 sm:w-2"
                     }`}
                   />
                 ))}
