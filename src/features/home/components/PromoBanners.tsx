@@ -42,7 +42,8 @@ export function PromoBanners() {
   const locale = useLocale() as Locale;
   const { data, isLoading, isError } = useGetPromoBannersQuery({ limit: 50 });
   const trackRef = useRef<HTMLDivElement>(null);
-  const pausedRef = useRef(false);
+  const hoveringRef = useRef(false);
+  const draggingRef = useRef(false);
   const dragRef = useRef({
     active: false,
     pointerId: -1,
@@ -70,7 +71,7 @@ export function PromoBanners() {
   }, []);
 
   const scrollNext = useCallback(() => {
-    if (pausedRef.current) return;
+    if (hoveringRef.current || draggingRef.current) return;
     const track = trackRef.current;
     if (!track) return;
 
@@ -116,12 +117,12 @@ export function PromoBanners() {
       if (!drag.active || drag.pointerId !== event.pointerId) return;
 
       drag.active = false;
+      draggingRef.current = false;
       const track = trackRef.current;
       track?.releasePointerCapture(event.pointerId);
       track?.classList.remove("cursor-grabbing");
       track?.classList.add("cursor-grab");
       if (drag.moved) snapToNearest();
-      pausedRef.current = false;
     },
     [snapToNearest],
   );
@@ -134,7 +135,7 @@ export function PromoBanners() {
       const track = trackRef.current;
       if (!track) return;
 
-      pausedRef.current = true;
+      draggingRef.current = true;
       dragRef.current = {
         active: true,
         pointerId: event.pointerId,
@@ -173,7 +174,15 @@ export function PromoBanners() {
   }
 
   return (
-    <section className="bg-[#f5f0e8] px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10">
+    <section
+      className="bg-[#f5f0e8] px-2 pb-6 sm:px-3 sm:pb-8 md:px-4 md:pb-10"
+      onMouseEnter={() => {
+        hoveringRef.current = true;
+      }}
+      onMouseLeave={() => {
+        hoveringRef.current = false;
+      }}
+    >
       <div className="mx-auto w-full max-w-[1600px]">
         <div
           ref={trackRef}
@@ -182,17 +191,11 @@ export function PromoBanners() {
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
-          onMouseEnter={() => {
-            pausedRef.current = true;
-          }}
-          onMouseLeave={() => {
-            pausedRef.current = false;
-          }}
           onTouchStart={() => {
-            pausedRef.current = true;
+            draggingRef.current = true;
           }}
           onTouchEnd={() => {
-            pausedRef.current = false;
+            draggingRef.current = false;
           }}
         >
           {banners.map((banner) => (

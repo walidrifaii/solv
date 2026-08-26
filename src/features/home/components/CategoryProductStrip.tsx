@@ -109,7 +109,7 @@ export function CategoryProductStrip({
           </div>
           <Link
             href={ROUTES.shopCategory(categoryId)}
-            className="mt-3 inline-block text-sm font-medium text-[#C9A962] transition-colors hover:text-[#a5a196]"
+            className="mt-5 inline-flex items-center justify-center rounded-md border border-[#C9A962] bg-[#C9A962]/12 px-5 py-2 text-sm font-medium text-[#C9A962] transition-colors hover:bg-[#C9A962] hover:text-white sm:mt-6 sm:px-6 sm:py-2.5"
           >
             {viewAllLabel}
           </Link>
