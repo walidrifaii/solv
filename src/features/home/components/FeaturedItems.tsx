@@ -38,12 +38,6 @@ export function FeaturedItems() {
             <OrnamentIcon className="size-3 sm:size-3.5" />
             <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
           </div>
-          <Link
-            href={ROUTES.shop}
-            className="mt-5 inline-flex items-center justify-center rounded-md border border-[#C9A962] bg-[#C9A962]/12 px-5 py-2 text-sm font-medium text-[#C9A962] transition-colors hover:bg-[#C9A962] hover:text-white sm:mt-6 sm:px-6 sm:py-2.5"
-          >
-            {t("viewAll")}
-          </Link>
         </div>
 
         {isLoading ? (
@@ -55,23 +49,34 @@ export function FeaturedItems() {
             {t("empty")}
           </p>
         ) : (
-          <AutoHorizontalStrip
-            itemCount={products.length}
-            prevLabel={t("prev")}
-            nextLabel={t("next")}
-          >
-            <div className="flex gap-3 pe-1 sm:gap-4">
-              {products.map((product) => (
-                <div
-                  key={product.id}
-                  data-strip-card
-                  className={stripCardClass}
-                >
-                  <FeaturedProductCard product={product} />
-                </div>
-              ))}
+          <>
+            <AutoHorizontalStrip
+              itemCount={products.length}
+              prevLabel={t("prev")}
+              nextLabel={t("next")}
+            >
+              <div className="flex gap-3 pe-1 sm:gap-4">
+                {products.map((product) => (
+                  <div
+                    key={product.id}
+                    data-strip-card
+                    className={stripCardClass}
+                  >
+                    <FeaturedProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            </AutoHorizontalStrip>
+
+            <div className="mt-6 flex justify-center sm:mt-8">
+              <Link
+                href={ROUTES.shop}
+                className="inline-flex items-center justify-center rounded-md border border-[#C9A962] bg-[#C9A962]/12 px-5 py-2 text-sm font-medium text-[#C9A962] transition-colors hover:bg-[#C9A962] hover:text-white sm:px-6 sm:py-2.5"
+              >
+                {t("viewAll")}
+              </Link>
             </div>
-          </AutoHorizontalStrip>
+          </>
         )}
       </div>
     </section>

@@ -107,12 +107,6 @@ export function CategoryProductStrip({
             <OrnamentIcon className="size-3 sm:size-3.5" />
             <span className="h-px w-10 bg-[#C9A962]/70 sm:w-14" />
           </div>
-          <Link
-            href={ROUTES.shopCategory(categoryId)}
-            className="mt-5 inline-flex items-center justify-center rounded-md border border-[#C9A962] bg-[#C9A962]/12 px-5 py-2 text-sm font-medium text-[#C9A962] transition-colors hover:bg-[#C9A962] hover:text-white sm:mt-6 sm:px-6 sm:py-2.5"
-          >
-            {viewAllLabel}
-          </Link>
         </div>
 
         <AutoHorizontalStrip
@@ -132,6 +126,15 @@ export function CategoryProductStrip({
             ))}
           </div>
         </AutoHorizontalStrip>
+
+        <div className="mt-6 flex justify-center sm:mt-8">
+          <Link
+            href={ROUTES.shopCategory(categoryId)}
+            className="inline-flex items-center justify-center rounded-md border border-[#C9A962] bg-[#C9A962]/12 px-5 py-2 text-sm font-medium text-[#C9A962] transition-colors hover:bg-[#C9A962] hover:text-white sm:px-6 sm:py-2.5"
+          >
+            {viewAllLabel}
+          </Link>
+        </div>
       </div>
     </section>
   );
